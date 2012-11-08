@@ -1,0 +1,6 @@
+name: QuarterBukkit
+version: 1.0
+description: QuarterBukkit is an API extension for Bukkit
+authors: [QuarterCode, LoadingByte]
+main: com.quartercode.quarterbukkit.QuarterBukkit
+load: startup
