@@ -1,3 +1,6 @@
+
+package com.quartercode.quarterbukkit.util;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,12 +21,13 @@ import javax.xml.stream.events.XMLEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.UnknownDependencyException;
 
 /**
- * This class is for integrating QuarterBukkit into a plugin.
+ * This class is for checking the QuarterBukkit-version and updating the plugin.
  */
-public class QuarterBukkitIntegration {
+public class VersionUtil {
 
     private static final String TITLE_TAG = "title";
     private static final String LINK_TAG  = "link";
@@ -33,7 +37,7 @@ public class QuarterBukkitIntegration {
 
     static {
         try {
-            feedUrl = new URL("http://dev.bukkit.org/server-mods/QuarterCode");
+            feedUrl = new URL("http://dev.bukkit.org/server-mods/QuarterBukkit");
         }
         catch (final MalformedURLException e) {
             e.printStackTrace();
@@ -41,29 +45,56 @@ public class QuarterBukkitIntegration {
     }
 
     /**
-     * Call this method in onLoad() for integrating QuarterBukkit into your plugin.
-     * It simply installs QuarterBukkit if it isn't.
+     * This method checks the latest QuarterBukkit-version and updates the plugin, if required.
+     * 
+     * @throws XMLStreamException If something goes wrong with the version XML-feed.
+     * @throws IOException If there is an error with the file system.
      */
-    public static void integrate() {
-
-        final File file = new File("plugins", "QuarterBukkit.jar");
+    public static void tryUpdate(final Plugin plugin) throws IOException, XMLStreamException {
 
         try {
-            if (!Bukkit.getPluginManager().isPluginEnabled("QuarterBukkit")) {
-                install(file);
+            if (isNewVersionAvaiable(plugin)) {
+                final File file = new File("plugins", "QuarterBukkit.jar");
+
+                if (!Bukkit.getPluginManager().isPluginEnabled(plugin.getName())) {
+                    install(file, plugin);
+                }
             }
         }
         catch (final UnknownHostException e) {
-            Bukkit.getLogger().warning("Can't connect to dev.bukkit.org!");
+            plugin.getLogger().warning("Can't connect to dev.bukkit.org!");
         }
         catch (final Exception e) {
-            Bukkit.getLogger().severe("An error occurred while updating QuarterBukkit: " + e.getClass() + ": " + e.getLocalizedMessage());
+            plugin.getLogger().severe("An error occurred while updating " + plugin.getName() + ": " + e.getClass() + ": " + e.getLocalizedMessage());
         }
     }
 
-    private static void install(final File file) throws IOException, XMLStreamException, UnknownDependencyException, InvalidPluginException, InvalidDescriptionException {
+    private static String getLatestVersion() throws IOException, XMLStreamException {
 
-        Bukkit.getLogger().info("Installing QuarterBukkit ...");
+        final String title = getFeedData().get("title");
+
+        if (title.split(" ").length >= 2) {
+            return title.split(" ")[1];
+        } else {
+            return null;
+        }
+    }
+
+    private static boolean isNewVersionAvaiable(final Plugin plugin) throws IOException, XMLStreamException {
+
+        final String latestVersion = getLatestVersion();
+        if (latestVersion != null) {
+            if (!latestVersion.equals(plugin.getDescription().getVersion())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static void install(final File file, final Plugin plugin) throws IOException, XMLStreamException, UnknownDependencyException, InvalidPluginException, InvalidDescriptionException {
+
+        plugin.getLogger().info("Installing " + plugin.getName() + " ...");
 
         final URL url = new URL(getFileURL(getFeedData().get("link")));
         final InputStream inputStream = url.openStream();
@@ -80,6 +111,8 @@ public class QuarterBukkitIntegration {
         inputStream.close();
         outputStream.close();
 
+        plugin.getLogger().info("Reloading " + plugin.getName() + " ...");
+        Bukkit.getPluginManager().disablePlugin(plugin);
         Bukkit.getPluginManager().enablePlugin(Bukkit.getPluginManager().loadPlugin(file));
     }
 
@@ -136,7 +169,7 @@ public class QuarterBukkitIntegration {
         return returnMap;
     }
 
-    private QuarterBukkitIntegration() {
+    private VersionUtil() {
 
     }
 

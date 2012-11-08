@@ -2,5 +2,6 @@ name: QuarterBukkit
 version: 1.0
 description: QuarterBukkit is an API extension for Bukkit
 authors: [QuarterCode, LoadingByte]
+website: http://dev.bukkit.org/server-mods/QuarterBukkit
 main: com.quartercode.quarterbukkit.QuarterBukkit
 load: startup
