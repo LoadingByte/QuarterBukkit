@@ -2,6 +2,7 @@
 package com.quartercode.quarterbukkit;
 
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.quartercode.quarterbukkit.util.VersionUtil;
 
@@ -11,11 +12,28 @@ import com.quartercode.quarterbukkit.util.VersionUtil;
  */
 public class QuarterBukkit extends JavaPlugin {
 
+    private static Plugin plugin;
+
+    /**
+     * Returns the current {@link Plugin}.
+     * 
+     * @return The current {@link Plugin}.
+     */
+    public static Plugin getPlugin() {
+
+        return plugin;
+    }
+
     /**
      * The default constructor for Bukkit.
      */
     public QuarterBukkit() {
 
+        if (plugin == null) {
+            plugin = this;
+        } else {
+            throw new IllegalStateException("plugin already initalized");
+        }
     }
 
     /**
