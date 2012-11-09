@@ -61,7 +61,7 @@ public abstract class ScheduleTask implements Runnable {
     /**
      * Runs the scheduler once with a delay. You have to cancel it after running.
      * 
-     * @param What to do if the thread is not valid.
+     * @param wrongThreadAction What to do if the thread is not valid.
      * @param sync Should the scheduler runs synced with the Bukkit-Main-{@link Thread}.
      * @param delay The delay in ticks.
      * @return This schedule task.
