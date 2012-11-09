@@ -5,6 +5,8 @@ import java.util.Collection;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import com.quartercode.quarterbukkit.QuarterBukkit;
+import com.quartercode.quarterbukkit.api.thread.ThreadUtil;
+import com.quartercode.quarterbukkit.api.thread.WrongThreadAction;
 
 /**
  * This class is for implementing an easy to use schedule-task fir the Bukkit-Scheduler.
@@ -59,11 +61,14 @@ public abstract class ScheduleTask implements Runnable {
     /**
      * Runs the scheduler once with a delay. You have to cancel it after running.
      * 
+     * @param What to do if the thread is not valid.
      * @param sync Should the scheduler runs synced with the Bukkit-Main-{@link Thread}.
      * @param delay The delay in ticks.
      * @return This schedule task.
      */
-    public ScheduleTask run(final boolean sync, final long delay) {
+    public ScheduleTask run(WrongThreadAction wrongThreadAction, final boolean sync, final long delay) {
+
+        ThreadUtil.check(wrongThreadAction, ThreadUtil.getMethod(getClass(), "run", WrongThreadAction.class, boolean.class, long.class), this, wrongThreadAction, sync, delay);
 
         checkId();
 
@@ -79,12 +84,15 @@ public abstract class ScheduleTask implements Runnable {
     /**
      * Runs the scheduler repeating with a delay until it's cancelled.
      * 
+     * @param wrongThreadAction What to do if the thread is not valid.
      * @param sync Should the scheduler runs synced with the Bukkit-Main-{@link Thread}.
      * @param delay The delay in ticks.
      * @param period The delay between two repeatings in ticks.
      * @return This schedule task.
      */
-    public ScheduleTask run(final boolean sync, final long delay, final long period) {
+    public ScheduleTask run(WrongThreadAction wrongThreadAction, final boolean sync, final long delay, final long period) {
+
+        ThreadUtil.check(wrongThreadAction, ThreadUtil.getMethod(getClass(), "run", WrongThreadAction.class, boolean.class, long.class, long.class), this, wrongThreadAction, sync, delay, period);
 
         checkId();
 

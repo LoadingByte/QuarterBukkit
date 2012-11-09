@@ -1,5 +1,5 @@
 
-package com.quartercode.quarterbukkit.api;
+package com.quartercode.quarterbukkit.api.thread;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class ThreadUtil {
                     }
                 }
             }
-        }.run(true, 0, 10);
+        }.run(WrongThreadAction.WAIT, true, 0, 10);
     }
 
     /**
@@ -128,6 +128,27 @@ public class ThreadUtil {
             }
 
             return false;
+        }
+    }
+
+    /**
+     * Returns a refelction-{@link Method} and throws human exceptions (API Helper).
+     * 
+     * @param c The {@link Class} with the method.
+     * @param name The name of the method.
+     * @param parameterTypes The parameter {@link Class}es of the method in the right order.
+     * @return The refelction-{@link Method}.
+     */
+    public static Method getMethod(Class<?> c, String name, Class<?>... parameterTypes) {
+
+        try {
+            return c.getMethod(name, parameterTypes);
+        }
+        catch (SecurityException e) {
+            throw new IllegalArgumentException("Not supported secruity level", e);
+        }
+        catch (NoSuchMethodException e) {
+            throw new IllegalArgumentException("Wrong method definition", e);
         }
     }
 

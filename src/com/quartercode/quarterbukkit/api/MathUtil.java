@@ -14,7 +14,7 @@ public class MathUtil {
      */
     public long getTicks(long millis) {
 
-        return millis / 50;
+        return (long) ((double) millis / 50D);
     }
 
     /**
@@ -25,7 +25,7 @@ public class MathUtil {
      */
     public long getMillis(long ticks) {
 
-        return ticks * 50;
+        return (long) ((double) ticks * 50D);
     }
 
     private MathUtil() {

@@ -1,5 +1,5 @@
 
-package com.quartercode.quarterbukkit.api;
+package com.quartercode.quarterbukkit.api.thread;
 
 import java.lang.reflect.Method;
 
