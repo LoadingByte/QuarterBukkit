@@ -36,11 +36,11 @@ public class ThreadUtil {
             public void run() {
 
                 if (callMethods.size() > 0) {
-                    for (PreparedMethod preparedMethod : callMethods) {
+                    for (final PreparedMethod preparedMethod : callMethods) {
                         try {
                             preparedMethod.getMethod().invoke(preparedMethod.getObject(), preparedMethod.getParameters());
                         }
-                        catch (Exception e) {
+                        catch (final Exception e) {
                             plugin.getLogger().info("An error occurred while calling method: " + e.getClass() + ": " + e.getLocalizedMessage());
                         }
                         finally {
@@ -69,7 +69,7 @@ public class ThreadUtil {
      */
     public static boolean isInBukkitThread() {
 
-        Thread currentThread = Thread.currentThread();
+        final Thread currentThread = Thread.currentThread();
 
         if (currentThread.getId() == bukkitThread.getId()) {
             return true;
@@ -85,7 +85,7 @@ public class ThreadUtil {
      * @param wrongThreadAction The action which executes when this is the wrong {@link Thread}.
      * @return If the method can continue running.
      */
-    public static boolean check(WrongThreadAction wrongThreadAction) {
+    public static boolean check(final WrongThreadAction wrongThreadAction) {
 
         if (wrongThreadAction == WrongThreadAction.WAIT) {
             throw new IllegalArgumentException("The wait wrong thread action must be called with method, object and parameters");
@@ -101,7 +101,7 @@ public class ThreadUtil {
      * @param wrongThreadAction The action which executes when this is the wrong thread.
      * @return If the method can continue running.
      */
-    public static boolean check(WrongThreadAction wrongThreadAction, Method method, Object object, Object... parameters) {
+    public static boolean check(final WrongThreadAction wrongThreadAction, final Method method, final Object object, final Object... parameters) {
 
         if (isInBukkitThread()) {
             return true;
@@ -110,7 +110,7 @@ public class ThreadUtil {
                 throw new IllegalThreadStateException("You can call this only in the Bukkit Main-Thread");
             } else if (wrongThreadAction == WrongThreadAction.WAIT) {
                 if (method != null) {
-                    Class<?>[] parameterTypes = method.getParameterTypes();
+                    final Class<?>[] parameterTypes = method.getParameterTypes();
                     if (parameterTypes.length != parameters.length) {
                         throw new IllegalThreadStateException("Wrong parameters");
                     }
@@ -139,15 +139,15 @@ public class ThreadUtil {
      * @param parameterTypes The parameter {@link Class}es of the method in the right order.
      * @return The refelction-{@link Method}.
      */
-    public static Method getMethod(Class<?> c, String name, Class<?>... parameterTypes) {
+    public static Method getMethod(final Class<?> c, final String name, final Class<?>... parameterTypes) {
 
         try {
             return c.getMethod(name, parameterTypes);
         }
-        catch (SecurityException e) {
+        catch (final SecurityException e) {
             throw new IllegalArgumentException("Not supported secruity level", e);
         }
-        catch (NoSuchMethodException e) {
+        catch (final NoSuchMethodException e) {
             throw new IllegalArgumentException("Wrong method definition", e);
         }
     }

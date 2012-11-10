@@ -4,7 +4,7 @@ package com.quartercode.quarterbukkit.api.scheduler;
 import java.util.Collection;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
-import com.quartercode.quarterbukkit.QuarterBukkit;
+import com.quartercode.quarterbukkit.api.MathUtil;
 import com.quartercode.quarterbukkit.api.thread.ThreadUtil;
 import com.quartercode.quarterbukkit.api.thread.WrongThreadAction;
 
@@ -13,25 +13,28 @@ import com.quartercode.quarterbukkit.api.thread.WrongThreadAction;
  */
 public abstract class ScheduleTask implements Runnable {
 
-    private Plugin plugin;
-    private int    id = -1;
-
-    /**
-     * Creates a schedule task with the QuarterBukkit-{@link Plugin}.
-     */
-    public ScheduleTask() {
-
-        plugin = QuarterBukkit.getPlugin();
-    }
+    private final Plugin plugin;
+    private int          id = -1;
 
     /**
      * Creates a schedule task with a custom {@link Plugin}. This is recommended!
      * 
      * @param plugin The custom plugin.
      */
-    public ScheduleTask(Plugin plugin) {
+    public ScheduleTask(final Plugin plugin) {
 
         this.plugin = plugin;
+    }
+
+    /**
+     * Returns if the ScheduleTask is running.
+     * Check this before run() or cancel()!
+     * 
+     * @return If the ScheduleTask is running.
+     */
+    public boolean isRunning() {
+
+        return id >= 0;
     }
 
     /**
@@ -48,14 +51,9 @@ public abstract class ScheduleTask implements Runnable {
 
     private void checkId() {
 
-        if (id >= 0) {
+        if (isRunning()) {
             throw new IllegalStateException("ScheduleTask already running (id " + id + ")");
         }
-    }
-
-    private long getTicks(long millis) {
-
-        return millis / 1000 * 20;
     }
 
     /**
@@ -66,16 +64,16 @@ public abstract class ScheduleTask implements Runnable {
      * @param delay The delay in ticks.
      * @return This schedule task.
      */
-    public ScheduleTask run(WrongThreadAction wrongThreadAction, final boolean sync, final long delay) {
+    public ScheduleTask run(final WrongThreadAction wrongThreadAction, final boolean sync, final long delay) {
 
         ThreadUtil.check(wrongThreadAction, ThreadUtil.getMethod(getClass(), "run", WrongThreadAction.class, boolean.class, long.class), this, wrongThreadAction, sync, delay);
 
         checkId();
 
         if (sync) {
-            id = Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, this, getTicks(delay));
+            id = Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, this, MathUtil.getTicks(delay));
         } else {
-            id = Bukkit.getScheduler().scheduleAsyncDelayedTask(plugin, this, getTicks(delay));
+            id = Bukkit.getScheduler().scheduleAsyncDelayedTask(plugin, this, MathUtil.getTicks(delay));
         }
 
         return this;
@@ -90,16 +88,16 @@ public abstract class ScheduleTask implements Runnable {
      * @param period The delay between two repeatings in ticks.
      * @return This schedule task.
      */
-    public ScheduleTask run(WrongThreadAction wrongThreadAction, final boolean sync, final long delay, final long period) {
+    public ScheduleTask run(final WrongThreadAction wrongThreadAction, final boolean sync, final long delay, final long period) {
 
         ThreadUtil.check(wrongThreadAction, ThreadUtil.getMethod(getClass(), "run", WrongThreadAction.class, boolean.class, long.class, long.class), this, wrongThreadAction, sync, delay, period);
 
         checkId();
 
         if (sync) {
-            id = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, getTicks(delay), getTicks(period));
+            id = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, MathUtil.getTicks(delay), MathUtil.getTicks(period));
         } else {
-            id = Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, this, getTicks(delay), getTicks(period));
+            id = Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, this, MathUtil.getTicks(delay), MathUtil.getTicks(period));
         }
 
         return this;
@@ -112,7 +110,7 @@ public abstract class ScheduleTask implements Runnable {
      */
     public ScheduleTask cancel() {
 
-        if (id < 0) {
+        if (!isRunning()) {
             throw new IllegalStateException("ScheduleTask isn't running");
         }
 

@@ -19,7 +19,7 @@ public class PreparedMethod {
      * @param object The call {@link Object} (null for static access).
      * @param parameters The call parameters as an {@link Object}-array.
      */
-    public PreparedMethod(Method method, Object object, Object... parameters) {
+    public PreparedMethod(final Method method, final Object object, final Object... parameters) {
 
         this.method = method;
         this.object = object;

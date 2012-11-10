@@ -1,9 +1,13 @@
 
 package com.quartercode.quarterbukkit;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import com.quartercode.quarterbukkit.api.exception.ExceptionHandler;
+import com.quartercode.quarterbukkit.api.exception.QuarterBukkitException;
 import com.quartercode.quarterbukkit.util.VersionUtil;
 
 /**
@@ -12,7 +16,8 @@ import com.quartercode.quarterbukkit.util.VersionUtil;
  */
 public class QuarterBukkit extends JavaPlugin {
 
-    private static Plugin plugin;
+    private static Plugin                 plugin;
+    private static List<ExceptionHandler> exceptionHandlers = new ArrayList<ExceptionHandler>();
 
     /**
      * Returns the current {@link Plugin}.
@@ -22,6 +27,82 @@ public class QuarterBukkit extends JavaPlugin {
     public static Plugin getPlugin() {
 
         return plugin;
+    }
+
+    /**
+     * Returns all registered {@link ExceptionHandler}s.
+     * 
+     * @return The {@link ExceptionHandler}s.
+     */
+    public static List<ExceptionHandler> getExceptionHandlers() {
+
+        return exceptionHandlers;
+    }
+
+    /**
+     * Returns the registered {@link ExceptionHandler} for a {@link Plugin}.
+     * 
+     * @param plugin The binding {@link Plugin}.
+     * @return The {@link ExceptionHandler}.
+     */
+    public static ExceptionHandler getExceptionHandler(final Plugin plugin) {
+
+        for (final ExceptionHandler exceptionHandler : exceptionHandlers) {
+            if (exceptionHandler.getPlugin().equals(plugin)) {
+                return exceptionHandler;
+            }
+        }
+
+        throw new IllegalStateException("ExceptionHandler for plugin " + plugin.getName() + " not set");
+    }
+
+    /**
+     * Registers the {@link ExceptionHandler} for a binding {@link Plugin}.
+     * 
+     * @param exceptionHandler The {@link ExceptionHandler} to register.
+     */
+    public static void setExceptionHandler(final ExceptionHandler exceptionHandler) {
+
+        for (final ExceptionHandler exceptionHandler2 : exceptionHandlers) {
+            if (exceptionHandler2.getPlugin().equals(exceptionHandler.getPlugin())) {
+                exceptionHandlers.remove(exceptionHandler2);
+            }
+        }
+
+        exceptionHandlers.add(exceptionHandler);
+    }
+
+    /**
+     * Unregisters the {@link ExceptionHandler} of a binding {@link Plugin}.
+     * 
+     * @param plugin The {@link Plugin} to unregister.
+     */
+    public static void removeExceptionHandler(final Plugin plugin) {
+
+        for (final ExceptionHandler exceptionHandler : exceptionHandlers) {
+            if (exceptionHandler.getPlugin().equals(plugin)) {
+                exceptionHandlers.remove(plugin);
+            }
+        }
+
+        throw new IllegalStateException("ExceptionHandler for plugin " + plugin.getName() + " not set");
+    }
+
+    /**
+     * Handles an {@link QuarterBukkitException} in the correct {@link ExceptionHandler}.
+     * 
+     * @param plugin The binding {@link Plugin} where to handle the {@link QuarterBukkitException}.
+     * @param exception The {@link QuarterBukkitException} to handle.
+     */
+    public static void exception(final Plugin plugin, final QuarterBukkitException exception) {
+
+        for (final ExceptionHandler exceptionHandler : exceptionHandlers) {
+            if (exceptionHandler.getPlugin().equals(plugin)) {
+                exceptionHandler.handle(exception);
+            }
+        }
+
+        plugin.getLogger().warning("No exception handler set: " + exception.getLocalizedMessage());
     }
 
     /**

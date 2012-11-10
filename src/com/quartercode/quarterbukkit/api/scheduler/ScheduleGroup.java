@@ -38,7 +38,9 @@ public class ScheduleGroup extends ArrayList<ScheduleTask> {
     public void cancel() {
 
         for (final ScheduleTask scheduleTask : this) {
-            scheduleTask.cancel();
+            if (scheduleTask.isRunning()) {
+                scheduleTask.cancel();
+            }
         }
     }
 

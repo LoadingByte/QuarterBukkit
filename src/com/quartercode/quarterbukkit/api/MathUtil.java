@@ -3,6 +3,7 @@ package com.quartercode.quarterbukkit.api;
 
 /**
  * A math helper class.
+ * You can convert values with this Utility-Class.
  */
 public class MathUtil {
 
@@ -12,9 +13,9 @@ public class MathUtil {
      * @param millis The milliseconds.
      * @return The minecraft-ticks.
      */
-    public long getTicks(long millis) {
+    public static long getTicks(final long millis) {
 
-        return (long) ((double) millis / 50D);
+        return (long) (millis / 50D);
     }
 
     /**
@@ -23,9 +24,9 @@ public class MathUtil {
      * @param ticks The minecraft-ticks
      * @return The milliseconds
      */
-    public long getMillis(long ticks) {
+    public static long getMillis(final long ticks) {
 
-        return (long) ((double) ticks * 50D);
+        return (long) (ticks * 50D);
     }
 
     private MathUtil() {
