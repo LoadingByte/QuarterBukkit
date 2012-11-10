@@ -7,7 +7,7 @@ import org.bukkit.plugin.Plugin;
 /**
  * The NoPermissionException represents an exception caused by not enough permissions.
  */
-public class NoPermissionException extends QuarterBukkitException {
+public class NoPermissionException extends GameException {
 
     private static final long   serialVersionUID = 3304922513580160938L;
 

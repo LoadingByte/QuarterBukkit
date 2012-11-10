@@ -6,12 +6,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import com.quartercode.quarterbukkit.QuarterBukkit;
 import com.quartercode.quarterbukkit.api.exception.NoCommandFoundException;
+import com.quartercode.quarterbukkit.api.exception.NoDefaultCommandFoundException;
 import com.quartercode.quarterbukkit.api.exception.NoPermissionException;
 
 /**
@@ -99,10 +99,8 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor {
         if (arguments.length > 0) {
             final Command command2 = new Command(sender, label, arguments[0], new ArrayList<String>(Arrays.asList(arguments)).subList(1, arguments.length).toArray(new String[arguments.length - 1]));
             QuarterBukkit.exception(plugin, new NoCommandFoundException(plugin, command2, this, "No command " + arguments[0] + " found"));
-            sender.sendMessage(ChatColor.RED + "No command " + arguments[0] + " found!");
         } else {
-            QuarterBukkit.exception(plugin, new NoCommandFoundException(plugin, new Command(sender, label, null), this, "No default command found"));
-            sender.sendMessage(ChatColor.RED + "No default command found!");
+            QuarterBukkit.exception(plugin, new NoDefaultCommandFoundException(plugin, new Command(sender, label, null), this, "No default command found"));
         }
 
         return true;

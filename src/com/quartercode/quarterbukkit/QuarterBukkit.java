@@ -7,7 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.quartercode.quarterbukkit.api.exception.ExceptionHandler;
-import com.quartercode.quarterbukkit.api.exception.QuarterBukkitException;
+import com.quartercode.quarterbukkit.api.exception.GameException;
 import com.quartercode.quarterbukkit.util.VersionUtil;
 
 /**
@@ -89,12 +89,12 @@ public class QuarterBukkit extends JavaPlugin {
     }
 
     /**
-     * Handles an {@link QuarterBukkitException} in the correct {@link ExceptionHandler}.
+     * Handles an {@link GameException} in the correct {@link ExceptionHandler}.
      * 
-     * @param plugin The binding {@link Plugin} where to handle the {@link QuarterBukkitException}.
-     * @param exception The {@link QuarterBukkitException} to handle.
+     * @param plugin The binding {@link Plugin} where to handle the {@link GameException}.
+     * @param exception The {@link GameException} to handle.
      */
-    public static void exception(final Plugin plugin, final QuarterBukkitException exception) {
+    public static void exception(final Plugin plugin, final GameException exception) {
 
         for (final ExceptionHandler exceptionHandler : exceptionHandlers) {
             if (exceptionHandler.getPlugin().equals(plugin)) {

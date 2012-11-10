@@ -8,7 +8,7 @@ import com.quartercode.quarterbukkit.api.command.CommandExecutor;
 /**
  * The NoCommandFoundException represents an exception caused by a not registered command.
  */
-public class NoCommandFoundException extends QuarterBukkitException {
+public class NoCommandFoundException extends GameException {
 
     private static final long     serialVersionUID = 3629005568232667285L;
 

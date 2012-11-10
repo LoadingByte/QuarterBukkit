@@ -4,7 +4,7 @@ package com.quartercode.quarterbukkit.api.exception;
 import org.bukkit.plugin.Plugin;
 
 /**
- * Class for handling {@link QuarterBukkitException} caused by a {@link Plugin}.
+ * Class for handling {@link GameException} caused by a {@link Plugin}.
  * Those represents not so bad exceptions, they are primary e.g. for printing information messages.
  */
 public abstract class ExceptionHandler {
@@ -32,10 +32,10 @@ public abstract class ExceptionHandler {
     }
 
     /**
-     * Handle an {@link QuarterBukkitException} caused by a {@link Plugin}.
+     * Handle an {@link GameException} caused by a {@link Plugin}.
      * 
-     * @param exception The {@link QuarterBukkitException} to handle.
+     * @param exception The {@link GameException} to handle.
      */
-    public abstract void handle(QuarterBukkitException exception);
+    public abstract void handle(GameException exception);
 
 }

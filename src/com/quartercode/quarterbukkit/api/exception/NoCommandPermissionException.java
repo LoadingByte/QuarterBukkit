@@ -15,7 +15,7 @@ public class NoCommandPermissionException extends NoPermissionException {
     private final Command     command;
 
     /**
-     * Creates an NoPermissionException filled with a {@link CommandSender} causer, the permission and the tried command.
+     * Creates an NoCommandPermissionException filled with a {@link CommandSender} causer, the permission and the tried command.
      * 
      * @param plugin The causing {@link Plugin}.
      * @param permission The permission which the causer doesn't have.
@@ -29,7 +29,7 @@ public class NoCommandPermissionException extends NoPermissionException {
     }
 
     /**
-     * Creates an NoPermissionException filled with a {@link CommandSender} causer, the permission, the tried command and an informational message.
+     * Creates an NoCommandPermissionException filled with a {@link CommandSender} causer, the permission, the tried command and an informational message.
      * 
      * @param plugin The causing {@link Plugin}.
      * @param permission The permission which the causer doesn't have.
