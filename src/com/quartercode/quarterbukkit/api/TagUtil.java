@@ -60,7 +60,7 @@ public class TagUtil {
      * @param itemStack The {@link ItemStack} to modify.
      * @param name The name to set.
      */
-    public void setName(ItemStack itemStack, String name) {
+    public static void setName(ItemStack itemStack, String name) {
 
         if (name == null || name.isEmpty()) {
             getItemStackDisplayTag(itemStack).remove("Name");
@@ -96,7 +96,7 @@ public class TagUtil {
      * @param itemStack The {@link ItemStack} to modify.
      * @param descriptions The description lines to set as an {@link String}-{@link List}.
      */
-    public void setDescriptions(ItemStack itemStack, List<String> descriptions) {
+    public static void setDescriptions(ItemStack itemStack, List<String> descriptions) {
 
         if (descriptions == null || descriptions.isEmpty()) {
             getItemStackDisplayTag(itemStack).remove("Lore");
