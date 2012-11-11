@@ -49,8 +49,11 @@ public class VersionUtil {
      * 
      * @throws XMLStreamException If something goes wrong with the version XML-feed.
      * @throws IOException If there is an error with the file system.
+     * @throws InvalidDescriptionException If the plugin.yml of the downloaded plugin isn't valid.
+     * @throws InvalidPluginException If the downloaded plugin isn't valid.
+     * @throws UnknownDependencyException The the downloaded plugin has a depency to a plugin which isn't installed.
      */
-    public static void tryUpdate(final Plugin plugin) throws IOException, XMLStreamException {
+    public static void tryUpdate(final Plugin plugin) throws IOException, XMLStreamException, UnknownDependencyException, InvalidPluginException, InvalidDescriptionException {
 
         try {
             if (isNewVersionAvaiable(plugin)) {
@@ -63,9 +66,6 @@ public class VersionUtil {
         }
         catch (final UnknownHostException e) {
             plugin.getLogger().warning("Can't connect to dev.bukkit.org!");
-        }
-        catch (final Exception e) {
-            plugin.getLogger().severe("An error occurred while updating " + plugin.getName() + ": " + e.getClass() + ": " + e.getLocalizedMessage());
         }
     }
 
