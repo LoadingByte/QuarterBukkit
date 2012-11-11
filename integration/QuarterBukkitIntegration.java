@@ -47,7 +47,7 @@ public class QuarterBukkitIntegration {
             feedUrl = new URL("http://dev.bukkit.org/server-mods/QuarterCode");
         }
         catch (final MalformedURLException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().severe("Error while initalizing URL (" + e.getClass() + ": " + e.getLocalizedMessage() + ")");
         }
     }
 
@@ -68,7 +68,7 @@ public class QuarterBukkitIntegration {
             Bukkit.getLogger().warning("Can't connect to dev.bukkit.org!");
         }
         catch (final Exception e) {
-            Bukkit.getLogger().severe("An error occurred while installing QuarterBukkit: " + e.getClass() + ": " + e.getLocalizedMessage());
+            Bukkit.getLogger().severe("An error occurred while installing QuarterBukkit (" + e.getClass() + ": " + e.getLocalizedMessage() + ")");
         }
     }
 

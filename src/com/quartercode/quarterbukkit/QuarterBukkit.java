@@ -1,6 +1,7 @@
 
 package com.quartercode.quarterbukkit;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.Bukkit;
@@ -8,6 +9,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.quartercode.quarterbukkit.api.exception.ExceptionHandler;
 import com.quartercode.quarterbukkit.api.exception.GameException;
+import com.quartercode.quarterbukkit.util.Metrics;
 import com.quartercode.quarterbukkit.util.VersionUtil;
 
 /**
@@ -102,8 +104,10 @@ public class QuarterBukkit extends JavaPlugin {
             }
         }
 
-        plugin.getLogger().warning("No exception handler set: " + exception.getLocalizedMessage());
+        plugin.getLogger().warning("No exception handler set (can't catch " + exception.getClass() + ": " + exception.getLocalizedMessage() + ")");
     }
+
+    private Metrics metrics;
 
     /**
      * The default constructor for Bukkit.
@@ -113,7 +117,7 @@ public class QuarterBukkit extends JavaPlugin {
         if (plugin == null) {
             plugin = this;
         } else {
-            throw new IllegalStateException("plugin already initalized");
+            throw new IllegalStateException("Plugin already initalized");
         }
     }
 
@@ -128,7 +132,7 @@ public class QuarterBukkit extends JavaPlugin {
             VersionUtil.tryUpdate(this);
         }
         catch (final Exception e) {
-            Bukkit.getLogger().severe("An error occurred while updating QuarterBukkit: " + e.getClass() + ": " + e.getLocalizedMessage());
+            Bukkit.getLogger().severe("An error occurred while updating QuarterBukkit (" + e.getClass() + ": " + e.getLocalizedMessage() + ")");
         }
 
         getLogger().info("Successfully loaded " + getName() + "!");
@@ -142,6 +146,14 @@ public class QuarterBukkit extends JavaPlugin {
     public void onEnable() {
 
         getDataFolder().mkdirs();
+
+        try {
+            metrics = new Metrics(this);
+            metrics.start();
+        }
+        catch (final IOException e) {
+            getLogger().severe("Am error occurred while enabling Metrics (" + e.getClass() + ": " + e.getLocalizedMessage() + ")");
+        }
 
         getLogger().info("Successfully enabled " + getName() + "!");
     }

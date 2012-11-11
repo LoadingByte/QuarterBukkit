@@ -40,7 +40,7 @@ public class VersionUtil {
             feedUrl = new URL("http://dev.bukkit.org/server-mods/QuarterBukkit");
         }
         catch (final MalformedURLException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().severe("Error while initalizing URL (" + e.getClass() + ": " + e.getLocalizedMessage() + ")");
         }
     }
 
