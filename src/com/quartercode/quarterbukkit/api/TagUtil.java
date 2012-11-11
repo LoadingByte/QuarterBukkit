@@ -3,7 +3,9 @@ package com.quartercode.quarterbukkit.api;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.NBTTagList;
@@ -20,6 +22,11 @@ import org.bukkit.inventory.ItemStack;
  * This is e.g. for modifying the name of items etc.
  */
 public class TagUtil {
+
+    /**
+     * A map for saving the player show names.
+     */
+    public static Map<Player, String> showPlayerNames = new HashMap<Player, String>();
 
     private static NBTTagCompound getItemStackDisplayTag(ItemStack itemStack) {
 
@@ -111,26 +118,39 @@ public class TagUtil {
     }
 
     /**
-     * Sets the name above the {@link Player}'s head.
-     * You can use a maximum of 16 caracters (chat codes have 2 characters).
+     * Sets the name above the {@link Player}'s head
      * 
      * @param player The {@link Player} to modify.
      * @param name The show name above the {@link Player}'s head to set.
      */
     public static void setShowName(Player player, String name) {
 
-        String oldName = player.getName();
+        if ( (name == null || name.isEmpty()) && showPlayerNames.containsKey(player)) {
+            showPlayerNames.remove(player);
+            sendPlayerShowNamePacket( ((CraftPlayer) player).getHandle(), player.getName());
+            return;
+        }
 
-        EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
-        entityPlayer.name = name;
+        if (showPlayerNames.containsKey(player)) {
+            showPlayerNames.remove(player);
+        }
+        showPlayerNames.put(player, name);
+
+        sendPlayerShowNamePacket( ((CraftPlayer) player).getHandle(), name);
+    }
+
+    private static void sendPlayerShowNamePacket(EntityPlayer player, String name) {
+
+        String oldName = player.getName();
+        player.name = name;
 
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             if (onlinePlayer != player) {
-                ((CraftPlayer) onlinePlayer).getHandle().netServerHandler.sendPacket(new Packet20NamedEntitySpawn(entityPlayer));
+                ((CraftPlayer) onlinePlayer).getHandle().netServerHandler.sendPacket(new Packet20NamedEntitySpawn(player));
             }
         }
 
-        entityPlayer.name = oldName;
+        player.name = oldName;
     }
 
     private TagUtil() {
