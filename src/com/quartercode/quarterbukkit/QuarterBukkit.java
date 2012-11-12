@@ -10,7 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.quartercode.quarterbukkit.api.exception.ExceptionHandler;
 import com.quartercode.quarterbukkit.api.exception.GameException;
 import com.quartercode.quarterbukkit.util.Metrics;
-import com.quartercode.quarterbukkit.util.VersionUtil;
+import com.quartercode.quarterbukkit.util.QuarterBukkitUpdater;
 
 /**
  * The main class of the QuarterBukkit API.
@@ -93,14 +93,14 @@ public class QuarterBukkit extends JavaPlugin {
     /**
      * Handles an {@link GameException} in the correct {@link ExceptionHandler}.
      * 
-     * @param plugin The binding {@link Plugin} where to handle the {@link GameException}.
      * @param exception The {@link GameException} to handle.
      */
-    public static void exception(final Plugin plugin, final GameException exception) {
+    public static void exception(final GameException exception) {
 
         for (final ExceptionHandler exceptionHandler : exceptionHandlers) {
-            if (exceptionHandler.getPlugin().equals(plugin)) {
+            if (exceptionHandler.getPlugin().equals(exception.getPlugin())) {
                 exceptionHandler.handle(exception);
+                return;
             }
         }
 
@@ -129,7 +129,7 @@ public class QuarterBukkit extends JavaPlugin {
     public void onLoad() {
 
         try {
-            VersionUtil.tryUpdate(this);
+            new QuarterBukkitUpdater(this).tryUpdate();
         }
         catch (final Exception e) {
             Bukkit.getLogger().severe("An error occurred while updating QuarterBukkit (" + e.getClass() + ": " + e.getLocalizedMessage() + ")");
@@ -144,8 +144,6 @@ public class QuarterBukkit extends JavaPlugin {
      */
     @Override
     public void onEnable() {
-
-        getDataFolder().mkdirs();
 
         try {
             metrics = new Metrics(this);

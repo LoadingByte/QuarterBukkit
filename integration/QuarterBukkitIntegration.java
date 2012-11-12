@@ -1,5 +1,7 @@
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,8 +11,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
+import java.util.zip.ZipFile;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -44,7 +50,7 @@ public class QuarterBukkitIntegration {
 
     static {
         try {
-            feedUrl = new URL("http://dev.bukkit.org/server-mods/QuarterCode");
+            feedUrl = new URL("http://dev.bukkit.org/server-mods/quarterbukkit/files.rss");
         }
         catch (final MalformedURLException e) {
             Bukkit.getLogger().severe("Error while initalizing URL (" + e.getClass() + ": " + e.getLocalizedMessage() + ")");
@@ -76,9 +82,10 @@ public class QuarterBukkitIntegration {
 
         Bukkit.getLogger().info("Installing QuarterBukkit ...");
 
+        final File zipFile = new File(file.getParentFile(), "QuarterBukkit_download.zip");
         final URL url = new URL(getFileURL(getFeedData().get("link")));
         final InputStream inputStream = url.openStream();
-        final OutputStream outputStream = new FileOutputStream(file);
+        final OutputStream outputStream = new FileOutputStream(zipFile);
         outputStream.flush();
 
         final byte[] tempBuffer = new byte[4096];
@@ -91,7 +98,67 @@ public class QuarterBukkitIntegration {
         inputStream.close();
         outputStream.close();
 
+        final File unzipDir = new File(file.getParentFile(), "QuarterBukkit_extract");
+        unzipDir.mkdirs();
+        unzip(zipFile, unzipDir);
+        copy(new File(unzipDir, file.getName()), file);
+
         Bukkit.getPluginManager().enablePlugin(Bukkit.getPluginManager().loadPlugin(file));
+    }
+
+    private static void unzip(final File zip, final File destination) throws ZipException, IOException {
+
+        final ZipFile zipFile = new ZipFile(zip);
+
+        for (final ZipEntry zipEntry : Collections.list(zipFile.entries())) {
+            final File file = new File(destination, zipEntry.getName());
+            final byte[] BUFFER = new byte[0xFFFF];
+
+            if (zipEntry.isDirectory()) {
+                file.mkdirs();
+            } else {
+                new File(file.getParent()).mkdirs();
+
+                final InputStream inputStream = zipFile.getInputStream(zipEntry);
+                final OutputStream outputStream = new FileOutputStream(file);
+
+                for (int lenght; (lenght = inputStream.read(BUFFER)) != -1;) {
+                    outputStream.write(BUFFER, 0, lenght);
+                }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            }
+        }
+
+        zipFile.close();
+    }
+
+    private static void copy(final File source, final File destination) throws FileNotFoundException, IOException {
+
+        if (source.isDirectory()) {
+            destination.mkdirs();
+
+            for (final File entry : source.listFiles()) {
+                copy(new File(source, entry.getName()), new File(destination, entry.getName()));
+            }
+        } else {
+            final byte[] buffer = new byte[32768];
+
+            final InputStream inputStream = new FileInputStream(source);
+            final OutputStream outputStream = new FileOutputStream(destination);
+
+            int numberOfBytes;
+            while ( (numberOfBytes = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, numberOfBytes);
+            }
+
+            inputStream.close();
+            outputStream.close();
+        }
     }
 
     private static String getFileURL(final String link) throws IOException {

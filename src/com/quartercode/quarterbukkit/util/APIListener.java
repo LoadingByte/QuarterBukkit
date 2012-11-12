@@ -15,17 +15,17 @@ import com.quartercode.quarterbukkit.api.TagUtil;
 
 public class APIListener implements Listener {
 
-    public APIListener(Plugin plugin) {
+    public APIListener(final Plugin plugin) {
 
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
+    public void onPlayerJoin(final PlayerJoinEvent event) {
 
-        for (Entry<Player, String> entry : TagUtil.showPlayerNames.entrySet()) {
-            EntityPlayer entityPlayer = ((CraftPlayer) entry.getKey()).getHandle();
-            String oldName = entityPlayer.name;
+        for (final Entry<Player, String> entry : TagUtil.getShowPlayerNames().entrySet()) {
+            final EntityPlayer entityPlayer = ((CraftPlayer) entry.getKey()).getHandle();
+            final String oldName = entityPlayer.name;
             entityPlayer.name = entry.getValue();
             ((CraftPlayer) event.getPlayer()).getHandle().netServerHandler.sendPacket(new Packet20NamedEntitySpawn(entityPlayer));
             entityPlayer.name = oldName;

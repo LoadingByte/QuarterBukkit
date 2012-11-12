@@ -16,7 +16,7 @@ public class EquipmentUtil {
      * 
      * @param entity The {@link LivingEntity}.
      */
-    public static ItemStack getItem(LivingEntity entity) {
+    public static ItemStack getItem(final LivingEntity entity) {
 
         return new CraftItemStack( ((CraftLivingEntity) entity).getHandle().getEquipment(0));
     }
@@ -27,7 +27,7 @@ public class EquipmentUtil {
      * @param entity The {@link LivingEntity}.
      * @param itemStack The {@link ItemStack}.
      */
-    public static void setItem(LivingEntity entity, ItemStack itemStack) {
+    public static void setItem(final LivingEntity entity, final ItemStack itemStack) {
 
         ((CraftLivingEntity) entity).getHandle().setEquipment(0, ((CraftItemStack) itemStack).getHandle());
     }
@@ -37,7 +37,7 @@ public class EquipmentUtil {
      * 
      * @param entity The {@link LivingEntity}.
      */
-    public static ItemStack getHelmet(LivingEntity entity) {
+    public static ItemStack getHelmet(final LivingEntity entity) {
 
         return new CraftItemStack( ((CraftLivingEntity) entity).getHandle().getEquipment(1));
     }
@@ -48,7 +48,7 @@ public class EquipmentUtil {
      * @param entity The {@link LivingEntity}.
      * @param itemStack The {@link ItemStack}.
      */
-    public static void setHelmet(LivingEntity entity, ItemStack itemStack) {
+    public static void setHelmet(final LivingEntity entity, final ItemStack itemStack) {
 
         ((CraftLivingEntity) entity).getHandle().setEquipment(1, ((CraftItemStack) itemStack).getHandle());
     }
@@ -58,7 +58,7 @@ public class EquipmentUtil {
      * 
      * @param entity The {@link LivingEntity}.
      */
-    public static ItemStack getChestplate(LivingEntity entity) {
+    public static ItemStack getChestplate(final LivingEntity entity) {
 
         return new CraftItemStack( ((CraftLivingEntity) entity).getHandle().getEquipment(2));
     }
@@ -69,7 +69,7 @@ public class EquipmentUtil {
      * @param entity The {@link LivingEntity}.
      * @param itemStack The {@link ItemStack}.
      */
-    public static void setChestplate(LivingEntity entity, ItemStack itemStack) {
+    public static void setChestplate(final LivingEntity entity, final ItemStack itemStack) {
 
         ((CraftLivingEntity) entity).getHandle().setEquipment(2, ((CraftItemStack) itemStack).getHandle());
     }
@@ -79,7 +79,7 @@ public class EquipmentUtil {
      * 
      * @param entity The {@link LivingEntity}.
      */
-    public static ItemStack getLeggins(LivingEntity entity) {
+    public static ItemStack getLeggins(final LivingEntity entity) {
 
         return new CraftItemStack( ((CraftLivingEntity) entity).getHandle().getEquipment(3));
     }
@@ -90,7 +90,7 @@ public class EquipmentUtil {
      * @param entity The {@link LivingEntity}.
      * @param itemStack The {@link ItemStack}.
      */
-    public static void setLeggins(LivingEntity entity, ItemStack itemStack) {
+    public static void setLeggins(final LivingEntity entity, final ItemStack itemStack) {
 
         ((CraftLivingEntity) entity).getHandle().setEquipment(3, ((CraftItemStack) itemStack).getHandle());
     }
@@ -100,7 +100,7 @@ public class EquipmentUtil {
      * 
      * @param entity The {@link LivingEntity}.
      */
-    public static ItemStack getBoots(LivingEntity entity) {
+    public static ItemStack getBoots(final LivingEntity entity) {
 
         return new CraftItemStack( ((CraftLivingEntity) entity).getHandle().getEquipment(4));
     }
@@ -111,7 +111,7 @@ public class EquipmentUtil {
      * @param entity The {@link LivingEntity}.
      * @param itemStack The {@link ItemStack}.
      */
-    public static void setBoots(LivingEntity entity, ItemStack itemStack) {
+    public static void setBoots(final LivingEntity entity, final ItemStack itemStack) {
 
         ((CraftLivingEntity) entity).getHandle().setEquipment(4, ((CraftItemStack) itemStack).getHandle());
     }

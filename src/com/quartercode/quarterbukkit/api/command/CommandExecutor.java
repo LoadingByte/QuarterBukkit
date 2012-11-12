@@ -98,9 +98,9 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor {
 
         if (arguments.length > 0) {
             final Command command2 = new Command(sender, label, arguments[0], new ArrayList<String>(Arrays.asList(arguments)).subList(1, arguments.length).toArray(new String[arguments.length - 1]));
-            QuarterBukkit.exception(plugin, new NoCommandFoundException(plugin, command2, this, "No command " + arguments[0] + " found"));
+            QuarterBukkit.exception(new NoCommandFoundException(plugin, command2, this, "No command " + arguments[0] + " found"));
         } else {
-            QuarterBukkit.exception(plugin, new NoDefaultCommandFoundException(plugin, new Command(sender, label, null), this, "No default command found"));
+            QuarterBukkit.exception(new NoDefaultCommandFoundException(plugin, new Command(sender, label, null), this, "No default command found"));
         }
 
         return true;
@@ -122,7 +122,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor {
                 if (sender.hasPermission(commandHandler.getInfo().getPermission())) {
                     commandHandler.execute(command);
                 } else {
-                    QuarterBukkit.exception(plugin, new NoPermissionException(plugin, commandHandler.getInfo().getPermission(), sender, sender.getName() + " has no permissions for command " + rawArguments[0]));
+                    QuarterBukkit.exception(new NoPermissionException(plugin, commandHandler.getInfo().getPermission(), sender, sender.getName() + " has no permissions for command " + rawArguments[0]));
                 }
             }
         } else {
