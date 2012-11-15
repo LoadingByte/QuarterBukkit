@@ -3,18 +3,18 @@ package com.quartercode.quarterbukkit.api.exception;
 
 import org.bukkit.plugin.Plugin;
 import com.quartercode.quarterbukkit.api.hcl.Config;
-import com.quartercode.quarterbukkit.api.hcl.Datatype;
+import com.quartercode.quarterbukkit.api.hcl.DatatypeEntry;
 
 /**
  * The ConfigParseException occurres if a value from the config which should be parsed isn't valid.
  */
 public class ConfigParseException extends GameException {
 
-    private static final long serialVersionUID = 1027631888510952838L;
+    private static final long      serialVersionUID = 1027631888510952838L;
 
-    private final Config      config;
-    private final String      value;
-    private final Datatype<?> datatype;
+    private final Config           config;
+    private final String           value;
+    private final DatatypeEntry<?> datatype;
 
     /**
      * Creates a new ConfigParseException filled with the causing config, the unparsable value and the datatype.
@@ -24,7 +24,7 @@ public class ConfigParseException extends GameException {
      * @param value The unparsable value.
      * @param datatype The datatype.
      */
-    public ConfigParseException(final Plugin plugin, final Config config, final String value, final Datatype<?> datatype) {
+    public ConfigParseException(final Plugin plugin, final Config config, final String value, final DatatypeEntry<?> datatype) {
 
         super(plugin);
         this.config = config;
@@ -41,7 +41,7 @@ public class ConfigParseException extends GameException {
      * @param datatype The datatype.
      * @param message The informational message.
      */
-    public ConfigParseException(final Plugin plugin, final Config config, final String value, final Datatype<?> datatype, final String message) {
+    public ConfigParseException(final Plugin plugin, final Config config, final String value, final DatatypeEntry<?> datatype, final String message) {
 
         super(plugin, message);
         this.config = config;
@@ -74,7 +74,7 @@ public class ConfigParseException extends GameException {
      * 
      * @return The datatype.
      */
-    public Datatype<?> getDatatype() {
+    public DatatypeEntry<?> getDatatype() {
 
         return datatype;
     }

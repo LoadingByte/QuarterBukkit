@@ -7,9 +7,9 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import com.quartercode.quarterbukkit.QuarterBukkit;
 import com.quartercode.quarterbukkit.api.hcl.Config;
-import com.quartercode.quarterbukkit.api.hcl.Datatype;
+import com.quartercode.quarterbukkit.api.hcl.DatatypeEntry;
 
-public class DatatypeInteger extends Datatype<BigInteger> {
+public class DatatypeInteger extends DatatypeEntry<BigInteger> {
 
     private static final String[] formatStrings  = { " ", "," };
     private static final String[] allowedStrings = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "-", "*", "/", "%" };
@@ -18,65 +18,91 @@ public class DatatypeInteger extends Datatype<BigInteger> {
      * Creates a new empty integer datatype object.
      * 
      * @param config The {@link Config}.
+     * @param name The name of the entry.
      */
-    public DatatypeInteger(final Config config) {
+    public DatatypeInteger(final Config config, final String name) {
 
-        super(config);
+        super(config, name);
     }
 
     /**
-     * Creates a new integer datatype object and fills it with a value.
+     * Stores a new value as a {@link Byte}.
      * 
-     * @param config The {@link Config}.
-     * @param value The value as a {@link Byte}.
+     * @param value The new value as a {@link Byte}.
      */
-    public DatatypeInteger(final Config config, final byte value) {
+    public void set(final byte value) {
 
-        super(config, new BigInteger(String.valueOf(value)));
+        set(new BigInteger(String.valueOf(value)));
     }
 
     /**
-     * Creates a new integer datatype object and fills it with a value.
+     * Stores a new value as a {@link Short}.
      * 
-     * @param config The {@link Config}.
-     * @param value The value as a {@link Short}.
+     * @param value The new value as a {@link Short}.
      */
-    public DatatypeInteger(final Config config, final short value) {
+    public void set(final short value) {
 
-        super(config, new BigInteger(String.valueOf(value)));
+        set(new BigInteger(String.valueOf(value)));
     }
 
     /**
-     * Creates a new integer datatype object and fills it with a value.
+     * Stores a new value as an {@link Integer}.
      * 
-     * @param config The {@link Config}.
-     * @param value The value as an {@link Integer}.
+     * @param value The new value as an {@link Integer}.
      */
-    public DatatypeInteger(final Config config, final int value) {
+    public void set(final int value) {
 
-        super(config, new BigInteger(String.valueOf(value)));
+        set(new BigInteger(String.valueOf(value)));
     }
 
     /**
-     * Creates a new integer datatype object and fills it with a value.
+     * Stores a new value as a {@link Long}.
      * 
-     * @param config The {@link Config}.
-     * @param value The value as a {@link Long}.
+     * @param value The new value as a {@link Long}.
      */
-    public DatatypeInteger(final Config config, final long value) {
+    public void set(final long value) {
 
-        super(config, new BigInteger(String.valueOf(value)));
+        set(new BigInteger(String.valueOf(value)));
     }
 
     /**
-     * Creates a new integer datatype object and fills it with a value.
+     * Returns the stored value as a {@link Byte}.
      * 
-     * @param config The {@link Config}.
-     * @param value The value as a {@link BigInteger}.
+     * @return The stored value as a {@link Byte}.
      */
-    public DatatypeInteger(final Config config, final BigInteger value) {
+    public byte getByte() {
 
-        super(config, value);
+        return get().byteValue();
+    }
+
+    /**
+     * Returns the stored value as a {@link Short}.
+     * 
+     * @return The stored value as a {@link Short}.
+     */
+    public short getShort() {
+
+        return get().shortValue();
+    }
+
+    /**
+     * Returns the stored value as a {@link Integer}.
+     * 
+     * @return The stored value as a {@link Integer}.
+     */
+    public int getInteger() {
+
+        return get().intValue();
+    }
+
+    /**
+     * Returns the stored value as a {@link Long}.
+     * 
+     * @return The stored value as a {@link Long}.
+     */
+    public long getLong() {
+
+        return get().longValue();
     }
 
     @Override

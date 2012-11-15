@@ -7,9 +7,9 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import com.quartercode.quarterbukkit.QuarterBukkit;
 import com.quartercode.quarterbukkit.api.hcl.Config;
-import com.quartercode.quarterbukkit.api.hcl.Datatype;
+import com.quartercode.quarterbukkit.api.hcl.DatatypeEntry;
 
-public class DatatypeNumber extends Datatype<BigDecimal> {
+public class DatatypeNumber extends DatatypeEntry<BigDecimal> {
 
     private static final String[] formatStrings  = { " ", "," };
     private static final String[] allowedStrings = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "-", "*", "/", "%", "." };
@@ -18,43 +18,51 @@ public class DatatypeNumber extends Datatype<BigDecimal> {
      * Creates a new empty number datatype object.
      * 
      * @param config The {@link Config}.
+     * @param name The name of the entry.
      */
-    public DatatypeNumber(final Config config) {
+    public DatatypeNumber(final Config config, final String name) {
 
-        super(config);
+        super(config, name);
     }
 
     /**
-     * Creates a new number datatype object and fills it with a value.
+     * Stores a new value as a {@link Float}.
      * 
-     * @param config The {@link Config}.
-     * @param value The value as a {@link Float}.
+     * @param value The new value as a {@link Float}.
      */
-    public DatatypeNumber(final Config config, final float value) {
+    public void set(final float value) {
 
-        super(config, new BigDecimal(String.valueOf(value)));
+        set(new BigDecimal(value));
     }
 
     /**
-     * Creates a new number datatype object and fills it with a value.
+     * Stores a new value as a {@link Double}.
      * 
-     * @param config The {@link Config}.
-     * @param value The value as a {@link Double}.
+     * @param value The new value as a {@link Double}.
      */
-    public DatatypeNumber(final Config config, final double value) {
+    public void set(final double value) {
 
-        super(config, new BigDecimal(String.valueOf(value)));
+        set(new BigDecimal(value));
     }
 
     /**
-     * Creates a new number datatype object and fills it with a value.
+     * Returns the stored value as a {@link Float}.
      * 
-     * @param config The {@link Config}.
-     * @param value The value as a {@link BigDecimal}.
+     * @return The stored value as a {@link Float}.
      */
-    public DatatypeNumber(final Config config, final BigDecimal value) {
+    public float getFloat() {
 
-        super(config, value);
+        return get().floatValue();
+    }
+
+    /**
+     * Returns the stored value as a {@link Double}.
+     * 
+     * @return The stored value as a {@link Double}.
+     */
+    public double getDouble() {
+
+        return get().doubleValue();
     }
 
     @Override

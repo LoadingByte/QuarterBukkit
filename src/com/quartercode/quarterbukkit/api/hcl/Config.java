@@ -29,7 +29,7 @@ import com.quartercode.quarterbukkit.api.hcl.type.DatatypeString;
  */
 public class Config implements ParentEntry {
 
-    private static void fillStandardCustomTypes(Config config) {
+    private static void fillStandardCustomTypes(final Config config) {
 
         config.registerCustomType("Integer", DatatypeInteger.class);
         config.registerCustomType("Number", DatatypeNumber.class);
@@ -39,7 +39,7 @@ public class Config implements ParentEntry {
 
     private final Plugin                             plugin;
 
-    private ConfigParser                             parser;
+    private ConfigParser                             parser                  = new DefaultConfigParser();
     private Map<String, Class<? extends CustomType>> customTypes             = new HashMap<String, Class<? extends CustomType>>();
     private final List<ConfigEntry>                  firstLevelConfigEntries = new ArrayList<ConfigEntry>();
 
@@ -75,7 +75,7 @@ public class Config implements ParentEntry {
      * @param plugin The {@link Plugin}.
      * @param parser The {@link ConfigParser}.
      */
-    public Config(final Plugin plugin, ConfigParser parser) {
+    public Config(final Plugin plugin, final ConfigParser parser) {
 
         this.plugin = plugin;
         this.parser = parser;
@@ -90,7 +90,7 @@ public class Config implements ParentEntry {
      * @param customTypes The {@link CustomType}s.
      * @param parser The {@link ConfigParser}.
      */
-    public Config(final Plugin plugin, final Map<String, Class<? extends CustomType>> customTypes, ConfigParser parser) {
+    public Config(final Plugin plugin, final Map<String, Class<? extends CustomType>> customTypes, final ConfigParser parser) {
 
         this.plugin = plugin;
         this.customTypes = customTypes;
@@ -125,7 +125,7 @@ public class Config implements ParentEntry {
      * @param name The name of the {@link CustomType} in HDL.
      * @param customType The {@link CustomType}-{@link Class}.
      */
-    public void registerCustomType(String name, Class<? extends CustomType> customType) {
+    public void registerCustomType(final String name, final Class<? extends CustomType> customType) {
 
         if (customTypes.containsKey(name)) {
             throw new IllegalStateException("Name" + customType.getName() + " already registered");
@@ -141,7 +141,7 @@ public class Config implements ParentEntry {
      * 
      * @param name The name of the {@link CustomType} in HDL.
      */
-    public void unregisterCustomType(String name) {
+    public void unregisterCustomType(final String name) {
 
         if (!customTypes.containsKey(name)) {
             throw new IllegalStateException("Name " + name + " not registered");
@@ -155,14 +155,14 @@ public class Config implements ParentEntry {
      * 
      * @param customType The {@link CustomType}-{@link Class}.
      */
-    public void unregisterCustomType(Class<? extends CustomType> customType) {
+    public void unregisterCustomType(final Class<? extends CustomType> customType) {
 
         if (!customTypes.containsValue(customType)) {
             throw new IllegalStateException("Name " + customType.getName() + " not registered");
         }
 
         String removalKey = null;
-        for (Entry<String, Class<? extends CustomType>> entry : customTypes.entrySet()) {
+        for (final Entry<String, Class<? extends CustomType>> entry : customTypes.entrySet()) {
             if (customType.equals(entry.getValue())) {
                 removalKey = entry.getKey();
                 break;
@@ -189,7 +189,7 @@ public class Config implements ParentEntry {
      * 
      * @param parser The {@link ConfigParser}.
      */
-    public void setParser(ConfigParser parser) {
+    public void setParser(final ConfigParser parser) {
 
         this.parser = parser;
     }
@@ -199,6 +199,7 @@ public class Config implements ParentEntry {
      * 
      * @return All config entries on the first level.
      */
+    @Override
     public List<ConfigEntry> getChildren() {
 
         return firstLevelConfigEntries;
@@ -216,17 +217,88 @@ public class Config implements ParentEntry {
             configEntries.add(configEntry);
 
             if (configEntry instanceof ParentEntry) {
-                configEntries.addAll( ((ParentEntry) configEntry).getAllChildren());
+                configEntries.addAll(getAllChildren((ParentEntry) configEntry));
             }
         }
 
         return configEntries;
     }
 
-    @Override
-    public void addChild(ConfigEntry configEntry) {
+    /**
+     * Returns all children entries of a {@link ParentEntry}.
+     * 
+     * @param parentEntry The {@link ParentEntry} to check.
+     * @return All loaded config entries.
+     */
+    public List<ConfigEntry> getAllChildren(final ParentEntry parentEntry) {
 
-        if (firstLevelConfigEntries.contains(configEntry)) {
+        final List<ConfigEntry> configEntries = new ArrayList<ConfigEntry>();
+        for (final ConfigEntry configEntry : parentEntry.getChildren()) {
+            configEntries.add(configEntry);
+
+            if (configEntry instanceof ParentEntry) {
+                configEntries.addAll(getAllChildren((ParentEntry) configEntry));
+            }
+        }
+
+        return configEntries;
+    }
+
+    /**
+     * Returns the {@link ConfigEntry} matching to a path.
+     * 
+     * @param path The path.
+     * @return The {@link ConfigEntry}.
+     */
+    public ConfigEntry getChild(String path) {
+
+        if (path.contains("\\.")) {
+            String[] names = path.split("\\.");
+            ParentEntry currentEntry = this;
+            for (String name : names) {
+                ConfigEntry configEntry = getChild(currentEntry, name);
+
+                if (currentEntry instanceof ParentEntry) {
+                    currentEntry = (ParentEntry) configEntry;
+                } else if (configEntry.getName().equalsIgnoreCase(names[names.length])) {
+                    return configEntry;
+                } else {
+                    break;
+                }
+            }
+        } else {
+            for (ConfigEntry configEntry : firstLevelConfigEntries) {
+                if (configEntry.getName().equalsIgnoreCase(path)) {
+                    return configEntry;
+                }
+            }
+        }
+
+        throw new IllegalStateException("The path " + path + " wasn't found");
+    }
+
+    /**
+     * Returns is a {@link ParentEntry} contains a direct child with a name.
+     * 
+     * @param parentEntry The {@link ParentEntry}.
+     * @param name The name as a {@link String}.
+     * @return If the {@link ParentEntry} contains a direct child with the name.
+     */
+    public ConfigEntry getChild(ParentEntry parentEntry, String name) {
+
+        for (ConfigEntry configEntry : parentEntry.getChildren()) {
+            if (configEntry.getName().equalsIgnoreCase(name)) {
+                return configEntry;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public void addChild(final ConfigEntry configEntry) {
+
+        if (firstLevelConfigEntries.contains(configEntry) || getChild(this, configEntry.getName()) != null) {
             throw new IllegalStateException("ConfigEntry " + configEntry + " already exists");
         }
 
@@ -234,9 +306,9 @@ public class Config implements ParentEntry {
     }
 
     @Override
-    public void removeChild(ConfigEntry configEntry) {
+    public void removeChild(final ConfigEntry configEntry) {
 
-        if (firstLevelConfigEntries.contains(configEntry)) {
+        if (!firstLevelConfigEntries.contains(configEntry) || getChild(this, configEntry.getName()) == null) {
             throw new IllegalStateException("ConfigEntry " + configEntry + " not exists");
         }
 

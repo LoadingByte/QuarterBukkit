@@ -8,13 +8,13 @@ public class DefaultConfigParser implements ConfigParser {
     }
 
     @Override
-    public Config insert(Config config, String string) {
+    public Config insert(final Config config, final String string) {
 
         return config;
     }
 
     @Override
-    public String get(Config config) {
+    public String get(final Config config) {
 
         return "";
     }

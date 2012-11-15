@@ -2,29 +2,19 @@
 package com.quartercode.quarterbukkit.api.hcl.type;
 
 import com.quartercode.quarterbukkit.api.hcl.Config;
-import com.quartercode.quarterbukkit.api.hcl.Datatype;
+import com.quartercode.quarterbukkit.api.hcl.DatatypeEntry;
 
-public class DatatypeBoolean extends Datatype<Boolean> {
+public class DatatypeBoolean extends DatatypeEntry<Boolean> {
 
     /**
      * Creates a new empty boolean datatype object.
      * 
      * @param config The {@link Config}.
+     * @param name The name of the entry.
      */
-    public DatatypeBoolean(final Config config) {
+    public DatatypeBoolean(final Config config, final String name) {
 
-        super(config);
-    }
-
-    /**
-     * Creates a new boolean datatype object and fills it with a value.
-     * 
-     * @param config The {@link Config}.
-     * @param value The value as a {@link Boolean}.
-     */
-    public DatatypeBoolean(final Config config, final boolean value) {
-
-        super(config, value);
+        super(config, name);
     }
 
     @Override
