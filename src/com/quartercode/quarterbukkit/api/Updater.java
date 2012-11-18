@@ -258,4 +258,63 @@ public abstract class Updater {
         return returnMap;
     }
 
+  
+
+    @Override
+    public int hashCode() {
+
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ( (feedUrl == null) ? 0 : feedUrl.hashCode());
+        result = prime * result + ( (plugin == null) ? 0 : plugin.hashCode());
+        result = prime * result + ( (slug == null) ? 0 : slug.hashCode());
+        result = prime * result + ( (updatePlugin == null) ? 0 : updatePlugin.hashCode());
+        result = prime * result + ( (url == null) ? 0 : url.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Updater other = (Updater) obj;
+        if (feedUrl == null) {
+            if (other.feedUrl != null)
+                return false;
+        } else if (!feedUrl.equals(other.feedUrl))
+            return false;
+        if (plugin == null) {
+            if (other.plugin != null)
+                return false;
+        } else if (!plugin.equals(other.plugin))
+            return false;
+        if (slug == null) {
+            if (other.slug != null)
+                return false;
+        } else if (!slug.equals(other.slug))
+            return false;
+        if (updatePlugin == null) {
+            if (other.updatePlugin != null)
+                return false;
+        } else if (!updatePlugin.equals(other.updatePlugin))
+            return false;
+        if (url == null) {
+            if (other.url != null)
+                return false;
+        } else if (!url.equals(other.url))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+
+        return getClass() + " [plugin=" + plugin + ", updatePlugin=" + updatePlugin + ", slug=" + slug + ", url=" + url + "]";
+    }
+
 }

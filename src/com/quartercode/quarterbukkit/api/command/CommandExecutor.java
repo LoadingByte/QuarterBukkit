@@ -239,4 +239,43 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor {
         commandHandlers.remove(getCommandHandler(label));
     }
 
+    @Override
+    public int hashCode() {
+
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ( (commandHandlers == null) ? 0 : commandHandlers.hashCode());
+        result = prime * result + ( (plugin == null) ? 0 : plugin.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CommandExecutor other = (CommandExecutor) obj;
+        if (commandHandlers == null) {
+            if (other.commandHandlers != null)
+                return false;
+        } else if (!commandHandlers.equals(other.commandHandlers))
+            return false;
+        if (plugin == null) {
+            if (other.plugin != null)
+                return false;
+        } else if (!plugin.equals(other.plugin))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+
+        return getClass().getName() + " [plugin=" + plugin + ", commandHandlers=" + commandHandlers + "]";
+    }
+
 }

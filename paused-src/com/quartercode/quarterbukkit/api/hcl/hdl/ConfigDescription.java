@@ -1,5 +1,5 @@
 
-package com.quartercode.quarterbukkit.api.hcl;
+package com.quartercode.quarterbukkit.api.hcl.hdl;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -19,6 +19,11 @@ import org.bukkit.plugin.Plugin;
 import com.quartercode.quarterbukkit.QuarterBukkit;
 import com.quartercode.quarterbukkit.api.exception.ConfigLoadException;
 import com.quartercode.quarterbukkit.api.exception.ConfigSaveException;
+import com.quartercode.quarterbukkit.api.hcl.ConfigEntry;
+import com.quartercode.quarterbukkit.api.hcl.ConfigParser;
+import com.quartercode.quarterbukkit.api.hcl.CustomType;
+import com.quartercode.quarterbukkit.api.hcl.DefaultConfigParser;
+import com.quartercode.quarterbukkit.api.hcl.ParentEntry;
 import com.quartercode.quarterbukkit.api.hcl.type.DatatypeBoolean;
 import com.quartercode.quarterbukkit.api.hcl.type.DatatypeInteger;
 import com.quartercode.quarterbukkit.api.hcl.type.DatatypeNumber;
@@ -27,9 +32,9 @@ import com.quartercode.quarterbukkit.api.hcl.type.DatatypeString;
 /**
  * Class for representing a HCL config.
  */
-public class Config implements ParentEntry {
+public class ConfigDescription {
 
-    private static void fillStandardCustomTypes(final Config config) {
+    private static void fillStandardCustomTypes(final ConfigDescription config) {
 
         config.registerCustomType("Integer", DatatypeInteger.class);
         config.registerCustomType("Number", DatatypeNumber.class);
@@ -48,7 +53,7 @@ public class Config implements ParentEntry {
      * 
      * @param plugin The {@link Plugin}.
      */
-    public Config(final Plugin plugin) {
+    public ConfigDescription(final Plugin plugin) {
 
         this.plugin = plugin;
 
@@ -61,7 +66,7 @@ public class Config implements ParentEntry {
      * @param plugin The {@link Plugin}.
      * @param customTypes The {@link CustomType}s.
      */
-    public Config(final Plugin plugin, final Map<String, Class<? extends CustomType>> customTypes) {
+    public ConfigDescription(final Plugin plugin, final Map<String, Class<? extends CustomType>> customTypes) {
 
         this.plugin = plugin;
         this.customTypes = customTypes;
@@ -75,7 +80,7 @@ public class Config implements ParentEntry {
      * @param plugin The {@link Plugin}.
      * @param parser The {@link ConfigParser}.
      */
-    public Config(final Plugin plugin, final ConfigParser parser) {
+    public ConfigDescription(final Plugin plugin, final ConfigParser parser) {
 
         this.plugin = plugin;
         this.parser = parser;
@@ -90,7 +95,7 @@ public class Config implements ParentEntry {
      * @param customTypes The {@link CustomType}s.
      * @param parser The {@link ConfigParser}.
      */
-    public Config(final Plugin plugin, final Map<String, Class<? extends CustomType>> customTypes, final ConfigParser parser) {
+    public ConfigDescription(final Plugin plugin, final Map<String, Class<? extends CustomType>> customTypes, final ConfigParser parser) {
 
         this.plugin = plugin;
         this.customTypes = customTypes;

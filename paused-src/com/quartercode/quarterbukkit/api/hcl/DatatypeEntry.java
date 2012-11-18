@@ -64,36 +64,41 @@ public abstract class DatatypeEntry<T> extends ConfigEntry implements CustomType
     public abstract void setString(String value);
 
     @Override
-    public String toString() {
-
-        return getString();
-    }
-
-    @Override
     public int hashCode() {
 
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ( (value == null) ? 0 : value.hashCode());
+        result = prime * result + (value == null ? 0 : value.hashCode());
         return result;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
 
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (!super.equals(obj))
+        }
+        if (!super.equals(obj)) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
-        DatatypeEntry<?> other = (DatatypeEntry<?>) obj;
+        }
+        final DatatypeEntry<?> other = (DatatypeEntry<?>) obj;
         if (value == null) {
-            if (other.value != null)
+            if (other.value != null) {
                 return false;
-        } else if (!value.equals(other.value))
+            }
+        } else if (!value.equals(other.value)) {
             return false;
+        }
         return true;
+    }
+
+    @Override
+    public String toString() {
+
+        return getClass().getName() + " [value=" + value + "]";
     }
 
 }

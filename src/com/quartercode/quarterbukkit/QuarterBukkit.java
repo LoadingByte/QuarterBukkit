@@ -166,4 +166,10 @@ public class QuarterBukkit extends JavaPlugin {
         getLogger().info("Successfully disabled " + getName() + "!");
     }
 
+    @Override
+    public String toString() {
+
+        return getClass().getName() + " [metrics=" + metrics + ", getServer()=" + getServer() + ", getName()=" + getName() + "]";
+    }
+
 }

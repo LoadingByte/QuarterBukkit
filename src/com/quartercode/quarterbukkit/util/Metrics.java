@@ -363,6 +363,96 @@ public class Metrics {
         return URLEncoder.encode(text, "UTF-8");
     }
 
+    @Override
+    public int hashCode() {
+
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (configuration == null ? 0 : configuration.hashCode());
+        result = prime * result + (configurationFile == null ? 0 : configurationFile.hashCode());
+        result = prime * result + (defaultGraph == null ? 0 : defaultGraph.hashCode());
+        result = prime * result + (graphs == null ? 0 : graphs.hashCode());
+        result = prime * result + (guid == null ? 0 : guid.hashCode());
+        result = prime * result + (optOutLock == null ? 0 : optOutLock.hashCode());
+        result = prime * result + (plugin == null ? 0 : plugin.hashCode());
+        result = prime * result + taskId;
+        return result;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Metrics other = (Metrics) obj;
+        if (configuration == null) {
+            if (other.configuration != null) {
+                return false;
+            }
+        } else if (!configuration.equals(other.configuration)) {
+            return false;
+        }
+        if (configurationFile == null) {
+            if (other.configurationFile != null) {
+                return false;
+            }
+        } else if (!configurationFile.equals(other.configurationFile)) {
+            return false;
+        }
+        if (defaultGraph == null) {
+            if (other.defaultGraph != null) {
+                return false;
+            }
+        } else if (!defaultGraph.equals(other.defaultGraph)) {
+            return false;
+        }
+        if (graphs == null) {
+            if (other.graphs != null) {
+                return false;
+            }
+        } else if (!graphs.equals(other.graphs)) {
+            return false;
+        }
+        if (guid == null) {
+            if (other.guid != null) {
+                return false;
+            }
+        } else if (!guid.equals(other.guid)) {
+            return false;
+        }
+        if (optOutLock == null) {
+            if (other.optOutLock != null) {
+                return false;
+            }
+        } else if (!optOutLock.equals(other.optOutLock)) {
+            return false;
+        }
+        if (plugin == null) {
+            if (other.plugin != null) {
+                return false;
+            }
+        } else if (!plugin.equals(other.plugin)) {
+            return false;
+        }
+        if (taskId != other.taskId) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+
+        return getClass().getName() + " [plugin=" + plugin + ", graphs=" + graphs + ", defaultGraph=" + defaultGraph + ", configuration=" + configuration + ", configurationFile=" + configurationFile + ", guid=" + guid + ", optOutLock=" + optOutLock + ", taskId=" + taskId + "]";
+    }
+
     /**
      * Represents a custom graph on the website.
      */
@@ -417,25 +507,54 @@ public class Metrics {
             return Collections.unmodifiableSet(plotters);
         }
 
+        protected void onOptOut() {
+
+        }
+
         @Override
         public int hashCode() {
 
-            return name.hashCode();
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + (name == null ? 0 : name.hashCode());
+            result = prime * result + (plotters == null ? 0 : plotters.hashCode());
+            return result;
         }
 
         @Override
-        public boolean equals(final Object object) {
+        public boolean equals(final Object obj) {
 
-            if (! (object instanceof Graph)) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
                 return false;
             }
-
-            final Graph graph = (Graph) object;
-            return graph.name.equals(name);
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final Graph other = (Graph) obj;
+            if (name == null) {
+                if (other.name != null) {
+                    return false;
+                }
+            } else if (!name.equals(other.name)) {
+                return false;
+            }
+            if (plotters == null) {
+                if (other.plotters != null) {
+                    return false;
+                }
+            } else if (!plotters.equals(other.plotters)) {
+                return false;
+            }
+            return true;
         }
 
-        protected void onOptOut() {
+        @Override
+        public String toString() {
 
+            return getClass().getName() + " [name=" + name + ", plotters=" + plotters + "]";
         }
 
     }
@@ -494,18 +613,39 @@ public class Metrics {
         @Override
         public int hashCode() {
 
-            return getColumnName().hashCode();
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + (name == null ? 0 : name.hashCode());
+            return result;
         }
 
         @Override
-        public boolean equals(final Object object) {
+        public boolean equals(final Object obj) {
 
-            if (! (object instanceof Plotter)) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
                 return false;
             }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final Plotter other = (Plotter) obj;
+            if (name == null) {
+                if (other.name != null) {
+                    return false;
+                }
+            } else if (!name.equals(other.name)) {
+                return false;
+            }
+            return true;
+        }
 
-            final Plotter plotter = (Plotter) object;
-            return plotter.name.equals(name) && plotter.getValue() == getValue();
+        @Override
+        public String toString() {
+
+            return getClass().getName() + " [name=" + name + "]";
         }
 
     }

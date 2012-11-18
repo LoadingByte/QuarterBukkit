@@ -27,3 +27,4 @@ The sourcecode is splitted in seperated folders:
 
 * /src contains the main code of QuarterBukkit and the API methods
 * /integration contains the classes plugin developers use for integrate QuarterBukkit into their plugin
+* /paused-src contains main code which isn't finished and paused for a time

@@ -8,19 +8,19 @@ import com.quartercode.quarterbukkit.api.hcl.ConfigEntry;
 import com.quartercode.quarterbukkit.api.hcl.ParentEntry;
 
 /**
- * Class for representing a HCL config list with {@code -}.
+ * Class for representing a HCL config segment.
  */
-public class ConfigList extends ConfigEntry implements ParentEntry {
+public class Segment extends ConfigEntry implements ParentEntry {
 
     private List<ConfigEntry> children;
 
     /**
-     * Creates a new HCL config list and sets the name and the type definition.
+     * Creates a new HCL config segment and sets the name.
      * 
      * @param config The config.
      * @param name The name of the entry.
      */
-    public ConfigList(final Config config, final String name) {
+    public Segment(final Config config, final String name) {
 
         super(config, name);
     }
@@ -49,6 +49,44 @@ public class ConfigList extends ConfigEntry implements ParentEntry {
         }
 
         children.remove(configEntry);
+    }
+
+    @Override
+    public int hashCode() {
+
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + (children == null ? 0 : children.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Segment other = (Segment) obj;
+        if (children == null) {
+            if (other.children != null) {
+                return false;
+            }
+        } else if (!children.equals(other.children)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+
+        return getClass().getName() + " [children=" + children + "]";
     }
 
 }
