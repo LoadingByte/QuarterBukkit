@@ -41,7 +41,7 @@ public class ThreadUtil {
                             preparedMethod.getMethod().invoke(preparedMethod.getObject(), preparedMethod.getParameters());
                         }
                         catch (final Exception e) {
-                            plugin.getLogger().info("An error occurred while calling method: " + e.getClass() + ": " + e.getLocalizedMessage());
+                            plugin.getLogger().info("An error occurred while calling method (" + e + ")");
                         }
                         finally {
                             callMethods.remove(preparedMethod);

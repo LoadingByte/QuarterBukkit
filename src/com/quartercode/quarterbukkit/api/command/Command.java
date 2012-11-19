@@ -79,39 +79,49 @@ public class Command {
         final int prime = 31;
         int result = 1;
         result = prime * result + Arrays.hashCode(arguments);
-        result = prime * result + ( (globalLabel == null) ? 0 : globalLabel.hashCode());
-        result = prime * result + ( (label == null) ? 0 : label.hashCode());
-        result = prime * result + ( (sender == null) ? 0 : sender.hashCode());
+        result = prime * result + (globalLabel == null ? 0 : globalLabel.hashCode());
+        result = prime * result + (label == null ? 0 : label.hashCode());
+        result = prime * result + (sender == null ? 0 : sender.hashCode());
         return result;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
 
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
-        Command other = (Command) obj;
-        if (!Arrays.equals(arguments, other.arguments))
+        }
+        final Command other = (Command) obj;
+        if (!Arrays.equals(arguments, other.arguments)) {
             return false;
+        }
         if (globalLabel == null) {
-            if (other.globalLabel != null)
+            if (other.globalLabel != null) {
                 return false;
-        } else if (!globalLabel.equals(other.globalLabel))
+            }
+        } else if (!globalLabel.equals(other.globalLabel)) {
             return false;
+        }
         if (label == null) {
-            if (other.label != null)
+            if (other.label != null) {
                 return false;
-        } else if (!label.equals(other.label))
+            }
+        } else if (!label.equals(other.label)) {
             return false;
+        }
         if (sender == null) {
-            if (other.sender != null)
+            if (other.sender != null) {
                 return false;
-        } else if (!sender.equals(other.sender))
+            }
+        } else if (!sender.equals(other.sender)) {
             return false;
+        }
         return true;
     }
 

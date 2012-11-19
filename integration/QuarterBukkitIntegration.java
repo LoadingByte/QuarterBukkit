@@ -53,7 +53,7 @@ public class QuarterBukkitIntegration {
             feedUrl = new URL("http://dev.bukkit.org/server-mods/quarterbukkit/files.rss");
         }
         catch (final MalformedURLException e) {
-            Bukkit.getLogger().severe("Error while initalizing URL (" + e.getClass() + ": " + e.getLocalizedMessage() + ")");
+            Bukkit.getLogger().severe("Error while initalizing URL (" + e + ")");
         }
     }
 
@@ -61,21 +61,24 @@ public class QuarterBukkitIntegration {
      * Call this method in onLoad() for integrating QuarterBukkit into your plugin.
      * It simply installs QuarterBukkit if it isn't.
      */
-    public static void integrate() {
+    public static boolean integrate() {
 
         final File file = new File("plugins", "QuarterBukkit.jar");
 
         try {
             if (!Bukkit.getPluginManager().isPluginEnabled("QuarterBukkit")) {
                 install(file);
+                return true;
             }
         }
         catch (final UnknownHostException e) {
             Bukkit.getLogger().warning("Can't connect to dev.bukkit.org!");
         }
         catch (final Exception e) {
-            Bukkit.getLogger().severe("An error occurred while installing QuarterBukkit (" + e.getClass() + ": " + e.getLocalizedMessage() + ")");
+            Bukkit.getLogger().severe("An error occurred while installing QuarterBukkit (" + e + ")");
         }
+
+        return false;
     }
 
     private static void install(final File file) throws IOException, XMLStreamException, UnknownDependencyException, InvalidPluginException, InvalidDescriptionException {

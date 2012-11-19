@@ -104,7 +104,7 @@ public class QuarterBukkit extends JavaPlugin {
             }
         }
 
-        plugin.getLogger().warning("No exception handler set (can't catch " + exception.getClass() + ": " + exception.getLocalizedMessage() + ")");
+        plugin.getLogger().warning("No exception handler set (can't catch " + exception + ")");
     }
 
     private Metrics metrics;
@@ -132,7 +132,7 @@ public class QuarterBukkit extends JavaPlugin {
             new QuarterBukkitUpdater(this).tryUpdate();
         }
         catch (final Exception e) {
-            Bukkit.getLogger().severe("An error occurred while updating QuarterBukkit (" + e.getClass() + ": " + e.getLocalizedMessage() + ")");
+            Bukkit.getLogger().severe("An error occurred while updating QuarterBukkit (" + e + ")");
         }
 
         getLogger().info("Successfully loaded " + getName() + "!");
@@ -150,7 +150,7 @@ public class QuarterBukkit extends JavaPlugin {
             metrics.start();
         }
         catch (final IOException e) {
-            getLogger().severe("Am error occurred while enabling Metrics (" + e.getClass() + ": " + e.getLocalizedMessage() + ")");
+            getLogger().severe("An error occurred while enabling Metrics (" + e + ")");
         }
 
         getLogger().info("Successfully enabled " + getName() + "!");

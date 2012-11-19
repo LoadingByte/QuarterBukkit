@@ -9,7 +9,7 @@ import org.bukkit.plugin.Plugin;
  */
 public abstract class ExceptionHandler {
 
-    private final Plugin plugin;
+    protected final Plugin plugin;
 
     /**
      * Creates a new ExceptionHandler binded to a {@link Plugin}.

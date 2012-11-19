@@ -90,43 +90,54 @@ public class CommandInfo {
 
         final int prime = 31;
         int result = 1;
-        result = prime * result + ( (description == null) ? 0 : description.hashCode());
+        result = prime * result + (description == null ? 0 : description.hashCode());
         result = prime * result + (ignoreCase ? 1231 : 1237);
         result = prime * result + Arrays.hashCode(labels);
-        result = prime * result + ( (parameterUsage == null) ? 0 : parameterUsage.hashCode());
-        result = prime * result + ( (permission == null) ? 0 : permission.hashCode());
+        result = prime * result + (parameterUsage == null ? 0 : parameterUsage.hashCode());
+        result = prime * result + (permission == null ? 0 : permission.hashCode());
         return result;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
 
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
-        CommandInfo other = (CommandInfo) obj;
+        }
+        final CommandInfo other = (CommandInfo) obj;
         if (description == null) {
-            if (other.description != null)
+            if (other.description != null) {
                 return false;
-        } else if (!description.equals(other.description))
+            }
+        } else if (!description.equals(other.description)) {
             return false;
-        if (ignoreCase != other.ignoreCase)
+        }
+        if (ignoreCase != other.ignoreCase) {
             return false;
-        if (!Arrays.equals(labels, other.labels))
+        }
+        if (!Arrays.equals(labels, other.labels)) {
             return false;
+        }
         if (parameterUsage == null) {
-            if (other.parameterUsage != null)
+            if (other.parameterUsage != null) {
                 return false;
-        } else if (!parameterUsage.equals(other.parameterUsage))
+            }
+        } else if (!parameterUsage.equals(other.parameterUsage)) {
             return false;
+        }
         if (permission == null) {
-            if (other.permission != null)
+            if (other.permission != null) {
                 return false;
-        } else if (!permission.equals(other.permission))
+            }
+        } else if (!permission.equals(other.permission)) {
             return false;
+        }
         return true;
     }
 
