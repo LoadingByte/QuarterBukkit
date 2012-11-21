@@ -129,7 +129,7 @@ public class QuarterBukkit extends JavaPlugin {
     public void onLoad() {
 
         try {
-            new QuarterBukkitUpdater(this).tryUpdate();
+            new QuarterBukkitUpdater(this).tryInstall();
         }
         catch (final Exception e) {
             Bukkit.getLogger().severe("An error occurred while updating QuarterBukkit (" + e + ")");

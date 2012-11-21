@@ -48,12 +48,12 @@ public abstract class Updater {
      * 
      * @param plugin The plugin which starts the updater.
      * @param updatePlugin The plugin which should be updated.
-     * @param slug The BukkitDev-slug. Say we have the {@link URL} http://dev.bukkit.org/server-mods/quarterbukkit, quarterbukkit is the slug.
+     * @param slug The BukkitDev-slug. Say we have the {@link URL} http://dev.bukkit.org/server-mods/quarterbukkit, {@code quarterbukkit} is the slug.
      */
     public Updater(final Plugin plugin, final Plugin updatePlugin, final String slug) {
 
         if (plugin == null) {
-            throw new IllegalArgumentException("Plugin cannor be null");
+            throw new IllegalArgumentException("Plugin cannot be null");
         }
 
         this.plugin = plugin;
@@ -73,7 +73,7 @@ public abstract class Updater {
      * This method checks the latest plugin-version and updates it if required.
      * You can call this in onEnable().
      */
-    public void tryUpdate() {
+    public void tryInstall() {
 
         try {
             if (isNewVersionAvaiable()) {
