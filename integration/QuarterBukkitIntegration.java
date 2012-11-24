@@ -1,6 +1,4 @@
 
-
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -53,7 +51,7 @@ public class QuarterBukkitIntegration {
 
     static {
         try {
-            feedUrl = new URL("http://dev.bukkit.org/server-mods/pluginmanager/files.rss");
+            feedUrl = new URL("http://dev.bukkit.org/server-mods/quarterbukkit/files.rss");
         }
         catch (final MalformedURLException e) {
             Bukkit.getLogger().severe("Error while initalizing URL (" + e + ")");
@@ -61,8 +59,7 @@ public class QuarterBukkitIntegration {
     }
 
     /**
-     * Call this method in onLoad() for integrating QuarterBukkit into your plugin.
-     * It simply installs QuarterBukkit if it isn't.
+     * Call this method in onLoad() for integrating QuarterBukkit into your plugin. It simply installs QuarterBukkit if it isn't.
      */
     public static boolean integrate() {
 
@@ -109,6 +106,7 @@ public class QuarterBukkitIntegration {
         unzipDir.mkdirs();
         unzip(zipFile, unzipDir);
         copy(new File(unzipDir, file.getName()), file);
+        zipFile.delete();
         deleteRecursive(unzipDir);
 
         Bukkit.getPluginManager().enablePlugin(Bukkit.getPluginManager().loadPlugin(file));
