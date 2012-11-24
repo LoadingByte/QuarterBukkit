@@ -68,8 +68,9 @@ public class QuarterBukkitIntegration {
         try {
             if (!Bukkit.getPluginManager().isPluginEnabled("QuarterBukkit")) {
                 install(file);
-                return true;
             }
+
+            return true;
         }
         catch (final UnknownHostException e) {
             Bukkit.getLogger().warning("Can't connect to dev.bukkit.org!");
