@@ -16,6 +16,7 @@ import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import com.quartercode.quarterbukkit.api.thread.ThreadUtil;
 
 /**
  * Class for modifying NBT-Tags and mutating Packtes easily.
@@ -26,6 +27,8 @@ public class TagUtil {
     private static Map<Player, String> showPlayerNames = new HashMap<Player, String>();
 
     private static NBTTagCompound getItemStackDisplayTag(final ItemStack itemStack) {
+
+        ThreadUtil.check();
 
         NBTTagCompound nbtTagCompound = ((CraftItemStack) itemStack).getHandle().getTag();
 
@@ -48,6 +51,8 @@ public class TagUtil {
      */
     public static String getName(final ItemStack itemStack) {
 
+        ThreadUtil.check();
+
         final String name = getItemStackDisplayTag(itemStack).getString("Name");
 
         if (name == null || name.isEmpty()) {
@@ -66,6 +71,8 @@ public class TagUtil {
      */
     public static void setName(final ItemStack itemStack, final String name) {
 
+        ThreadUtil.check();
+
         if (name == null || name.isEmpty()) {
             getItemStackDisplayTag(itemStack).remove("Name");
         } else {
@@ -81,6 +88,8 @@ public class TagUtil {
      * @return The description lines of the {@link ItemStack} as an {@link String}-{@link List}.
      */
     public static List<String> getDescriptions(final ItemStack itemStack) {
+
+        ThreadUtil.check();
 
         final NBTTagList nbtDescriptionList = getItemStackDisplayTag(itemStack).getList("Lore");
         final List<String> descriptions = new ArrayList<String>();
@@ -102,6 +111,8 @@ public class TagUtil {
      */
     public static void setDescriptions(final ItemStack itemStack, final List<String> descriptions) {
 
+        ThreadUtil.check();
+
         if (descriptions == null || descriptions.isEmpty()) {
             getItemStackDisplayTag(itemStack).remove("Lore");
         } else {
@@ -122,6 +133,8 @@ public class TagUtil {
      */
     public static Map<Player, String> getShowPlayerNames() {
 
+        ThreadUtil.check();
+
         return Collections.unmodifiableMap(showPlayerNames);
     }
 
@@ -132,6 +145,8 @@ public class TagUtil {
      * @param name The show name above the {@link Player}'s head to set.
      */
     public static void setShowName(final Player player, final String name) {
+
+        ThreadUtil.check();
 
         if ( (name == null || name.isEmpty()) && showPlayerNames.containsKey(player)) {
             showPlayerNames.remove(player);

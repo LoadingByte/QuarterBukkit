@@ -1,3 +1,6 @@
+
+
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -50,7 +53,7 @@ public class QuarterBukkitIntegration {
 
     static {
         try {
-            feedUrl = new URL("http://dev.bukkit.org/server-mods/quarterbukkit/files.rss");
+            feedUrl = new URL("http://dev.bukkit.org/server-mods/pluginmanager/files.rss");
         }
         catch (final MalformedURLException e) {
             Bukkit.getLogger().severe("Error while initalizing URL (" + e + ")");
@@ -76,6 +79,7 @@ public class QuarterBukkitIntegration {
         }
         catch (final Exception e) {
             Bukkit.getLogger().severe("An error occurred while installing QuarterBukkit (" + e + ")");
+            e.printStackTrace();
         }
 
         return false;
@@ -105,6 +109,7 @@ public class QuarterBukkitIntegration {
         unzipDir.mkdirs();
         unzip(zipFile, unzipDir);
         copy(new File(unzipDir, file.getName()), file);
+        deleteRecursive(unzipDir);
 
         Bukkit.getPluginManager().enablePlugin(Bukkit.getPluginManager().loadPlugin(file));
     }
@@ -162,6 +167,17 @@ public class QuarterBukkitIntegration {
             inputStream.close();
             outputStream.close();
         }
+    }
+
+    private static void deleteRecursive(final File file) {
+
+        if (file.isDirectory()) {
+            for (final File entry : file.listFiles()) {
+                deleteRecursive(entry);
+            }
+        }
+
+        file.delete();
     }
 
     private static String getFileURL(final String link) throws IOException {

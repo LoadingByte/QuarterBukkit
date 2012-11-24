@@ -13,6 +13,7 @@ import com.quartercode.quarterbukkit.QuarterBukkit;
 import com.quartercode.quarterbukkit.api.exception.NoCommandFoundException;
 import com.quartercode.quarterbukkit.api.exception.NoDefaultCommandFoundException;
 import com.quartercode.quarterbukkit.api.exception.NoPermissionException;
+import com.quartercode.quarterbukkit.api.thread.ThreadUtil;
 
 /**
  * This class is a {@link CommandExecutor} for easy creating commands like /command help 1 without using millions of ifs.
@@ -44,6 +45,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor {
     public CommandExecutor(final Plugin plugin, final String... commands) {
 
         this(plugin);
+        ThreadUtil.check();
 
         for (final String command : commands) {
             Bukkit.getPluginCommand(command).setExecutor(this);

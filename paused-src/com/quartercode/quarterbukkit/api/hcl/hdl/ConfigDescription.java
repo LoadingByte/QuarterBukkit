@@ -34,14 +34,6 @@ import com.quartercode.quarterbukkit.api.hcl.type.DatatypeString;
  */
 public class ConfigDescription {
 
-    private static void fillStandardCustomTypes(final ConfigDescription config) {
-
-        config.registerCustomType("Integer", DatatypeInteger.class);
-        config.registerCustomType("Number", DatatypeNumber.class);
-        config.registerCustomType("Boolean", DatatypeBoolean.class);
-        config.registerCustomType("String", DatatypeString.class);
-    }
-
     private final Plugin                             plugin;
 
     private ConfigParser                             parser                  = new DefaultConfigParser();
@@ -102,6 +94,14 @@ public class ConfigDescription {
         this.parser = parser;
 
         fillStandardCustomTypes(this);
+    }
+
+    private void fillStandardCustomTypes(final ConfigDescription config) {
+
+        config.registerCustomType("Integer", DatatypeInteger.class);
+        config.registerCustomType("Number", DatatypeNumber.class);
+        config.registerCustomType("Boolean", DatatypeBoolean.class);
+        config.registerCustomType("String", DatatypeString.class);
     }
 
     /**
