@@ -96,7 +96,7 @@ public abstract class ScheduleTask implements Runnable {
     }
 
     /**
-     * Cancels this schedule taks.
+     * Cancels this schedule task.
      * 
      * @return This schedule task.
      */

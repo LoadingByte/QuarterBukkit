@@ -1,6 +1,7 @@
 
 package com.quartercode.quarterbukkit;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.quartercode.quarterbukkit.api.exception.ExceptionHandler;
 import com.quartercode.quarterbukkit.api.exception.GameException;
 import com.quartercode.quarterbukkit.api.thread.ThreadUtil;
+import com.quartercode.quarterbukkit.util.Config;
 import com.quartercode.quarterbukkit.util.Metrics;
 import com.quartercode.quarterbukkit.util.QuarterBukkitExceptionHandler;
 import com.quartercode.quarterbukkit.util.QuarterBukkitUpdater;
@@ -109,6 +111,7 @@ public class QuarterBukkit extends JavaPlugin {
         plugin.getLogger().warning("No exception handler set (can't catch " + exception + ")");
     }
 
+    private Config  config;
     private Metrics metrics;
 
     /**
@@ -143,12 +146,16 @@ public class QuarterBukkit extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        try {
-            new QuarterBukkitUpdater(this).tryInstall();
-        }
-        catch (final Exception e) {
-            Bukkit.getLogger().severe("An error occurred while updating QuarterBukkit (" + e + ")");
-            e.printStackTrace();
+        config = new Config(this, new File(getDataFolder(), "config.yml"));
+
+        if (config.getBoolean("autoupdate")) {
+            try {
+                new QuarterBukkitUpdater(this).tryInstall();
+            }
+            catch (final Exception e) {
+                Bukkit.getLogger().severe("An error occurred while updating QuarterBukkit (" + e + ")");
+                e.printStackTrace();
+            }
         }
 
         try {
@@ -170,6 +177,12 @@ public class QuarterBukkit extends JavaPlugin {
     public void onDisable() {
 
         getLogger().info("Successfully disabled " + getName() + "!");
+    }
+
+    @Override
+    public Config getConfig() {
+
+        return config;
     }
 
     @Override

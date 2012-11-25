@@ -25,17 +25,6 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     private final Plugin               plugin;
     private final List<CommandHandler> commandHandlers = new ArrayList<CommandHandler>();
 
-    // /**
-    // * Creates a new CommandExecutor which can be used as Bukkit-{@link CommandExecutor}.
-    // * You can bind the executor to a command by using {@code Bukkit.getPluginCommand(command).setExecutor(commandExecutor)}.
-    // *
-    // * @param plugin The plugin for the CommandExecutor.
-    // */
-    // public CommandExecutor(final Plugin plugin) {
-    //
-    // this.plugin = plugin;
-    // }
-
     /**
      * Creates a new CommandExecutor which can be used as Bukkit-{@link CommandExecutor}.
      * It binds the defined commands automatically to this executor.
@@ -146,8 +135,6 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
      */
     @Override
     public List<String> onTabComplete(CommandSender sender, org.bukkit.command.Command command, String alias, String[] arguments) {
-
-        System.out.println(alias + " - " + Arrays.asList(arguments));
 
         List<String> proposals = new ArrayList<String>();
 

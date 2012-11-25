@@ -139,6 +139,12 @@ public abstract class Updater {
 
     private void install(final File directory) throws IOException, XMLStreamException, UnknownDependencyException, InvalidPluginException, InvalidDescriptionException {
 
+        if (updatePlugin == null) {
+            plugin.getLogger().info("Installing " + slug);
+        } else {
+            plugin.getLogger().info("Installing " + updatePlugin.getName());
+        }
+
         final URL url = new URL(getFileURL(getFeedData().get("link")));
         final String fileName = url.getPath().split("/")[url.getPath().split("/").length - 1];
         final File file = new File(directory, fileName);
@@ -160,10 +166,8 @@ public abstract class Updater {
 
         if (updatePlugin == null) {
             plugin.getLogger().info("Successfully installed " + slug + "!");
-            plugin.getLogger().info("Reload the server to enable " + slug + ".");
         } else {
             plugin.getLogger().info("Successfully updated " + updatePlugin.getName() + "!");
-            plugin.getLogger().info("Reload the server to enable " + updatePlugin.getName() + ".");
         }
     }
 
