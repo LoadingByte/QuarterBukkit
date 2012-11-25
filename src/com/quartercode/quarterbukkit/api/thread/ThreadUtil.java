@@ -50,7 +50,7 @@ public class ThreadUtil {
      */
     public static boolean isInBukkitThread(Thread thread) {
 
-        if (thread.getId() == bukkitThread.getId()) {
+        if (bukkitThread == null || thread.getId() == bukkitThread.getId()) {
             return true;
         } else {
             return false;

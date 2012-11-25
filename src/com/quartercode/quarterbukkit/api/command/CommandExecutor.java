@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import com.quartercode.quarterbukkit.QuarterBukkit;
@@ -19,21 +20,21 @@ import com.quartercode.quarterbukkit.api.thread.ThreadUtil;
  * This class is a {@link CommandExecutor} for easy creating commands like /command help 1 without using millions of ifs.
  * It's easy to use and created for a fast developement progress.
  */
-public class CommandExecutor implements org.bukkit.command.CommandExecutor {
+public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabCompleter {
 
     private final Plugin               plugin;
     private final List<CommandHandler> commandHandlers = new ArrayList<CommandHandler>();
 
-    /**
-     * Creates a new CommandExecutor which can be used as Bukkit-{@link CommandExecutor}.
-     * You can bind the executor to a command by using {@code Bukkit.getPluginCommand(command).setExecutor(commandExecutor)}.
-     * 
-     * @param plugin The plugin for the CommandExecutor.
-     */
-    public CommandExecutor(final Plugin plugin) {
-
-        this.plugin = plugin;
-    }
+    // /**
+    // * Creates a new CommandExecutor which can be used as Bukkit-{@link CommandExecutor}.
+    // * You can bind the executor to a command by using {@code Bukkit.getPluginCommand(command).setExecutor(commandExecutor)}.
+    // *
+    // * @param plugin The plugin for the CommandExecutor.
+    // */
+    // public CommandExecutor(final Plugin plugin) {
+    //
+    // this.plugin = plugin;
+    // }
 
     /**
      * Creates a new CommandExecutor which can be used as Bukkit-{@link CommandExecutor}.
@@ -44,11 +45,12 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor {
      */
     public CommandExecutor(final Plugin plugin, final String... commands) {
 
-        this(plugin);
+        this.plugin = plugin;
         ThreadUtil.check();
 
         for (final String command : commands) {
             Bukkit.getPluginCommand(command).setExecutor(this);
+            Bukkit.getPluginCommand(command).setTabCompleter(this);
         }
     }
 
@@ -130,6 +132,36 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor {
         } else {
             commandHandler.execute(command);
         }
+    }
+
+    /**
+     * The tab completition method called by the Bukkit-Command-System.
+     * This is only for the Bukkit-System, don't call it manually!
+     * 
+     * @param sender The {@link CommandSender} who executed the command.
+     * @param command The Bukkit-Command.
+     * @param alias The first command label.
+     * @param arguments The unparsed (raw) arguments behind the first label (seperated with spaces).
+     * @return All tab complete proposals.
+     */
+    @Override
+    public List<String> onTabComplete(CommandSender sender, org.bukkit.command.Command command, String alias, String[] arguments) {
+
+        System.out.println(alias + " - " + Arrays.asList(arguments));
+
+        List<String> proposals = new ArrayList<String>();
+
+        for (CommandHandler commandHandler : commandHandlers) {
+            for (String label : commandHandler.getInfo().getLabels()) {
+                for (String argument : arguments) {
+                    if (label.toLowerCase().startsWith(argument.toLowerCase())) {
+                        proposals.add(label);
+                    }
+                }
+            }
+        }
+
+        return proposals;
     }
 
     /**

@@ -3,9 +3,11 @@ package com.quartercode.quarterbukkit.util;
 
 import java.io.File;
 import java.io.IOException;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import com.quartercode.quarterbukkit.QuarterBukkit;
 import com.quartercode.quarterbukkit.api.Updater;
+import com.quartercode.quarterbukkit.api.exception.InstallException;
 
 /**
  * This class is for checking the QuarterBukkit-version and updating the plugin.
@@ -33,6 +35,14 @@ public class QuarterBukkitUpdater extends Updater {
 
         extract(downloadedFile, "QuarterBukkit.jar", new File("plugins", "QuarterBukkit.jar"));
         downloadedFile.delete();
+
+        try {
+            Bukkit.getPluginManager().disablePlugin(plugin);
+            Bukkit.getPluginManager().enablePlugin(Bukkit.getPluginManager().loadPlugin(new File("plugins", "QuarterBukkit.jar")));
+        }
+        catch (Exception e) {
+            QuarterBukkit.exception(new InstallException(plugin, e, "Error while reloading"));
+        }
     }
 
 }

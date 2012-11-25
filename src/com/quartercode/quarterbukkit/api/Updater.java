@@ -37,9 +37,9 @@ public abstract class Updater {
     private static final String LINK_TAG  = "link";
     private static final String ITEM_TAG  = "item";
 
-    private final Plugin        plugin;
-    private final Plugin        updatePlugin;
-    private final String        slug;
+    protected final Plugin      plugin;
+    protected final Plugin      updatePlugin;
+    protected final String      slug;
     private URL                 url;
     private URL                 feedUrl;
 
@@ -160,10 +160,10 @@ public abstract class Updater {
 
         if (updatePlugin == null) {
             plugin.getLogger().info("Successfully installed " + slug + "!");
-            plugin.getLogger().warning("Reload the server to enable " + slug + ".");
+            plugin.getLogger().info("Reload the server to enable " + slug + ".");
         } else {
             plugin.getLogger().info("Successfully updated " + updatePlugin.getName() + "!");
-            plugin.getLogger().warning("Reload the server to enable " + updatePlugin.getName() + ".");
+            plugin.getLogger().info("Reload the server to enable " + updatePlugin.getName() + ".");
         }
     }
 

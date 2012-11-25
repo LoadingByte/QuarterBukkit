@@ -9,7 +9,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.quartercode.quarterbukkit.api.exception.ExceptionHandler;
 import com.quartercode.quarterbukkit.api.exception.GameException;
+import com.quartercode.quarterbukkit.api.thread.ThreadUtil;
 import com.quartercode.quarterbukkit.util.Metrics;
+import com.quartercode.quarterbukkit.util.QuarterBukkitExceptionHandler;
 import com.quartercode.quarterbukkit.util.QuarterBukkitUpdater;
 
 /**
@@ -128,12 +130,8 @@ public class QuarterBukkit extends JavaPlugin {
     @Override
     public void onLoad() {
 
-        try {
-            new QuarterBukkitUpdater(this).tryInstall();
-        }
-        catch (final Exception e) {
-            Bukkit.getLogger().severe("An error occurred while updating QuarterBukkit (" + e + ")");
-        }
+        ThreadUtil.initalizeThread();
+        setExceptionHandler(new QuarterBukkitExceptionHandler(this));
 
         getLogger().info("Successfully loaded " + getName() + "!");
     }
@@ -144,6 +142,14 @@ public class QuarterBukkit extends JavaPlugin {
      */
     @Override
     public void onEnable() {
+
+        try {
+            new QuarterBukkitUpdater(this).tryInstall();
+        }
+        catch (final Exception e) {
+            Bukkit.getLogger().severe("An error occurred while updating QuarterBukkit (" + e + ")");
+            e.printStackTrace();
+        }
 
         try {
             metrics = new Metrics(this);
