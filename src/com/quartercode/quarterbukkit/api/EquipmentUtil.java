@@ -1,8 +1,6 @@
 
 package com.quartercode.quarterbukkit.api;
 
-import org.bukkit.craftbukkit.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import com.quartercode.quarterbukkit.api.thread.ThreadUtil;
@@ -20,7 +18,7 @@ public class EquipmentUtil {
     public static ItemStack getItem(final LivingEntity entity) {
 
         ThreadUtil.check();
-        return new CraftItemStack( ((CraftLivingEntity) entity).getHandle().getEquipment(0));
+        return entity.getEquipment().getItemInHand();
     }
 
     /**
@@ -32,7 +30,7 @@ public class EquipmentUtil {
     public static void setItem(final LivingEntity entity, final ItemStack itemStack) {
 
         ThreadUtil.check();
-        ((CraftLivingEntity) entity).getHandle().setEquipment(0, ((CraftItemStack) itemStack).getHandle());
+        entity.getEquipment().setItemInHand(itemStack);
     }
 
     /**
@@ -43,7 +41,7 @@ public class EquipmentUtil {
     public static ItemStack getHelmet(final LivingEntity entity) {
 
         ThreadUtil.check();
-        return new CraftItemStack( ((CraftLivingEntity) entity).getHandle().getEquipment(1));
+        return entity.getEquipment().getHelmet();
     }
 
     /**
@@ -55,7 +53,7 @@ public class EquipmentUtil {
     public static void setHelmet(final LivingEntity entity, final ItemStack itemStack) {
 
         ThreadUtil.check();
-        ((CraftLivingEntity) entity).getHandle().setEquipment(1, ((CraftItemStack) itemStack).getHandle());
+        entity.getEquipment().setHelmet(itemStack);
     }
 
     /**
@@ -66,7 +64,7 @@ public class EquipmentUtil {
     public static ItemStack getChestplate(final LivingEntity entity) {
 
         ThreadUtil.check();
-        return new CraftItemStack( ((CraftLivingEntity) entity).getHandle().getEquipment(2));
+        return entity.getEquipment().getChestplate();
     }
 
     /**
@@ -78,7 +76,7 @@ public class EquipmentUtil {
     public static void setChestplate(final LivingEntity entity, final ItemStack itemStack) {
 
         ThreadUtil.check();
-        ((CraftLivingEntity) entity).getHandle().setEquipment(2, ((CraftItemStack) itemStack).getHandle());
+        entity.getEquipment().setChestplate(itemStack);
     }
 
     /**
@@ -89,7 +87,7 @@ public class EquipmentUtil {
     public static ItemStack getLeggins(final LivingEntity entity) {
 
         ThreadUtil.check();
-        return new CraftItemStack( ((CraftLivingEntity) entity).getHandle().getEquipment(3));
+        return entity.getEquipment().getLeggings();
     }
 
     /**
@@ -101,7 +99,7 @@ public class EquipmentUtil {
     public static void setLeggins(final LivingEntity entity, final ItemStack itemStack) {
 
         ThreadUtil.check();
-        ((CraftLivingEntity) entity).getHandle().setEquipment(3, ((CraftItemStack) itemStack).getHandle());
+        entity.getEquipment().setBoots(itemStack);
     }
 
     /**
@@ -112,7 +110,7 @@ public class EquipmentUtil {
     public static ItemStack getBoots(final LivingEntity entity) {
 
         ThreadUtil.check();
-        return new CraftItemStack( ((CraftLivingEntity) entity).getHandle().getEquipment(4));
+        return entity.getEquipment().getBoots();
     }
 
     /**
@@ -124,7 +122,7 @@ public class EquipmentUtil {
     public static void setBoots(final LivingEntity entity, final ItemStack itemStack) {
 
         ThreadUtil.check();
-        ((CraftLivingEntity) entity).getHandle().setEquipment(4, ((CraftItemStack) itemStack).getHandle());
+        entity.getEquipment().setBoots(itemStack);
     }
 
     private EquipmentUtil() {

@@ -11,10 +11,10 @@ import com.quartercode.quarterbukkit.api.exception.GameException;
 
 public class Config extends YamlConfiguration {
 
-    private Plugin plugin;
-    private File   file;
+    private final Plugin plugin;
+    private final File   file;
 
-    public Config(Plugin plugin, File file) {
+    public Config(final Plugin plugin, final File file) {
 
         this.plugin = plugin;
         this.file = file;
@@ -28,26 +28,27 @@ public class Config extends YamlConfiguration {
     }
 
     @Override
-    public void load(File file) {
+    public void load(final File file) {
 
         try {
             super.load(file);
         }
-        catch (IOException e) {
-            QuarterBukkit.exception(new GameException(plugin, "Can't load QuarterBukkit config"));
+        catch (final IOException e) {
+            QuarterBukkit.exception(new GameException(plugin, "Can't load QuarterBukkit config (" + e + ")"));
         }
-        catch (InvalidConfigurationException e) {
-            QuarterBukkit.exception(new GameException(plugin, "Can't load QuarterBukkit config"));
+        catch (final InvalidConfigurationException e) {
+            QuarterBukkit.exception(new GameException(plugin, "Can't load QuarterBukkit config (" + e + ")"));
         }
     }
 
-    public void save(File file) {
+    @Override
+    public void save(final File file) {
 
         try {
             super.save(file);
         }
-        catch (IOException e) {
-            QuarterBukkit.exception(new GameException(plugin, "Can't save QuarterBukkit config"));
+        catch (final IOException e) {
+            QuarterBukkit.exception(new GameException(plugin, "Can't save QuarterBukkit config (" + e + ")"));
         }
     }
 
@@ -61,7 +62,7 @@ public class Config extends YamlConfiguration {
         addDefaultGV("autoupdate", true);
     }
 
-    private void addDefaultGV(String path, Object value) {
+    private void addDefaultGV(final String path, final Object value) {
 
         if (!contains(path)) {
             set(path, value);

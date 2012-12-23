@@ -134,13 +134,13 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
      * @return All tab complete proposals.
      */
     @Override
-    public List<String> onTabComplete(CommandSender sender, org.bukkit.command.Command command, String alias, String[] arguments) {
+    public List<String> onTabComplete(final CommandSender sender, final org.bukkit.command.Command command, final String alias, final String[] arguments) {
 
-        List<String> proposals = new ArrayList<String>();
+        final List<String> proposals = new ArrayList<String>();
 
-        for (CommandHandler commandHandler : commandHandlers) {
-            for (String label : commandHandler.getInfo().getLabels()) {
-                for (String argument : arguments) {
+        for (final CommandHandler commandHandler : commandHandlers) {
+            for (final String label : commandHandler.getInfo().getLabels()) {
+                for (final String argument : arguments) {
                     if (label.toLowerCase().startsWith(argument.toLowerCase())) {
                         proposals.add(label);
                     }

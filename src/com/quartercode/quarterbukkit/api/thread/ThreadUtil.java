@@ -48,7 +48,7 @@ public class ThreadUtil {
      * @param thread The {@link Thread} to check.
      * @return If the {@link Thread} is valid for Bukkit-API-functions.
      */
-    public static boolean isInBukkitThread(Thread thread) {
+    public static boolean isInBukkitThread(final Thread thread) {
 
         if (bukkitThread == null || thread.getId() == bukkitThread.getId()) {
             return true;
@@ -63,7 +63,7 @@ public class ThreadUtil {
     public static void check() {
 
         if (!isInBukkitThread()) {
-            StackTraceElement[] stackTrace = new Exception().getStackTrace();
+            final StackTraceElement[] stackTrace = new Exception().getStackTrace();
             throw new IllegalThreadStateException("You can call " + stackTrace[stackTrace.length] + " only in the Bukkit Main-Thread");
         }
     }
@@ -73,10 +73,10 @@ public class ThreadUtil {
      * 
      * @param thread The {@link Thread} to check.
      */
-    public static void check(Thread thread) {
+    public static void check(final Thread thread) {
 
         if (!isInBukkitThread(thread)) {
-            StackTraceElement[] stackTrace = new Exception().getStackTrace();
+            final StackTraceElement[] stackTrace = new Exception().getStackTrace();
             throw new IllegalThreadStateException("You can call " + stackTrace[stackTrace.length] + " only in the Bukkit Main-Thread");
         }
     }

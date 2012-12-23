@@ -154,7 +154,6 @@ public class QuarterBukkit extends JavaPlugin {
             }
             catch (final Exception e) {
                 Bukkit.getLogger().severe("An error occurred while updating QuarterBukkit (" + e + ")");
-                e.printStackTrace();
             }
         }
 

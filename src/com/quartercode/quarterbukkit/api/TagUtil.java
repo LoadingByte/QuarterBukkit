@@ -1,20 +1,7 @@
 
 package com.quartercode.quarterbukkit.api;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import net.minecraft.server.EntityPlayer;
-import net.minecraft.server.NBTTagCompound;
-import net.minecraft.server.NBTTagList;
-import net.minecraft.server.NBTTagString;
-import net.minecraft.server.Packet20NamedEntitySpawn;
-import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
-import org.bukkit.craftbukkit.inventory.CraftItemStack;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import com.quartercode.quarterbukkit.api.thread.ThreadUtil;
 
@@ -24,24 +11,7 @@ import com.quartercode.quarterbukkit.api.thread.ThreadUtil;
  */
 public class TagUtil {
 
-    private static Map<Player, String> showPlayerNames = new HashMap<Player, String>();
-
-    private static NBTTagCompound getItemStackDisplayTag(final ItemStack itemStack) {
-
-        ThreadUtil.check();
-
-        NBTTagCompound nbtTagCompound = ((CraftItemStack) itemStack).getHandle().getTag();
-
-        if (nbtTagCompound == null) {
-            nbtTagCompound = new NBTTagCompound();
-            ((CraftItemStack) itemStack).getHandle().setTag(nbtTagCompound);
-        }
-        if (!nbtTagCompound.hasKey("display")) {
-            nbtTagCompound.setCompound("display", new NBTTagCompound());
-        }
-
-        return nbtTagCompound.getCompound("display");
-    }
+    // private static Map<Player, String> showPlayerNames = new HashMap<Player, String>();
 
     /**
      * Returns the name of an {@link ItemStack}.
@@ -53,13 +23,7 @@ public class TagUtil {
 
         ThreadUtil.check();
 
-        final String name = getItemStackDisplayTag(itemStack).getString("Name");
-
-        if (name == null || name.isEmpty()) {
-            return null;
-        } else {
-            return name;
-        }
+        return itemStack.getItemMeta().getDisplayName();
     }
 
     /**
@@ -74,9 +38,9 @@ public class TagUtil {
         ThreadUtil.check();
 
         if (name == null || name.isEmpty()) {
-            getItemStackDisplayTag(itemStack).remove("Name");
+            itemStack.getItemMeta().setDisplayName(null);
         } else {
-            getItemStackDisplayTag(itemStack).setString("Name", name);
+            itemStack.getItemMeta().setDisplayName(name);
         }
     }
 
@@ -91,15 +55,7 @@ public class TagUtil {
 
         ThreadUtil.check();
 
-        final NBTTagList nbtDescriptionList = getItemStackDisplayTag(itemStack).getList("Lore");
-        final List<String> descriptions = new ArrayList<String>();
-        for (int counter = 0; counter < nbtDescriptionList.size(); counter++) {
-            if (nbtDescriptionList.get(counter) instanceof NBTTagString) {
-                descriptions.add( ((NBTTagString) nbtDescriptionList.get(counter)).data);
-            }
-        }
-
-        return Collections.unmodifiableList(descriptions);
+        return itemStack.getItemMeta().getLore();
     }
 
     /**
@@ -114,67 +70,62 @@ public class TagUtil {
         ThreadUtil.check();
 
         if (descriptions == null || descriptions.isEmpty()) {
-            getItemStackDisplayTag(itemStack).remove("Lore");
+            itemStack.getItemMeta().setLore(null);
         } else {
-            final NBTTagList nbtDescriptionList = new NBTTagList();
-            for (final String description : descriptions) {
-                nbtDescriptionList.add(new NBTTagString(description));
-            }
-
-            getItemStackDisplayTag(itemStack).set("Lore", nbtDescriptionList);
+            itemStack.getItemMeta().setLore(descriptions);
         }
     }
 
-    /**
-     * Returns the saved player show names as unmodifiable map.
-     * You can add players with setShowName().
-     * 
-     * @return The saved player show names.
-     */
-    public static Map<Player, String> getShowPlayerNames() {
-
-        ThreadUtil.check();
-
-        return Collections.unmodifiableMap(showPlayerNames);
-    }
-
-    /**
-     * Sets the name above the {@link Player}'s head
-     * 
-     * @param player The {@link Player} to modify.
-     * @param name The show name above the {@link Player}'s head to set.
-     */
-    public static void setShowName(final Player player, final String name) {
-
-        ThreadUtil.check();
-
-        if ( (name == null || name.isEmpty()) && showPlayerNames.containsKey(player)) {
-            showPlayerNames.remove(player);
-            sendPlayerShowNamePacket( ((CraftPlayer) player).getHandle(), player.getName());
-            return;
-        }
-
-        if (showPlayerNames.containsKey(player)) {
-            showPlayerNames.remove(player);
-        }
-        showPlayerNames.put(player, name);
-
-        sendPlayerShowNamePacket( ((CraftPlayer) player).getHandle(), name);
-    }
-
-    private static void sendPlayerShowNamePacket(final EntityPlayer player, final String name) {
-
-        final String oldName = player.getName();
-        player.name = name;
-
-        for (final Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            if (onlinePlayer != player) {
-                ((CraftPlayer) onlinePlayer).getHandle().netServerHandler.sendPacket(new Packet20NamedEntitySpawn(player));
-            }
-        }
-
-        player.name = oldName;
-    }
+    // /**
+    // * Returns the saved player show names as unmodifiable map.
+    // * You can add players with setShowName().
+    // *
+    // * @return The saved player show names.
+    // */
+    // public static Map<Player, String> getShowPlayerNames() {
+    //
+    // ThreadUtil.check();
+    //
+    // return Collections.unmodifiableMap(showPlayerNames);
+    // }
+    //
+    // /**
+    // * Sets the name above the {@link Player}'s head
+    // *
+    // * @param player The {@link Player} to modify.
+    // * @param name The show name above the {@link Player}'s head to set.
+    // */
+    // public static void setShowName(final Player player, final String name) {
+    //
+    // ThreadUtil.check();
+    //
+    // if ( (name == null || name.isEmpty()) && showPlayerNames.containsKey(player)) {
+    // showPlayerNames.remove(player);
+    // sendPlayerShowNamePacket( ((CraftPlayer) player).getHandle(), player.getName());
+    // return;
+    // }
+    //
+    // if (showPlayerNames.containsKey(player)) {
+    // showPlayerNames.remove(player);
+    // }
+    // showPlayerNames.put(player, name);
+    //
+    // sendPlayerShowNamePacket( ((CraftPlayer) player).getHandle(), name);
+    // }
+    //
+    // private static void sendPlayerShowNamePacket(final EntityPlayer player, final String name) {
+    //
+    // final String oldName = player.getName();
+    // player.name = name;
+    //
+    // for (final Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+    // if (onlinePlayer != player) {
+    // ((CraftPlayer) onlinePlayer).getHandle().netServerHandler.sendPacket(new Packet20NamedEntitySpawn(player));
+    // }
+    // }
+    //
+    // player.name = oldName;
+    // }
 
     private TagUtil() {
 
