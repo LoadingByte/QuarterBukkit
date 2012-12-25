@@ -12,8 +12,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import com.quartercode.quarterbukkit.QuarterBukkit;
 import com.quartercode.quarterbukkit.api.exception.NoCommandFoundException;
+import com.quartercode.quarterbukkit.api.exception.NoCommandPermissionException;
 import com.quartercode.quarterbukkit.api.exception.NoDefaultCommandFoundException;
-import com.quartercode.quarterbukkit.api.exception.NoPermissionException;
 import com.quartercode.quarterbukkit.api.thread.ThreadUtil;
 
 /**
@@ -115,7 +115,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
                 if (sender.hasPermission(commandHandler.getInfo().getPermission())) {
                     commandHandler.execute(command);
                 } else {
-                    QuarterBukkit.exception(new NoPermissionException(plugin, commandHandler.getInfo().getPermission(), sender, sender.getName() + " has no permissions for command " + rawArguments[0]));
+                    QuarterBukkit.exception(new NoCommandPermissionException(plugin, commandHandler.getInfo().getPermission(), sender, command, sender.getName() + " has no permissions for command " + rawArguments[0]));
                 }
             }
         } else {
@@ -138,11 +138,21 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
 
         final List<String> proposals = new ArrayList<String>();
 
-        for (final CommandHandler commandHandler : commandHandlers) {
-            for (final String label : commandHandler.getInfo().getLabels()) {
+        if (arguments.length == 1) {
+            for (final CommandHandler commandHandler : commandHandlers) {
+                for (final String label : commandHandler.getInfo().getLabels()) {
+                    for (final String argument : arguments) {
+                        if (label.toLowerCase().startsWith(argument.toLowerCase())) {
+                            proposals.add(label);
+                        }
+                    }
+                }
+            }
+        } else {
+            for (Player player : Bukkit.getOnlinePlayers()) {
                 for (final String argument : arguments) {
-                    if (label.toLowerCase().startsWith(argument.toLowerCase())) {
-                        proposals.add(label);
+                    if (player.getName().startsWith(argument)) {
+                        proposals.add(player.getName());
                     }
                 }
             }
