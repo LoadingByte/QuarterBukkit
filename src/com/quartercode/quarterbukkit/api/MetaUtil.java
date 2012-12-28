@@ -1,21 +1,17 @@
 
 package com.quartercode.quarterbukkit.api;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import com.quartercode.quarterbukkit.api.thread.ThreadUtil;
 
 /**
- * Class for modifying NBT-Tags and mutating Packtes easily.
+ * Class for modifying meta-tags easily.
  * This is e.g. for modifying the name of items etc.
- * 
- * @deprecated This class is deprecated. Use {@link MetaUtil} instead.
  */
-@Deprecated
-public class TagUtil {
+public class MetaUtil {
+
+    // private static Map<Player, String> showPlayerNames = new HashMap<Player, String>();
 
     /**
      * Returns the name of an {@link ItemStack}.
@@ -80,35 +76,58 @@ public class TagUtil {
         }
     }
 
-    /**
-     * Returns the saved player show names as unmodifiable map.
-     * You can add players with setShowName().
-     * 
-     * @return The saved player show names (beacuse the deprecation an empty map).
-     * 
-     * @deprecated This method is deprecated and does nothing (it only returns an empty map).
-     */
-    @Deprecated
-    public static Map<Player, String> getShowPlayerNames() {
+    // /**
+    // * Returns the saved player show names as unmodifiable map.
+    // * You can add players with setShowName().
+    // *
+    // * @return The saved player show names.
+    // */
+    // public static Map<Player, String> getShowPlayerNames() {
+    //
+    // ThreadUtil.check();
+    //
+    // return Collections.unmodifiableMap(showPlayerNames);
+    // }
+    //
+    // /**
+    // * Sets the name above the {@link Player}'s head
+    // *
+    // * @param player The {@link Player} to modify.
+    // * @param name The show name above the {@link Player}'s head to set.
+    // */
+    // public static void setShowName(final Player player, final String name) {
+    //
+    // ThreadUtil.check();
+    //
+    // if ( (name == null || name.isEmpty()) && showPlayerNames.containsKey(player)) {
+    // showPlayerNames.remove(player);
+    // sendPlayerShowNamePacket( ((CraftPlayer) player).getHandle(), player.getName());
+    // return;
+    // }
+    //
+    // if (showPlayerNames.containsKey(player)) {
+    // showPlayerNames.remove(player);
+    // }
+    // showPlayerNames.put(player, name);
+    //
+    // sendPlayerShowNamePacket( ((CraftPlayer) player).getHandle(), name);
+    // }
+    //
+    // private static void sendPlayerShowNamePacket(final EntityPlayer player, final String name) {
+    //
+    // final String oldName = player.getName();
+    // player.name = name;
+    //
+    // for (final Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+    // if (onlinePlayer != player) {
+    // ((CraftPlayer) onlinePlayer).getHandle().netServerHandler.sendPacket(new Packet20NamedEntitySpawn(player));
+    // }
+    // }
+    //
+    // player.name = oldName;
+    // }
 
-        return new HashMap<Player, String>();
-    }
-
-    /**
-     * Sets the name above the {@link Player}'s head
-     * 
-     * @param player The {@link Player} to modify.
-     * @param name The show name above the {@link Player}'s head to set.
-     * 
-     * @deprecated This method is deprecated and does nothing.
-     */
-    @Deprecated
-    public static void setShowName(final Player player, final String name) {
-
-        ThreadUtil.check();
-    }
-
-    private TagUtil() {
+    private MetaUtil() {
 
     }
 

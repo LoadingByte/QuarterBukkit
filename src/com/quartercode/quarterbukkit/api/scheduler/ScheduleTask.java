@@ -60,8 +60,10 @@ public abstract class ScheduleTask implements Runnable {
      * @param sync Should the scheduler runs synced with the Bukkit-Main-{@link Thread}. Async tasks are deprecated!
      * @param delay The delay in ticks.
      * @return This schedule task.
+     * 
+     * @deprecated This method is deprecated. Use {@link ScheduleTask#run(long)} instead.
      */
-    @SuppressWarnings ("deprecation")
+    @Deprecated
     public ScheduleTask run(final boolean sync, final long delay) {
 
         checkId();
@@ -83,18 +85,49 @@ public abstract class ScheduleTask implements Runnable {
      * @param delay The delay in ticks.
      * @param period The delay between two repeatings in ticks.
      * @return This schedule task.
+     * 
+     * @deprecated This method is deprecated. Use {@link ScheduleTask#run(long, long)} instead.
      */
-    @SuppressWarnings ("deprecation")
+    @Deprecated
     public ScheduleTask run(final boolean sync, final long delay, final long period) {
 
         checkId();
 
         if (sync) {
-            System.out.println("Running an async task (deprecated)! If you used this QuarterBukkit-Feature, try to use sync tasks!");
             id = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, MathUtil.getTicks(delay), MathUtil.getTicks(period));
         } else {
+            System.out.println("Running an async task (deprecated)! If you used this QuarterBukkit-Feature, try to use sync tasks!");
             id = Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, this, MathUtil.getTicks(delay), MathUtil.getTicks(period));
         }
+
+        return this;
+    }
+
+    /**
+     * Runs the scheduler once with a delay. You have to cancel it after running if you want to reuse it.
+     * 
+     * @param delay The delay in ticks.
+     * @return This schedule task.
+     */
+    public ScheduleTask run(final long delay) {
+
+        checkId();
+        id = Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, this, MathUtil.getTicks(delay));
+
+        return this;
+    }
+
+    /**
+     * Runs the scheduler repeating with a delay until it's cancelled.
+     * 
+     * @param delay The delay in ticks.
+     * @param period The delay between two repeatings in ticks.
+     * @return This schedule task.
+     */
+    public ScheduleTask run(final long delay, final long period) {
+
+        checkId();
+        id = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, MathUtil.getTicks(delay), MathUtil.getTicks(period));
 
         return this;
     }

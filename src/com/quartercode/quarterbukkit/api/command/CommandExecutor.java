@@ -149,7 +149,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
                 }
             }
         } else {
-            for (Player player : Bukkit.getOnlinePlayers()) {
+            for (final Player player : Bukkit.getOnlinePlayers()) {
                 for (final String argument : arguments) {
                     if (player.getName().startsWith(argument)) {
                         proposals.add(player.getName());
