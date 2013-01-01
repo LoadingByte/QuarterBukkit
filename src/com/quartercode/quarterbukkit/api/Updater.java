@@ -29,7 +29,7 @@ import com.quartercode.quarterbukkit.QuarterBukkit;
 import com.quartercode.quarterbukkit.api.exception.InstallException;
 
 /**
- * This class is for checking the QuarterBukkit-version and updating the plugin.
+ * This class is for checking the plugin-versions and updating plugins.
  */
 public abstract class Updater {
 

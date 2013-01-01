@@ -1,6 +1,7 @@
 
 package com.quartercode.quarterbukkit.api;
 
+import java.util.Arrays;
 import java.util.List;
 import org.bukkit.inventory.ItemStack;
 import com.quartercode.quarterbukkit.api.thread.ThreadUtil;
@@ -74,6 +75,18 @@ public class MetaUtil {
         } else {
             itemStack.getItemMeta().setLore(descriptions);
         }
+    }
+
+    /**
+     * Sets the description lines of an {@link ItemStack}.
+     * They equals to the "Lore". You can use every chat code.
+     * 
+     * @param itemStack The {@link ItemStack} to modify.
+     * @param descriptions The description lines to set as an {@link String}-array.
+     */
+    public static void setDescriptions(final ItemStack itemStack, final String... descriptions) {
+
+        setDescriptions(itemStack, Arrays.asList(descriptions));
     }
 
     // /**
