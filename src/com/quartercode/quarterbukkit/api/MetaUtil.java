@@ -4,6 +4,7 @@ package com.quartercode.quarterbukkit.api;
 import java.util.Arrays;
 import java.util.List;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import com.quartercode.quarterbukkit.api.thread.ThreadUtil;
 
 /**
@@ -38,11 +39,13 @@ public class MetaUtil {
 
         ThreadUtil.check();
 
+        final ItemMeta itemMeta = itemStack.getItemMeta();
         if (name == null || name.isEmpty()) {
-            itemStack.getItemMeta().setDisplayName(null);
+            itemMeta.setDisplayName(null);
         } else {
-            itemStack.getItemMeta().setDisplayName(name);
+            itemMeta.setDisplayName(name);
         }
+        itemStack.setItemMeta(itemMeta);
     }
 
     /**
@@ -70,11 +73,13 @@ public class MetaUtil {
 
         ThreadUtil.check();
 
+        final ItemMeta itemMeta = itemStack.getItemMeta();
         if (descriptions == null || descriptions.isEmpty()) {
-            itemStack.getItemMeta().setLore(null);
+            itemMeta.setLore(null);
         } else {
-            itemStack.getItemMeta().setLore(descriptions);
+            itemMeta.setLore(descriptions);
         }
+        itemStack.setItemMeta(itemMeta);
     }
 
     /**
