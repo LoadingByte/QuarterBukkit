@@ -21,6 +21,7 @@ import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
@@ -75,28 +76,39 @@ public abstract class Updater {
      */
     public void tryInstall() {
 
+        tryInstall(null);
+    }
+
+    /**
+     * This method checks the latest plugin-version and updates it if required.
+     * You can call this in onEnable().
+     * 
+     * @param causer The executor of the action.
+     */
+    public void tryInstall(final CommandSender causer) {
+
         try {
             if (isNewVersionAvaiable()) {
-                install(new File("plugins"));
+                install(new File("plugins"), causer);
             }
         }
         catch (final UnknownHostException e) {
-            QuarterBukkit.exception(new InstallException(plugin, e, "Can't connect to dev.bukkit.org"));
+            QuarterBukkit.exception(new InstallException(plugin, e, causer, "Can't connect to dev.bukkit.org"));
         }
         catch (final IOException e) {
-            QuarterBukkit.exception(new InstallException(plugin, e, "Something went wrong with the file system"));
+            QuarterBukkit.exception(new InstallException(plugin, e, causer, "Something went wrong with the file system"));
         }
         catch (final XMLStreamException e) {
-            QuarterBukkit.exception(new InstallException(plugin, e, "Something went wrong with the version XML-feed (" + feedUrl.toExternalForm() + ")"));
+            QuarterBukkit.exception(new InstallException(plugin, e, causer, "Something went wrong with the version XML-feed (" + feedUrl.toExternalForm() + ")"));
         }
         catch (final InvalidPluginException e) {
-            QuarterBukkit.exception(new InstallException(plugin, e, "The downloaded plugin isn't valid"));
+            QuarterBukkit.exception(new InstallException(plugin, e, causer, "The downloaded plugin isn't valid"));
         }
         catch (final InvalidDescriptionException e) {
-            QuarterBukkit.exception(new InstallException(plugin, e, "The plugin.yml in the downloaded plugin isn't valid"));
+            QuarterBukkit.exception(new InstallException(plugin, e, causer, "The plugin.yml in the downloaded plugin isn't valid"));
         }
         catch (final UnknownDependencyException e) {
-            QuarterBukkit.exception(new InstallException(plugin, e, "The downloaded plugin has a depency to a plugin which isn't installed"));
+            QuarterBukkit.exception(new InstallException(plugin, e, causer, "The downloaded plugin has a depency to a plugin which isn't installed"));
         }
     }
 
@@ -109,9 +121,28 @@ public abstract class Updater {
      */
     public String getLatestVersion() throws IOException, XMLStreamException {
 
+        return getLatestVersion(null);
+    }
+
+    /**
+     * Returns the latest plugin version.
+     * 
+     * @param causer The executor of the action.
+     * @return The latest plugin version.
+     * @throws IOException If something goes wrong with the file system.
+     * @throws XMLStreamException If something goes wrong with the version XML-feed.
+     */
+    public String getLatestVersion(final CommandSender causer) throws IOException, XMLStreamException {
+
         return parseVersion(getFeedData().get("title"));
     }
 
+    /**
+     * Parses the version out of the BukkitDev-upload-title.
+     * 
+     * @param title The BukkitDev-upload-title.
+     * @return The parsed version.
+     */
     protected abstract String parseVersion(String title);
 
     /**
@@ -122,6 +153,19 @@ public abstract class Updater {
      * @throws XMLStreamException If something goes wrong with the version XML-feed.
      */
     public boolean isNewVersionAvaiable() throws IOException, XMLStreamException {
+
+        return isNewVersionAvaiable(null);
+    }
+
+    /**
+     * Returns if a new version is avaiable.
+     * 
+     * @param causer The executor of the action.
+     * @return If a new version is avaiable.
+     * @throws IOException If something goes wrong with the file system.
+     * @throws XMLStreamException If something goes wrong with the version XML-feed.
+     */
+    public boolean isNewVersionAvaiable(final CommandSender causer) throws IOException, XMLStreamException {
 
         if (updatePlugin == null) {
             return true;
@@ -137,13 +181,7 @@ public abstract class Updater {
         }
     }
 
-    private void install(final File directory) throws IOException, XMLStreamException, UnknownDependencyException, InvalidPluginException, InvalidDescriptionException {
-
-        if (updatePlugin == null) {
-            plugin.getLogger().info("Installing " + slug);
-        } else {
-            plugin.getLogger().info("Installing " + updatePlugin.getName());
-        }
+    private void install(final File directory, final CommandSender causer) throws IOException, XMLStreamException, UnknownDependencyException, InvalidPluginException, InvalidDescriptionException {
 
         final URL url = new URL(getFileURL(getFeedData().get("link")));
         final String fileName = url.getPath().split("/")[url.getPath().split("/").length - 1];
@@ -162,16 +200,17 @@ public abstract class Updater {
         inputStream.close();
         outputStream.close();
 
-        doInstall(file);
-
-        if (updatePlugin == null) {
-            plugin.getLogger().info("Successfully installed " + slug + "!");
-        } else {
-            plugin.getLogger().info("Successfully updated " + updatePlugin.getName() + "!");
-        }
+        doInstall(file, causer);
     }
 
-    protected abstract void doInstall(File downloadedFile) throws IOException;
+    /**
+     * Does some post-installation-activities, like extracting zips or relaoding the plugin.
+     * 
+     * @param downloadedFile The downloaded file from BukkitDev.
+     * @param causer The executor of the action.
+     * @throws IOException If something goes wrong with the post-installation-activities.
+     */
+    protected abstract void doInstall(File downloadedFile, CommandSender causer) throws IOException;
 
     /**
      * Extracts some {@link File}s in a zip.

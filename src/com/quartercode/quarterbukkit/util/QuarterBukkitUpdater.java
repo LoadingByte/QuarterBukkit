@@ -4,6 +4,7 @@ package com.quartercode.quarterbukkit.util;
 import java.io.File;
 import java.io.IOException;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import com.quartercode.quarterbukkit.QuarterBukkit;
 import com.quartercode.quarterbukkit.api.Updater;
@@ -31,7 +32,7 @@ public class QuarterBukkitUpdater extends Updater {
     }
 
     @Override
-    protected void doInstall(final File downloadedFile) throws IOException {
+    protected void doInstall(final File downloadedFile, final CommandSender causer) throws IOException {
 
         extract(downloadedFile, "QuarterBukkit.jar", new File("plugins", "QuarterBukkit.jar"));
         downloadedFile.delete();
