@@ -115,7 +115,9 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
                 if (sender.hasPermission(commandHandler.getInfo().getPermission())) {
                     commandHandler.execute(command);
                 } else {
-                    QuarterBukkit.exception(new NoCommandPermissionException(plugin, commandHandler.getInfo().getPermission(), sender, command, sender.getName() + " has no permissions for command " + rawArguments[0]));
+                    String commandDisplay = "/" + rawLabel;
+                    commandDisplay += rawArguments.length > 0 ? " " + rawArguments[0] : "";
+                    QuarterBukkit.exception(new NoCommandPermissionException(plugin, commandHandler.getInfo().getPermission(), sender, command, sender.getName() + " has no permissions for command " + commandDisplay));
                 }
             }
         } else {
@@ -142,8 +144,10 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
             for (final CommandHandler commandHandler : commandHandlers) {
                 for (final String label : commandHandler.getInfo().getLabels()) {
                     for (final String argument : arguments) {
-                        if (label.toLowerCase().startsWith(argument.toLowerCase())) {
-                            proposals.add(label);
+                        if (!label.equalsIgnoreCase("<empty>") && label.toLowerCase().startsWith(argument.toLowerCase())) {
+                            if (commandHandler.getInfo().getPermission() == null || commandHandler.getInfo().getPermission().isEmpty() || sender.hasPermission(commandHandler.getInfo().getPermission())) {
+	proposals.add(label);
+                            }
                         }
                     }
                 }
