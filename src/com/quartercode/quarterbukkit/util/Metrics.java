@@ -241,12 +241,12 @@ public class Metrics {
                         synchronized (optOutLock) {
                             // Disable Task, if it is running and the server owner decided to opt-out
                             if (isOptOut() && task != null) {
-	task.cancel();
-	task = null;
-	// Tell all plotters to stop gathering information.
-	for (final Graph graph : graphs) {
-	    graph.onOptOut();
-	}
+                                task.cancel();
+                                task = null;
+                                // Tell all plotters to stop gathering information.
+                                for (final Graph graph : graphs) {
+                                    graph.onOptOut();
+                                }
                             }
                         }
 

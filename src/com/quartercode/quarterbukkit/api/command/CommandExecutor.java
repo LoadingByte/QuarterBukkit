@@ -64,13 +64,13 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
                     if (!commandLabel.equalsIgnoreCase("<empty>")) {
                         if (info.isIgnoreCase()) {
                             if (commandLabel.equalsIgnoreCase(arguments[0])) {
-	executeCommand(sender, commandHandler, label, arguments);
-	return true;
+                                executeCommand(sender, commandHandler, label, arguments);
+                                return true;
                             }
                         } else {
                             if (commandLabel.equals(arguments[0])) {
-	executeCommand(sender, commandHandler, label, arguments);
-	return true;
+                                executeCommand(sender, commandHandler, label, arguments);
+                                return true;
                             }
                         }
                     }
@@ -146,7 +146,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
                     for (final String argument : arguments) {
                         if (!label.equalsIgnoreCase("<empty>") && label.toLowerCase().startsWith(argument.toLowerCase())) {
                             if (commandHandler.getInfo().getPermission() == null || commandHandler.getInfo().getPermission().isEmpty() || sender.hasPermission(commandHandler.getInfo().getPermission())) {
-	proposals.add(label);
+                                proposals.add(label);
                             }
                         }
                     }
