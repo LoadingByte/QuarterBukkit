@@ -47,8 +47,8 @@ public abstract class Updater {
     /**
      * Creates a new abstract Updater.
      * 
-     * @param plugin The plugin which starts the updater.
-     * @param updatePlugin The plugin which should be updated.
+     * @param plugin The {@link Plugin} which starts the updater.
+     * @param updatePlugin The {@link Plugin} which should be updated.
      * @param slug The BukkitDev-slug. Say we have the {@link URL} http://dev.bukkit.org/server-mods/quarterbukkit, {@code quarterbukkit} is the slug.
      */
     public Updater(final Plugin plugin, final Plugin updatePlugin, final String slug) {
@@ -68,6 +68,26 @@ public abstract class Updater {
         catch (final MalformedURLException e) {
             throw new IllegalArgumentException("Error while initalizing URL (slug: " + slug + ")", e);
         }
+    }
+
+    /**
+     * Returns the {@link Plugin} which started the updater.
+     * 
+     * @return The {@link Plugin} which started the updater.
+     */
+    public Plugin getPlugin() {
+
+        return plugin;
+    }
+
+    /**
+     * Return the {@link Plugin} which should be updated.
+     * 
+     * @return The {@link Plugin} which should be updated.
+     */
+    public Plugin getUpdatePlugin() {
+
+        return updatePlugin;
     }
 
     /**
@@ -93,22 +113,22 @@ public abstract class Updater {
             }
         }
         catch (final UnknownHostException e) {
-            QuarterBukkit.exception(new InstallException(plugin, e, causer, "Can't connect to dev.bukkit.org"));
+            QuarterBukkit.exception(new InstallException(plugin, this, e, causer, "Can't connect to dev.bukkit.org"));
         }
         catch (final IOException e) {
-            QuarterBukkit.exception(new InstallException(plugin, e, causer, "Something went wrong with the file system"));
+            QuarterBukkit.exception(new InstallException(plugin, this, e, causer, "Something went wrong with the file system"));
         }
         catch (final XMLStreamException e) {
-            QuarterBukkit.exception(new InstallException(plugin, e, causer, "Something went wrong with the version XML-feed (" + feedUrl.toExternalForm() + ")"));
+            QuarterBukkit.exception(new InstallException(plugin, this, e, causer, "Something went wrong with the version XML-feed (" + feedUrl.toExternalForm() + ")"));
         }
         catch (final InvalidPluginException e) {
-            QuarterBukkit.exception(new InstallException(plugin, e, causer, "The downloaded plugin isn't valid"));
+            QuarterBukkit.exception(new InstallException(plugin, this, e, causer, "The downloaded plugin isn't valid"));
         }
         catch (final InvalidDescriptionException e) {
-            QuarterBukkit.exception(new InstallException(plugin, e, causer, "The plugin.yml in the downloaded plugin isn't valid"));
+            QuarterBukkit.exception(new InstallException(plugin, this, e, causer, "The plugin.yml in the downloaded plugin isn't valid"));
         }
         catch (final UnknownDependencyException e) {
-            QuarterBukkit.exception(new InstallException(plugin, e, causer, "The downloaded plugin has a depency to a plugin which isn't installed"));
+            QuarterBukkit.exception(new InstallException(plugin, this, e, causer, "The downloaded plugin has a depency to a plugin which isn't installed"));
         }
     }
 

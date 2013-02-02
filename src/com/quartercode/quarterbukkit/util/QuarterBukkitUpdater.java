@@ -42,7 +42,7 @@ public class QuarterBukkitUpdater extends Updater {
             Bukkit.getPluginManager().enablePlugin(Bukkit.getPluginManager().loadPlugin(new File("plugins", "QuarterBukkit.jar")));
         }
         catch (final Exception e) {
-            QuarterBukkit.exception(new InstallException(plugin, e, "Error while reloading"));
+            QuarterBukkit.exception(new InstallException(plugin, this, e, "Error while reloading"));
         }
     }
 
