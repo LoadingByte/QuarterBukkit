@@ -155,7 +155,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
         } else {
             for (final Player player : Bukkit.getOnlinePlayers()) {
                 for (final String argument : arguments) {
-                    if (player.getName().startsWith(argument)) {
+                    if (player.getName().toLowerCase().startsWith(argument.toLowerCase())) {
                         proposals.add(player.getName());
                     }
                 }
