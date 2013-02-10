@@ -104,12 +104,13 @@ public abstract class Updater {
      * You can call this in onEnable().
      * 
      * @param causer The executor of the action.
+     * @return If the installation was successful.
      */
-    public void tryInstall(final CommandSender causer) {
+    public boolean tryInstall(final CommandSender causer) {
 
         try {
             if (isNewVersionAvaiable()) {
-                install(new File("plugins"), causer);
+                return install(new File("plugins"), causer);
             }
         }
         catch (final UnknownHostException e) {
@@ -130,6 +131,8 @@ public abstract class Updater {
         catch (final UnknownDependencyException e) {
             QuarterBukkit.exception(new InstallException(plugin, this, e, causer, "The downloaded plugin has a depency to a plugin which isn't installed"));
         }
+
+        return false;
     }
 
     /**
@@ -201,7 +204,7 @@ public abstract class Updater {
         }
     }
 
-    private void install(final File directory, final CommandSender causer) throws IOException, XMLStreamException, UnknownDependencyException, InvalidPluginException, InvalidDescriptionException {
+    private boolean install(final File directory, final CommandSender causer) throws IOException, XMLStreamException, UnknownDependencyException, InvalidPluginException, InvalidDescriptionException {
 
         final URL url = new URL(getFileURL(getFeedData().get("link")));
         final String fileName = url.getPath().split("/")[url.getPath().split("/").length - 1];
@@ -220,7 +223,7 @@ public abstract class Updater {
         inputStream.close();
         outputStream.close();
 
-        doInstall(file, causer);
+        return doInstall(file, causer);
     }
 
     /**
@@ -228,9 +231,10 @@ public abstract class Updater {
      * 
      * @param downloadedFile The downloaded file from BukkitDev.
      * @param causer The executor of the action.
+     * @return If the post-installation-activity was successful.
      * @throws IOException If something goes wrong with the post-installation-activities.
      */
-    protected abstract void doInstall(File downloadedFile, CommandSender causer) throws IOException;
+    protected abstract boolean doInstall(File downloadedFile, CommandSender causer) throws IOException;
 
     /**
      * Extracts some {@link File}s in a zip.

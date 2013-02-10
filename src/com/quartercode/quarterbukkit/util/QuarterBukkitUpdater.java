@@ -32,7 +32,7 @@ public class QuarterBukkitUpdater extends Updater {
     }
 
     @Override
-    protected void doInstall(final File downloadedFile, final CommandSender causer) throws IOException {
+    protected boolean doInstall(final File downloadedFile, final CommandSender causer) throws IOException {
 
         extract(downloadedFile, "QuarterBukkit.jar", new File("plugins", "QuarterBukkit.jar"));
         downloadedFile.delete();
@@ -40,10 +40,13 @@ public class QuarterBukkitUpdater extends Updater {
         try {
             Bukkit.getPluginManager().disablePlugin(plugin);
             Bukkit.getPluginManager().enablePlugin(Bukkit.getPluginManager().loadPlugin(new File("plugins", "QuarterBukkit.jar")));
+            return true;
         }
         catch (final Exception e) {
             QuarterBukkit.exception(new InstallException(plugin, this, e, "Error while reloading"));
         }
+
+        return false;
     }
 
 }
