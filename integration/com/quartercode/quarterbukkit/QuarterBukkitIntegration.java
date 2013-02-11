@@ -87,7 +87,7 @@ public class QuarterBukkitIntegration {
         final File installConfigFile = new File("plugins/QuarterBukkit", "install.yml");
 
         try {
-            if (!installConfigFile.exists()) {
+            if (!installConfigFile.exists() && !Bukkit.getPluginManager().isPluginEnabled("QuarterBukkit")) {
                 final YamlConfiguration installConfig = new YamlConfiguration();
                 installConfig.set("install-QuarterBukkit", false);
                 installConfig.save(installConfigFile);
@@ -98,6 +98,8 @@ public class QuarterBukkitIntegration {
                     installConfigFile.delete();
                     return true;
                 }
+            } else {
+                return true;
             }
 
             new Timer().schedule(new TimerTask() {
