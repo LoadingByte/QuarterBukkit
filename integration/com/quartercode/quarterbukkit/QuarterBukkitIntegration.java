@@ -1,3 +1,6 @@
+
+package com.quartercode.quarterbukkit;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +17,8 @@ import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
@@ -22,8 +27,11 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.UnknownDependencyException;
 
 /*
@@ -58,18 +66,49 @@ public class QuarterBukkitIntegration {
     }
 
     /**
-     * Call this method in onLoad() for integrating QuarterBukkit into your plugin. It simply installs QuarterBukkit if it isn't.
+     * Call this method in onEnable() for integrating QuarterBukkit into your plugin. It simply installs QuarterBukkit if it isn't.
+     * 
+     * @deprecated Thanks the BukkitDev-team you now have to add your plugin to the parameter-list.
      */
+    @Deprecated
     public static boolean integrate() {
 
-        final File file = new File("plugins", "QuarterBukkit.jar");
+        return false;
+    }
+
+    /**
+     * Call this method in onEnable() for integrating QuarterBukkit into your plugin.
+     * It creates a config where the user has to turn a value to "Yes" and notfies him on console and via "Join-Event".
+     * 
+     * @param plugin The plugin which tries to integrate QuarterBukkit.
+     */
+    public static boolean integrate(final Plugin plugin) {
+
+        final File installConfigFile = new File("plugins/QuarterBukkit", "install.yml");
 
         try {
-            if (!Bukkit.getPluginManager().isPluginEnabled("QuarterBukkit")) {
-                install(file);
+            if (!installConfigFile.exists()) {
+                final YamlConfiguration installConfig = new YamlConfiguration();
+                installConfig.set("install-QuarterBukkit", false);
+                installConfig.save(installConfigFile);
+            } else if (!Bukkit.getPluginManager().isPluginEnabled("QuarterBukkit")) {
+                final YamlConfiguration installConfig = YamlConfiguration.loadConfiguration(installConfigFile);
+                if (installConfig.isBoolean("install-QuarterBukkit") && installConfig.getBoolean("install-QuarterBukkit")) {
+                    install(new File("plugins", "QuarterBukkit.jar"));
+                    installConfigFile.delete();
+                    return true;
+                }
             }
 
-            return true;
+            new Timer().schedule(new TimerTask() {
+
+                @Override
+                public void run() {
+
+                    Bukkit.broadcastMessage(ChatColor.YELLOW + "====================[ WARNING ]====================");
+                    Bukkit.broadcastMessage(ChatColor.RED + "For using " + plugin.getName() + " you have to open the config 'install.yml' in 'plugins/QuarterBukkit' and turn the value 'install-QuarterBukkit' to 'true'! Then " + ChatColor.DARK_AQUA + "restart" + ChatColor.RED + " the server!");
+                }
+            }, 1000, 10 * 1000);
         }
         catch (final UnknownHostException e) {
             Bukkit.getLogger().warning("Can't connect to dev.bukkit.org!");
@@ -79,6 +118,7 @@ public class QuarterBukkitIntegration {
             e.printStackTrace();
         }
 
+        Bukkit.getPluginManager().disablePlugin(plugin);
         return false;
     }
 
@@ -229,10 +269,6 @@ public class QuarterBukkitIntegration {
         }
 
         return returnMap;
-    }
-
-    private QuarterBukkitIntegration() {
-
     }
 
 }

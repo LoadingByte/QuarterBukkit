@@ -12,7 +12,7 @@ public class InstallException extends GameException {
 
     private static final long   serialVersionUID = 3944156504914815607L;
 
-    private Updater             updater;
+    private final Updater       updater;
     private final Exception     cause;
     private final CommandSender causer;
 
@@ -23,7 +23,7 @@ public class InstallException extends GameException {
      * @param updater The {@link Updater} which caused the error.
      * @param cause The cause for the error.
      */
-    public InstallException(final Plugin plugin, Updater updater, final Exception cause) {
+    public InstallException(final Plugin plugin, final Updater updater, final Exception cause) {
 
         super(plugin);
         this.updater = updater;
@@ -39,7 +39,7 @@ public class InstallException extends GameException {
      * @param cause The cause for the error.
      * @param causer The {@link CommandSender} who caused the exception.
      */
-    public InstallException(final Plugin plugin, Updater updater, final Exception cause, final CommandSender causer) {
+    public InstallException(final Plugin plugin, final Updater updater, final Exception cause, final CommandSender causer) {
 
         super(plugin);
         this.updater = updater;
@@ -55,7 +55,7 @@ public class InstallException extends GameException {
      * @param cause The cause for the error.
      * @param message The informational message.
      */
-    public InstallException(final Plugin plugin, Updater updater, final Exception cause, final String message) {
+    public InstallException(final Plugin plugin, final Updater updater, final Exception cause, final String message) {
 
         super(plugin, message);
         this.updater = updater;
@@ -73,7 +73,7 @@ public class InstallException extends GameException {
      * @param causer The {@link CommandSender} who caused the exception.
      * @param message The informational message.
      */
-    public InstallException(final Plugin plugin, Updater updater, final Exception cause, final CommandSender causer, final String message) {
+    public InstallException(final Plugin plugin, final Updater updater, final Exception cause, final CommandSender causer, final String message) {
 
         super(plugin, message);
         this.updater = updater;
