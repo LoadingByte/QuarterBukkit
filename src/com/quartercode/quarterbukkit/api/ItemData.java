@@ -34,8 +34,27 @@ public class ItemData {
         return new ItemData(block1).equals(block2);
     }
 
+    /**
+     * Checks if the datas of an {@link ItemStack} and a {@link Block} are the same.
+     * @param itemStack1 The first {@link ItemStack}.
+     * @param block2 The second {@link Block}.
+     * @return If the datas of the {@link ItemStack} and the {@link Block} are the same.
+     */
+    public static boolean equals(final ItemStack itemStack1, final Block block2) {
+
+        return new ItemData(itemStack1).equals(block2);
+    }
+
     private Material material;
     private byte     data;
+
+    /**
+     * Creates a new empty item data object.
+     */
+    public ItemData() {
+
+        data = 0;
+    }
 
     /**
      * Creates a new item data object and fills it with a {@link Material}.
