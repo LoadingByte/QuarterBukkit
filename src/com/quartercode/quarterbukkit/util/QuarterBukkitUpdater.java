@@ -46,6 +46,8 @@ public class QuarterBukkitUpdater extends Updater {
             QuarterBukkit.exception(new InstallException(plugin, this, e, "Error while reloading"));
         }
 
+        plugin.getLogger().info("Successfull updated QuarterBukkit!");
+
         return false;
     }
 

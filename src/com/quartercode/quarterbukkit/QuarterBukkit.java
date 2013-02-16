@@ -150,7 +150,11 @@ public class QuarterBukkit extends JavaPlugin {
 
         if (config.getBoolean("autoupdate")) {
             try {
-                new QuarterBukkitUpdater(this).tryInstall();
+                QuarterBukkitUpdater updater = new QuarterBukkitUpdater(this);
+                if (updater.isNewVersionAvaiable(Bukkit.getConsoleSender())) {
+                    getLogger().info("Updating QuarterBukkit ...");
+                    updater.tryInstall();
+                }
             }
             catch (final Exception e) {
                 Bukkit.getLogger().severe("An error occurred while updating QuarterBukkit (" + e + ")");
