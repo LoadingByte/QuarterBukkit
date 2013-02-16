@@ -36,6 +36,7 @@ public class ItemData {
 
     /**
      * Checks if the datas of an {@link ItemStack} and a {@link Block} are the same.
+     * 
      * @param itemStack1 The first {@link ItemStack}.
      * @param block2 The second {@link Block}.
      * @return If the datas of the {@link ItemStack} and the {@link Block} are the same.

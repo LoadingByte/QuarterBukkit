@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 /**
- * Class for handling several {@link Inventory}-things easier.
+ * Class for handling several {@link Inventory}-related processes easier.
  */
 public class InventoryUtil {
 
@@ -35,7 +35,7 @@ public class InventoryUtil {
 
         if (inventory instanceof PlayerInventory) {
             final PlayerInventory playerInventory = (PlayerInventory) inventory;
-            if ( (playerInventory.getBoots() != null && playerInventory.getBoots().equals(itemStack)) || (playerInventory.getLeggings() != null && playerInventory.getLeggings().equals(itemStack)) || (playerInventory.getChestplate() != null && playerInventory.getChestplate().equals(itemStack)) || (playerInventory.getHelmet() != null && playerInventory.getHelmet().equals(itemStack))) {
+            if (playerInventory.getBoots() != null && playerInventory.getBoots().equals(itemStack) || playerInventory.getLeggings() != null && playerInventory.getLeggings().equals(itemStack) || playerInventory.getChestplate() != null && playerInventory.getChestplate().equals(itemStack) || playerInventory.getHelmet() != null && playerInventory.getHelmet().equals(itemStack)) {
                 foundItems++;
             }
         }
