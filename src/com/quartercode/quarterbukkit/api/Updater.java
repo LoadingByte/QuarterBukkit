@@ -94,9 +94,9 @@ public abstract class Updater {
      * This method checks the latest plugin-version and updates it if required.
      * You can call this in onEnable().
      */
-    public void tryInstall() {
+    public boolean tryInstall() {
 
-        tryInstall(null);
+        return tryInstall(null);
     }
 
     /**
