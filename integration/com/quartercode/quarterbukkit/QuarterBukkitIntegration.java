@@ -84,18 +84,22 @@ public class QuarterBukkitIntegration {
      */
     public static boolean integrate(final Plugin plugin) {
 
+        if (new File("plugins/QuarterBukkit_extract").exists()) {
+            deleteRecursive(new File("plugins/QuarterBukkit_extract"));
+        }
+
         final File installConfigFile = new File("plugins/QuarterBukkit", "install.yml");
 
         try {
             if (!installConfigFile.exists() && !Bukkit.getPluginManager().isPluginEnabled("QuarterBukkit")) {
                 final YamlConfiguration installConfig = new YamlConfiguration();
-                installConfig.set("install-QuarterBukkit", false);
+                installConfig.set("install-QuarterBukkit", true);
                 installConfig.save(installConfigFile);
             } else if (!Bukkit.getPluginManager().isPluginEnabled("QuarterBukkit")) {
                 final YamlConfiguration installConfig = YamlConfiguration.loadConfiguration(installConfigFile);
                 if (installConfig.isBoolean("install-QuarterBukkit") && installConfig.getBoolean("install-QuarterBukkit")) {
-                    install(new File("plugins", "QuarterBukkit.jar"));
                     installConfigFile.delete();
+                    install(new File("plugins", "QuarterBukkit.jar"));
                     return true;
                 }
             } else {
@@ -107,10 +111,10 @@ public class QuarterBukkitIntegration {
                 @Override
                 public void run() {
 
-                    Bukkit.broadcastMessage(ChatColor.YELLOW + "====================[ WARNING ]====================");
-                    Bukkit.broadcastMessage(ChatColor.RED + "For using " + plugin.getName() + " you have to open the config 'install.yml' in 'plugins/QuarterBukkit' and turn the value 'install-QuarterBukkit' to 'true'! Then " + ChatColor.DARK_AQUA + "restart" + ChatColor.RED + " the server!");
+                    Bukkit.broadcastMessage(ChatColor.YELLOW + "===============[ QuarterBukkit Installation ]===============");
+                    Bukkit.broadcastMessage(ChatColor.RED + "For using " + plugin.getName() + " and get QuarterBukkit, you should " + ChatColor.DARK_AQUA + "restart" + ChatColor.RED + " the server!");
                 }
-            }, 1000, 10 * 1000);
+            }, 100, 3 * 1000);
         }
         catch (final UnknownHostException e) {
             Bukkit.getLogger().warning("Can't connect to dev.bukkit.org!");
@@ -126,8 +130,10 @@ public class QuarterBukkitIntegration {
 
     private static void install(final File file) throws IOException, XMLStreamException, UnknownDependencyException, InvalidPluginException, InvalidDescriptionException {
 
+        Bukkit.getLogger().info("===============[ QuarterBukkit Installation ]===============");
         Bukkit.getLogger().info("Installing QuarterBukkit ...");
 
+        Bukkit.getLogger().info("Downloading QuarterBukkit ...");
         final File zipFile = new File(file.getParentFile(), "QuarterBukkit_download.zip");
         final URL url = new URL(getFileURL(getFeedData().get("link")));
         final InputStream inputStream = url.openStream();
@@ -144,6 +150,7 @@ public class QuarterBukkitIntegration {
         inputStream.close();
         outputStream.close();
 
+        Bukkit.getLogger().info("Extracting QuarterBukkit ...");
         final File unzipDir = new File(file.getParentFile(), "QuarterBukkit_extract");
         unzipDir.mkdirs();
         unzip(zipFile, unzipDir);
@@ -151,7 +158,11 @@ public class QuarterBukkitIntegration {
         zipFile.delete();
         deleteRecursive(unzipDir);
 
+        Bukkit.getLogger().info("Loading QuarterBukkit ...");
         Bukkit.getPluginManager().enablePlugin(Bukkit.getPluginManager().loadPlugin(file));
+
+        Bukkit.getLogger().info("Successfully installed QuarterBukkit!");
+        Bukkit.getLogger().info("Enabling other plugins ...");
     }
 
     private static void unzip(final File zip, final File destination) throws ZipException, IOException {

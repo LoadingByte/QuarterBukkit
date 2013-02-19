@@ -150,7 +150,7 @@ public class QuarterBukkit extends JavaPlugin {
 
         if (config.getBoolean("autoupdate")) {
             try {
-                QuarterBukkitUpdater updater = new QuarterBukkitUpdater(this);
+                final QuarterBukkitUpdater updater = new QuarterBukkitUpdater(this);
                 if (updater.isNewVersionAvaiable(Bukkit.getConsoleSender())) {
                     getLogger().info("Updating QuarterBukkit ...");
                     updater.tryInstall();
