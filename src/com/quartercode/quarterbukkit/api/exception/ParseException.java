@@ -5,7 +5,7 @@ import org.bukkit.plugin.Plugin;
 import com.quartercode.quarterbukkit.api.Updater;
 
 /**
- * The InstallException occurres if something goes wrong while installing a plugin via {@link Updater}.
+ * The ParseException occurres if something goes wrong while installing a plugin via {@link Updater}.
  */
 public class ParseException extends GameException {
 
@@ -13,7 +13,7 @@ public class ParseException extends GameException {
     private final String    string;
 
     /**
-     * Creates a InstallException filled with a cause as an {@link Exception} for the error.
+     * Creates a ParseException filled with a cause as an {@link Exception} for the error.
      * 
      * @param plugin The causing {@link Plugin}.
      * @param cause The cause for the error.
@@ -27,7 +27,7 @@ public class ParseException extends GameException {
     }
 
     /**
-     * Creates a InstallException filled with a cause as an {@link Exception} for the error and an informational message.
+     * Creates a ParseException filled with a cause as an {@link Exception} for the error and an informational message.
      * 
      * @param plugin The causing {@link Plugin}.
      * @param cause The cause for the error.
