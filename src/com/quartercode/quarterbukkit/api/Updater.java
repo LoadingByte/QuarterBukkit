@@ -26,7 +26,7 @@ import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.UnknownDependencyException;
-import com.quartercode.quarterbukkit.QuarterBukkit;
+import com.quartercode.quarterbukkit.api.exception.ExceptionManager;
 import com.quartercode.quarterbukkit.api.exception.InstallException;
 
 /**
@@ -114,22 +114,22 @@ public abstract class Updater {
             }
         }
         catch (final UnknownHostException e) {
-            QuarterBukkit.exception(new InstallException(plugin, this, e, causer, "Can't connect to dev.bukkit.org"));
+            ExceptionManager.exception(new InstallException(plugin, this, e, causer, "Can't connect to dev.bukkit.org"));
         }
         catch (final IOException e) {
-            QuarterBukkit.exception(new InstallException(plugin, this, e, causer, "Something went wrong with the file system"));
+            ExceptionManager.exception(new InstallException(plugin, this, e, causer, "Something went wrong with the file system"));
         }
         catch (final XMLStreamException e) {
-            QuarterBukkit.exception(new InstallException(plugin, this, e, causer, "Something went wrong with the version XML-feed (" + feedUrl.toExternalForm() + ")"));
+            ExceptionManager.exception(new InstallException(plugin, this, e, causer, "Something went wrong with the version XML-feed (" + feedUrl.toExternalForm() + ")"));
         }
         catch (final InvalidPluginException e) {
-            QuarterBukkit.exception(new InstallException(plugin, this, e, causer, "The downloaded plugin isn't valid"));
+            ExceptionManager.exception(new InstallException(plugin, this, e, causer, "The downloaded plugin isn't valid"));
         }
         catch (final InvalidDescriptionException e) {
-            QuarterBukkit.exception(new InstallException(plugin, this, e, causer, "The plugin.yml in the downloaded plugin isn't valid"));
+            ExceptionManager.exception(new InstallException(plugin, this, e, causer, "The plugin.yml in the downloaded plugin isn't valid"));
         }
         catch (final UnknownDependencyException e) {
-            QuarterBukkit.exception(new InstallException(plugin, this, e, causer, "The downloaded plugin has a depency to a plugin which isn't installed"));
+            ExceptionManager.exception(new InstallException(plugin, this, e, causer, "The downloaded plugin has a depency to a plugin which isn't installed"));
         }
 
         return false;

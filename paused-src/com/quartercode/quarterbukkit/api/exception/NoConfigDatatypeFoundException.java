@@ -9,10 +9,8 @@ import com.quartercode.quarterbukkit.api.hcl.Config;
  */
 public class NoConfigDatatypeFoundException extends GameException {
 
-    private static final long serialVersionUID = -5612668120947291786L;
-
-    private final Config      config;
-    private final String      datatype;
+    private final Config config;
+    private final String datatype;
 
     /**
      * Creates a new NoConfigDatatypeFoundException filled with the causing config and the datatype which wasn't found.

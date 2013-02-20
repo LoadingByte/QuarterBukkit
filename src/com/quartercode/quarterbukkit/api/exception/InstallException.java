@@ -10,8 +10,6 @@ import com.quartercode.quarterbukkit.api.Updater;
  */
 public class InstallException extends GameException {
 
-    private static final long   serialVersionUID = 3944156504914815607L;
-
     private final Updater       updater;
     private final Exception     cause;
     private final CommandSender causer;
@@ -96,7 +94,6 @@ public class InstallException extends GameException {
      * 
      * @return The cause for the error as an {@link Exception}.
      */
-    @Override
     public Exception getCause() {
 
         return cause;

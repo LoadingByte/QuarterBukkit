@@ -4,17 +4,15 @@ package com.quartercode.quarterbukkit.api.exception;
 import org.bukkit.plugin.Plugin;
 
 /**
- * QuarterBukkitExceptions represents not so bad exceptions, they are primary e.g. for printing information messages.
- * They are exceptions like the {@link NoPermissionException}.
+ * This is the bukkit base class for the exception-system.
  */
-public class GameException extends Exception {
+public class GameException {
 
-    private static final long serialVersionUID = 7755838223142991751L;
-
-    private final Plugin      plugin;
+    private final Plugin plugin;
+    private String       message;
 
     /**
-     * Creates a new empty QuarterBukkitException with a {@link Plugin}.
+     * Creates a new empty {@link GameException} with a {@link Plugin}.
      * 
      * @param plugin The causing {@link Plugin}.
      */
@@ -24,15 +22,15 @@ public class GameException extends Exception {
     }
 
     /**
-     * Creates a new QuarterBukkitException with a {@link Plugin} and an informational message.
+     * Creates a new {@link GameException} with a {@link Plugin} and an informational message.
      * 
      * @param plugin The causing {@link Plugin}.
      * @param message The information as a human-readable message.
      */
     public GameException(final Plugin plugin, final String message) {
 
-        super(message);
         this.plugin = plugin;
+        this.message = message;
     }
 
     /**
@@ -43,6 +41,16 @@ public class GameException extends Exception {
     public Plugin getPlugin() {
 
         return plugin;
+    }
+
+    /**
+     * Returns the informational message.
+     * 
+     * @return The informational message.
+     */
+    public String getMessage() {
+
+        return message;
     }
 
 }

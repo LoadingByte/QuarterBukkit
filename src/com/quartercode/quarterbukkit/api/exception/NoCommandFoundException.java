@@ -10,8 +10,6 @@ import com.quartercode.quarterbukkit.api.command.CommandExecutor;
  */
 public class NoCommandFoundException extends GameException {
 
-    private static final long     serialVersionUID = 3629005568232667285L;
-
     private final Command         command;
     private final CommandExecutor commandExecutor;
 

@@ -10,8 +10,6 @@ import com.quartercode.quarterbukkit.api.command.CommandExecutor;
  */
 public class NoDefaultCommandFoundException extends NoCommandFoundException {
 
-    private static final long serialVersionUID = 3846571245941575650L;
-
     /**
      * Creates a NoDefaultCommandFoundException filled with a {@link Command} and a {@link CommandExecutor}.
      * 

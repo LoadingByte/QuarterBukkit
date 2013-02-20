@@ -17,9 +17,9 @@ public class QuarterBukkitExceptionHandler extends ExceptionHandler {
     public void handle(final GameException exception) {
 
         if (exception instanceof InstallException) {
-            plugin.getLogger().warning("Can't update QuarterBukkit: " + exception.getLocalizedMessage());
+            plugin.getLogger().warning("Can't update QuarterBukkit: " + exception.getMessage());
         } else {
-            plugin.getLogger().warning(exception.toString());
+            plugin.getLogger().warning("Can't handle exception: " + exception.getClass().getName());
         }
     }
 

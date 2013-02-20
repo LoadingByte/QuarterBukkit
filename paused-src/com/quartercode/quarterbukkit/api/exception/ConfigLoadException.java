@@ -10,10 +10,8 @@ import com.quartercode.quarterbukkit.api.hcl.Config;
  */
 public class ConfigLoadException extends GameException {
 
-    private static final long serialVersionUID = 3431422109096318544L;
-
-    private final Config      config;
-    private final Exception   cause;
+    private final Config    config;
+    private final Exception cause;
 
     /**
      * Creates a new ConfigLoadException filled with the causing config and the causing exception.

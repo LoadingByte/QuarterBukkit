@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import com.quartercode.quarterbukkit.QuarterBukkit;
+import com.quartercode.quarterbukkit.api.exception.ExceptionManager;
 import com.quartercode.quarterbukkit.api.exception.NoCommandFoundException;
 import com.quartercode.quarterbukkit.api.exception.NoCommandPermissionException;
 import com.quartercode.quarterbukkit.api.exception.NoDefaultCommandFoundException;
@@ -91,9 +91,9 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
 
         if (arguments.length > 0) {
             final Command command2 = new Command(sender, label, arguments[0], new ArrayList<String>(Arrays.asList(arguments)).subList(1, arguments.length).toArray(new String[arguments.length - 1]));
-            QuarterBukkit.exception(new NoCommandFoundException(plugin, command2, this, "No command " + arguments[0] + " found"));
+            ExceptionManager.exception(new NoCommandFoundException(plugin, command2, this, "No command " + arguments[0] + " found"));
         } else {
-            QuarterBukkit.exception(new NoDefaultCommandFoundException(plugin, new Command(sender, label, null), this, "No default command found"));
+            ExceptionManager.exception(new NoDefaultCommandFoundException(plugin, new Command(sender, label, null), this, "No default command found"));
         }
 
         return true;
@@ -117,7 +117,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
                 } else {
                     String commandDisplay = "/" + rawLabel;
                     commandDisplay += rawArguments.length > 0 ? " " + rawArguments[0] : "";
-                    QuarterBukkit.exception(new NoCommandPermissionException(plugin, commandHandler.getInfo().getPermission(), sender, command, sender.getName() + " has no permissions for command " + commandDisplay));
+                    ExceptionManager.exception(new NoCommandPermissionException(plugin, commandHandler.getInfo().getPermission(), sender, command, sender.getName() + " has no permissions for command " + commandDisplay));
                 }
             }
         } else {

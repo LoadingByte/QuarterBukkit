@@ -10,8 +10,6 @@ import com.quartercode.quarterbukkit.api.hcl.DatatypeEntry;
  */
 public class ConfigParseException extends GameException {
 
-    private static final long      serialVersionUID = 1027631888510952838L;
-
     private final Config           config;
     private final String           value;
     private final DatatypeEntry<?> datatype;

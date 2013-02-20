@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.quartercode.quarterbukkit.api.exception.ExceptionHandler;
+import com.quartercode.quarterbukkit.api.exception.ExceptionManager;
 import com.quartercode.quarterbukkit.api.exception.GameException;
 import com.quartercode.quarterbukkit.api.thread.ThreadUtil;
 import com.quartercode.quarterbukkit.util.Config;
@@ -23,6 +24,8 @@ import com.quartercode.quarterbukkit.util.QuarterBukkitUpdater;
 public class QuarterBukkit extends JavaPlugin {
 
     private static Plugin                 plugin;
+
+    @Deprecated
     private static List<ExceptionHandler> exceptionHandlers = new ArrayList<ExceptionHandler>();
 
     /**
@@ -39,7 +42,10 @@ public class QuarterBukkit extends JavaPlugin {
      * Returns all registered {@link ExceptionHandler}s.
      * 
      * @return The {@link ExceptionHandler}s.
+     * 
+     * @deprecated This method is deprecated. Use {@link ExceptionManager#getExceptionHandlers()} instead.
      */
+    @Deprecated
     public static List<ExceptionHandler> getExceptionHandlers() {
 
         return exceptionHandlers;
@@ -50,7 +56,10 @@ public class QuarterBukkit extends JavaPlugin {
      * 
      * @param plugin The binding {@link Plugin}.
      * @return The {@link ExceptionHandler}.
+     * 
+     * @deprecated This method is deprecated. Use {@link ExceptionManager#getExceptionHandler(Plugin)} instead.
      */
+    @Deprecated
     public static ExceptionHandler getExceptionHandler(final Plugin plugin) {
 
         for (final ExceptionHandler exceptionHandler : exceptionHandlers) {
@@ -66,7 +75,10 @@ public class QuarterBukkit extends JavaPlugin {
      * Registers the {@link ExceptionHandler} for a binding {@link Plugin}.
      * 
      * @param exceptionHandler The {@link ExceptionHandler} to register.
+     * 
+     * @deprecated This method is deprecated. Use {@link ExceptionManager#setExceptionHandler(ExceptionHandler)} instead.
      */
+    @Deprecated
     public static void setExceptionHandler(final ExceptionHandler exceptionHandler) {
 
         for (final ExceptionHandler exceptionHandler2 : exceptionHandlers) {
@@ -82,7 +94,10 @@ public class QuarterBukkit extends JavaPlugin {
      * Unregisters the {@link ExceptionHandler} of a binding {@link Plugin}.
      * 
      * @param plugin The {@link Plugin} to unregister.
+     * 
+     * @deprecated This method is deprecated. Use {@link ExceptionManager#removeExceptionHandler(Plugin)} instead.
      */
+    @Deprecated
     public static void removeExceptionHandler(final Plugin plugin) {
 
         for (final ExceptionHandler exceptionHandler : exceptionHandlers) {
@@ -98,7 +113,10 @@ public class QuarterBukkit extends JavaPlugin {
      * Handles an {@link GameException} in the correct {@link ExceptionHandler}.
      * 
      * @param exception The {@link GameException} to handle.
+     * 
+     * @deprecated This method is deprecated. Use {@link ExceptionManager#exception(GameException)} instead.
      */
+    @Deprecated
     public static void exception(final GameException exception) {
 
         for (final ExceptionHandler exceptionHandler : exceptionHandlers) {
@@ -134,7 +152,7 @@ public class QuarterBukkit extends JavaPlugin {
     public void onLoad() {
 
         ThreadUtil.initalizeThread();
-        setExceptionHandler(new QuarterBukkitExceptionHandler(this));
+        ExceptionManager.setExceptionHandler(new QuarterBukkitExceptionHandler(this));
 
         getLogger().info("Successfully loaded " + getName() + "!");
     }

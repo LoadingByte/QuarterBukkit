@@ -10,9 +10,7 @@ import com.quartercode.quarterbukkit.api.command.Command;
  */
 public class NoCommandPermissionException extends NoPermissionException {
 
-    private static final long serialVersionUID = 357704312885525729L;
-
-    private final Command     command;
+    private final Command command;
 
     /**
      * Creates an NoCommandPermissionException filled with a {@link CommandSender} causer, the permission and the tried command.

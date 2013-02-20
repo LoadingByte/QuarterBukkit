@@ -9,8 +9,6 @@ import org.bukkit.plugin.Plugin;
  */
 public class NoPermissionException extends GameException {
 
-    private static final long   serialVersionUID = 3304922513580160938L;
-
     private final String        permission;
     private final CommandSender causer;
 

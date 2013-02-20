@@ -9,10 +9,8 @@ import com.quartercode.quarterbukkit.api.Updater;
  */
 public class ParseException extends GameException {
 
-    private static final long serialVersionUID = -5428761270811529221L;
-
-    private final Exception   cause;
-    private final String      string;
+    private final Exception cause;
+    private final String    string;
 
     /**
      * Creates a InstallException filled with a cause as an {@link Exception} for the error.
@@ -48,7 +46,6 @@ public class ParseException extends GameException {
      * 
      * @return The cause for the error as an {@link Exception}.
      */
-    @Override
     public Exception getCause() {
 
         return cause;
