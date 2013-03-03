@@ -64,7 +64,7 @@ public class ThreadUtil {
 
         if (!isInBukkitThread()) {
             final StackTraceElement[] stackTrace = new Exception().getStackTrace();
-            throw new IllegalThreadStateException("You can call " + stackTrace[stackTrace.length] + " only in the Bukkit Main-Thread");
+            throw new IllegalThreadStateException("You can call " + stackTrace[1].getMethodName() + " only in the Bukkit Main-Thread");
         }
     }
 
@@ -77,7 +77,7 @@ public class ThreadUtil {
 
         if (!isInBukkitThread(thread)) {
             final StackTraceElement[] stackTrace = new Exception().getStackTrace();
-            throw new IllegalThreadStateException("You can call " + stackTrace[stackTrace.length] + " only in the Bukkit Main-Thread");
+            throw new IllegalThreadStateException("You can call " + stackTrace[1].getMethodName() + " only in the Bukkit Main-Thread");
         }
     }
 
