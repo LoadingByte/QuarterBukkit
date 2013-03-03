@@ -108,7 +108,7 @@ public abstract class SelectInventory implements Listener {
     private final Player                 player;
     private final String                 title;
     private final int                    slots;
-    private final Map<ItemStack, String> entries = new LinkedHashMap<ItemStack, String>();
+    private final Map<ItemStack, Object> entries = new LinkedHashMap<ItemStack, Object>();
 
     private final Inventory              inventory;
     private InventoryView                inventoryView;
@@ -140,6 +140,8 @@ public abstract class SelectInventory implements Listener {
      */
     public SelectInventory openInventoryView() {
 
+        closeInventoryView();
+
         inventoryView = player.openInventory(inventory);
         refreshItemStacks();
 
@@ -168,11 +170,11 @@ public abstract class SelectInventory implements Listener {
     /**
      * Adds a new item option to the inventory and sets the {@link Material}.
      * 
-     * @param value The identifier value as {@link String} (maybe with information).
+     * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final String value, final Material material) {
+    public SelectInventory add(final Object value, final Material material) {
 
         add(value, new ItemStack(material));
 
@@ -182,12 +184,12 @@ public abstract class SelectInventory implements Listener {
     /**
      * Adds a new item option to the inventory and sets the {@link Material} and the amount.
      * 
-     * @param value The identifier value as {@link String} (maybe with information).
+     * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @param amount The amount of items.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final String value, final Material material, final int amount) {
+    public SelectInventory add(final Object value, final Material material, final int amount) {
 
         add(value, new ItemStack(material, amount));
 
@@ -197,12 +199,12 @@ public abstract class SelectInventory implements Listener {
     /**
      * Adds a new item option to the inventory and sets the {@link Material} and the data/damage.
      * 
-     * @param value The identifier value as {@link String} (maybe with information).
+     * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @param data The data for non-damageable items and damage for damageable ones.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final String value, final Material material, final short data) {
+    public SelectInventory add(final Object value, final Material material, final short data) {
 
         add(value, new ItemStack(material, 1, data));
 
@@ -212,13 +214,13 @@ public abstract class SelectInventory implements Listener {
     /**
      * Adds a new item option to the inventory and sets the {@link Material}, the amount and the data/damage.
      * 
-     * @param value The identifier value as {@link String} (maybe with information).
+     * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @param amount The amount of items.
      * @param data The data for non-damageable items and damage for damageable ones.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final String value, final Material material, final int amount, final short data) {
+    public SelectInventory add(final Object value, final Material material, final int amount, final short data) {
 
         add(value, new ItemStack(material, amount, data));
 
@@ -228,11 +230,11 @@ public abstract class SelectInventory implements Listener {
     /**
      * Adds a new item option to the inventory and sets the {@link ItemStack} directly.
      * 
-     * @param value The identifier value as {@link String} (maybe with information).
+     * @param value The information for the option as {@link Object}.
      * @param itemStack The {@link ItemStack}.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final String value, final ItemStack itemStack) {
+    public SelectInventory add(final Object value, final ItemStack itemStack) {
 
         entries.put(itemStack, value);
 
@@ -246,13 +248,13 @@ public abstract class SelectInventory implements Listener {
     /**
      * Adds a new item option to the inventory and sets the {@link Material}, the name and the descriptions as {@link String}-array.
      * 
-     * @param value The identifier value as {@link String} (maybe with information).
+     * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @param name The name of the item as {@link String}.
      * @param descriptions The descriptions for the item as {@link String}-array.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final String value, final Material material, final String name, final String... descriptions) {
+    public SelectInventory add(final Object value, final Material material, final String name, final String... descriptions) {
 
         add(value, new ItemStack(material), name, descriptions);
 
@@ -262,14 +264,14 @@ public abstract class SelectInventory implements Listener {
     /**
      * Adds a new item option to the inventory and sets the {@link Material}, the amount, the name and the descriptions as {@link String}-array.
      * 
-     * @param value The identifier value as {@link String} (maybe with information).
+     * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @param amount The amount of items.
      * @param name The name of the item as {@link String}.
      * @param descriptions The descriptions for the item as {@link String}-array.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final String value, final Material material, final int amount, final String name, final String... descriptions) {
+    public SelectInventory add(final Object value, final Material material, final int amount, final String name, final String... descriptions) {
 
         add(value, new ItemStack(material, amount), name, descriptions);
 
@@ -279,14 +281,14 @@ public abstract class SelectInventory implements Listener {
     /**
      * Adds a new item option to the inventory and sets the {@link Material}, the data/damage, the name and the descriptions as {@link String}-array.
      * 
-     * @param value The identifier value as {@link String} (maybe with information).
+     * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @param data The data for non-damageable items and damage for damageable ones.
      * @param name The name of the item as {@link String}.
      * @param descriptions The descriptions for the item as {@link String}-array.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final String value, final Material material, final short data, final String name, final String... descriptions) {
+    public SelectInventory add(final Object value, final Material material, final short data, final String name, final String... descriptions) {
 
         add(value, new ItemStack(material, 1, data), name, descriptions);
 
@@ -296,7 +298,7 @@ public abstract class SelectInventory implements Listener {
     /**
      * Adds a new item option to the inventory and sets the {@link Material}, the amount, the data/damage, the name and the descriptions as {@link String}-array.
      * 
-     * @param value The identifier value as {@link String} (maybe with information).
+     * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @param amount The amount of items.
      * @param data The data for non-damageable items and damage for damageable ones.
@@ -304,7 +306,7 @@ public abstract class SelectInventory implements Listener {
      * @param descriptions The descriptions for the item as {@link String}-array.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final String value, final Material material, final int amount, final short data, final String name, final String... descriptions) {
+    public SelectInventory add(final Object value, final Material material, final int amount, final short data, final String name, final String... descriptions) {
 
         add(value, new ItemStack(material, amount, data), name, descriptions);
 
@@ -314,13 +316,13 @@ public abstract class SelectInventory implements Listener {
     /**
      * Adds a new item option to the inventory and sets the {@link ItemStack} directly. Furthemore, it sets the name and the descriptions as {@link String}-array.
      * 
-     * @param value The identifier value as {@link String} (maybe with information).
+     * @param value The information for the option as {@link Object}.
      * @param itemStack The {@link ItemStack}.
      * @param name The name of the item as {@link String}.
      * @param descriptions The descriptions for the item as {@link String}-array.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final String value, final ItemStack itemStack, final String name, final String... descriptions) {
+    public SelectInventory add(final Object value, final ItemStack itemStack, final String name, final String... descriptions) {
 
         MetaUtil.setName(itemStack, name);
         MetaUtil.setDescriptions(itemStack, descriptions);
@@ -337,13 +339,13 @@ public abstract class SelectInventory implements Listener {
     /**
      * Adds a new item option to the inventory and sets the {@link Material}, the name and the descriptions as {@link String}-{@link List}.
      * 
-     * @param value The identifier value as {@link String} (maybe with information).
+     * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @param name The name of the item as {@link String}.
      * @param descriptions The descriptions for the item as {@link String}-{@link List}.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final String value, final Material material, final String name, final List<String> descriptions) {
+    public SelectInventory add(final Object value, final Material material, final String name, final List<String> descriptions) {
 
         add(value, new ItemStack(material), name, descriptions);
 
@@ -353,14 +355,14 @@ public abstract class SelectInventory implements Listener {
     /**
      * Adds a new item option to the inventory and sets the {@link Material}, the amount, the name and the descriptions as {@link String}-{@link List}.
      * 
-     * @param value The identifier value as {@link String} (maybe with information).
+     * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @param amount The amount of items.
      * @param name The name of the item as {@link String}.
      * @param descriptions The descriptions for the item as {@link String}-{@link List}.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final String value, final Material material, final int amount, final String name, final List<String> descriptions) {
+    public SelectInventory add(final Object value, final Material material, final int amount, final String name, final List<String> descriptions) {
 
         add(value, new ItemStack(material, amount), name, descriptions);
 
@@ -370,14 +372,14 @@ public abstract class SelectInventory implements Listener {
     /**
      * Adds a new item option to the inventory and sets the {@link Material}, the data/damage, the name and the descriptions as {@link String}-{@link List}.
      * 
-     * @param value The identifier value as {@link String} (maybe with information).
+     * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @param data The data for non-damageable items and damage for damageable ones.
      * @param name The name of the item as {@link String}.
      * @param descriptions The descriptions for the item as {@link String}-{@link List}.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final String value, final Material material, final short data, final String name, final List<String> descriptions) {
+    public SelectInventory add(final Object value, final Material material, final short data, final String name, final List<String> descriptions) {
 
         add(value, new ItemStack(material, 1, data), name, descriptions);
 
@@ -387,7 +389,7 @@ public abstract class SelectInventory implements Listener {
     /**
      * Adds a new item option to the inventory and sets the {@link Material}, the amount, the data/damage, the name and the descriptions as {@link String}-{@link List}.
      * 
-     * @param value The identifier value as {@link String} (maybe with information).
+     * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @param amount The amount of items.
      * @param data The data for non-damageable items and damage for damageable ones.
@@ -395,7 +397,7 @@ public abstract class SelectInventory implements Listener {
      * @param descriptions The descriptions for the item as {@link String}-{@link List}.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final String value, final Material material, final int amount, final short data, final String name, final List<String> descriptions) {
+    public SelectInventory add(final Object value, final Material material, final int amount, final short data, final String name, final List<String> descriptions) {
 
         add(value, new ItemStack(material, amount, data), name, descriptions);
 
@@ -405,13 +407,13 @@ public abstract class SelectInventory implements Listener {
     /**
      * Adds a new item option to the inventory and sets the {@link ItemStack} directly. Furthemore, it sets the name and the descriptions as {@link String}-{@link List}.
      * 
-     * @param value The identifier value as {@link String} (maybe with information).
+     * @param value The information for the option as {@link Object}.
      * @param itemStack The {@link ItemStack}.
      * @param name The name of the item as {@link String}.
      * @param descriptions The descriptions for the item as {@link String}-{@link List}.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final String value, final ItemStack itemStack, final String name, final List<String> descriptions) {
+    public SelectInventory add(final Object value, final ItemStack itemStack, final String name, final List<String> descriptions) {
 
         MetaUtil.setName(itemStack, name);
         MetaUtil.setDescriptions(itemStack, descriptions);
@@ -428,7 +430,7 @@ public abstract class SelectInventory implements Listener {
     private void refreshItemStacks() {
 
         int slot = 0;
-        for (final Entry<ItemStack, String> entry : entries.entrySet()) {
+        for (final Entry<ItemStack, Object> entry : entries.entrySet()) {
             inventory.setItem(slot, entry.getKey());
 
             slot++;
@@ -493,7 +495,7 @@ public abstract class SelectInventory implements Listener {
 
         if (event.getSlot() >= 0 && event.getSlot() < slots) {
             if (event.getView().equals(inventoryView) && event.getCurrentItem() != null && event.getCurrentItem().getType() != Material.AIR) {
-                for (final Entry<ItemStack, String> entry : entries.entrySet()) {
+                for (final Entry<ItemStack, Object> entry : entries.entrySet()) {
                     if (event.getCurrentItem().equals(entry.getKey())) {
                         onClick(entry.getValue(), ClickType.getClickType(event.isLeftClick(), event.isRightClick(), event.isShiftClick()));
                         return;
@@ -509,7 +511,7 @@ public abstract class SelectInventory implements Listener {
      * @param value The identifier (maybe with information).
      * @param clickType The {@link ClickType} of the click.
      */
-    protected abstract void onClick(String value, ClickType clickType);
+    protected abstract void onClick(Object value, ClickType clickType);
 
     @EventHandler
     public void onInventoryClose(final InventoryCloseEvent event) {
