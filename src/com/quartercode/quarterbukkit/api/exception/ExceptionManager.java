@@ -27,7 +27,7 @@ public class ExceptionManager {
      */
     public static ExceptionHandler getExceptionHandler(final Plugin plugin) {
 
-        for (final ExceptionHandler exceptionHandler : exceptionHandlers) {
+        for (final ExceptionHandler exceptionHandler : new ArrayList<ExceptionHandler>(exceptionHandlers)) {
             if (exceptionHandler.getPlugin().equals(plugin)) {
                 return exceptionHandler;
             }
@@ -43,7 +43,7 @@ public class ExceptionManager {
      */
     public static void setExceptionHandler(final ExceptionHandler exceptionHandler) {
 
-        for (final ExceptionHandler exceptionHandler2 : exceptionHandlers) {
+        for (final ExceptionHandler exceptionHandler2 : new ArrayList<ExceptionHandler>(exceptionHandlers)) {
             if (exceptionHandler2.getPlugin().equals(exceptionHandler.getPlugin())) {
                 exceptionHandlers.remove(exceptionHandler2);
             }
@@ -59,7 +59,7 @@ public class ExceptionManager {
      */
     public static void removeExceptionHandler(final Plugin plugin) {
 
-        for (final ExceptionHandler exceptionHandler : exceptionHandlers) {
+        for (final ExceptionHandler exceptionHandler : new ArrayList<ExceptionHandler>(exceptionHandlers)) {
             if (exceptionHandler.getPlugin().equals(plugin)) {
                 exceptionHandlers.remove(plugin);
             }
@@ -75,7 +75,7 @@ public class ExceptionManager {
      */
     public static void exception(final GameException exception) {
 
-        for (final ExceptionHandler exceptionHandler : exceptionHandlers) {
+        for (final ExceptionHandler exceptionHandler : new ArrayList<ExceptionHandler>(exceptionHandlers)) {
             if (exceptionHandler.getPlugin().equals(exception.getPlugin())) {
                 exceptionHandler.handle(exception);
                 return;
