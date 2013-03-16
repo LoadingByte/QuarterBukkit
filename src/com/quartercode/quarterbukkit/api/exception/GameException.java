@@ -1,12 +1,21 @@
 
 package com.quartercode.quarterbukkit.api.exception;
 
+import org.bukkit.event.Event;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.Plugin;
 
 /**
- * This is the bukkit base class for the exception-system.
+ * This is the base class for the exception-event-system.
  */
-public class GameException {
+public class GameException extends Event {
+
+    private static final HandlerList handlers = new HandlerList();
+
+    public static HandlerList getHandlerList() {
+
+        return handlers;
+    }
 
     private final Plugin plugin;
     private String       message;
@@ -51,6 +60,12 @@ public class GameException {
     public String getMessage() {
 
         return message;
+    }
+
+    @Override
+    public HandlerList getHandlers() {
+
+        return handlers;
     }
 
 }

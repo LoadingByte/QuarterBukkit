@@ -3,18 +3,13 @@ package com.quartercode.quarterbukkit;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import com.quartercode.quarterbukkit.api.exception.ExceptionHandler;
-import com.quartercode.quarterbukkit.api.exception.ExceptionManager;
-import com.quartercode.quarterbukkit.api.exception.GameException;
 import com.quartercode.quarterbukkit.api.thread.ThreadUtil;
 import com.quartercode.quarterbukkit.util.Config;
 import com.quartercode.quarterbukkit.util.Metrics;
-import com.quartercode.quarterbukkit.util.QuarterBukkitExceptionHandler;
+import com.quartercode.quarterbukkit.util.QuarterBukkitExceptionListener;
 import com.quartercode.quarterbukkit.util.QuarterBukkitUpdater;
 
 /**
@@ -23,10 +18,7 @@ import com.quartercode.quarterbukkit.util.QuarterBukkitUpdater;
  */
 public class QuarterBukkit extends JavaPlugin {
 
-    private static Plugin                 plugin;
-
-    @Deprecated
-    private static List<ExceptionHandler> exceptionHandlers = new ArrayList<ExceptionHandler>();
+    private static Plugin plugin;
 
     /**
      * Returns the current {@link Plugin}.
@@ -36,97 +28,6 @@ public class QuarterBukkit extends JavaPlugin {
     public static Plugin getPlugin() {
 
         return plugin;
-    }
-
-    /**
-     * Returns all registered {@link ExceptionHandler}s.
-     * 
-     * @return The {@link ExceptionHandler}s.
-     * 
-     * @deprecated This method is deprecated. Use {@link ExceptionManager#getExceptionHandlers()} instead.
-     */
-    @Deprecated
-    public static List<ExceptionHandler> getExceptionHandlers() {
-
-        return exceptionHandlers;
-    }
-
-    /**
-     * Returns the registered {@link ExceptionHandler} for a {@link Plugin}.
-     * 
-     * @param plugin The binding {@link Plugin}.
-     * @return The {@link ExceptionHandler}.
-     * 
-     * @deprecated This method is deprecated. Use {@link ExceptionManager#getExceptionHandler(Plugin)} instead.
-     */
-    @Deprecated
-    public static ExceptionHandler getExceptionHandler(final Plugin plugin) {
-
-        for (final ExceptionHandler exceptionHandler : exceptionHandlers) {
-            if (exceptionHandler.getPlugin().equals(plugin)) {
-                return exceptionHandler;
-            }
-        }
-
-        throw new IllegalStateException("ExceptionHandler for plugin " + plugin.getName() + " not set");
-    }
-
-    /**
-     * Registers the {@link ExceptionHandler} for a binding {@link Plugin}.
-     * 
-     * @param exceptionHandler The {@link ExceptionHandler} to register.
-     * 
-     * @deprecated This method is deprecated. Use {@link ExceptionManager#setExceptionHandler(ExceptionHandler)} instead.
-     */
-    @Deprecated
-    public static void setExceptionHandler(final ExceptionHandler exceptionHandler) {
-
-        for (final ExceptionHandler exceptionHandler2 : exceptionHandlers) {
-            if (exceptionHandler2.getPlugin().equals(exceptionHandler.getPlugin())) {
-                exceptionHandlers.remove(exceptionHandler2);
-            }
-        }
-
-        exceptionHandlers.add(exceptionHandler);
-    }
-
-    /**
-     * Unregisters the {@link ExceptionHandler} of a binding {@link Plugin}.
-     * 
-     * @param plugin The {@link Plugin} to unregister.
-     * 
-     * @deprecated This method is deprecated. Use {@link ExceptionManager#removeExceptionHandler(Plugin)} instead.
-     */
-    @Deprecated
-    public static void removeExceptionHandler(final Plugin plugin) {
-
-        for (final ExceptionHandler exceptionHandler : exceptionHandlers) {
-            if (exceptionHandler.getPlugin().equals(plugin)) {
-                exceptionHandlers.remove(plugin);
-            }
-        }
-
-        throw new IllegalStateException("ExceptionHandler for plugin " + plugin.getName() + " not set");
-    }
-
-    /**
-     * Handles an {@link GameException} in the correct {@link ExceptionHandler}.
-     * 
-     * @param exception The {@link GameException} to handle.
-     * 
-     * @deprecated This method is deprecated. Use {@link ExceptionManager#exception(GameException)} instead.
-     */
-    @Deprecated
-    public static void exception(final GameException exception) {
-
-        for (final ExceptionHandler exceptionHandler : exceptionHandlers) {
-            if (exceptionHandler.getPlugin().equals(exception.getPlugin())) {
-                exceptionHandler.handle(exception);
-                return;
-            }
-        }
-
-        plugin.getLogger().warning("No exception handler set (can't catch " + exception + ")");
     }
 
     private Config  config;
@@ -152,7 +53,6 @@ public class QuarterBukkit extends JavaPlugin {
     public void onLoad() {
 
         ThreadUtil.initalizeThread();
-        ExceptionManager.setExceptionHandler(new QuarterBukkitExceptionHandler(this));
 
         getLogger().info("Successfully loaded " + getName() + "!");
     }
@@ -186,6 +86,8 @@ public class QuarterBukkit extends JavaPlugin {
         catch (final IOException e) {
             getLogger().severe("An error occurred while enabling Metrics (" + e + ")");
         }
+
+        new QuarterBukkitExceptionListener(plugin);
 
         getLogger().info("Successfully enabled " + getName() + "!");
     }

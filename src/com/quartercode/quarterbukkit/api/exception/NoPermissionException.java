@@ -2,12 +2,15 @@
 package com.quartercode.quarterbukkit.api.exception;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.event.Cancellable;
 import org.bukkit.plugin.Plugin;
 
 /**
  * The NoPermissionException represents an exception caused by not enough permissions.
  */
-public class NoPermissionException extends GameException {
+public class NoPermissionException extends GameException implements Cancellable {
+
+    private boolean             cancelled;
 
     private final String        permission;
     private final CommandSender causer;
@@ -39,6 +42,18 @@ public class NoPermissionException extends GameException {
         super(plugin, message);
         this.permission = permission;
         this.causer = causer;
+    }
+
+    @Override
+    public boolean isCancelled() {
+
+        return cancelled;
+    }
+
+    @Override
+    public void setCancelled(final boolean cancelled) {
+
+        this.cancelled = cancelled;
     }
 
     /**

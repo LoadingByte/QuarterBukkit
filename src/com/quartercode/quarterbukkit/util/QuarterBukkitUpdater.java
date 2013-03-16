@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import com.quartercode.quarterbukkit.QuarterBukkit;
 import com.quartercode.quarterbukkit.api.Updater;
-import com.quartercode.quarterbukkit.api.exception.ExceptionManager;
+import com.quartercode.quarterbukkit.api.exception.ExceptionHandler;
 import com.quartercode.quarterbukkit.api.exception.InstallException;
 
 /**
@@ -44,7 +44,7 @@ public class QuarterBukkitUpdater extends Updater {
             return true;
         }
         catch (final Exception e) {
-            ExceptionManager.exception(new InstallException(plugin, this, e, "Error while reloading"));
+            ExceptionHandler.exception(new InstallException(plugin, this, e, "Error while reloading"));
         }
 
         plugin.getLogger().info("Successfull updated QuarterBukkit!");

@@ -10,10 +10,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
@@ -140,8 +140,6 @@ public abstract class SelectInventory implements Listener {
      */
     public SelectInventory openInventoryView() {
 
-        closeInventoryView();
-
         inventoryView = player.openInventory(inventory);
         refreshItemStacks();
 
@@ -162,7 +160,7 @@ public abstract class SelectInventory implements Listener {
             inventoryView = null;
         }
 
-        PlayerInteractEvent.getHandlerList().unregister(this);
+        HandlerList.unregisterAll(this);
 
         return this;
     }
@@ -434,7 +432,7 @@ public abstract class SelectInventory implements Listener {
             inventory.setItem(slot, entry.getKey());
 
             slot++;
-            if (slot >= 9) {
+            if (slot >= slots) {
                 break;
             }
         }
