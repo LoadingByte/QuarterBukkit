@@ -4,6 +4,7 @@ package com.quartercode.quarterbukkit.api.scheduler;
 import java.util.Collection;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitTask;
 import com.quartercode.quarterbukkit.api.MathUtil;
 
 /**
@@ -12,7 +13,7 @@ import com.quartercode.quarterbukkit.api.MathUtil;
 public abstract class ScheduleTask implements Runnable {
 
     private final Plugin plugin;
-    private int          id = -1;
+    private BukkitTask   bukkitTask;
 
     /**
      * Creates a schedule task with a custom {@link Plugin}. This is recommended!
@@ -32,7 +33,7 @@ public abstract class ScheduleTask implements Runnable {
      */
     public boolean isRunning() {
 
-        return id >= 0;
+        return bukkitTask != null;
     }
 
     /**
@@ -47,10 +48,10 @@ public abstract class ScheduleTask implements Runnable {
         return this;
     }
 
-    private void checkId() {
+    private void checkRunning() {
 
         if (isRunning()) {
-            throw new IllegalStateException("ScheduleTask already running (id " + id + ")");
+            throw new IllegalStateException("ScheduleTask already running (id " + bukkitTask.getTaskId() + ")");
         }
     }
 
@@ -60,19 +61,15 @@ public abstract class ScheduleTask implements Runnable {
      * @param sync Should the scheduler runs synced with the Bukkit-Main-{@link Thread}. Async tasks are deprecated!
      * @param delay The delay in ticks.
      * @return This schedule task.
-     * 
-     * @deprecated This method is deprecated. Use {@link ScheduleTask#run(long)} instead.
      */
-    @Deprecated
     public ScheduleTask run(final boolean sync, final long delay) {
 
-        checkId();
+        checkRunning();
 
         if (sync) {
-            id = Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, this, MathUtil.getTicks(delay));
+            bukkitTask = Bukkit.getScheduler().runTaskLater(plugin, this, MathUtil.getTicks(delay));
         } else {
-            System.out.println("Running an async task (deprecated)! If you used this QuarterBukkit-Feature, try to use sync tasks!");
-            id = Bukkit.getScheduler().scheduleAsyncDelayedTask(plugin, this, MathUtil.getTicks(delay));
+            bukkitTask = Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, this, MathUtil.getTicks(delay));
         }
 
         return this;
@@ -85,19 +82,15 @@ public abstract class ScheduleTask implements Runnable {
      * @param delay The delay in ticks.
      * @param period The delay between two repeatings in ticks.
      * @return This schedule task.
-     * 
-     * @deprecated This method is deprecated. Use {@link ScheduleTask#run(long, long)} instead.
      */
-    @Deprecated
     public ScheduleTask run(final boolean sync, final long delay, final long period) {
 
-        checkId();
+        checkRunning();
 
         if (sync) {
-            id = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, MathUtil.getTicks(delay), MathUtil.getTicks(period));
+            bukkitTask = Bukkit.getScheduler().runTaskTimer(plugin, this, MathUtil.getTicks(delay), MathUtil.getTicks(period));
         } else {
-            System.out.println("Running an async task (deprecated)! If you used this QuarterBukkit-Feature, try to use sync tasks!");
-            id = Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, this, MathUtil.getTicks(delay), MathUtil.getTicks(period));
+            bukkitTask = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, this, MathUtil.getTicks(delay), MathUtil.getTicks(period));
         }
 
         return this;
@@ -108,11 +101,13 @@ public abstract class ScheduleTask implements Runnable {
      * 
      * @param delay The delay in ticks.
      * @return This schedule task.
+     * 
+     * @deprecated This method is deprecated. Use {@link ScheduleTask#run(boolean, long)} instead.
      */
+    @Deprecated
     public ScheduleTask run(final long delay) {
 
-        checkId();
-        id = Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, this, MathUtil.getTicks(delay));
+        run(true, delay);
 
         return this;
     }
@@ -123,11 +118,13 @@ public abstract class ScheduleTask implements Runnable {
      * @param delay The delay in ticks.
      * @param period The delay between two repeatings in ticks.
      * @return This schedule task.
+     * 
+     * @deprecated This method is deprecated. Use {@link ScheduleTask#run(boolean, long, long)} instead.
      */
+    @Deprecated
     public ScheduleTask run(final long delay, final long period) {
 
-        checkId();
-        id = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, MathUtil.getTicks(delay), MathUtil.getTicks(period));
+        run(true, delay, period);
 
         return this;
     }
@@ -143,8 +140,8 @@ public abstract class ScheduleTask implements Runnable {
             throw new IllegalStateException("ScheduleTask isn't running");
         }
 
-        Bukkit.getScheduler().cancelTask(id);
-        id = -1;
+        Bukkit.getScheduler().cancelTask(bukkitTask.getTaskId());
+        bukkitTask = null;
 
         return this;
     }
@@ -154,7 +151,7 @@ public abstract class ScheduleTask implements Runnable {
 
         final int prime = 31;
         int result = 1;
-        result = prime * result + id;
+        result = prime * result + bukkitTask.getTaskId();
         result = prime * result + (plugin == null ? 0 : plugin.hashCode());
         return result;
     }
@@ -172,7 +169,7 @@ public abstract class ScheduleTask implements Runnable {
             return false;
         }
         final ScheduleTask other = (ScheduleTask) obj;
-        if (id != other.id) {
+        if (bukkitTask != other.bukkitTask) {
             return false;
         }
         if (plugin == null) {
@@ -188,7 +185,7 @@ public abstract class ScheduleTask implements Runnable {
     @Override
     public String toString() {
 
-        return getClass().getName() + " [plugin=" + plugin + ", id=" + id + "]";
+        return getClass().getName() + " [plugin=" + plugin + ", id=" + bukkitTask.getTaskId() + "]";
     }
 
 }
