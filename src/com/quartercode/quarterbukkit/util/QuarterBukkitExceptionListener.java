@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import com.quartercode.quarterbukkit.api.exception.InstallException;
+import com.quartercode.quarterbukkit.api.exception.InternalException;
 
 public class QuarterBukkitExceptionListener implements Listener {
 
@@ -27,6 +28,12 @@ public class QuarterBukkitExceptionListener implements Listener {
         } else {
             plugin.getLogger().warning("Can't update QuarterBukkit: " + exception.getMessage());
         }
+    }
+
+    @EventHandler
+    public void internalException(final InternalException exception) {
+
+        exception.getCause().printStackTrace();
     }
 
 }
