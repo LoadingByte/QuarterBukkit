@@ -15,7 +15,7 @@ public class InstallException extends GameException {
     private final CommandSender causer;
 
     /**
-     * Creates a InstallException filled with the causing {@link Updater} and a cause as an {@link Exception} for the error.
+     * Creates an InstallException filled with the causing {@link Updater} and a cause as an {@link Exception} for the error.
      * 
      * @param plugin The causing {@link Plugin}.
      * @param updater The {@link Updater} which caused the error.
@@ -30,7 +30,7 @@ public class InstallException extends GameException {
     }
 
     /**
-     * Creates a InstallException filled with the causing {@link Updater}, a cause as an {@link Exception} for the error and the {@link CommandSender} who executed the updater.
+     * Creates an InstallException filled with the causing {@link Updater}, a cause as an {@link Exception} for the error and the {@link CommandSender} who executed the updater.
      * 
      * @param plugin The causing {@link Plugin}.
      * @param updater The {@link Updater} which caused the error.
@@ -46,7 +46,7 @@ public class InstallException extends GameException {
     }
 
     /**
-     * Creates a InstallException filled with the causing {@link Updater}, a cause as an {@link Exception} for the error and an informational message.
+     * Creates an InstallException filled with the causing {@link Updater}, a cause as an {@link Exception} for the error and an informational message.
      * 
      * @param plugin The causing {@link Plugin}.
      * @param updater The {@link Updater} which caused the error.
@@ -62,7 +62,7 @@ public class InstallException extends GameException {
     }
 
     /**
-     * Creates a InstallException filled with the causing {@link Updater}, a cause as an {@link Exception} for the error, the {@link CommandSender} who executed the updater an an informational
+     * Creates an InstallException filled with the causing {@link Updater}, a cause as an {@link Exception} for the error, the {@link CommandSender} who executed the updater an an informational
      * message.
      * 
      * @param plugin The causing {@link Plugin}.

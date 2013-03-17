@@ -168,7 +168,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     }
 
     /**
-     * Returns all registered command handlers as an unmodifiable list.
+     * Returns all registered command handlers as an unmodifiable {@link List}.
      * 
      * @return The registered command handlers.
      */
