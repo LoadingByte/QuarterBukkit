@@ -268,21 +268,6 @@ public class ParticleSystem {
     }
 
     /**
-     * Cancels the animation if it's running.
-     * 
-     * @return This particle system.
-     */
-    public ParticleSystem cancel() {
-
-        if (isRunning()) {
-            scheduleTask.cancel();
-            scheduleTask = null;
-        }
-
-        return this;
-    }
-
-    /**
      * Starts the animation and stops the current one if there's already one running.
      * 
      * @param plugin The {@link Plugin} to bind the {@link ScheduleTask} and exception-handling on.
@@ -291,7 +276,7 @@ public class ParticleSystem {
     public ParticleSystem start(final Plugin plugin) {
 
         if (isRunning()) {
-            cancel();
+            stop();
         }
 
         final AtomicInteger runCounter = new AtomicInteger();
@@ -313,6 +298,21 @@ public class ParticleSystem {
                 }
             }
         }.run(true, 0, rate);
+
+        return this;
+    }
+
+    /**
+     * Stops the animation if it's running.
+     * 
+     * @return This particle system.
+     */
+    public ParticleSystem stop() {
+
+        if (isRunning()) {
+            scheduleTask.cancel();
+            scheduleTask = null;
+        }
 
         return this;
     }
