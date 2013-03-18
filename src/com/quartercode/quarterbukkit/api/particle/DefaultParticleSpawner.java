@@ -22,9 +22,10 @@ import com.quartercode.quarterbukkit.api.exception.InternalException;
  */
 public class DefaultParticleSpawner implements ParticleSpawner {
 
-    private Method world_getHandle                = null;
-    private Method firework_getHandle             = null;
-    private Method nmsWorld_broadcastEntityEffect = null;
+    private static Method world_getHandle                = null;
+    private static Method firework_getHandle             = null;
+    private static Method nmsFirwork_setInvisible        = null;
+    private static Method nmsWorld_broadcastEntityEffect = null;
 
     public DefaultParticleSpawner() {
 
@@ -35,22 +36,24 @@ public class DefaultParticleSpawner implements ParticleSpawner {
 
         final Firework firework = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
 
-        final FireworkMeta meta = firework.getFireworkMeta();
-        meta.clearEffects();
-        for (final ParticleDescription description : descriptions) {
-            final Builder builder = FireworkEffect.builder();
-            builder.with(description.getShape().getFireworkType());
-            builder.withColor(description.getColors().toArray(new Color[description.getColors().size()]));
-            builder.withFade(description.getFadeColors().toArray(new Color[description.getFadeColors().size()]));
-            meta.addEffect(builder.build());
-        }
-        meta.setPower(1);
-        firework.setFireworkMeta(meta);
-
         try {
             checkMethodCache(firework.getWorld(), firework);
             final Object nmsWorld = world_getHandle.invoke(firework.getWorld());
             final Object nmsFirework = firework_getHandle.invoke(firework);
+            nmsFirwork_setInvisible.invoke(nmsFirework, true);
+
+            final FireworkMeta meta = firework.getFireworkMeta();
+            meta.clearEffects();
+            for (final ParticleDescription description : descriptions) {
+                final Builder builder = FireworkEffect.builder();
+                builder.with(description.getShape().getFireworkType());
+                builder.withColor(description.getColors().toArray(new Color[description.getColors().size()]));
+                builder.withFade(description.getFadeColors().toArray(new Color[description.getFadeColors().size()]));
+                meta.addEffect(builder.build());
+            }
+            meta.setPower(1);
+            firework.setFireworkMeta(meta);
+
             nmsWorld_broadcastEntityEffect.invoke(nmsWorld, nmsFirework, (byte) 17);
         }
         catch (final Exception e) {
@@ -68,6 +71,15 @@ public class DefaultParticleSpawner implements ParticleSpawner {
 
         if (firework_getHandle == null) {
             firework_getHandle = firework.getClass().getDeclaredMethod("getHandle");
+        }
+
+        if (nmsFirwork_setInvisible == null) {
+            for (final Method method : firework_getHandle.invoke(firework).getClass().getMethods()) {
+                if (method.getName().equals("setInvisible")) {
+                    nmsFirwork_setInvisible = method;
+                    break;
+                }
+            }
         }
 
         if (nmsWorld_broadcastEntityEffect == null) {
