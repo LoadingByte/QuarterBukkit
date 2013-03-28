@@ -1,7 +1,8 @@
 
-package com.quartercode.quarterbukkit.api;
+package com.quartercode.quarterbukkit.api.select;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -19,150 +20,109 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import com.quartercode.quarterbukkit.api.MetaUtil;
 
+/**
+ * This class is for simple creating of custom selection {@link Inventory}s.
+ * You can define your own titles using {@link ChatColor}s and sort your selections in the {@link Inventory}.
+ */
 public abstract class SelectInventory implements Listener {
 
-    /**
-     * This enum defines four different click types.
-     * Currently, there're four values: LEFT, RIGHT, LEFT_SHIFT, RIGHT_SHIFT.
-     * 
-     * Every type has three methods which can output the concrete boolean values:
-     * 
-     * public boolean isLeft()
-     * public boolean isRight()
-     * public boolean isShift()
-     */
-    public enum ClickType {
+    private final Plugin               plugin;
+    private String                     title;
+    private InventoryLayouter          layouter     = new LineInventoryLayouter();
+    private final List<Selection>      selections   = new ArrayList<Selection>();
 
-        /**
-         * A default left click.
-         */
-        LEFT (true, false, false),
-        /**
-         * A default right click.
-         */
-        RIGHT (false, true, false),
-        /**
-         * A left click while holding shift.
-         */
-        LEFT_SHIFT (true, false, true),
-        /**
-         * A right click while holding shift.
-         */
-        RIGHT_SHIFT (false, true, true);
-
-        public static ClickType getClickType(final boolean left, final boolean right, final boolean shift) {
-
-            for (final ClickType clickType : values()) {
-                if (clickType.isLeft() == left && clickType.isRight() == right && clickType.isShift() == shift) {
-                    return clickType;
-                }
-            }
-
-            return null;
-        }
-
-        private boolean left;
-        private boolean right;
-        private boolean shift;
-
-        private ClickType(final boolean left, final boolean right, final boolean shift) {
-
-            this.left = left;
-            this.right = right;
-            this.shift = shift;
-        }
-
-        /**
-         * If the left mouse button was clicked.
-         * 
-         * @return If the left mouse button was clicked.
-         */
-        public boolean isLeft() {
-
-            return left;
-        }
-
-        /**
-         * If the right mouse button was clicked.
-         * 
-         * @return If the right mouse button was clicked.
-         */
-        public boolean isRight() {
-
-            return right;
-        }
-
-        /**
-         * If shift was holded while clicking.
-         * 
-         * @return If shift was holded while clicking.
-         */
-        public boolean isShift() {
-
-            return shift;
-        }
-    }
-
-    private final Plugin                 plugin;
-    private final Player                 player;
-    private final String                 title;
-    private final int                    slots;
-    private final Map<ItemStack, Object> entries = new LinkedHashMap<ItemStack, Object>();
-
-    private final Inventory              inventory;
-    private InventoryView                inventoryView;
+    private final Map<Player, ViewMap> inventoryMap = new HashMap<Player, ViewMap>();
 
     /**
-     * Creates an empty inventory for the final {@link Player} `player`, the final title `"Title"` and `9` slots.
-     * Of course you can define your own values, e.g. you can read the title from a language or message-config system. You can also colorize the title with {@link ChatColor}s.
-     * Keep in mind the you can only define multiples of 9 as slots.
+     * Creates an empty select inventory without a title.
      * 
-     * @param plugin The binding plugin.
-     * @param player The holding player.
-     * @param title The visible title, maybe colored with {@link ChatColor}s.
-     * @param slots The amount of slots.
+     * @param plugin The plugin to bind the internal methods on.
      */
-    public SelectInventory(final Plugin plugin, final Player player, final String title, final int slots) {
+    public SelectInventory(final Plugin plugin) {
 
         this.plugin = plugin;
-        this.player = player;
+    }
+
+    /**
+     * Creates an empty select inventory with a title.
+     * You can also colorize the title with {@link ChatColor}s.
+     * 
+     * @param plugin The plugin to bind the internal methods on.
+     * @param title The visible title, maybe colored with {@link ChatColor}s.
+     */
+    public SelectInventory(final Plugin plugin, final String title) {
+
+        this.plugin = plugin;
         this.title = title;
-        this.slots = slots;
-
-        inventory = Bukkit.createInventory(player, slots, title);
     }
 
     /**
-     * Opens the inventory for the holder.
+     * Creates an empty select inventory with an {@link InventoryLayouter}.
      * 
-     * @return This instance of SelectInventory.
+     * @param plugin The plugin to bind the internal methods on.
+     * @param layouter The {@link InventoryLayouter} for layouting the {@link Inventory}.
      */
-    public SelectInventory openInventoryView() {
+    public SelectInventory(final Plugin plugin, final InventoryLayouter layouter) {
 
-        inventoryView = player.openInventory(inventory);
-        refreshItemStacks();
-
-        Bukkit.getPluginManager().registerEvents(this, plugin);
-
-        return this;
+        this.plugin = plugin;
+        this.layouter = layouter;
     }
 
     /**
-     * Closes the inventory for the holder.
+     * Creates an empty select inventory with a title and an {@link InventoryLayouter}.
+     * You can also colorize the title with {@link ChatColor}s.
      * 
-     * @return This instance of SelectInventory.
+     * @param plugin The plugin to bind the internal methods on.
+     * @param title The visible title, maybe colored with {@link ChatColor}s.
+     * @param layouter The {@link InventoryLayouter} for layouting the {@link Inventory}.
      */
-    public SelectInventory closeInventoryView() {
+    public SelectInventory(final Plugin plugin, final String title, final InventoryLayouter layouter) {
 
-        if (inventoryView != null) {
-            inventoryView.close();
-            inventoryView = null;
-        }
+        this.plugin = plugin;
+        this.title = title;
+        this.layouter = layouter;
+    }
 
-        HandlerList.unregisterAll(this);
+    /**
+     * Returns the title of the {@link Inventory}.
+     * 
+     * @return The title of the {@link Inventory}.
+     */
+    public String getTitle() {
 
-        return this;
+        return title;
+    }
+
+    /**
+     * Sets the title of the {@link Inventory}.
+     * 
+     * @param title The new title of the {@link Inventory}.
+     */
+    public void setTitle(final String title) {
+
+        this.title = title;
+    }
+
+    /**
+     * Returns the {@link InventoryLayouter}.
+     * 
+     * @return The {@link InventoryLayouter}.
+     */
+    public InventoryLayouter getLayouter() {
+
+        return layouter;
+    }
+
+    /**
+     * Sets the new {@link InventoryLayouter}.
+     * 
+     * @param layouter The new {@link InventoryLayouter}.
+     */
+    public void setLayouter(final InventoryLayouter layouter) {
+
+        this.layouter = layouter;
     }
 
     /**
@@ -175,7 +135,6 @@ public abstract class SelectInventory implements Listener {
     public SelectInventory add(final Object value, final Material material) {
 
         add(value, new ItemStack(material));
-
         return this;
     }
 
@@ -190,7 +149,6 @@ public abstract class SelectInventory implements Listener {
     public SelectInventory add(final Object value, final Material material, final int amount) {
 
         add(value, new ItemStack(material, amount));
-
         return this;
     }
 
@@ -205,7 +163,6 @@ public abstract class SelectInventory implements Listener {
     public SelectInventory add(final Object value, final Material material, final short data) {
 
         add(value, new ItemStack(material, 1, data));
-
         return this;
     }
 
@@ -221,7 +178,6 @@ public abstract class SelectInventory implements Listener {
     public SelectInventory add(final Object value, final Material material, final int amount, final short data) {
 
         add(value, new ItemStack(material, amount, data));
-
         return this;
     }
 
@@ -234,12 +190,7 @@ public abstract class SelectInventory implements Listener {
      */
     public SelectInventory add(final Object value, final ItemStack itemStack) {
 
-        entries.put(itemStack, value);
-
-        if (inventory != null) {
-            refreshItemStacks();
-        }
-
+        selections.add(new Selection(value, itemStack));
         return this;
     }
 
@@ -255,7 +206,6 @@ public abstract class SelectInventory implements Listener {
     public SelectInventory add(final Object value, final Material material, final String name, final String... descriptions) {
 
         add(value, new ItemStack(material), name, descriptions);
-
         return this;
     }
 
@@ -272,7 +222,6 @@ public abstract class SelectInventory implements Listener {
     public SelectInventory add(final Object value, final Material material, final int amount, final String name, final String... descriptions) {
 
         add(value, new ItemStack(material, amount), name, descriptions);
-
         return this;
     }
 
@@ -289,7 +238,6 @@ public abstract class SelectInventory implements Listener {
     public SelectInventory add(final Object value, final Material material, final short data, final String name, final String... descriptions) {
 
         add(value, new ItemStack(material, 1, data), name, descriptions);
-
         return this;
     }
 
@@ -307,7 +255,6 @@ public abstract class SelectInventory implements Listener {
     public SelectInventory add(final Object value, final Material material, final int amount, final short data, final String name, final String... descriptions) {
 
         add(value, new ItemStack(material, amount, data), name, descriptions);
-
         return this;
     }
 
@@ -324,13 +271,7 @@ public abstract class SelectInventory implements Listener {
 
         MetaUtil.setName(itemStack, name);
         MetaUtil.setDescriptions(itemStack, descriptions);
-
-        entries.put(itemStack, value);
-
-        if (inventory != null) {
-            refreshItemStacks();
-        }
-
+        add(value, itemStack);
         return this;
     }
 
@@ -346,7 +287,6 @@ public abstract class SelectInventory implements Listener {
     public SelectInventory add(final Object value, final Material material, final String name, final List<String> descriptions) {
 
         add(value, new ItemStack(material), name, descriptions);
-
         return this;
     }
 
@@ -363,7 +303,6 @@ public abstract class SelectInventory implements Listener {
     public SelectInventory add(final Object value, final Material material, final int amount, final String name, final List<String> descriptions) {
 
         add(value, new ItemStack(material, amount), name, descriptions);
-
         return this;
     }
 
@@ -380,7 +319,6 @@ public abstract class SelectInventory implements Listener {
     public SelectInventory add(final Object value, final Material material, final short data, final String name, final List<String> descriptions) {
 
         add(value, new ItemStack(material, 1, data), name, descriptions);
-
         return this;
     }
 
@@ -398,7 +336,6 @@ public abstract class SelectInventory implements Listener {
     public SelectInventory add(final Object value, final Material material, final int amount, final short data, final String name, final List<String> descriptions) {
 
         add(value, new ItemStack(material, amount, data), name, descriptions);
-
         return this;
     }
 
@@ -415,90 +352,95 @@ public abstract class SelectInventory implements Listener {
 
         MetaUtil.setName(itemStack, name);
         MetaUtil.setDescriptions(itemStack, descriptions);
-
-        entries.put(itemStack, value);
-
-        if (inventory != null) {
-            refreshItemStacks();
-        }
-
+        add(value, itemStack);
         return this;
     }
 
-    private void refreshItemStacks() {
+    /**
+     * Returns if the defined {@link Player} has an open {@link Inventory} of this SelectInventory.
+     * 
+     * @param player The {@link Player} to check.
+     * @return If the defined {@link Player} has an open {@link Inventory} of this SelectInventory.
+     */
+    public boolean isOpen(final Player player) {
 
-        int slot = 0;
-        for (final Entry<ItemStack, Object> entry : entries.entrySet()) {
-            inventory.setItem(slot, entry.getKey());
+        return inventoryMap.containsKey(player);
+    }
 
-            slot++;
-            if (slot >= slots) {
-                break;
+    /**
+     * Opens an {@link Inventory} for a defined {@link Player}.
+     * 
+     * @param player The {@link Player} which gets the {@link Inventory}.
+     * @return The opened {@link Inventory}.
+     */
+    public InventoryView open(final Player player) {
+
+        final InventoryLayout layout = layouter.getLayout(this, selections);
+
+        int slots = 0;
+        for (final List<Selection> column : layout.getLayout()) {
+            slots += column.size();
+        }
+        while (slots % 9 != 0) {
+            slots++;
+        }
+
+        if (slots > 0) {
+            if (inventoryMap.isEmpty()) {
+                Bukkit.getPluginManager().registerEvents(this, plugin);
             }
+
+            if (isOpen(player)) {
+                close(player);
+            }
+
+            final Inventory inventory = Bukkit.createInventory(player, slots, title);
+            final Map<Integer, Selection> slotMap = new HashMap<Integer, Selection>();
+            for (int x = 0; x < layout.getLayout().size(); x++) {
+                for (int y = 0; y < layout.getLayout().get(x).size(); y++) {
+                    inventory.setItem(x * 9 + y, layout.get(x, y) == null ? new ItemStack(Material.AIR) : layout.get(x, y).getItemStack());
+                    slotMap.put(x * 9 + y, layout.get(x, y));
+                }
+            }
+
+            final InventoryView inventoryView = player.openInventory(inventory);
+            inventoryMap.put(player, new ViewMap(inventory, inventoryView, slotMap));
+            return inventoryView;
+        } else {
+            return null;
         }
     }
 
     /**
-     * Returns the holder of the inventory as a {@link Player}.
+     * Closes the {@link Inventory} for a defined {@link Player}.
      * 
-     * @return The holder of the inventory.
+     * @return This closed {@link Inventory}.
      */
-    public Player getPlayer() {
+    public Inventory close(final Player player) {
 
-        return player;
-    }
+        Inventory inventory = null;
 
-    /**
-     * Returns the title of the inventory.
-     * 
-     * @return The title of the inventory.
-     */
-    public String getTitle() {
+        if (isOpen(player)) {
+            inventory = inventoryMap.get(player).getInventory();
+            player.closeInventory();
+            inventoryMap.remove(player);
+        }
 
-        return title;
-    }
-
-    /**
-     * Returns the amount of slots of the inventory.
-     * 
-     * @return The amount of slots of the inventory.
-     */
-    public int getSlots() {
-
-        return slots;
-    }
-
-    /**
-     * Returns the {@link Inventory} (don't modify the slots, it will break this class).
-     * 
-     * @return The {@link Inventory}.
-     */
-    public Inventory getInventory() {
+        if (inventoryMap.isEmpty()) {
+            HandlerList.unregisterAll(this);
+        }
 
         return inventory;
-    }
-
-    /**
-     * Returns the {@link InventoryView} if the inventory is open, else it is null.
-     * 
-     * @return The {@link InventoryView} if the inventory is open.
-     */
-    public InventoryView getInventoryView() {
-
-        return inventoryView;
     }
 
     @EventHandler
     public void onInventoryClick(final InventoryClickEvent event) {
 
-        if (event.getSlot() >= 0 && event.getSlot() < slots) {
-            if (event.getView().equals(inventoryView) && event.getCurrentItem() != null && event.getCurrentItem().getType() != Material.AIR) {
-                for (final Entry<ItemStack, Object> entry : entries.entrySet()) {
-                    if (event.getCurrentItem().equals(entry.getKey())) {
-                        onClick(entry.getValue(), ClickType.getClickType(event.isLeftClick(), event.isRightClick(), event.isShiftClick()));
-                        return;
-                    }
-                }
+        if (event.getWhoClicked() instanceof Player && isOpen((Player) event.getWhoClicked()) && event.getView().equals(inventoryMap.get(event.getWhoClicked()).getView())) {
+            final Map<Integer, Selection> slotMap = inventoryMap.get(event.getWhoClicked()).getSlotMap();
+            if (slotMap.containsKey(event.getSlot())) {
+                onClick(slotMap.get(event.getSlot()), ClickType.getClickType(event.isLeftClick(), event.isRightClick(), event.isShiftClick()), (Player) event.getWhoClicked());
+                return;
             }
         }
     }
@@ -506,16 +448,17 @@ public abstract class SelectInventory implements Listener {
     /**
      * Gets called if the holder clicks on a registered option.
      * 
-     * @param value The identifier (maybe with information).
+     * @param selection The selected {@link Selection} (with the informational value and the graphical {@link ItemStack}).
      * @param clickType The {@link ClickType} of the click.
+     * @param player The {@link Player} who selected.
      */
-    protected abstract void onClick(Object value, ClickType clickType);
+    protected abstract void onClick(Selection selection, ClickType clickType, Player player);
 
     @EventHandler
     public void onInventoryClose(final InventoryCloseEvent event) {
 
-        if (event.getView().equals(inventoryView)) {
-            closeInventoryView();
+        if (event.getView().equals(inventoryMap.get(event.getPlayer()).getView())) {
+            close((Player) event.getPlayer());
         }
     }
 
@@ -523,8 +466,40 @@ public abstract class SelectInventory implements Listener {
     public void onPluginDisable(final PluginDisableEvent event) {
 
         if (event.getPlugin().equals(plugin)) {
-            closeInventoryView();
+            for (final Entry<Player, ViewMap> entry : inventoryMap.entrySet()) {
+                close(entry.getKey());
+            }
         }
+    }
+
+    private class ViewMap {
+
+        private final Inventory               inventory;
+        private final InventoryView           view;
+        private final Map<Integer, Selection> slotMap;
+
+        private ViewMap(final Inventory inventory, final InventoryView view, final Map<Integer, Selection> slotMap) {
+
+            this.inventory = inventory;
+            this.view = view;
+            this.slotMap = slotMap;
+        }
+
+        private Inventory getInventory() {
+
+            return inventory;
+        }
+
+        private InventoryView getView() {
+
+            return view;
+        }
+
+        private Map<Integer, Selection> getSlotMap() {
+
+            return slotMap;
+        }
+
     }
 
 }
