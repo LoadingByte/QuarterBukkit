@@ -6,7 +6,6 @@ import java.io.IOException;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import com.quartercode.quarterbukkit.api.thread.ThreadUtil;
 import com.quartercode.quarterbukkit.util.Config;
 import com.quartercode.quarterbukkit.util.Metrics;
 import com.quartercode.quarterbukkit.util.QuarterBukkitExceptionListener;
@@ -51,8 +50,6 @@ public class QuarterBukkit extends JavaPlugin {
      */
     @Override
     public void onLoad() {
-
-        ThreadUtil.initalizeThread();
 
         getLogger().info("Successfully loaded " + getName() + "!");
     }

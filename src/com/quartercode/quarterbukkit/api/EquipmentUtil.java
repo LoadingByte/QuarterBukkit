@@ -3,7 +3,6 @@ package com.quartercode.quarterbukkit.api;
 
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
-import com.quartercode.quarterbukkit.api.thread.ThreadUtil;
 
 /**
  * Class for setting the equipment of {@link LivingEntity}s as {@link ItemStack}s.
@@ -17,7 +16,6 @@ public class EquipmentUtil {
      */
     public static ItemStack getItem(final LivingEntity entity) {
 
-        ThreadUtil.check();
         return entity.getEquipment().getItemInHand();
     }
 
@@ -29,7 +27,6 @@ public class EquipmentUtil {
      */
     public static void setItem(final LivingEntity entity, final ItemStack itemStack) {
 
-        ThreadUtil.check();
         entity.getEquipment().setItemInHand(itemStack);
     }
 
@@ -40,7 +37,6 @@ public class EquipmentUtil {
      */
     public static ItemStack getHelmet(final LivingEntity entity) {
 
-        ThreadUtil.check();
         return entity.getEquipment().getHelmet();
     }
 
@@ -52,7 +48,6 @@ public class EquipmentUtil {
      */
     public static void setHelmet(final LivingEntity entity, final ItemStack itemStack) {
 
-        ThreadUtil.check();
         entity.getEquipment().setHelmet(itemStack);
     }
 
@@ -63,7 +58,6 @@ public class EquipmentUtil {
      */
     public static ItemStack getChestplate(final LivingEntity entity) {
 
-        ThreadUtil.check();
         return entity.getEquipment().getChestplate();
     }
 
@@ -75,7 +69,6 @@ public class EquipmentUtil {
      */
     public static void setChestplate(final LivingEntity entity, final ItemStack itemStack) {
 
-        ThreadUtil.check();
         entity.getEquipment().setChestplate(itemStack);
     }
 
@@ -86,7 +79,6 @@ public class EquipmentUtil {
      */
     public static ItemStack getLeggins(final LivingEntity entity) {
 
-        ThreadUtil.check();
         return entity.getEquipment().getLeggings();
     }
 
@@ -98,7 +90,6 @@ public class EquipmentUtil {
      */
     public static void setLeggins(final LivingEntity entity, final ItemStack itemStack) {
 
-        ThreadUtil.check();
         entity.getEquipment().setBoots(itemStack);
     }
 
@@ -109,7 +100,6 @@ public class EquipmentUtil {
      */
     public static ItemStack getBoots(final LivingEntity entity) {
 
-        ThreadUtil.check();
         return entity.getEquipment().getBoots();
     }
 
@@ -121,7 +111,6 @@ public class EquipmentUtil {
      */
     public static void setBoots(final LivingEntity entity, final ItemStack itemStack) {
 
-        ThreadUtil.check();
         entity.getEquipment().setBoots(itemStack);
     }
 
