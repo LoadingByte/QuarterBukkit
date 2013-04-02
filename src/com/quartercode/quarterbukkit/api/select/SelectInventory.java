@@ -457,7 +457,7 @@ public abstract class SelectInventory implements Listener {
     @EventHandler
     public void onInventoryClose(final InventoryCloseEvent event) {
 
-        if (event.getView().equals(inventoryMap.get(event.getPlayer()).getView())) {
+        if (inventoryMap.containsKey(event.getPlayer()) && event.getView().equals(inventoryMap.get(event.getPlayer()).getView())) {
             close((Player) event.getPlayer());
         }
     }
