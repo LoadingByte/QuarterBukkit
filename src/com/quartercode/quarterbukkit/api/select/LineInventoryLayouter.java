@@ -15,10 +15,10 @@ public class LineInventoryLayouter implements InventoryLayouter {
         for (final Selection selection : selections) {
             layout.set(x, y, selection);
 
-            y++;
-            if (y >= 9) {
-                y = 0;
-                x++;
+            x++;
+            if (x >= 9) {
+                x = 0;
+                y++;
             }
         }
 

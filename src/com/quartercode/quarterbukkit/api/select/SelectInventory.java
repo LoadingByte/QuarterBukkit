@@ -379,11 +379,11 @@ public abstract class SelectInventory implements Listener {
 
         int slots = 0;
         for (final List<Selection> column : layout.getLayout()) {
-            slots += column.size();
+            if (column.size() > slots) {
+                slots = column.size();
+            }
         }
-        while (slots % 9 != 0) {
-            slots++;
-        }
+        slots *= 9;
 
         if (slots > 0) {
             if (inventoryMap.isEmpty()) {
@@ -398,8 +398,8 @@ public abstract class SelectInventory implements Listener {
             final Map<Integer, Selection> slotMap = new HashMap<Integer, Selection>();
             for (int x = 0; x < layout.getLayout().size(); x++) {
                 for (int y = 0; y < layout.getLayout().get(x).size(); y++) {
-                    inventory.setItem(x * 9 + y, layout.get(x, y) == null ? new ItemStack(Material.AIR) : layout.get(x, y).getItemStack());
-                    slotMap.put(x * 9 + y, layout.get(x, y));
+                    inventory.setItem(x + y * 9, layout.get(x, y) == null ? new ItemStack(Material.AIR) : layout.get(x, y).getItemStack());
+                    slotMap.put(x + y * 9, layout.get(x, y));
                 }
             }
 
