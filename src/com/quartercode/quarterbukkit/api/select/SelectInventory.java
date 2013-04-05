@@ -438,8 +438,8 @@ public abstract class SelectInventory implements Listener {
 
         if (event.getWhoClicked() instanceof Player && isOpen((Player) event.getWhoClicked()) && event.getView().equals(inventoryMap.get(event.getWhoClicked()).getView())) {
             final Map<Integer, Selection> slotMap = inventoryMap.get(event.getWhoClicked()).getSlotMap();
-            if (slotMap.containsKey(event.getSlot())) {
-                onClick(slotMap.get(event.getSlot()), ClickType.getClickType(event.isLeftClick(), event.isRightClick(), event.isShiftClick()), (Player) event.getWhoClicked());
+            if (slotMap.containsKey(event.getRawSlot())) {
+                onClick(slotMap.get(event.getRawSlot()), ClickType.getClickType(event.isLeftClick(), event.isRightClick(), event.isShiftClick()), (Player) event.getWhoClicked());
                 return;
             }
         }
