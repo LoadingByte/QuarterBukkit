@@ -1,6 +1,7 @@
 
 package com.quartercode.quarterbukkit.api;
 
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -35,6 +36,9 @@ public class InventoryUtil {
 
         if (inventory instanceof PlayerInventory) {
             final PlayerInventory playerInventory = (PlayerInventory) inventory;
+            if (playerInventory.getHolder() instanceof Player && ((Player) playerInventory.getHolder()).getItemOnCursor() != null && ((Player) playerInventory.getHolder()).getItemOnCursor().equals(itemStack)) {
+                foundItems++;
+            }
             if (playerInventory.getBoots() != null && playerInventory.getBoots().equals(itemStack) || playerInventory.getLeggings() != null && playerInventory.getLeggings().equals(itemStack) || playerInventory.getChestplate() != null && playerInventory.getChestplate().equals(itemStack) || playerInventory.getHelmet() != null && playerInventory.getHelmet().equals(itemStack)) {
                 foundItems++;
             }
