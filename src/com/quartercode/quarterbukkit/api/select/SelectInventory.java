@@ -2,10 +2,12 @@
 package com.quartercode.quarterbukkit.api.select;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.Callable;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -126,6 +128,16 @@ public abstract class SelectInventory implements Listener {
     }
 
     /**
+     * Returns all existing selections.
+     * 
+     * @return All existing selections.
+     */
+    public List<Selection> getSelections() {
+
+        return Collections.unmodifiableList(selections);
+    }
+
+    /**
      * Adds a new item option to the inventory and sets the {@link Material}.
      * 
      * @param value The information for the option as {@link Object}.
@@ -191,6 +203,7 @@ public abstract class SelectInventory implements Listener {
     public SelectInventory add(final Object value, final ItemStack itemStack) {
 
         selections.add(new Selection(value, itemStack));
+        repaint();
         return this;
     }
 
@@ -357,6 +370,36 @@ public abstract class SelectInventory implements Listener {
     }
 
     /**
+     * Removes an existing item option from the inventory.
+     * 
+     * @param value The information of the option as {@link Object}.
+     * @return This instance of SelectInventory.
+     */
+    public SelectInventory remove(final Object value) {
+
+        for (final Selection selection : new ArrayList<Selection>(selections)) {
+            if (selection.getValue().equals(value)) {
+                selections.remove(selection);
+            }
+        }
+        repaint();
+
+        return this;
+    }
+
+    /**
+     * Clears all existing item options.
+     * 
+     * @return This instance of SelectInventory.
+     */
+    public SelectInventory clear() {
+
+        selections.clear();
+        repaint();
+        return this;
+    }
+
+    /**
      * Returns if the defined {@link Player} has an open {@link Inventory} of this SelectInventory.
      * 
      * @param player The {@link Player} to check.
@@ -373,7 +416,7 @@ public abstract class SelectInventory implements Listener {
      * @param player The {@link Player} which gets the {@link Inventory}.
      * @return The opened {@link Inventory}.
      */
-    public InventoryView open(final Player player) {
+    public void open(final Player player) {
 
         final InventoryLayout layout = layouter.getLayout(this, selections);
 
@@ -395,42 +438,68 @@ public abstract class SelectInventory implements Listener {
             }
 
             final Inventory inventory = Bukkit.createInventory(player, slots, title);
-            final Map<Integer, Selection> slotMap = new HashMap<Integer, Selection>();
-            for (int x = 0; x < layout.getLayout().size(); x++) {
-                for (int y = 0; y < layout.getLayout().get(x).size(); y++) {
-                    inventory.setItem(x + y * 9, layout.get(x, y) == null ? new ItemStack(Material.AIR) : layout.get(x, y).getItemStack());
-                    slotMap.put(x + y * 9, layout.get(x, y));
-                }
-            }
+            final Map<Integer, Selection> slotMap = paint(inventory);
 
-            final InventoryView inventoryView = player.openInventory(inventory);
-            inventoryMap.put(player, new ViewMap(inventory, inventoryView, slotMap));
-            return inventoryView;
-        } else {
-            return null;
+            inventoryMap.put(player, new ViewMap(inventory, player.openInventory(inventory), slotMap));
         }
+    }
+
+    private void repaint() {
+
+        for (final Entry<Player, ViewMap> entry : new HashMap<Player, ViewMap>(inventoryMap).entrySet()) {
+            inventoryMap.put(entry.getKey(), new ViewMap(entry.getValue().getInventory(), entry.getValue().getView(), paint(entry.getValue().getInventory())));
+        }
+    }
+
+    private Map<Integer, Selection> paint(final Inventory inventory) {
+
+        final InventoryLayout layout = layouter.getLayout(this, selections);
+
+        final Map<Integer, Selection> slotMap = new HashMap<Integer, Selection>();
+        for (int x = 0; x < layout.getLayout().size(); x++) {
+            for (int y = 0; y < layout.getLayout().get(x).size() && y < inventory.getSize() / 9; y++) {
+                inventory.setItem(x + y * 9, layout.get(x, y) == null ? new ItemStack(Material.AIR) : layout.get(x, y).getItemStack());
+                slotMap.put(x + y * 9, layout.get(x, y));
+            }
+        }
+
+        return slotMap;
     }
 
     /**
      * Closes the {@link Inventory} for a defined {@link Player}.
      * 
-     * @return This closed {@link Inventory}.
+     * @param player The {@link Player} which inventory should get closed.
      */
-    public Inventory close(final Player player) {
+    public void close(final Player player) {
 
-        Inventory inventory = null;
+        Bukkit.getScheduler().callSyncMethod(plugin, new Callable<Void>() {
 
-        if (isOpen(player)) {
-            inventory = inventoryMap.get(player).getInventory();
-            player.closeInventory();
-            inventoryMap.remove(player);
+            @Override
+            public Void call() {
+
+                if (isOpen(player)) {
+                    player.closeInventory();
+                    inventoryMap.remove(player);
+                }
+
+                if (inventoryMap.isEmpty()) {
+                    HandlerList.unregisterAll(SelectInventory.this);
+                }
+
+                return null;
+            }
+        });
+    }
+
+    /**
+     * Closes all open {@link Inventory}s.
+     */
+    public void closeAll() {
+
+        for (final Player player : new ArrayList<Player>(inventoryMap.keySet())) {
+            close(player);
         }
-
-        if (inventoryMap.isEmpty()) {
-            HandlerList.unregisterAll(this);
-        }
-
-        return inventory;
     }
 
     @EventHandler
