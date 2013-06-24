@@ -549,7 +549,7 @@ public class Cuboid {
      * 
      * </p>
      * 
-     * @return
+     * @return A list of all blocks which are located in the cuboid as a list of {@link Vector}s.
      */
     public List<Vector> getBlocks() {
 
