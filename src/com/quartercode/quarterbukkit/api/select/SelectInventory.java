@@ -414,7 +414,6 @@ public abstract class SelectInventory implements Listener {
      * Opens an {@link Inventory} for a defined {@link Player}.
      * 
      * @param player The {@link Player} which gets the {@link Inventory}.
-     * @return The opened {@link Inventory}.
      */
     public void open(final Player player) {
 
@@ -479,8 +478,8 @@ public abstract class SelectInventory implements Listener {
             public Void call() {
 
                 if (isOpen(player)) {
-                    player.closeInventory();
                     inventoryMap.remove(player);
+                    player.closeInventory();
                 }
 
                 if (inventoryMap.isEmpty()) {
