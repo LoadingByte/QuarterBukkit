@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="QuarterBukkit API" default="main" basedir=".">
+
+	<property name="sourcedir" value="src" />
+	<property name="integrationsourcedir" value="integration" />
+	<property name="copyfiles" value="../Buildfiles" />
+
+	<property name="builddir" value="../Build" />
+	<property name="buildfiles" value="${builddir}/Files" />
+	<property name="jar" value="${buildfiles}/QuarterBukkit.jar" />
+
+	<path id="classpath">
+		<filelist files="C:/java/libraries/Bukkit/Servers/craftbukkit.jar" />
+	</path>
+
+	<target name="main" depends="clean,build,copysource,copyintegration,jar,javadoc,copyfiles,zip,local" />
+
+	<target name="clean">
+		<delete dir="${builddir}" />
+	</target>
+
+	<target name="build">
+		<mkdir dir="${buildfiles}\Build" />
+
+		<javac srcdir="${sourcedir}" destdir="${buildfiles}/Build" classpathref="classpath" includeantruntime="false" />
+		<copy todir="${buildfiles}/Build">
+			<fileset dir="${sourcedir}">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="copysource">
+		<copy todir="${buildfiles}/Source">
+			<fileset dir="${sourcedir}" />
+		</copy>
+	</target>
+
+	<target name="copyintegration">
+		<copy todir="${buildfiles}/Integration">
+			<fileset dir="${integrationsourcedir}" />
+		</copy>
+	</target>
+
+	<target name="jar">
+		<jar destfile="${jar}">
+			<fileset dir="${buildfiles}\Build" />
+		</jar>
+	</target>
+
+	<target name="javadoc">
+		<javadoc destdir="${buildfiles}/JavaDoc" classpathref="classpath">
+			<fileset dir="${sourcedir}" />
+		</javadoc>
+	</target>
+
+	<target name="copyfiles">
+		<copy todir="${buildfiles}">
+			<fileset dir="${copyfiles}" />
+		</copy>
+	</target>
+
+	<target name="zip">
+		<zip destfile="${builddir}/QuarterBukkit.zip">
+			<fileset dir="${buildfiles}" />
+		</zip>
+	</target>
+
+	<target name="local">
+		<copy tofile="../Server/plugins/QuarterBukkit.jar">
+			<fileset file="${jar}" />
+		</copy>
+		<copy todir="C:/java/libraries/Bukkit/Plugins/QuarterBukkit">
+			<fileset dir="${buildfiles}" />
+		</copy>
+	</target>
+
+</project>
