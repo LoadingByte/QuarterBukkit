@@ -5,7 +5,7 @@ import java.util.Collection;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
-import com.quartercode.quarterbukkit.api.MathUtil;
+import com.quartercode.quarterbukkit.api.util.MathUtil;
 
 /**
  * This class is for implementing an easy to use schedule-task fir the Bukkit-Scheduler.

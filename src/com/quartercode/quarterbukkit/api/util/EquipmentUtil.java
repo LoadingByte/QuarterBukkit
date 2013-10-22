@@ -1,5 +1,5 @@
 
-package com.quartercode.quarterbukkit.api;
+package com.quartercode.quarterbukkit.api.util;
 
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;

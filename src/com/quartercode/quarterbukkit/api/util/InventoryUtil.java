@@ -1,5 +1,5 @@
 
-package com.quartercode.quarterbukkit.api;
+package com.quartercode.quarterbukkit.api.util;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
