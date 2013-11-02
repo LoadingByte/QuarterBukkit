@@ -9,14 +9,14 @@ public class PlayerUtil {
     /**
      * Class for some useful Player Methods
      */
-    
+
     /**
      * Return the local language from a {@link Player}.
      * 
      * @param player The {@link Player} from get the Language.
      * @return The Language.
      */
-    
+
     public static String getLanguage(final Player player) {
 
         String language = null;
@@ -36,13 +36,13 @@ public class PlayerUtil {
         return language;
     }
 
-    
     /**
      * Convert {@link Player} to CraftPlayer Object.
      * 
      * @param player The {@link Player} to convert.
      * @return The CraftPlayer Object
      */
+
     public static Object BukkitPlayerToCraftPlayer(Player player) {
 
         Object entityPlayer = null;

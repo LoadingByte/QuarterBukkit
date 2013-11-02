@@ -1,27 +1,21 @@
 
 package com.quartercode.quarterbukkit.api;
 
+import java.lang.reflect.Field;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import com.quartercode.quarterbukkit.api.exception.ExceptionHandler;
-import com.quartercode.quarterbukkit.api.exception.SendPacketException;
-import com.quartercode.quarterbukkit.api.util.PlayerUtil;
 import com.quartercode.quarterbukkit.api.util.ReflectionUtil;
 
-public class Packet {
+public class Packet extends Object {
 
     private Object crafted_packet = null;
-    private final Plugin plugin;
 
     /**
-     * This is a little class that makes it possible for me
-     * to easily craft/send packets. It has been created with the
-     * aim to make it as easy as possible.
+     * This is a little class that makes it possible for me to easily craft/send
+     * packets. It has been created with the aim to make it as easy as possible.
      */
-    public Packet(String name, Plugin plugin) {
+    public Packet(String name) {
 
-        this.plugin = plugin;
-        
         try {
             crafted_packet = ReflectionUtil.getNMSClass(name);
         }
@@ -35,7 +29,14 @@ public class Packet {
      */
     public void setPublicValue(String field, Object value) {
 
-        ReflectionUtil.setPublicValue(this, field, value);
+        try {
+            Field f = crafted_packet.getClass().getField(field);
+            f.setAccessible(true);
+            f.set(crafted_packet, value);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -43,33 +44,28 @@ public class Packet {
      */
     public void setPrivateValue(String field, Object value) {
 
-        ReflectionUtil.setPrivateValue(this, field, value);
-    }
-
-    /**
-     * Return the packet-object you're working with.
-     */
-    public Object getPacketObject() {
-
-        return this.crafted_packet;
+        try {
+            Field f = crafted_packet.getClass().getDeclaredField(field);
+            f.setAccessible(true);
+            f.set(crafted_packet, value);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Method used to send the packet to specified player.
-     * 
-     * Adding PacketException later!!!
-     * 
-     * @param player The {@link Player} to send packet.
      */
     public void send(Player player) {
 
         try {
-            Object entityPlayer = PlayerUtil.BukkitPlayerToCraftPlayer(player);
+            Object entityPlayer = ReflectionUtil.getMethod("getHandle", player.getClass(), 0).invoke(player);
             Object playerConnection = entityPlayer.getClass().getField("playerConnection").get(entityPlayer);
             ReflectionUtil.getMethod("sendPacket", playerConnection.getClass(), 1).invoke(playerConnection, crafted_packet);
         }
         catch (Exception e) {
-            ExceptionHandler.exception(new SendPacketException(plugin, player, this));
+            Bukkit.getLogger().warning("[PacketUtil] Failed to send packet to " + player.getName() + "!");
         }
     }
 }
