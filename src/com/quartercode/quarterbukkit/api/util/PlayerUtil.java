@@ -3,6 +3,7 @@ package com.quartercode.quarterbukkit.api.util;
 
 import java.lang.reflect.Field;
 import org.bukkit.entity.Player;
+import com.quartercode.quarterbukkit.api.Language;
 
 public class PlayerUtil {
 
@@ -16,24 +17,19 @@ public class PlayerUtil {
      * @param player The {@link Player} from get the Language.
      * @return The Language.
      */
-
-    public static String getLanguage(final Player player) {
-
-        String language = null;
+    public static Language getLanguage(final Player player) {
 
         try {
-
-            Object entityPlayer = BukkitPlayerToCraftPlayer(player);
-            Field l = ReflectionUtil.getField("locale", entityPlayer.getClass());
-            l.setAccessible(true);
-            language = (String) l.get(entityPlayer);
-
+            Object craftPlayer = BukkitPlayerToCraftPlayer(player);
+            Field f = craftPlayer.getClass().getDeclaredField("locale");
+            f.setAccessible(true);
+            String language = (String) f.get(craftPlayer);
+            return Language.getByCode(language);
         }
-        catch (Exception e) {
-            e.printStackTrace();
+        catch (Throwable t) {
+            t.printStackTrace();
+            return null;
         }
-
-        return language;
     }
 
     /**
