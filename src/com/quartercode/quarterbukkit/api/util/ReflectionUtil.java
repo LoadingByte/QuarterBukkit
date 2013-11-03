@@ -55,16 +55,6 @@ public class ReflectionUtil {
         return null;
     }
 
-    public static Field getField(String name, Class<?> c) {
-
-        for (Field f : c.getFields()) {
-            if (f.getName().equals(name)) {
-                return f;
-            }
-        }
-        return null;
-    }
-
     public static void setValue(Object instance, String fieldName, Object value) throws Exception {
 
         Field field = instance.getClass().getDeclaredField(fieldName);

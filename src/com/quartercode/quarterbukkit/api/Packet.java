@@ -4,6 +4,7 @@ package com.quartercode.quarterbukkit.api;
 import java.lang.reflect.Field;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import com.quartercode.quarterbukkit.api.util.PlayerUtil;
 import com.quartercode.quarterbukkit.api.util.ReflectionUtil;
 
 public class Packet extends Object {
@@ -60,12 +61,19 @@ public class Packet extends Object {
     public void send(Player player) {
 
         try {
-            Object entityPlayer = ReflectionUtil.getMethod("getHandle", player.getClass(), 0).invoke(player);
+            Object entityPlayer = PlayerUtil.BukkitPlayerToCraftPlayer(player);
             Object playerConnection = entityPlayer.getClass().getField("playerConnection").get(entityPlayer);
             ReflectionUtil.getMethod("sendPacket", playerConnection.getClass(), 1).invoke(playerConnection, crafted_packet);
         }
         catch (Exception e) {
             Bukkit.getLogger().warning("[PacketUtil] Failed to send packet to " + player.getName() + "!");
+        }
+    }
+
+    public void sendAll() {
+
+        for (final Player player : Bukkit.getOnlinePlayers()) {
+            send(player);
         }
     }
 }
