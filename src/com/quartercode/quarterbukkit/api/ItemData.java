@@ -85,6 +85,7 @@ public class ItemData {
      * 
      * @param itemStack The {@link ItemStack} to read the data from.
      */
+    @SuppressWarnings ("deprecation")
     public ItemData(final ItemStack itemStack) {
 
         material = itemStack.getType();
@@ -96,6 +97,7 @@ public class ItemData {
      * 
      * @param block The {@link Block} to read the data from.
      */
+    @SuppressWarnings ("deprecation")
     public ItemData(final Block block) {
 
         material = block.getType();
@@ -159,6 +161,7 @@ public class ItemData {
      * @param itemStack The {@link ItemStack} to compare with.
      * @return If the data of this item data object equals the data from the {@link ItemStack}.
      */
+    @SuppressWarnings ("deprecation")
     public boolean equals(final ItemStack itemStack) {
 
         return itemStack != null && itemStack.getType() == material && itemStack.getData().getData() == data;
@@ -170,6 +173,7 @@ public class ItemData {
      * @param block The {@link Block} to compare with.
      * @return If the data of this item data object equals the data from the {@link Block}.
      */
+    @SuppressWarnings ("deprecation")
     public boolean equals(final Block block) {
 
         return block != null && block.getType() == material && block.getData() == data;
@@ -218,6 +222,7 @@ public class ItemData {
      * 
      * @param itemStack The {@link ItemStack} to apply the data.
      */
+    @SuppressWarnings ("deprecation")
     public void apply(final ItemStack itemStack) {
 
         itemStack.setType(material);
@@ -231,6 +236,7 @@ public class ItemData {
      * 
      * @param block The {@link Block} to apply the data.
      */
+    @SuppressWarnings ("deprecation")
     public void apply(final Block block) {
 
         block.setType(material);
