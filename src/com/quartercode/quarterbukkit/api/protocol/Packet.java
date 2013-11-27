@@ -1,44 +1,59 @@
 
 package com.quartercode.quarterbukkit.api.protocol;
 
-import org.bukkit.entity.Player;
-import com.quartercode.quarterbukkit.api.reflect.BukkitServer;
+import java.lang.reflect.Field;
+import java.util.logging.Level;
+import com.quartercode.quarterbukkit.QuarterBukkit;
 import com.quartercode.quarterbukkit.api.reflect.ClassTemplate;
-import com.quartercode.quarterbukkit.api.reflect.NMSClassTemplate;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import com.quartercode.quarterbukkit.api.reflect.FieldAccessor;
+import com.quartercode.quarterbukkit.api.reflect.SafeField;
+
+/**
+ * 
+ * i will add the JavaDoc later!
+ * 
+ */
 
 public class Packet {
 
-    protected static ClassTemplate<Object> packet = null;
-    protected Object                       handle;
+    private final ClassTemplate<?> packetTemplate;
+    private final Object           handle;
 
-    protected void setHandle(NMSClassTemplate template) {
+    public Packet(PacketType packetType) {
 
-        packet = template;
-        handle = packet.newInstance();
+        packetTemplate = packetType.getPacketTemplate();
+        handle = packetType.getPacket();
     }
 
-    public void send(Player player) {
+    public Object getHandle() {
+
+        return handle;
+    }
+
+    public <T> void write(FieldAccessor<T> accessor, T value) {
+
+        accessor.set(getHandle(), value);
+    }
+
+    public void write(Field field, Object value) {
 
         try {
-            Object entityPlayer = player.getClass().getDeclaredMethod("getHandle").invoke(player);
-            Object playerConnection = entityPlayer.getClass().getField("playerConnection").get(entityPlayer);
-            Method sendPacket = playerConnection.getClass().getDeclaredMethod("sendPacket", new Class[] { BukkitServer.getNMSClass("Packet") });
-            sendPacket.invoke(playerConnection, this.handle);
+            field.set(getHandle(), value);
         }
         catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        catch (NoSuchFieldException e) {
+            QuarterBukkit.getPlugin().getLogger().log(Level.WARNING, "Could not access field: '{0}'!", field.getName());
             e.printStackTrace();
         }
     }
 
+    public void write(String fieldName, Object value) {
+
+        SafeField.set(getHandle(), fieldName, value);
+    }
+
+    public void write(int index, Object value) {
+
+        String field = String.valueOf(packetTemplate.getFields().get(index));
+        write(field, value);
+    }
 }

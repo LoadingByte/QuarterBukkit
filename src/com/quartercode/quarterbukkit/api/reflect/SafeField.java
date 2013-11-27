@@ -4,61 +4,55 @@ package com.quartercode.quarterbukkit.api.reflect;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.logging.Level;
-import org.bukkit.Bukkit;
+import com.quartercode.quarterbukkit.QuarterBukkit;
+
+/**
+ * 
+ * i will add the JavaDoc later!
+ * 
+ */
 
 public class SafeField<T> implements FieldAccessor<T> {
 
-    private Field field;
+    private Field   field;
+    private boolean isStatic;
 
     public SafeField(Field field) {
+
+        setField(field);
+    }
+
+    public SafeField(Class<?> coreClass, String fieldName) {
+
+        try {
+            Field field = coreClass.getDeclaredField(fieldName);
+            setField(field);
+        }
+        catch (NoSuchFieldException e) {
+            QuarterBukkit.getPlugin().getLogger().log(Level.WARNING, "No such field '{0}'!", fieldName);
+        }
+    }
+
+    protected void setField(Field field) {
 
         if (!field.isAccessible()) {
             try {
                 field.setAccessible(true);
             }
-            catch (SecurityException ex) {
-                Bukkit.getLogger().log(Level.WARNING, "Failed to make field: {0} accessible!", field.getName());
-                ex.printStackTrace();
+            catch (Exception e) {
+                e.printStackTrace();
+                field = null;
             }
         }
         this.field = field;
-    }
-
-    public SafeField(Class<?> instance, String fieldName) {
-
-        try {
-            new SafeField<T>(instance.getDeclaredField(fieldName));
-        }
-        catch (NoSuchFieldException e) {
-            Bukkit.getLogger().log(Level.WARNING, "Field: {0} does not exist!", fieldName);
-            e.printStackTrace();
-        }
+        this.isStatic = Modifier.isStatic(field.getModifiers());
     }
 
     @Override
-    public T get(Object instance) {
+    public boolean set(Object instance, T value) {
 
-        if (this.field == null) {
-            return null;
-        }
-
-        try {
-            @SuppressWarnings ("unchecked")
-            T value = (T) this.field.get(instance);
-            return value;
-        }
-        catch (IllegalAccessException e) {
-            Bukkit.getLogger().log(Level.WARNING, "Failed to get the value of field: {0}.", this.field.getName());
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public boolean set(Object instance, Object value) {
-
-        if (this.field == null) {
-            return false;
+        if (!isStatic && instance == null) {
+            throw new UnsupportedOperationException("Non-static fields require a valid instance passed in!");
         }
 
         try {
@@ -66,40 +60,71 @@ public class SafeField<T> implements FieldAccessor<T> {
             return true;
         }
         catch (IllegalAccessException e) {
-            Bukkit.getLogger().log(Level.WARNING, "Failed to set field: {0}.", this.field.getName());
-            e.printStackTrace();
+            QuarterBukkit.getPlugin().getLogger().log(Level.WARNING, "Failed to access field '{0}'!", this.toString());
         }
         return false;
     }
 
+    @SuppressWarnings ("unchecked")
     @Override
-    public T transfer(Object from, Object to) {
+    public T get(Object instance) {
 
-        if (this.field == null) {
-            return null;
+        if (!isStatic && instance == null) {
+            throw new UnsupportedOperationException("Non-static fields require a valid instance passed in!");
         }
+        try {
+            return (T) this.field.get(instance);
+        }
+        catch (IllegalAccessException e) {
+            QuarterBukkit.getPlugin().getLogger().log(Level.WARNING, "Failed to access field '{0}'!", this.toString());
+        }
+        return null;
+    }
 
-        set(to, get(from));
+    public String getName() {
 
-        return get(to);
+        return this.field.getName();
     }
 
     @Override
     public String toString() {
 
-        StringBuilder toString = new StringBuilder(50);
-        int modifiers = this.field.getModifiers();
-        if (Modifier.isPublic(modifiers)) {
-            toString.append("public ");
-        } else if (Modifier.isPrivate(modifiers)) {
-            toString.append("private ");
-        } else if (Modifier.isProtected(modifiers)) {
-            toString.append("protected ");
+        StringBuilder string = new StringBuilder(75);
+        int mod = this.field.getModifiers();
+        if (Modifier.isPublic(mod)) {
+            string.append("public ");
+        } else if (Modifier.isPrivate(mod)) {
+            string.append("private ");
+        } else if (Modifier.isProtected(mod)) {
+            string.append("protected ");
         }
-        if (Modifier.isStatic(modifiers)) {
-            toString.append("static ");
+
+        if (Modifier.isStatic(mod)) {
+            string.append("static ");
         }
-        toString.append(this.field.getName());
-        return toString.append(" ").append(this.field.getName()).toString();
+
+        string.append(this.field.getName());
+
+        return string.toString();
+    }
+
+    public static <T> T get(Class<?> clazz, String fieldname) {
+
+        return new SafeField<T>(clazz, fieldname).get(null);
+    }
+
+    public static <T> T get(Object instance, String fieldName) {
+
+        return new SafeField<T>(instance.getClass(), fieldName).get(instance);
+    }
+
+    public static <T> void set(Object instance, String fieldName, T value) {
+
+        new SafeField<T>(instance.getClass(), fieldName).set(instance, value);
+    }
+
+    public static <T> void setStatic(Class<?> clazz, String fieldname, T value) {
+
+        new SafeField<T>(clazz, fieldname).set(null, value);
     }
 }
