@@ -27,7 +27,7 @@ import com.quartercode.quarterbukkit.api.util.PlayerUtil;
 public class DefaultParticleSpawner implements ParticleSpawner {
 
     @Override
-    public void spawn(final Plugin plugin, final List<ParticleDescription> descriptions, final Location location) {
+    public void spawn(final Plugin plugin, final List<ParticleDescription> descriptions, final Location location,  List<Player> players) {
 
         final Firework firework = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
 
@@ -54,8 +54,17 @@ public class DefaultParticleSpawner implements ParticleSpawner {
         packet.write("a", firework.getEntityId());
         packet.write("b", (byte) 17);
 
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            PlayerUtil.sendPacket(player, packet);
+        if(players.isEmpty()){
+            
+            for(Player player : Bukkit.getOnlinePlayers()){
+                PlayerUtil.sendPacket(player, packet);
+            }
+            
+        } else {
+            
+            for(Player player : players){
+                PlayerUtil.sendPacket(player, packet);
+            }
         }
 
         firework.remove();
