@@ -10,10 +10,11 @@
 	<property name="jar" value="${buildfiles}/QuarterBukkit.jar" />
 
 	<path id="classpath">
-		<filelist files="C:/java/libraries/Bukkit/Servers/craftbukkit.jar" />
+		<!-- Set your path to the "craftbukkit.jar" -->
+		<filelist files="craftbukkit.jar" />
 	</path>
 
-	<target name="main" depends="clean,build,copysource,copyintegration,jar,javadoc,copyfiles,zip,local" />
+	<target name="main" depends="clean,build,copysource,copyintegration,jar,javadoc,copyfiles,zip" />
 
 	<target name="clean">
 		<delete dir="${builddir}" />
@@ -65,14 +66,4 @@
 			<fileset dir="${buildfiles}" />
 		</zip>
 	</target>
-
-	<target name="local">
-		<copy tofile="../Server/plugins/QuarterBukkit.jar">
-			<fileset file="${jar}" />
-		</copy>
-		<copy todir="C:/java/libraries/Bukkit/Plugins/QuarterBukkit">
-			<fileset dir="${buildfiles}" />
-		</copy>
-	</target>
-
 </project>
