@@ -25,7 +25,7 @@ public class ParticleSystem {
     private int                       runs         = 1;
     private int                       rate         = 0;
     private Vector                    animation    = new Vector();
-    private List<Player>              players      = new ArrayList<Player>();
+    private final List<Player>        players      = new ArrayList<Player>();
 
     private ParticleSpawner           spawner      = new DefaultParticleSpawner();
     private ScheduleTask              scheduleTask;
@@ -244,19 +244,19 @@ public class ParticleSystem {
      */
     public void addPlayer(Player player) {
 
-        if (! (players.contains(player))) {
+        if (!players.contains(player)) {
             players.add(player);
         }
     }
-    
+
     /**
      * Add Players to send the Particles.
      * 
      * @param players The List to add.
      */
-    public void addPlayers(List<Player> players){
-        
-        for(Player player : players){
+    public void addPlayers(List<Player> players) {
+
+        for (Player player : players) {
             addPlayer(player);
         }
     }
