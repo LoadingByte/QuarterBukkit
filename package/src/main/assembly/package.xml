@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+    <id>package</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+
+    <fileSets>
+        <!-- Information -->
+        <fileSet>
+            <directory>${project.parent.basedir}</directory>
+            <outputDirectory>.</outputDirectory>
+            <includes>
+                <include>README.*</include>
+                <include>LICENSE.*</include>
+            </includes>
+        </fileSet>
+
+        <!-- QuarterBukkit Plugin Jar -->
+        <fileSet>
+            <directory>${project.parent.basedir}/plugin/target</directory>
+            <outputDirectory>.</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+        </fileSet>
+
+        <!-- Integration Source -->
+        <fileSet>
+            <directory>${project.parent.basedir}/integration/target</directory>
+            <outputDirectory>.</outputDirectory>
+            <includes>
+                <include>*.zip</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+</assembly>

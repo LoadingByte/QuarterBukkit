@@ -15,10 +15,12 @@ QuarterBukkit features:
 * Easy integration for developers.
 * OpenSource: Repository on GitHub.
 
-License (Creative Commons Attribution 3.0 Unported)
----------------------------------------------------
+License
+-------
 
-This work is licensed under the Creative Commons Attribution 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by/3.0/ or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
+Copyright (c) 2013 QuarterCode <http://www.quartercode.com/>
+
+Disconnected may be used under the terms of either the GNU General Public License (GPL). See the LICENSE.md file for details.
 
 The Code
 --------
@@ -28,3 +30,46 @@ The sourcecode is splitted in seperated folders:
 * /src contains the main code of QuarterBukkit and the API methods
 * /integration contains the classes plugin developers use for integrate QuarterBukkit into their plugin
 * /paused-src contains main code which isn't finished and paused for a time
+
+
+
+This document should show the first steps with QuarterBukkit. If you want to read the complete tutorial, go on http://github.com/QuarterCode/QuarterBukkit/wiki.
+
+Use QuarterBukkit in your plugin
+================================
+
+Setup
+-----
+
+First, you have to add the QuarterBukkit.jar to the classpath of your project.
+For now, you have to do it manually, but we will set up a maven repository for the project soon.
+
+Simply put all classes from /Integration into a package of your plugin (I would use a util-package) and call QuarterBukkitIntegration.integrate() in your onEnable()-method. The method returns
+if the integration was sucessfully, so if your plugin doesn't work with QuarterBukkit, you can disable it and exit the method.
+
+Example:
+
+    @Override
+    public void onEnable() {
+    
+        if (!QuarterBukkitIntegration.integrate(this)) {
+            return;
+        }
+    
+        // Your code here
+    }
+
+Then add QuarterBukkit to your softdepend-list in the plugin.yml. If you don't have this entry, simply add this line:
+
+    softdepend: [QuarterBukkit]
+
+And you're done! Now you can use all the amazing QuarterBukkit-features! See the JavaDoc and [API-Page](API Overview) for more information on those features.
+
+Important Notes
+---------------
+
+If you want to use QuarterBukkit in your main class, remember one thing: Don't import/use any QuarterBukkit class or method anywhere in your main class. You cannot import something from QuarterBukkit
+before using QuarterBukkitIntegration! That will cause NoClassDefFoundErrors because QuarterBukkit isn't installed yet!
+
+We recommend to use a class like Enabler and put the enabling code there. Then you can call the external enabling method from your main class.
+Keep in mind: Always check your plugins for this issue!

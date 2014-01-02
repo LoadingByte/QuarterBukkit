@@ -1,0 +1,135 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.quartercode</groupId>
+    <artifactId>quarterbukkit</artifactId>
+    <version>1.5-BETA</version>
+    <packaging>pom</packaging>
+
+    <name>QuarterBukkit</name>
+    <url>http://dev.bukkit.org/bukkit-plugins/QuarterBukkit</url>
+    <description>QuarterBukkit is an API extension for Bukkit.</description>
+    <inceptionYear>2012</inceptionYear>
+
+    <modules>
+        <!-- Runtime Plugin -->
+        <module>plugin</module>
+        <!-- Integration Code For Other Plugins -->
+        <module>integration</module>
+        <!-- Packaging -->
+        <module>package</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <main.class>com.quartercode.quarterbukkit.QuarterBukkit</main.class>
+    </properties>
+
+    <organization>
+        <name>QuarterCode</name>
+        <url>http://www.quartercode.com</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <name>LoadingByte</name>
+            <id>loadingbyte</id>
+            <email>loadingbyte@gmail.com</email>
+            <organization>QuarterCode</organization>
+        </developer>
+        <developer>
+            <!-- TODO: Daten anpassen -->
+            <name>marcel747800</name>
+            <id>marcel747800</id>
+            <email>marcel747800@gmx.de</email>
+            <organization>QuarterCode</organization>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>GNU General Public License Version 3</name>
+            <url>http://opensource.org/licenses/GPL-3.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/QuarterCode/QuarterBukkit/tree/master/</url>
+        <connection>scm:git:git://github.com/QuarterCode/QuarterBukkit.git</connection>
+        <developerConnection>scm:git:git@github.com:QuarterCode/QuarterBukkit.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/QuarterCode/QuarterBukkit/issues</url>
+    </issueManagement>
+
+    <dependencies>
+        <!-- CraftBukkit Implementation -->
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>craftbukkit</artifactId>
+            <version>1.7.2-R0.2-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>bukkit-repo</id>
+            <name>Bukkit Repository</name>
+            <url>http://repo.bukkit.org/content/groups/public</url>
+        </repository>
+    </repositories>
+
+    <build>
+        <plugins>
+            <!-- License header -->
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <version>1.10.b1</version>
+                <executions>
+                    <execution>
+                        <id>license-header</id>
+                        <phase>clean</phase>
+                        <configuration>
+                            <properties>
+                                <name>${project.name}</name>
+                                <organization>${project.organization.name}</organization>
+                                <url>${project.organization.url}</url>
+                                <inceptionYear>${project.inceptionYear}</inceptionYear>
+                            </properties>
+                            <quiet>true</quiet>
+                            <encoding>UTF-8</encoding>
+                            <strictCheck>true</strictCheck>
+                            <header>HEADER.txt</header>
+                            <mapping>
+                                <java>SLASHSTAR_STYLE</java>
+                            </mapping>
+                            <keywords>
+                                <keyword>${project.name}</keyword>
+                                <keyword>license</keyword>
+                            </keywords>
+                            <includes>
+                                <include>src/main/java/**</include>
+                            </includes>
+                        </configuration>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+</project>

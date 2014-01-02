@@ -1,7 +1,0 @@
-name: QuarterBukkit
-version: Beta 1.1.4
-description: QuarterBukkit is an API extension for Bukkit
-authors: [QuarterCode, LoadingByte, marcel747800]
-website: http://dev.bukkit.org/server-mods/QuarterBukkit
-main: com.quartercode.quarterbukkit.QuarterBukkit
-load: startup

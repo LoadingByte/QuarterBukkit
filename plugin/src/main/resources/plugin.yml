@@ -1,0 +1,8 @@
+name: ${project.parent.name}
+version: ${project.version}
+description: ${description}
+authors: [QuarterCode, LoadingByte, marcel747800]
+website: ${url}
+main: ${main.class}
+prefix: ${project.parent.name}
+load: startup

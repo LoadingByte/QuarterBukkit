@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+    <id>src</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+
+    <fileSets>
+        <!-- Sources -->
+        <fileSet>
+            <directory>${project.build.sourceDirectory}</directory>
+            <outputDirectory>.</outputDirectory>
+            <useDefaultExcludes>true</useDefaultExcludes>
+        </fileSet>
+    </fileSets>
+</assembly>
