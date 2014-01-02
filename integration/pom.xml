@@ -53,6 +53,7 @@
                             <goal>single</goal>
                         </goals>
                         <configuration>
+                            <finalName>${project.name}-${project.version}</finalName>
                             <descriptors>
                                 <descriptor>src/main/assembly/src.xml</descriptor>
                             </descriptors>
