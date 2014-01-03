@@ -52,51 +52,62 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.UnknownDependencyException;
 
 /**
- * This class is used for integrating QuarterBukkit into a plugin.
+ * This class is used for integrating QuarterBukkit into a {@link Plugin}.
  */
 public class QuarterBukkitIntegration {
 
-    private static final String TITLE_TAG = "title";
-    private static final String LINK_TAG  = "link";
-    private static final String ITEM_TAG  = "item";
+    private static final String PLUGIN_NAME = "QuarterBukkit-Plugin";
 
-    private static URL          feedUrl;
+    private static final String TITLE_TAG   = "title";
+    private static final String LINK_TAG    = "link";
+    private static final String ITEM_TAG    = "item";
+
+    private static final URL    feedUrl;
 
     static {
+
+        URL feed = null;
         try {
-            feedUrl = new URL("http://dev.bukkit.org/server-mods/quarterbukkit/files.rss");
+            feed = new URL("http://dev.bukkit.org/server-mods/quarterbukkit/files.rss");
         }
         catch (final MalformedURLException e) {
             Bukkit.getLogger().severe("Error while initalizing URL (" + e + ")");
         }
+
+        feedUrl = feed;
+
     }
 
     /**
      * Call this method in onEnable() for integrating QuarterBukkit into your plugin.
      * It creates a config where the user has to turn a value to "Yes" for the actual installation.
      * The class notfies him on the console and every time an op joins to the server.
+     * If QuarterBukkit couldn't be installed or can only be installed after a restart, the calling {@link Plugin} is disabled.
      * 
      * @param plugin The {@link Plugin} which tries to integrate QuarterBukkit.
+     * @return True if QuarterBukkit can be used after the call, false if not.
      */
     public static boolean integrate(final Plugin plugin) {
 
-        if (new File("plugins/QuarterBukkit_extract").exists()) {
-            deleteRecursive(new File("plugins/QuarterBukkit_extract"));
+        if (new File("plugins/" + PLUGIN_NAME + "_extract").exists()) {
+            deleteRecursive(new File("plugins/" + PLUGIN_NAME + "_extract"));
         }
 
-        final File installConfigFile = new File("plugins/QuarterBukkit", "install.yml");
+        final File installConfigFile = new File("plugins/" + PLUGIN_NAME, "install.yml");
 
         try {
-            if (!installConfigFile.exists() && !Bukkit.getPluginManager().isPluginEnabled("QuarterBukkit")) {
-                final YamlConfiguration installConfig = new YamlConfiguration();
-                installConfig.set("install-QuarterBukkit", true);
-                installConfig.save(installConfigFile);
-            } else if (!Bukkit.getPluginManager().isPluginEnabled("QuarterBukkit")) {
-                final YamlConfiguration installConfig = YamlConfiguration.loadConfiguration(installConfigFile);
-                if (installConfig.isBoolean("install-QuarterBukkit") && installConfig.getBoolean("install-QuarterBukkit")) {
-                    installConfigFile.delete();
-                    install(new File("plugins", "QuarterBukkit-Plugin.jar"));
-                    return true;
+            if (!Bukkit.getPluginManager().isPluginEnabled(PLUGIN_NAME)) {
+                if (!installConfigFile.exists()) {
+                    final YamlConfiguration installConfig = new YamlConfiguration();
+                    installConfig.set("install-" + PLUGIN_NAME, true);
+                    installConfig.save(installConfigFile);
+                } else {
+                    final YamlConfiguration installConfig = YamlConfiguration.loadConfiguration(installConfigFile);
+                    if (installConfig.isBoolean("install-" + PLUGIN_NAME) && installConfig.getBoolean("install-" + PLUGIN_NAME)) {
+                        installConfigFile.delete();
+                        install(new File("plugins", PLUGIN_NAME + ".jar"));
+                        return true;
+                    }
                 }
             } else {
                 return true;
@@ -107,16 +118,16 @@ public class QuarterBukkitIntegration {
                 @Override
                 public void run() {
 
-                    Bukkit.broadcastMessage(ChatColor.YELLOW + "===============[ QuarterBukkit Installation ]===============");
-                    Bukkit.broadcastMessage(ChatColor.RED + "For using " + plugin.getName() + " and get QuarterBukkit, you should " + ChatColor.DARK_AQUA + "restart" + ChatColor.RED + " the server!");
+                    Bukkit.broadcastMessage(ChatColor.YELLOW + "===============[ " + PLUGIN_NAME + " Installation ]===============");
+                    Bukkit.broadcastMessage(ChatColor.RED + "For using " + plugin.getName() + " which requires " + PLUGIN_NAME + ", you should " + ChatColor.DARK_AQUA + "restart" + ChatColor.RED + " the server!");
                 }
             }, 100, 3 * 1000);
         }
         catch (final UnknownHostException e) {
-            Bukkit.getLogger().warning("Can't connect to dev.bukkit.org!");
+            Bukkit.getLogger().warning("Can't connect to dev.bukkit.org for installing " + PLUGIN_NAME + "!");
         }
         catch (final Exception e) {
-            Bukkit.getLogger().severe("An error occurred while installing QuarterBukkit (" + e + ")");
+            Bukkit.getLogger().severe("An error occurred while installing " + PLUGIN_NAME + " (" + e + ")");
             e.printStackTrace();
         }
 
@@ -126,11 +137,11 @@ public class QuarterBukkitIntegration {
 
     private static void install(final File target) throws IOException, XMLStreamException, UnknownDependencyException, InvalidPluginException, InvalidDescriptionException {
 
-        Bukkit.getLogger().info("===============[ QuarterBukkit Installation ]===============");
-        Bukkit.getLogger().info("Installing QuarterBukkit ...");
+        Bukkit.getLogger().info("===============[ " + PLUGIN_NAME + " Installation ]===============");
+        Bukkit.getLogger().info("Installing " + PLUGIN_NAME + " ...");
 
-        Bukkit.getLogger().info("Downloading QuarterBukkit ...");
-        final File zipFile = new File(target.getParentFile(), "QuarterBukkit_download.zip");
+        Bukkit.getLogger().info("Downloading " + PLUGIN_NAME + " ...");
+        final File zipFile = new File(target.getParentFile(), PLUGIN_NAME + "_download.zip");
         final URL url = new URL(getFileURL(getFeedData().get("link")));
         final InputStream inputStream = url.openStream();
         final OutputStream outputStream = new FileOutputStream(zipFile);
@@ -146,18 +157,18 @@ public class QuarterBukkitIntegration {
         inputStream.close();
         outputStream.close();
 
-        Bukkit.getLogger().info("Extracting QuarterBukkit ...");
-        final File unzipDir = new File(target.getParentFile(), "QuarterBukkit_extract");
+        Bukkit.getLogger().info("Extracting " + PLUGIN_NAME + " ...");
+        final File unzipDir = new File(target.getParentFile(), PLUGIN_NAME + "_extract");
         unzipDir.mkdirs();
         unzip(zipFile, unzipDir);
-        copy(new File(unzipDir, "QuarterBukkit/" + target.getName()), target);
+        copy(new File(unzipDir, PLUGIN_NAME + "/" + target.getName()), target);
         zipFile.delete();
         deleteRecursive(unzipDir);
 
-        Bukkit.getLogger().info("Loading QuarterBukkit ...");
+        Bukkit.getLogger().info("Loading " + PLUGIN_NAME + " ...");
         Bukkit.getPluginManager().enablePlugin(Bukkit.getPluginManager().loadPlugin(target));
 
-        Bukkit.getLogger().info("Successfully installed QuarterBukkit!");
+        Bukkit.getLogger().info("Successfully installed " + PLUGIN_NAME + "!");
         Bukkit.getLogger().info("Enabling other plugins ...");
     }
 

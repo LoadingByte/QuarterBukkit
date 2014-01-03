@@ -68,11 +68,12 @@
     </issueManagement>
 
     <dependencies>
-        <!-- CraftBukkit Implementation -->
+        <!-- Bukkit -->
         <dependency>
             <groupId>org.bukkit</groupId>
-            <artifactId>craftbukkit</artifactId>
+            <artifactId>bukkit</artifactId>
             <version>1.7.2-R0.2-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

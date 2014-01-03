@@ -1,8 +1,8 @@
 name: ${project.name}
 version: ${project.version}
 description: ${description}
+prefix: ${project.name}
 authors: [QuarterCode, LoadingByte, marcel747800]
 website: ${url}
 main: ${main.class}
-prefix: ${project.name}
 load: startup

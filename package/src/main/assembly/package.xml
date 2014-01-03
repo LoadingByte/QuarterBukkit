@@ -25,12 +25,12 @@
             </includes>
         </fileSet>
 
-        <!-- Integration Source -->
+        <!-- Integration Jar -->
         <fileSet>
             <directory>${project.parent.basedir}/integration/target</directory>
             <outputDirectory>.</outputDirectory>
             <includes>
-                <include>*.zip</include>
+                <include>*.jar</include>
             </includes>
         </fileSet>
     </fileSets>
