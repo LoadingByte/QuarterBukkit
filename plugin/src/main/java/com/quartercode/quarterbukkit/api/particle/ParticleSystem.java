@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 import com.quartercode.quarterbukkit.api.scheduler.ScheduleTask;
@@ -42,7 +41,6 @@ public class ParticleSystem {
     private int                       runs         = 1;
     private int                       rate         = 0;
     private Vector                    animation    = new Vector();
-    private final List<Player>        players      = new ArrayList<Player>();
 
     private ParticleSpawner           spawner      = new DefaultParticleSpawner();
     private ScheduleTask              scheduleTask;
@@ -255,30 +253,6 @@ public class ParticleSystem {
     }
 
     /**
-     * Add a Player to send the Particles.
-     * 
-     * @param player The {@link Player} to send the Particles.
-     */
-    public void addPlayer(Player player) {
-
-        if (!players.contains(player)) {
-            players.add(player);
-        }
-    }
-
-    /**
-     * Add Players to send the Particles.
-     * 
-     * @param players The List to add.
-     */
-    public void addPlayers(List<Player> players) {
-
-        for (Player player : players) {
-            addPlayer(player);
-        }
-    }
-
-    /**
      * Returns the {@link ParticleSpawner} (default {@link DefaultParticleSpawner}).
      * 
      * @return The {@link ParticleSpawner}.
@@ -368,7 +342,7 @@ public class ParticleSystem {
      */
     protected void execute(final Plugin plugin, final Location location) {
 
-        spawner.spawn(plugin, descriptions, location, players);
+        spawner.spawn(plugin, descriptions, location);
     }
 
     /**

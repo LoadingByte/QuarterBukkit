@@ -39,7 +39,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
-import com.quartercode.quarterbukkit.api.util.MetaUtil;
+import com.quartercode.quarterbukkit.api.MetaUtil;
 
 /**
  * This class is for simple creating of custom selection {@link Inventory}s.
