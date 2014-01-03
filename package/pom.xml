@@ -31,7 +31,7 @@
                             <goal>single</goal>
                         </goals>
                         <configuration>
-                            <finalName>${project.name}-${project.version}</finalName>
+                            <finalName>${project.parent.name}-${project.parent.version}</finalName>
                             <descriptors>
                                 <descriptor>src/main/assembly/package.xml</descriptor>
                             </descriptors>
