@@ -95,7 +95,7 @@ public class QuarterBukkitIntegration {
                 final YamlConfiguration installConfig = YamlConfiguration.loadConfiguration(installConfigFile);
                 if (installConfig.isBoolean("install-QuarterBukkit") && installConfig.getBoolean("install-QuarterBukkit")) {
                     installConfigFile.delete();
-                    install(new File("plugins", "QuarterBukkit.jar"));
+                    install(new File("plugins", "QuarterBukkit-Plugin.jar"));
                     return true;
                 }
             } else {
