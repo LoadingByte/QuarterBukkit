@@ -24,7 +24,7 @@ License
 
 Copyright (c) 2013 QuarterCode <http://www.quartercode.com/>
 
-Disconnected may be used under the terms of either the GNU General Public License (GPL). See the LICENSE.md file for details.
+QuarterBukkit may be used under the terms of either the GNU General Public License (GPL). See the LICENSE.md file for details.
 
 Using QuarterBukkit in your plugin
 ==================================
