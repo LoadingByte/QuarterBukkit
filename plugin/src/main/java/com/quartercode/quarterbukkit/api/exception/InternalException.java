@@ -35,7 +35,7 @@ public class InternalException extends GameException {
      * @param plugin The causing {@link Plugin}.
      * @param cause The cause for the error.
      */
-    public InternalException(final Plugin plugin, final Throwable cause) {
+    public InternalException(Plugin plugin, Throwable cause) {
 
         super(plugin);
         this.cause = cause;
@@ -49,7 +49,7 @@ public class InternalException extends GameException {
      * @param cause The cause for the error.
      * @param causer The {@link CommandSender} who caused the error.
      */
-    public InternalException(final Plugin plugin, final Throwable cause, final CommandSender causer) {
+    public InternalException(Plugin plugin, Throwable cause, CommandSender causer) {
 
         super(plugin);
         this.cause = cause;
@@ -63,7 +63,7 @@ public class InternalException extends GameException {
      * @param cause The cause for the error.
      * @param message The informational message.
      */
-    public InternalException(final Plugin plugin, final Throwable cause, final String message) {
+    public InternalException(Plugin plugin, Throwable cause, String message) {
 
         super(plugin, message);
         this.cause = cause;
@@ -78,7 +78,7 @@ public class InternalException extends GameException {
      * @param causer The {@link CommandSender} who caused the error.
      * @param message The informational message.
      */
-    public InternalException(final Plugin plugin, final Throwable cause, final CommandSender causer, final String message) {
+    public InternalException(Plugin plugin, Throwable cause, CommandSender causer, String message) {
 
         super(plugin, message);
         this.cause = cause;

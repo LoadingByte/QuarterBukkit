@@ -47,9 +47,9 @@ public enum ClickType {
      */
     RIGHT_SHIFT (false, true, true);
 
-    public static ClickType getClickType(final boolean left, final boolean right, final boolean shift) {
+    public static ClickType getClickType(boolean left, boolean right, boolean shift) {
 
-        for (final ClickType clickType : values()) {
+        for (ClickType clickType : values()) {
             if (clickType.isLeft() == left && clickType.isRight() == right && clickType.isShift() == shift) {
                 return clickType;
             }
@@ -62,7 +62,7 @@ public enum ClickType {
     private boolean right;
     private boolean shift;
 
-    private ClickType(final boolean left, final boolean right, final boolean shift) {
+    private ClickType(boolean left, boolean right, boolean shift) {
 
         this.left = left;
         this.right = right;

@@ -23,13 +23,13 @@ import java.util.List;
 public class LineInventoryLayouter implements InventoryLayouter {
 
     @Override
-    public InventoryLayout getLayout(final SelectInventory selectInventory, final List<Selection> selections) {
+    public InventoryLayout getLayout(SelectInventory selectInventory, List<Selection> selections) {
 
-        final InventoryLayout layout = new InventoryLayout();
+        InventoryLayout layout = new InventoryLayout();
 
         int x = 0;
         int y = 0;
-        for (final Selection selection : selections) {
+        for (Selection selection : selections) {
             layout.set(x, y, selection);
 
             x++;

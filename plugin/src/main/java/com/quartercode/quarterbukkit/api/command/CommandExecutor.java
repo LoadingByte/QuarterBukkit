@@ -48,11 +48,11 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
      * @param plugin The plugin for the CommandExecutor.
      * @param commands The commands this executor bind to.
      */
-    public CommandExecutor(final Plugin plugin, final String... commands) {
+    public CommandExecutor(Plugin plugin, String... commands) {
 
         this.plugin = plugin;
 
-        for (final String command : commands) {
+        for (String command : commands) {
             Bukkit.getPluginCommand(command).setExecutor(this);
             Bukkit.getPluginCommand(command).setTabCompleter(this);
         }
@@ -69,13 +69,13 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
      * @return If the command was executed (here always true).
      */
     @Override
-    public boolean onCommand(final CommandSender sender, final org.bukkit.command.Command command, final String label, final String[] arguments) {
+    public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] arguments) {
 
         if (arguments.length > 0) {
-            for (final CommandHandler commandHandler : commandHandlers) {
-                final CommandInfo info = commandHandler.getInfo();
+            for (CommandHandler commandHandler : commandHandlers) {
+                CommandInfo info = commandHandler.getInfo();
 
-                for (final String commandLabel : info.getLabels()) {
+                for (String commandLabel : info.getLabels()) {
                     if (!commandLabel.equalsIgnoreCase("<empty>")) {
                         if (info.isIgnoreCase()) {
                             if (commandLabel.equalsIgnoreCase(arguments[0])) {
@@ -92,10 +92,10 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
                 }
             }
         } else {
-            for (final CommandHandler commandHandler : commandHandlers) {
-                final CommandInfo info = commandHandler.getInfo();
+            for (CommandHandler commandHandler : commandHandlers) {
+                CommandInfo info = commandHandler.getInfo();
 
-                for (final String commandLabel : info.getLabels()) {
+                for (String commandLabel : info.getLabels()) {
                     if (commandLabel.equalsIgnoreCase("<empty>")) {
                         executeCommand(sender, commandHandler, label, new String[0]);
                         return true;
@@ -105,7 +105,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
         }
 
         if (arguments.length > 0) {
-            final Command command2 = new Command(sender, label, arguments[0], new ArrayList<String>(Arrays.asList(arguments)).subList(1, arguments.length).toArray(new String[arguments.length - 1]));
+            Command command2 = new Command(sender, label, arguments[0], new ArrayList<String>(Arrays.asList(arguments)).subList(1, arguments.length).toArray(new String[arguments.length - 1]));
             ExceptionHandler.exception(new NoCommandFoundException(plugin, command2, this, "No command " + arguments[0] + " found"));
         } else {
             ExceptionHandler.exception(new NoDefaultCommandFoundException(plugin, new Command(sender, label, null), this, "No default command found"));
@@ -114,7 +114,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
         return true;
     }
 
-    private void executeCommand(final CommandSender sender, final CommandHandler commandHandler, final String rawLabel, final String[] rawArguments) {
+    private void executeCommand(CommandSender sender, CommandHandler commandHandler, String rawLabel, String[] rawArguments) {
 
         Command command;
         if (rawArguments.length > 0) {
@@ -153,14 +153,14 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
      * @return All tab complete proposals.
      */
     @Override
-    public List<String> onTabComplete(final CommandSender sender, final org.bukkit.command.Command command, final String alias, final String[] arguments) {
+    public List<String> onTabComplete(CommandSender sender, org.bukkit.command.Command command, String alias, String[] arguments) {
 
-        final List<String> proposals = new ArrayList<String>();
+        List<String> proposals = new ArrayList<String>();
 
         if (arguments.length == 1) {
-            for (final CommandHandler commandHandler : commandHandlers) {
-                for (final String label : commandHandler.getInfo().getLabels()) {
-                    for (final String argument : arguments) {
+            for (CommandHandler commandHandler : commandHandlers) {
+                for (String label : commandHandler.getInfo().getLabels()) {
+                    for (String argument : arguments) {
                         if (!label.equalsIgnoreCase("<empty>") && label.toLowerCase().startsWith(argument.toLowerCase())) {
                             if (commandHandler.getInfo().getPermission() == null || commandHandler.getInfo().getPermission().isEmpty() || sender.hasPermission(commandHandler.getInfo().getPermission())) {
                                 proposals.add(label);
@@ -170,8 +170,8 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
                 }
             }
         } else {
-            for (final Player player : Bukkit.getOnlinePlayers()) {
-                for (final String argument : arguments) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                for (String argument : arguments) {
                     if (player.getName().toLowerCase().startsWith(argument.toLowerCase())) {
                         proposals.add(player.getName());
                     }
@@ -199,11 +199,11 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
      * @param label The command label.
      * @return The {@link CommandHandler}.
      */
-    public CommandHandler getCommandHandler(final String label) {
+    public CommandHandler getCommandHandler(String label) {
 
-        for (final CommandHandler commandHandler : commandHandlers) {
-            final boolean ignoreCase = commandHandler.getInfo().isIgnoreCase();
-            for (final String commandLabel : commandHandler.getInfo().getLabels()) {
+        for (CommandHandler commandHandler : commandHandlers) {
+            boolean ignoreCase = commandHandler.getInfo().isIgnoreCase();
+            for (String commandLabel : commandHandler.getInfo().getLabels()) {
                 if (ignoreCase && commandLabel.equalsIgnoreCase(label)) {
                     return commandHandler;
                 } else if (!ignoreCase && commandLabel.equals(label)) {
@@ -222,7 +222,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
      * @param commandHandler The {@link CommandHandler} to check.
      * @return If the {@link CommandHandler} is registered.
      */
-    public boolean containsCommandHandler(final CommandHandler commandHandler) {
+    public boolean containsCommandHandler(CommandHandler commandHandler) {
 
         return commandHandlers.contains(commandHandler);
     }
@@ -234,13 +234,13 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
      * @param label The label to check.
      * @return If a {@link CommandHandler} with the label is registered.
      */
-    public boolean containsCommandHandler(final String label) {
+    public boolean containsCommandHandler(String label) {
 
         try {
             getCommandHandler(label);
             return true;
         }
-        catch (final IllegalStateException e) {
+        catch (IllegalStateException e) {
             return false;
         }
     }
@@ -251,12 +251,12 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
      * 
      * @param commandHandler The {@link CommandHandler} to register.
      */
-    public void addCommandHandler(final CommandHandler commandHandler) {
+    public void addCommandHandler(CommandHandler commandHandler) {
 
         if (commandHandlers.contains(commandHandler)) {
             throw new IllegalStateException("This CommandHandler is already registered");
         }
-        for (final String label : commandHandler.getInfo().getLabels()) {
+        for (String label : commandHandler.getInfo().getLabels()) {
             if (containsCommandHandler(label)) {
                 throw new IllegalStateException("There's already a CommandHandler with the label " + label);
             }
@@ -271,7 +271,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
      * 
      * @param commandHandler The {@link CommandHandler} to unregister.
      */
-    public void removeCommandHandler(final CommandHandler commandHandler) {
+    public void removeCommandHandler(CommandHandler commandHandler) {
 
         if (!commandHandlers.contains(commandHandler)) {
             throw new IllegalStateException("This CommandHandler is not registered");
@@ -286,7 +286,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
      * 
      * @param label The {@link CommandHandler} with this label to unregister.
      */
-    public void removeCommandHandler(final String label) {
+    public void removeCommandHandler(String label) {
 
         commandHandlers.remove(getCommandHandler(label));
     }
@@ -294,7 +294,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     @Override
     public int hashCode() {
 
-        final int prime = 31;
+        int prime = 31;
         int result = 1;
         result = prime * result + (commandHandlers == null ? 0 : commandHandlers.hashCode());
         result = prime * result + (plugin == null ? 0 : plugin.hashCode());
@@ -302,7 +302,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(Object obj) {
 
         if (this == obj) {
             return true;
@@ -313,7 +313,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final CommandExecutor other = (CommandExecutor) obj;
+        CommandExecutor other = (CommandExecutor) obj;
         if (commandHandlers == null) {
             if (other.commandHandlers != null) {
                 return false;

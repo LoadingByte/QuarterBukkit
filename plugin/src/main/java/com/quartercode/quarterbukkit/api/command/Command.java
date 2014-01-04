@@ -39,7 +39,7 @@ public class Command {
      * @param label The secondary label of the command.
      * @param arguments The parsed arguments of the command as a {@link String}-array.
      */
-    public Command(final CommandSender sender, final String globalLabel, final String label, final String... arguments) {
+    public Command(CommandSender sender, String globalLabel, String label, String... arguments) {
 
         this.sender = sender;
         this.globalLabel = globalLabel;
@@ -93,7 +93,7 @@ public class Command {
     @Override
     public int hashCode() {
 
-        final int prime = 31;
+        int prime = 31;
         int result = 1;
         result = prime * result + Arrays.hashCode(arguments);
         result = prime * result + (globalLabel == null ? 0 : globalLabel.hashCode());
@@ -103,7 +103,7 @@ public class Command {
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(Object obj) {
 
         if (this == obj) {
             return true;
@@ -114,7 +114,7 @@ public class Command {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Command other = (Command) obj;
+        Command other = (Command) obj;
         if (!Arrays.equals(arguments, other.arguments)) {
             return false;
         }

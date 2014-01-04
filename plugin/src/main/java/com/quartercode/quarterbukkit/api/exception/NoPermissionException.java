@@ -39,7 +39,7 @@ public class NoPermissionException extends GameException implements Cancellable 
      * @param permission The permission which the causer doesn't have.
      * @param causer The {@link CommandSender} who has't enough permissions.
      */
-    public NoPermissionException(final Plugin plugin, final String permission, final CommandSender causer) {
+    public NoPermissionException(Plugin plugin, String permission, CommandSender causer) {
 
         super(plugin);
         this.permission = permission;
@@ -54,7 +54,7 @@ public class NoPermissionException extends GameException implements Cancellable 
      * @param causer The {@link CommandSender} who has't enough permissions.
      * @param message The information message.
      */
-    public NoPermissionException(final Plugin plugin, final String permission, final CommandSender causer, final String message) {
+    public NoPermissionException(Plugin plugin, String permission, CommandSender causer, String message) {
 
         super(plugin, message);
         this.permission = permission;
@@ -68,7 +68,7 @@ public class NoPermissionException extends GameException implements Cancellable 
     }
 
     @Override
-    public void setCancelled(final boolean cancelled) {
+    public void setCancelled(boolean cancelled) {
 
         this.cancelled = cancelled;
     }

@@ -91,20 +91,20 @@ public class Metrics {
     /**
      * The base url of the metrics domain
      */
-    private static final String     BASE_URL              = "http://mcstats.org";
+    private final static String     BASE_URL              = "http://mcstats.org";
     /**
      * The url used to report a server's status
      */
-    private static final String     REPORT_URL            = "/report/%s";
+    private final static String     REPORT_URL            = "/report/%s";
     /**
      * The separator to use for custom data. This MUST NOT change unless you are hosting your own version of metrics and
      * want to change it.
      */
-    private static final String     CUSTOM_DATA_SEPARATOR = "~~";
+    private final static String     CUSTOM_DATA_SEPARATOR = "~~";
     /**
      * Interval of time to ping (in minutes)
      */
-    private static final int        PING_INTERVAL         = 10;
+    private final static int        PING_INTERVAL         = 10;
     /**
      * The plugin this metrics submits for
      */
@@ -142,7 +142,7 @@ public class Metrics {
      */
     private volatile BukkitTask     task                  = null;
 
-    public Metrics(final Plugin plugin) throws IOException {
+    public Metrics(Plugin plugin) throws IOException {
 
         if (plugin == null) {
             throw new IllegalArgumentException("Plugin cannot be null");
@@ -177,14 +177,14 @@ public class Metrics {
      * @param name The name of the graph
      * @return Graph object created. Will never return NULL under normal circumstances unless bad parameters are given
      */
-    public Graph createGraph(final String name) {
+    public Graph createGraph(String name) {
 
         if (name == null) {
             throw new IllegalArgumentException("Graph name cannot be null");
         }
 
         // Construct the graph object
-        final Graph graph = new Graph(name);
+        Graph graph = new Graph(name);
 
         // Now we can add our graph
         graphs.add(graph);
@@ -198,7 +198,7 @@ public class Metrics {
      * 
      * @param graph The name of the graph
      */
-    public void addGraph(final Graph graph) {
+    public void addGraph(Graph graph) {
 
         if (graph == null) {
             throw new IllegalArgumentException("Graph cannot be null");
@@ -212,7 +212,7 @@ public class Metrics {
      * 
      * @param plotter The plotter to use to plot custom data
      */
-    public void addCustomData(final Plotter plotter) {
+    public void addCustomData(Plotter plotter) {
 
         if (plotter == null) {
             throw new IllegalArgumentException("Plotter cannot be null");
@@ -261,7 +261,7 @@ public class Metrics {
                                 task.cancel();
                                 task = null;
                                 // Tell all plotters to stop gathering information.
-                                for (final Graph graph : graphs) {
+                                for (Graph graph : graphs) {
                                     graph.onOptOut();
                                 }
                             }
@@ -276,7 +276,7 @@ public class Metrics {
                         // Each post thereafter will be a ping
                         firstPost = false;
                     }
-                    catch (final IOException e) {
+                    catch (IOException e) {
                         if (debug) {
                             Bukkit.getLogger().log(Level.INFO, "[Metrics] " + e.getMessage());
                         }
@@ -300,13 +300,13 @@ public class Metrics {
                 // Reload the metrics file
                 configuration.load(getConfigFile());
             }
-            catch (final IOException ex) {
+            catch (IOException ex) {
                 if (debug) {
                     Bukkit.getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
                 }
                 return true;
             }
-            catch (final InvalidConfigurationException ex) {
+            catch (InvalidConfigurationException ex) {
                 if (debug) {
                     Bukkit.getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
                 }
@@ -373,7 +373,7 @@ public class Metrics {
         // plugin.getDataFolder() => base/plugins/PluginA/
         // pluginsFolder => base/plugins/
         // The base is not necessarily relative to the startup directory.
-        final File pluginsFolder = plugin.getDataFolder().getParentFile();
+        File pluginsFolder = plugin.getDataFolder().getParentFile();
 
         // return => base/plugins/PluginMetrics/config.yml
         return new File(new File(pluginsFolder, "PluginMetrics"), "config.yml");
@@ -382,20 +382,20 @@ public class Metrics {
     /**
      * Generic method that posts a plugin to the metrics website
      */
-    private void postPlugin(final boolean isPing) throws IOException {
+    private void postPlugin(boolean isPing) throws IOException {
 
         // Server software specific section
-        final PluginDescriptionFile description = plugin.getDescription();
-        final String pluginName = description.getName();
-        final boolean onlineMode = Bukkit.getServer().getOnlineMode(); // TRUE if online mode is enabled
-        final String pluginVersion = description.getVersion();
-        final String serverVersion = Bukkit.getVersion();
-        final int playersOnline = Bukkit.getServer().getOnlinePlayers().length;
+        PluginDescriptionFile description = plugin.getDescription();
+        String pluginName = description.getName();
+        boolean onlineMode = Bukkit.getServer().getOnlineMode(); // TRUE if online mode is enabled
+        String pluginVersion = description.getVersion();
+        String serverVersion = Bukkit.getVersion();
+        int playersOnline = Bukkit.getServer().getOnlinePlayers().length;
 
         // END server software specific section -- all code below does not use any code outside of this class / Java
 
         // Construct the post data
-        final StringBuilder data = new StringBuilder();
+        StringBuilder data = new StringBuilder();
 
         // The plugin's description file containg all of the plugin data such as name, version, author, etc
         data.append(encode("guid")).append('=').append(encode(guid));
@@ -405,11 +405,11 @@ public class Metrics {
         encodeDataPair(data, "revision", String.valueOf(REVISION));
 
         // New data as of R6
-        final String osname = System.getProperty("os.name");
+        String osname = System.getProperty("os.name");
         String osarch = System.getProperty("os.arch");
-        final String osversion = System.getProperty("os.version");
-        final String java_version = System.getProperty("java.version");
-        final int coreCount = Runtime.getRuntime().availableProcessors();
+        String osversion = System.getProperty("os.version");
+        String java_version = System.getProperty("java.version");
+        int coreCount = Runtime.getRuntime().availableProcessors();
 
         // normalize os arch .. amd64 -> x86_64
         if (osarch.equals("amd64")) {
@@ -431,20 +431,20 @@ public class Metrics {
         // Acquire a lock on the graphs, which lets us make the assumption we also lock everything
         // inside of the graph (e.g plotters)
         synchronized (graphs) {
-            final Iterator<Graph> iter = graphs.iterator();
+            Iterator<Graph> iter = graphs.iterator();
 
             while (iter.hasNext()) {
-                final Graph graph = iter.next();
+                Graph graph = iter.next();
 
-                for (final Plotter plotter : graph.getPlotters()) {
+                for (Plotter plotter : graph.getPlotters()) {
                     // The key name to send to the metrics server
                     // The format is C-GRAPHNAME-PLOTTERNAME where separator - is defined at the top
                     // Legacy (R4) submitters use the format Custom%s, or CustomPLOTTERNAME
-                    final String key = String.format("C%s%s%s%s", CUSTOM_DATA_SEPARATOR, graph.getName(), CUSTOM_DATA_SEPARATOR, plotter.getColumnName());
+                    String key = String.format("C%s%s%s%s", CUSTOM_DATA_SEPARATOR, graph.getName(), CUSTOM_DATA_SEPARATOR, plotter.getColumnName());
 
                     // The value to send, which for the foreseeable future is just the string
                     // value of plotter.getValue()
-                    final String value = Integer.toString(plotter.getValue());
+                    String value = Integer.toString(plotter.getValue());
 
                     // Add it to the http post data :)
                     encodeDataPair(data, key, value);
@@ -453,7 +453,7 @@ public class Metrics {
         }
 
         // Create the url
-        final URL url = new URL(BASE_URL + String.format(REPORT_URL, encode(pluginName)));
+        URL url = new URL(BASE_URL + String.format(REPORT_URL, encode(pluginName)));
 
         // Connect to the website
         URLConnection connection;
@@ -469,13 +469,13 @@ public class Metrics {
         connection.setDoOutput(true);
 
         // Write the data
-        final OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+        OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
         writer.write(data.toString());
         writer.flush();
 
         // Now read the response
-        final BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        final String response = reader.readLine();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String response = reader.readLine();
 
         // close resources
         writer.close();
@@ -487,12 +487,12 @@ public class Metrics {
             // Is this the first update this hour?
             if (response.contains("OK This is your first update this hour")) {
                 synchronized (graphs) {
-                    final Iterator<Graph> iter = graphs.iterator();
+                    Iterator<Graph> iter = graphs.iterator();
 
                     while (iter.hasNext()) {
-                        final Graph graph = iter.next();
+                        Graph graph = iter.next();
 
-                        for (final Plotter plotter : graph.getPlotters()) {
+                        for (Plotter plotter : graph.getPlotters()) {
                             plotter.reset();
                         }
                     }
@@ -512,7 +512,7 @@ public class Metrics {
             Class.forName("mineshafter.MineServer");
             return true;
         }
-        catch (final Exception e) {
+        catch (Exception e) {
             return false;
         }
     }
@@ -531,7 +531,7 @@ public class Metrics {
      * @param key the key value
      * @param value the value
      */
-    private static void encodeDataPair(final StringBuilder buffer, final String key, final String value) throws UnsupportedEncodingException {
+    private static void encodeDataPair(StringBuilder buffer, String key, String value) throws UnsupportedEncodingException {
 
         buffer.append('&').append(encode(key)).append('=').append(encode(value));
     }
@@ -542,7 +542,7 @@ public class Metrics {
      * @param text the text to encode
      * @return the encoded text, as UTF-8
      */
-    private static String encode(final String text) throws UnsupportedEncodingException {
+    private static String encode(String text) throws UnsupportedEncodingException {
 
         return URLEncoder.encode(text, "UTF-8");
     }
@@ -562,7 +562,7 @@ public class Metrics {
          */
         private final Set<Plotter> plotters = new LinkedHashSet<Plotter>();
 
-        private Graph(final String name) {
+        private Graph(String name) {
 
             this.name = name;
         }
@@ -582,7 +582,7 @@ public class Metrics {
          * 
          * @param plotter the plotter to add to the graph
          */
-        public void addPlotter(final Plotter plotter) {
+        public void addPlotter(Plotter plotter) {
 
             plotters.add(plotter);
         }
@@ -592,7 +592,7 @@ public class Metrics {
          * 
          * @param plotter the plotter to remove from the graph
          */
-        public void removePlotter(final Plotter plotter) {
+        public void removePlotter(Plotter plotter) {
 
             plotters.remove(plotter);
         }
@@ -614,13 +614,13 @@ public class Metrics {
         }
 
         @Override
-        public boolean equals(final Object object) {
+        public boolean equals(Object object) {
 
             if (! (object instanceof Graph)) {
                 return false;
             }
 
-            final Graph graph = (Graph) object;
+            Graph graph = (Graph) object;
             return graph.name.equals(name);
         }
 
@@ -655,7 +655,7 @@ public class Metrics {
          * 
          * @param name the name of the plotter to use, which will show up on the website
          */
-        public Plotter(final String name) {
+        public Plotter(String name) {
 
             this.name = name;
         }
@@ -693,13 +693,13 @@ public class Metrics {
         }
 
         @Override
-        public boolean equals(final Object object) {
+        public boolean equals(Object object) {
 
             if (! (object instanceof Plotter)) {
                 return false;
             }
 
-            final Plotter plotter = (Plotter) object;
+            Plotter plotter = (Plotter) object;
             return plotter.name.equals(name) && plotter.getValue() == getValue();
         }
     }

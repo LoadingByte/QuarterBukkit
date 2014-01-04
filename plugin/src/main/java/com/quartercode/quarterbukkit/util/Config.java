@@ -31,7 +31,7 @@ public class Config extends YamlConfiguration {
     private final Plugin plugin;
     private final File   file;
 
-    public Config(final Plugin plugin, final File file) {
+    public Config(Plugin plugin, File file) {
 
         this.plugin = plugin;
         this.file = file;
@@ -45,26 +45,26 @@ public class Config extends YamlConfiguration {
     }
 
     @Override
-    public void load(final File file) {
+    public void load(File file) {
 
         try {
             super.load(file);
         }
-        catch (final IOException e) {
+        catch (IOException e) {
             ExceptionHandler.exception(new GameException(plugin, "Can't load QuarterBukkit config (" + e + ")"));
         }
-        catch (final InvalidConfigurationException e) {
+        catch (InvalidConfigurationException e) {
             ExceptionHandler.exception(new GameException(plugin, "Can't load QuarterBukkit config (" + e + ")"));
         }
     }
 
     @Override
-    public void save(final File file) {
+    public void save(File file) {
 
         try {
             super.save(file);
         }
-        catch (final IOException e) {
+        catch (IOException e) {
             ExceptionHandler.exception(new GameException(plugin, "Can't save QuarterBukkit config (" + e + ")"));
         }
     }
@@ -79,7 +79,7 @@ public class Config extends YamlConfiguration {
         addDefaultGV("autoupdate", true);
     }
 
-    private void addDefaultGV(final String path, final Object value) {
+    private void addDefaultGV(String path, Object value) {
 
         if (!contains(path)) {
             set(path, value);

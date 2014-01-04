@@ -57,7 +57,7 @@ public class ParticleSystem {
      * 
      * @param location The start {@link Location}.
      */
-    public ParticleSystem(final Location location) {
+    public ParticleSystem(Location location) {
 
         this.location = location;
     }
@@ -67,7 +67,7 @@ public class ParticleSystem {
      * 
      * @param descriptions The {@link ParticleDescription}s as an array/vararg.
      */
-    public ParticleSystem(final ParticleDescription... descriptions) {
+    public ParticleSystem(ParticleDescription... descriptions) {
 
         this.descriptions = Arrays.asList(descriptions);
     }
@@ -77,7 +77,7 @@ public class ParticleSystem {
      * 
      * @param descriptions The {@link ParticleDescription}s as a {@link List}.
      */
-    public ParticleSystem(final List<ParticleDescription> descriptions) {
+    public ParticleSystem(List<ParticleDescription> descriptions) {
 
         this.descriptions = descriptions;
     }
@@ -88,7 +88,7 @@ public class ParticleSystem {
      * @param location The start {@link Location}.
      * @param descriptions The {@link ParticleDescription}s as an array/vararg.
      */
-    public ParticleSystem(final Location location, final ParticleDescription... descriptions) {
+    public ParticleSystem(Location location, ParticleDescription... descriptions) {
 
         this.location = location;
         this.descriptions = Arrays.asList(descriptions);
@@ -100,7 +100,7 @@ public class ParticleSystem {
      * @param location The start {@link Location}.
      * @param descriptions The {@link ParticleDescription}s as a {@link List}.
      */
-    public ParticleSystem(final Location location, final List<ParticleDescription> descriptions) {
+    public ParticleSystem(Location location, List<ParticleDescription> descriptions) {
 
         this.location = location;
         this.descriptions = descriptions;
@@ -122,7 +122,7 @@ public class ParticleSystem {
      * @param descriptions The {@link ParticleDescription}s as an array/vararg.
      * @return This particle system.
      */
-    public ParticleSystem setDescriptions(final ParticleDescription... descriptions) {
+    public ParticleSystem setDescriptions(ParticleDescription... descriptions) {
 
         this.descriptions = Arrays.asList(descriptions);
         return this;
@@ -134,7 +134,7 @@ public class ParticleSystem {
      * @param descriptions The {@link ParticleDescription}s as a {@link List}.
      * @return This particle system.
      */
-    public ParticleSystem setDescriptions(final List<ParticleDescription> descriptions) {
+    public ParticleSystem setDescriptions(List<ParticleDescription> descriptions) {
 
         this.descriptions = descriptions;
         return this;
@@ -146,7 +146,7 @@ public class ParticleSystem {
      * @param description The {@link ParticleDescription} to add.
      * @return This particle system.
      */
-    public ParticleSystem addDescription(final ParticleDescription description) {
+    public ParticleSystem addDescription(ParticleDescription description) {
 
         descriptions.add(description);
         return this;
@@ -158,7 +158,7 @@ public class ParticleSystem {
      * @param description The {@link ParticleDescription} to remove.
      * @return This particle system.
      */
-    public ParticleSystem removeDescription(final ParticleDescription description) {
+    public ParticleSystem removeDescription(ParticleDescription description) {
 
         descriptions.remove(description);
         return this;
@@ -180,7 +180,7 @@ public class ParticleSystem {
      * @param location The start {@link Location}.
      * @return This particle system.
      */
-    public ParticleSystem setLocation(final Location location) {
+    public ParticleSystem setLocation(Location location) {
 
         this.location = location;
         return this;
@@ -202,7 +202,7 @@ public class ParticleSystem {
      * @param runs The count of runs the particle system should emit particles. Set to -1 for endless runs.
      * @return This particle system.
      */
-    public ParticleSystem setRuns(final int runs) {
+    public ParticleSystem setRuns(int runs) {
 
         this.runs = runs;
         return this;
@@ -224,7 +224,7 @@ public class ParticleSystem {
      * @param rate The delay between two runs.
      * @return This particle system.
      */
-    public ParticleSystem setRate(final int rate) {
+    public ParticleSystem setRate(int rate) {
 
         this.rate = rate;
         return this;
@@ -246,7 +246,7 @@ public class ParticleSystem {
      * @param animation The movement direction of the spawner as a {@link Vector}.
      * @return This particle system.
      */
-    public ParticleSystem setAnimation(final Vector animation) {
+    public ParticleSystem setAnimation(Vector animation) {
 
         this.animation = animation;
         return this;
@@ -268,7 +268,7 @@ public class ParticleSystem {
      * @param spawner The {@link ParticleSpawner}.
      * @return This particle system.
      */
-    public ParticleSystem setSpawner(final ParticleSpawner spawner) {
+    public ParticleSystem setSpawner(ParticleSpawner spawner) {
 
         this.spawner = spawner;
         return this;
@@ -340,7 +340,7 @@ public class ParticleSystem {
      * @param plugin The {@link Plugin} to bind the {@link ScheduleTask} and exception-handling on.
      * @param location The current particle source.
      */
-    protected void execute(final Plugin plugin, final Location location) {
+    protected void execute(Plugin plugin, Location location) {
 
         spawner.spawn(plugin, descriptions, location);
     }
@@ -351,7 +351,7 @@ public class ParticleSystem {
      * @param plugin The {@link Plugin} to bind the {@link ScheduleTask} and exception-handling on.
      * @param location The current particle source.
      */
-    protected void end(final Plugin plugin, final Location location) {
+    protected void end(Plugin plugin, Location location) {
 
     }
 

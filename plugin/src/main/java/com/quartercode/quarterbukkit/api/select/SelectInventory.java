@@ -59,7 +59,7 @@ public abstract class SelectInventory implements Listener {
      * 
      * @param plugin The plugin to bind the internal methods on.
      */
-    public SelectInventory(final Plugin plugin) {
+    public SelectInventory(Plugin plugin) {
 
         this.plugin = plugin;
     }
@@ -71,7 +71,7 @@ public abstract class SelectInventory implements Listener {
      * @param plugin The plugin to bind the internal methods on.
      * @param title The visible title, maybe colored with {@link ChatColor}s.
      */
-    public SelectInventory(final Plugin plugin, final String title) {
+    public SelectInventory(Plugin plugin, String title) {
 
         this.plugin = plugin;
         this.title = title;
@@ -83,7 +83,7 @@ public abstract class SelectInventory implements Listener {
      * @param plugin The plugin to bind the internal methods on.
      * @param layouter The {@link InventoryLayouter} for layouting the {@link Inventory}.
      */
-    public SelectInventory(final Plugin plugin, final InventoryLayouter layouter) {
+    public SelectInventory(Plugin plugin, InventoryLayouter layouter) {
 
         this.plugin = plugin;
         this.layouter = layouter;
@@ -97,7 +97,7 @@ public abstract class SelectInventory implements Listener {
      * @param title The visible title, maybe colored with {@link ChatColor}s.
      * @param layouter The {@link InventoryLayouter} for layouting the {@link Inventory}.
      */
-    public SelectInventory(final Plugin plugin, final String title, final InventoryLayouter layouter) {
+    public SelectInventory(Plugin plugin, String title, InventoryLayouter layouter) {
 
         this.plugin = plugin;
         this.title = title;
@@ -119,7 +119,7 @@ public abstract class SelectInventory implements Listener {
      * 
      * @param title The new title of the {@link Inventory}.
      */
-    public void setTitle(final String title) {
+    public void setTitle(String title) {
 
         this.title = title;
     }
@@ -139,7 +139,7 @@ public abstract class SelectInventory implements Listener {
      * 
      * @param layouter The new {@link InventoryLayouter}.
      */
-    public void setLayouter(final InventoryLayouter layouter) {
+    public void setLayouter(InventoryLayouter layouter) {
 
         this.layouter = layouter;
     }
@@ -161,7 +161,7 @@ public abstract class SelectInventory implements Listener {
      * @param material The {@link Material} for the item.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final Object value, final Material material) {
+    public SelectInventory add(Object value, Material material) {
 
         add(value, new ItemStack(material));
         return this;
@@ -175,7 +175,7 @@ public abstract class SelectInventory implements Listener {
      * @param amount The amount of items.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final Object value, final Material material, final int amount) {
+    public SelectInventory add(Object value, Material material, int amount) {
 
         add(value, new ItemStack(material, amount));
         return this;
@@ -189,7 +189,7 @@ public abstract class SelectInventory implements Listener {
      * @param data The data for non-damageable items and damage for damageable ones.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final Object value, final Material material, final short data) {
+    public SelectInventory add(Object value, Material material, short data) {
 
         add(value, new ItemStack(material, 1, data));
         return this;
@@ -204,7 +204,7 @@ public abstract class SelectInventory implements Listener {
      * @param data The data for non-damageable items and damage for damageable ones.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final Object value, final Material material, final int amount, final short data) {
+    public SelectInventory add(Object value, Material material, int amount, short data) {
 
         add(value, new ItemStack(material, amount, data));
         return this;
@@ -217,7 +217,7 @@ public abstract class SelectInventory implements Listener {
      * @param itemStack The {@link ItemStack}.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final Object value, final ItemStack itemStack) {
+    public SelectInventory add(Object value, ItemStack itemStack) {
 
         selections.add(new Selection(value, itemStack));
         repaint();
@@ -233,7 +233,7 @@ public abstract class SelectInventory implements Listener {
      * @param descriptions The descriptions for the item as {@link String}-array.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final Object value, final Material material, final String name, final String... descriptions) {
+    public SelectInventory add(Object value, Material material, String name, String... descriptions) {
 
         add(value, new ItemStack(material), name, descriptions);
         return this;
@@ -249,7 +249,7 @@ public abstract class SelectInventory implements Listener {
      * @param descriptions The descriptions for the item as {@link String}-array.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final Object value, final Material material, final int amount, final String name, final String... descriptions) {
+    public SelectInventory add(Object value, Material material, int amount, String name, String... descriptions) {
 
         add(value, new ItemStack(material, amount), name, descriptions);
         return this;
@@ -265,7 +265,7 @@ public abstract class SelectInventory implements Listener {
      * @param descriptions The descriptions for the item as {@link String}-array.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final Object value, final Material material, final short data, final String name, final String... descriptions) {
+    public SelectInventory add(Object value, Material material, short data, String name, String... descriptions) {
 
         add(value, new ItemStack(material, 1, data), name, descriptions);
         return this;
@@ -282,7 +282,7 @@ public abstract class SelectInventory implements Listener {
      * @param descriptions The descriptions for the item as {@link String}-array.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final Object value, final Material material, final int amount, final short data, final String name, final String... descriptions) {
+    public SelectInventory add(Object value, Material material, int amount, short data, String name, String... descriptions) {
 
         add(value, new ItemStack(material, amount, data), name, descriptions);
         return this;
@@ -297,7 +297,7 @@ public abstract class SelectInventory implements Listener {
      * @param descriptions The descriptions for the item as {@link String}-array.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final Object value, final ItemStack itemStack, final String name, final String... descriptions) {
+    public SelectInventory add(Object value, ItemStack itemStack, String name, String... descriptions) {
 
         MetaUtil.setName(itemStack, name);
         MetaUtil.setDescriptions(itemStack, descriptions);
@@ -314,7 +314,7 @@ public abstract class SelectInventory implements Listener {
      * @param descriptions The descriptions for the item as {@link String}-{@link List}.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final Object value, final Material material, final String name, final List<String> descriptions) {
+    public SelectInventory add(Object value, Material material, String name, List<String> descriptions) {
 
         add(value, new ItemStack(material), name, descriptions);
         return this;
@@ -330,7 +330,7 @@ public abstract class SelectInventory implements Listener {
      * @param descriptions The descriptions for the item as {@link String}-{@link List}.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final Object value, final Material material, final int amount, final String name, final List<String> descriptions) {
+    public SelectInventory add(Object value, Material material, int amount, String name, List<String> descriptions) {
 
         add(value, new ItemStack(material, amount), name, descriptions);
         return this;
@@ -346,7 +346,7 @@ public abstract class SelectInventory implements Listener {
      * @param descriptions The descriptions for the item as {@link String}-{@link List}.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final Object value, final Material material, final short data, final String name, final List<String> descriptions) {
+    public SelectInventory add(Object value, Material material, short data, String name, List<String> descriptions) {
 
         add(value, new ItemStack(material, 1, data), name, descriptions);
         return this;
@@ -363,7 +363,7 @@ public abstract class SelectInventory implements Listener {
      * @param descriptions The descriptions for the item as {@link String}-{@link List}.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final Object value, final Material material, final int amount, final short data, final String name, final List<String> descriptions) {
+    public SelectInventory add(Object value, Material material, int amount, short data, String name, List<String> descriptions) {
 
         add(value, new ItemStack(material, amount, data), name, descriptions);
         return this;
@@ -378,7 +378,7 @@ public abstract class SelectInventory implements Listener {
      * @param descriptions The descriptions for the item as {@link String}-{@link List}.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory add(final Object value, final ItemStack itemStack, final String name, final List<String> descriptions) {
+    public SelectInventory add(Object value, ItemStack itemStack, String name, List<String> descriptions) {
 
         MetaUtil.setName(itemStack, name);
         MetaUtil.setDescriptions(itemStack, descriptions);
@@ -392,9 +392,9 @@ public abstract class SelectInventory implements Listener {
      * @param value The information of the option as {@link Object}.
      * @return This instance of SelectInventory.
      */
-    public SelectInventory remove(final Object value) {
+    public SelectInventory remove(Object value) {
 
-        for (final Selection selection : new ArrayList<Selection>(selections)) {
+        for (Selection selection : new ArrayList<Selection>(selections)) {
             if (selection.getValue().equals(value)) {
                 selections.remove(selection);
             }
@@ -422,7 +422,7 @@ public abstract class SelectInventory implements Listener {
      * @param player The {@link Player} to check.
      * @return If the defined {@link Player} has an open {@link Inventory} of this SelectInventory.
      */
-    public boolean isOpen(final Player player) {
+    public boolean isOpen(Player player) {
 
         return inventoryMap.containsKey(player);
     }
@@ -432,12 +432,12 @@ public abstract class SelectInventory implements Listener {
      * 
      * @param player The {@link Player} which gets the {@link Inventory}.
      */
-    public void open(final Player player) {
+    public void open(Player player) {
 
-        final InventoryLayout layout = layouter.getLayout(this, selections);
+        InventoryLayout layout = layouter.getLayout(this, selections);
 
         int slots = 0;
-        for (final List<Selection> column : layout.getLayout()) {
+        for (List<Selection> column : layout.getLayout()) {
             if (column.size() > slots) {
                 slots = column.size();
             }
@@ -453,8 +453,8 @@ public abstract class SelectInventory implements Listener {
                 close(player);
             }
 
-            final Inventory inventory = Bukkit.createInventory(player, slots, title);
-            final Map<Integer, Selection> slotMap = paint(inventory);
+            Inventory inventory = Bukkit.createInventory(player, slots, title);
+            Map<Integer, Selection> slotMap = paint(inventory);
 
             inventoryMap.put(player, new ViewMap(inventory, player.openInventory(inventory), slotMap));
         }
@@ -462,16 +462,16 @@ public abstract class SelectInventory implements Listener {
 
     private void repaint() {
 
-        for (final Entry<Player, ViewMap> entry : new HashMap<Player, ViewMap>(inventoryMap).entrySet()) {
+        for (Entry<Player, ViewMap> entry : new HashMap<Player, ViewMap>(inventoryMap).entrySet()) {
             inventoryMap.put(entry.getKey(), new ViewMap(entry.getValue().getInventory(), entry.getValue().getView(), paint(entry.getValue().getInventory())));
         }
     }
 
-    private Map<Integer, Selection> paint(final Inventory inventory) {
+    private Map<Integer, Selection> paint(Inventory inventory) {
 
-        final InventoryLayout layout = layouter.getLayout(this, selections);
+        InventoryLayout layout = layouter.getLayout(this, selections);
 
-        final Map<Integer, Selection> slotMap = new HashMap<Integer, Selection>();
+        Map<Integer, Selection> slotMap = new HashMap<Integer, Selection>();
         for (int x = 0; x < layout.getLayout().size(); x++) {
             for (int y = 0; y < layout.getLayout().get(x).size() && y < inventory.getSize() / 9; y++) {
                 inventory.setItem(x + y * 9, layout.get(x, y) == null ? new ItemStack(Material.AIR) : layout.get(x, y).getItemStack());
@@ -513,16 +513,16 @@ public abstract class SelectInventory implements Listener {
      */
     public void closeAll() {
 
-        for (final Player player : new ArrayList<Player>(inventoryMap.keySet())) {
+        for (Player player : new ArrayList<Player>(inventoryMap.keySet())) {
             close(player);
         }
     }
 
     @EventHandler
-    public void onInventoryClick(final InventoryClickEvent event) {
+    public void onInventoryClick(InventoryClickEvent event) {
 
         if (event.getWhoClicked() instanceof Player && isOpen((Player) event.getWhoClicked()) && event.getView().equals(inventoryMap.get(event.getWhoClicked()).getView())) {
-            final Map<Integer, Selection> slotMap = inventoryMap.get(event.getWhoClicked()).getSlotMap();
+            Map<Integer, Selection> slotMap = inventoryMap.get(event.getWhoClicked()).getSlotMap();
             if (slotMap.containsKey(event.getRawSlot())) {
                 onClick(slotMap.get(event.getRawSlot()), ClickType.getClickType(event.isLeftClick(), event.isRightClick(), event.isShiftClick()), (Player) event.getWhoClicked());
                 return;
@@ -540,7 +540,7 @@ public abstract class SelectInventory implements Listener {
     protected abstract void onClick(Selection selection, ClickType clickType, Player player);
 
     @EventHandler
-    public void onInventoryClose(final InventoryCloseEvent event) {
+    public void onInventoryClose(InventoryCloseEvent event) {
 
         if (inventoryMap.containsKey(event.getPlayer()) && event.getView().equals(inventoryMap.get(event.getPlayer()).getView())) {
             close((Player) event.getPlayer());
@@ -548,10 +548,10 @@ public abstract class SelectInventory implements Listener {
     }
 
     @EventHandler
-    public void onPluginDisable(final PluginDisableEvent event) {
+    public void onPluginDisable(PluginDisableEvent event) {
 
         if (event.getPlugin().equals(plugin)) {
-            for (final Entry<Player, ViewMap> entry : inventoryMap.entrySet()) {
+            for (Entry<Player, ViewMap> entry : inventoryMap.entrySet()) {
                 close(entry.getKey());
             }
         }
@@ -563,7 +563,7 @@ public abstract class SelectInventory implements Listener {
         private final InventoryView           view;
         private final Map<Integer, Selection> slotMap;
 
-        private ViewMap(final Inventory inventory, final InventoryView view, final Map<Integer, Selection> slotMap) {
+        private ViewMap(Inventory inventory, InventoryView view, Map<Integer, Selection> slotMap) {
 
             this.inventory = inventory;
             this.view = view;

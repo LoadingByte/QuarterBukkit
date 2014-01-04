@@ -73,7 +73,7 @@ public class Cuboid {
      * @param y2 The y-coordinate for the second location.
      * @param z2 The z-coordinate for the second location,
      */
-    public Cuboid(final double x1, final double y1, final double z1, final double x2, final double y2, final double z2) {
+    public Cuboid(double x1, double y1, double z1, double x2, double y2, double z2) {
 
         vector1 = new Vector();
         vector2 = new Vector();
@@ -121,7 +121,7 @@ public class Cuboid {
      * @param vector1 The {@link Vector} for the first location.
      * @param vector2 The {@link Vector} for the second location.
      */
-    public Cuboid(final Vector vector1, final Vector vector2) {
+    public Cuboid(Vector vector1, Vector vector2) {
 
         this(vector1.getX(), vector1.getY(), vector1.getZ(), vector2.getX(), vector2.getY(), vector2.getZ());
     }
@@ -144,7 +144,7 @@ public class Cuboid {
      * @param location1 The {@link Location} for the first location.
      * @param location2 The {@link Location} for the second location.
      */
-    public Cuboid(final Location location1, final Location location2) {
+    public Cuboid(Location location1, Location location2) {
 
         this(location1.getX(), location1.getY(), location1.getZ(), location2.getX(), location2.getY(), location2.getZ());
     }
@@ -511,7 +511,7 @@ public class Cuboid {
      * @param z The z-coordinate for checking if it's intersecting the cuboid.
      * @return If the other location actually intersects with the cuboid.
      */
-    public boolean intersects(final double x, final double y, final double z) {
+    public boolean intersects(double x, double y, double z) {
 
         return x <= getX1() && x >= getX2() && y <= getY1() && y >= getY2() && z <= getZ1() && z >= getZ2();
     }
@@ -528,7 +528,7 @@ public class Cuboid {
      * @param vector The {@link Vector} for checking if it's intersecting the cuboid.
      * @return If the other location actually intersects with the cuboid.
      */
-    public boolean intersects(final Vector vector) {
+    public boolean intersects(Vector vector) {
 
         return intersects(vector.getX(), vector.getY(), vector.getZ());
     }
@@ -545,7 +545,7 @@ public class Cuboid {
      * @param location The {@link Location} for checking if it's intersecting the cuboid.
      * @return If the other location actually intersects with the cuboid.
      */
-    public boolean intersects(final Location location) {
+    public boolean intersects(Location location) {
 
         return intersects(location.getX(), location.getY(), location.getZ());
     }
@@ -570,7 +570,7 @@ public class Cuboid {
      */
     public List<Vector> getBlocks() {
 
-        final List<Vector> blockPositions = new ArrayList<Vector>();
+        List<Vector> blockPositions = new ArrayList<Vector>();
 
         for (int x = getBlockX2(); x <= getBlockX1(); x++) {
             for (int y = getBlockY2(); y <= getBlockY1(); y++) {
@@ -586,7 +586,7 @@ public class Cuboid {
     @Override
     public int hashCode() {
 
-        final int prime = 31;
+        int prime = 31;
         int result = 1;
         result = prime * result + (vector1 == null ? 0 : vector1.hashCode());
         result = prime * result + (vector2 == null ? 0 : vector2.hashCode());
@@ -594,7 +594,7 @@ public class Cuboid {
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(Object obj) {
 
         if (this == obj) {
             return true;
@@ -605,7 +605,7 @@ public class Cuboid {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Cuboid other = (Cuboid) obj;
+        Cuboid other = (Cuboid) obj;
         if (vector1 == null) {
             if (other.vector1 != null) {
                 return false;

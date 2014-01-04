@@ -62,7 +62,7 @@ public class QuarterBukkitIntegration {
     private static final String LINK_TAG    = "link";
     private static final String ITEM_TAG    = "item";
 
-    private static final URL    feedUrl;
+    private static URL          feedUrl;
 
     static {
 
@@ -70,7 +70,7 @@ public class QuarterBukkitIntegration {
         try {
             feed = new URL("http://dev.bukkit.org/server-mods/quarterbukkit/files.rss");
         }
-        catch (final MalformedURLException e) {
+        catch (MalformedURLException e) {
             Bukkit.getLogger().severe("Error while initalizing URL (" + e + ")");
         }
 
@@ -93,16 +93,16 @@ public class QuarterBukkitIntegration {
             deleteRecursive(new File("plugins/" + PLUGIN_NAME + "_extract"));
         }
 
-        final File installConfigFile = new File("plugins/" + PLUGIN_NAME, "install.yml");
+        File installConfigFile = new File("plugins/" + PLUGIN_NAME, "install.yml");
 
         try {
             if (!Bukkit.getPluginManager().isPluginEnabled(PLUGIN_NAME)) {
                 if (!installConfigFile.exists()) {
-                    final YamlConfiguration installConfig = new YamlConfiguration();
+                    YamlConfiguration installConfig = new YamlConfiguration();
                     installConfig.set("install-" + PLUGIN_NAME, true);
                     installConfig.save(installConfigFile);
                 } else {
-                    final YamlConfiguration installConfig = YamlConfiguration.loadConfiguration(installConfigFile);
+                    YamlConfiguration installConfig = YamlConfiguration.loadConfiguration(installConfigFile);
                     if (installConfig.isBoolean("install-" + PLUGIN_NAME) && installConfig.getBoolean("install-" + PLUGIN_NAME)) {
                         installConfigFile.delete();
                         install(new File("plugins", PLUGIN_NAME + ".jar"));
@@ -123,10 +123,10 @@ public class QuarterBukkitIntegration {
                 }
             }, 100, 3 * 1000);
         }
-        catch (final UnknownHostException e) {
+        catch (UnknownHostException e) {
             Bukkit.getLogger().warning("Can't connect to dev.bukkit.org for installing " + PLUGIN_NAME + "!");
         }
-        catch (final Exception e) {
+        catch (Exception e) {
             Bukkit.getLogger().severe("An error occurred while installing " + PLUGIN_NAME + " (" + e + ")");
             e.printStackTrace();
         }
@@ -135,19 +135,19 @@ public class QuarterBukkitIntegration {
         return false;
     }
 
-    private static void install(final File target) throws IOException, XMLStreamException, UnknownDependencyException, InvalidPluginException, InvalidDescriptionException {
+    private static void install(File target) throws IOException, XMLStreamException, UnknownDependencyException, InvalidPluginException, InvalidDescriptionException {
 
         Bukkit.getLogger().info("===============[ " + PLUGIN_NAME + " Installation ]===============");
         Bukkit.getLogger().info("Installing " + PLUGIN_NAME + " ...");
 
         Bukkit.getLogger().info("Downloading " + PLUGIN_NAME + " ...");
-        final File zipFile = new File(target.getParentFile(), PLUGIN_NAME + "_download.zip");
-        final URL url = new URL(getFileURL(getFeedData().get("link")));
-        final InputStream inputStream = url.openStream();
-        final OutputStream outputStream = new FileOutputStream(zipFile);
+        File zipFile = new File(target.getParentFile(), PLUGIN_NAME + "_download.zip");
+        URL url = new URL(getFileURL(getFeedData().get("link")));
+        InputStream inputStream = url.openStream();
+        OutputStream outputStream = new FileOutputStream(zipFile);
         outputStream.flush();
 
-        final byte[] tempBuffer = new byte[4096];
+        byte[] tempBuffer = new byte[4096];
         int counter;
         while ( (counter = inputStream.read(tempBuffer)) > 0) {
             outputStream.write(tempBuffer, 0, counter);
@@ -158,7 +158,7 @@ public class QuarterBukkitIntegration {
         outputStream.close();
 
         Bukkit.getLogger().info("Extracting " + PLUGIN_NAME + " ...");
-        final File unzipDir = new File(target.getParentFile(), PLUGIN_NAME + "_extract");
+        File unzipDir = new File(target.getParentFile(), PLUGIN_NAME + "_extract");
         unzipDir.mkdirs();
         unzip(zipFile, unzipDir);
         copy(new File(unzipDir, PLUGIN_NAME + "/" + target.getName()), target);
@@ -172,21 +172,21 @@ public class QuarterBukkitIntegration {
         Bukkit.getLogger().info("Enabling other plugins ...");
     }
 
-    private static void unzip(final File zip, final File destination) throws ZipException, IOException {
+    private static void unzip(File zip, File destination) throws ZipException, IOException {
 
-        final ZipFile zipFile = new ZipFile(zip);
+        ZipFile zipFile = new ZipFile(zip);
 
-        for (final ZipEntry zipEntry : Collections.list(zipFile.entries())) {
-            final File file = new File(destination, zipEntry.getName());
-            final byte[] BUFFER = new byte[0xFFFF];
+        for (ZipEntry zipEntry : Collections.list(zipFile.entries())) {
+            File file = new File(destination, zipEntry.getName());
+            byte[] BUFFER = new byte[0xFFFF];
 
             if (zipEntry.isDirectory()) {
                 file.mkdirs();
             } else {
                 new File(file.getParent()).mkdirs();
 
-                final InputStream inputStream = zipFile.getInputStream(zipEntry);
-                final OutputStream outputStream = new FileOutputStream(file);
+                InputStream inputStream = zipFile.getInputStream(zipEntry);
+                OutputStream outputStream = new FileOutputStream(file);
 
                 for (int lenght; (lenght = inputStream.read(BUFFER)) != -1;) {
                     outputStream.write(BUFFER, 0, lenght);
@@ -203,19 +203,19 @@ public class QuarterBukkitIntegration {
         zipFile.close();
     }
 
-    private static void copy(final File source, final File destination) throws FileNotFoundException, IOException {
+    private static void copy(File source, File destination) throws FileNotFoundException, IOException {
 
         if (source.isDirectory()) {
             destination.mkdirs();
 
-            for (final File entry : source.listFiles()) {
+            for (File entry : source.listFiles()) {
                 copy(new File(source, entry.getName()), new File(destination, entry.getName()));
             }
         } else {
-            final byte[] buffer = new byte[32768];
+            byte[] buffer = new byte[32768];
 
-            final InputStream inputStream = new FileInputStream(source);
-            final OutputStream outputStream = new FileOutputStream(destination);
+            InputStream inputStream = new FileInputStream(source);
+            OutputStream outputStream = new FileOutputStream(destination);
 
             int numberOfBytes;
             while ( (numberOfBytes = inputStream.read(buffer)) > 0) {
@@ -227,10 +227,10 @@ public class QuarterBukkitIntegration {
         }
     }
 
-    private static void deleteRecursive(final File file) {
+    private static void deleteRecursive(File file) {
 
         if (file.isDirectory()) {
-            for (final File entry : file.listFiles()) {
+            for (File entry : file.listFiles()) {
                 deleteRecursive(entry);
             }
         }
@@ -238,11 +238,11 @@ public class QuarterBukkitIntegration {
         file.delete();
     }
 
-    private static String getFileURL(final String link) throws IOException {
+    private static String getFileURL(String link) throws IOException {
 
-        final URL url = new URL(link);
+        URL url = new URL(link);
         URLConnection connection = url.openConnection();
-        final BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
         String line;
         while ( (line = reader.readLine()) != null) {
@@ -258,13 +258,13 @@ public class QuarterBukkitIntegration {
 
     private static Map<String, String> getFeedData() throws IOException, XMLStreamException {
 
-        final Map<String, String> returnMap = new HashMap<String, String>();
+        Map<String, String> returnMap = new HashMap<String, String>();
         String title = null;
         String link = null;
 
-        final XMLInputFactory inputFactory = XMLInputFactory.newInstance();
-        final InputStream inputStream = feedUrl.openStream();
-        final XMLEventReader eventReader = inputFactory.createXMLEventReader(inputStream);
+        XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+        InputStream inputStream = feedUrl.openStream();
+        XMLEventReader eventReader = inputFactory.createXMLEventReader(inputStream);
 
         while (eventReader.hasNext()) {
             XMLEvent event = eventReader.nextEvent();

@@ -31,7 +31,7 @@ public class EquipmentUtil {
      * 
      * @param entity The {@link LivingEntity}.
      */
-    public static ItemStack getItem(final LivingEntity entity) {
+    public static ItemStack getItem(LivingEntity entity) {
 
         return entity.getEquipment().getItemInHand();
     }
@@ -42,7 +42,7 @@ public class EquipmentUtil {
      * @param entity The {@link LivingEntity}.
      * @param itemStack The {@link ItemStack}.
      */
-    public static void setItem(final LivingEntity entity, final ItemStack itemStack) {
+    public static void setItem(LivingEntity entity, ItemStack itemStack) {
 
         entity.getEquipment().setItemInHand(itemStack);
     }
@@ -52,7 +52,7 @@ public class EquipmentUtil {
      * 
      * @param entity The {@link LivingEntity}.
      */
-    public static ItemStack getHelmet(final LivingEntity entity) {
+    public static ItemStack getHelmet(LivingEntity entity) {
 
         return entity.getEquipment().getHelmet();
     }
@@ -63,7 +63,7 @@ public class EquipmentUtil {
      * @param entity The {@link LivingEntity}.
      * @param itemStack The {@link ItemStack}.
      */
-    public static void setHelmet(final LivingEntity entity, final ItemStack itemStack) {
+    public static void setHelmet(LivingEntity entity, ItemStack itemStack) {
 
         entity.getEquipment().setHelmet(itemStack);
     }
@@ -73,7 +73,7 @@ public class EquipmentUtil {
      * 
      * @param entity The {@link LivingEntity}.
      */
-    public static ItemStack getChestplate(final LivingEntity entity) {
+    public static ItemStack getChestplate(LivingEntity entity) {
 
         return entity.getEquipment().getChestplate();
     }
@@ -84,7 +84,7 @@ public class EquipmentUtil {
      * @param entity The {@link LivingEntity}.
      * @param itemStack The {@link ItemStack}.
      */
-    public static void setChestplate(final LivingEntity entity, final ItemStack itemStack) {
+    public static void setChestplate(LivingEntity entity, ItemStack itemStack) {
 
         entity.getEquipment().setChestplate(itemStack);
     }
@@ -94,7 +94,7 @@ public class EquipmentUtil {
      * 
      * @param entity The {@link LivingEntity}.
      */
-    public static ItemStack getLeggins(final LivingEntity entity) {
+    public static ItemStack getLeggins(LivingEntity entity) {
 
         return entity.getEquipment().getLeggings();
     }
@@ -105,7 +105,7 @@ public class EquipmentUtil {
      * @param entity The {@link LivingEntity}.
      * @param itemStack The {@link ItemStack}.
      */
-    public static void setLeggins(final LivingEntity entity, final ItemStack itemStack) {
+    public static void setLeggins(LivingEntity entity, ItemStack itemStack) {
 
         entity.getEquipment().setBoots(itemStack);
     }
@@ -115,7 +115,7 @@ public class EquipmentUtil {
      * 
      * @param entity The {@link LivingEntity}.
      */
-    public static ItemStack getBoots(final LivingEntity entity) {
+    public static ItemStack getBoots(LivingEntity entity) {
 
         return entity.getEquipment().getBoots();
     }
@@ -126,7 +126,7 @@ public class EquipmentUtil {
      * @param entity The {@link LivingEntity}.
      * @param itemStack The {@link ItemStack}.
      */
-    public static void setBoots(final LivingEntity entity, final ItemStack itemStack) {
+    public static void setBoots(LivingEntity entity, ItemStack itemStack) {
 
         entity.getEquipment().setBoots(itemStack);
     }

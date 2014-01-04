@@ -37,7 +37,7 @@ public class NoCommandFoundException extends GameException {
      * @param command The not registered {@link Command}.
      * @param commandExecutor The {@link CommandExecutor} which should execute the {@link Command}.
      */
-    public NoCommandFoundException(final Plugin plugin, final Command command, final CommandExecutor commandExecutor) {
+    public NoCommandFoundException(Plugin plugin, Command command, CommandExecutor commandExecutor) {
 
         super(plugin);
         this.command = command;
@@ -52,7 +52,7 @@ public class NoCommandFoundException extends GameException {
      * @param commandExecutor The {@link CommandExecutor} which should execute the {@link Command}.
      * @param message The information message.
      */
-    public NoCommandFoundException(final Plugin plugin, final Command command, final CommandExecutor commandExecutor, final String message) {
+    public NoCommandFoundException(Plugin plugin, Command command, CommandExecutor commandExecutor, String message) {
 
         super(plugin, message);
         this.command = command;

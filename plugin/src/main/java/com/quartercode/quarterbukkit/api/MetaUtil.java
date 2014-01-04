@@ -35,7 +35,7 @@ public class MetaUtil {
      * @param itemStack The {@link ItemStack}.
      * @return The name of the {@link ItemStack}.
      */
-    public static String getName(final ItemStack itemStack) {
+    public static String getName(ItemStack itemStack) {
 
         return itemStack.getItemMeta().getDisplayName();
     }
@@ -47,9 +47,9 @@ public class MetaUtil {
      * @param itemStack The {@link ItemStack} to modify.
      * @param name The name to set.
      */
-    public static void setName(final ItemStack itemStack, final String name) {
+    public static void setName(ItemStack itemStack, String name) {
 
-        final ItemMeta itemMeta = itemStack.getItemMeta();
+        ItemMeta itemMeta = itemStack.getItemMeta();
         if (name == null || name.isEmpty()) {
             itemMeta.setDisplayName(null);
         } else {
@@ -65,7 +65,7 @@ public class MetaUtil {
      * @param itemStack The {@link ItemStack}.
      * @return The description lines of the {@link ItemStack} as an {@link String}-{@link List}.
      */
-    public static List<String> getDescriptions(final ItemStack itemStack) {
+    public static List<String> getDescriptions(ItemStack itemStack) {
 
         return itemStack.getItemMeta().getLore();
     }
@@ -77,9 +77,9 @@ public class MetaUtil {
      * @param itemStack The {@link ItemStack} to modify.
      * @param descriptions The description lines to set as an {@link String}-{@link List}.
      */
-    public static void setDescriptions(final ItemStack itemStack, final List<String> descriptions) {
+    public static void setDescriptions(ItemStack itemStack, List<String> descriptions) {
 
-        final ItemMeta itemMeta = itemStack.getItemMeta();
+        ItemMeta itemMeta = itemStack.getItemMeta();
         if (descriptions == null || descriptions.isEmpty()) {
             itemMeta.setLore(null);
         } else {
@@ -95,7 +95,7 @@ public class MetaUtil {
      * @param itemStack The {@link ItemStack} to modify.
      * @param descriptions The description lines to set as an {@link String}-array.
      */
-    public static void setDescriptions(final ItemStack itemStack, final String... descriptions) {
+    public static void setDescriptions(ItemStack itemStack, String... descriptions) {
 
         setDescriptions(itemStack, Arrays.asList(descriptions));
     }

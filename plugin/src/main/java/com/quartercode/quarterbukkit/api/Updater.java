@@ -55,9 +55,9 @@ public abstract class Updater {
     private static final String LINK_TAG  = "link";
     private static final String ITEM_TAG  = "item";
 
-    protected final Plugin      plugin;
-    protected final Plugin      updatePlugin;
-    protected final String      slug;
+    protected Plugin            plugin;
+    protected Plugin            updatePlugin;
+    protected String            slug;
     private URL                 url;
     private URL                 feedUrl;
 
@@ -68,7 +68,7 @@ public abstract class Updater {
      * @param updatePlugin The {@link Plugin} which should be updated.
      * @param slug The BukkitDev-slug. Say we have the {@link URL} http://dev.bukkit.org/server-mods/quarterbukkit, {@code quarterbukkit} is the slug.
      */
-    public Updater(final Plugin plugin, final Plugin updatePlugin, final String slug) {
+    public Updater(Plugin plugin, Plugin updatePlugin, String slug) {
 
         if (plugin == null) {
             throw new IllegalArgumentException("Plugin cannot be null");
@@ -82,7 +82,7 @@ public abstract class Updater {
             url = new URL("http://dev.bukkit.org/server-mods/" + slug);
             feedUrl = new URL(url.toExternalForm() + "/files.rss");
         }
-        catch (final MalformedURLException e) {
+        catch (MalformedURLException e) {
             throw new IllegalArgumentException("Error while initalizing URL (slug: " + slug + ")", e);
         }
     }
@@ -123,29 +123,29 @@ public abstract class Updater {
      * @param causer The executor of the action.
      * @return If the installation was successful.
      */
-    public boolean tryInstall(final CommandSender causer) {
+    public boolean tryInstall(CommandSender causer) {
 
         try {
             if (isNewVersionAvaiable()) {
                 return install(new File("plugins"), causer);
             }
         }
-        catch (final UnknownHostException e) {
+        catch (UnknownHostException e) {
             ExceptionHandler.exception(new InstallException(plugin, this, e, causer, "Can't connect to dev.bukkit.org"));
         }
-        catch (final IOException e) {
+        catch (IOException e) {
             ExceptionHandler.exception(new InstallException(plugin, this, e, causer, "Something went wrong with the file system"));
         }
-        catch (final XMLStreamException e) {
+        catch (XMLStreamException e) {
             ExceptionHandler.exception(new InstallException(plugin, this, e, causer, "Something went wrong with the version XML-feed (" + feedUrl.toExternalForm() + ")"));
         }
-        catch (final InvalidPluginException e) {
+        catch (InvalidPluginException e) {
             ExceptionHandler.exception(new InstallException(plugin, this, e, causer, "The downloaded plugin isn't valid"));
         }
-        catch (final InvalidDescriptionException e) {
+        catch (InvalidDescriptionException e) {
             ExceptionHandler.exception(new InstallException(plugin, this, e, causer, "The plugin.yml in the downloaded plugin isn't valid"));
         }
-        catch (final UnknownDependencyException e) {
+        catch (UnknownDependencyException e) {
             ExceptionHandler.exception(new InstallException(plugin, this, e, causer, "The downloaded plugin has a depency to a plugin which isn't installed"));
         }
 
@@ -172,7 +172,7 @@ public abstract class Updater {
      * @throws IOException If something goes wrong with the file system.
      * @throws XMLStreamException If something goes wrong with the version XML-feed.
      */
-    public String getLatestVersion(final CommandSender causer) throws IOException, XMLStreamException {
+    public String getLatestVersion(CommandSender causer) throws IOException, XMLStreamException {
 
         return parseVersion(getFeedData().get("title"));
     }
@@ -205,12 +205,12 @@ public abstract class Updater {
      * @throws IOException If something goes wrong with the file system.
      * @throws XMLStreamException If something goes wrong with the version XML-feed.
      */
-    public boolean isNewVersionAvaiable(final CommandSender causer) throws IOException, XMLStreamException {
+    public boolean isNewVersionAvaiable(CommandSender causer) throws IOException, XMLStreamException {
 
         if (updatePlugin == null) {
             return true;
         } else {
-            final String latestVersion = getLatestVersion();
+            String latestVersion = getLatestVersion();
             if (latestVersion != null) {
                 if (!latestVersion.equals(updatePlugin.getDescription().getVersion())) {
                     return true;
@@ -221,16 +221,16 @@ public abstract class Updater {
         }
     }
 
-    private boolean install(final File directory, final CommandSender causer) throws IOException, XMLStreamException, UnknownDependencyException, InvalidPluginException, InvalidDescriptionException {
+    private boolean install(File directory, CommandSender causer) throws IOException, XMLStreamException, UnknownDependencyException, InvalidPluginException, InvalidDescriptionException {
 
-        final URL url = new URL(getFileURL(getFeedData().get("link")));
-        final String fileName = url.getPath().split("/")[url.getPath().split("/").length - 1];
-        final File file = new File(directory, fileName);
-        final InputStream inputStream = url.openStream();
-        final OutputStream outputStream = new FileOutputStream(file);
+        URL url = new URL(getFileURL(getFeedData().get("link")));
+        String fileName = url.getPath().split("/")[url.getPath().split("/").length - 1];
+        File file = new File(directory, fileName);
+        InputStream inputStream = url.openStream();
+        OutputStream outputStream = new FileOutputStream(file);
         outputStream.flush();
 
-        final byte[] tempBuffer = new byte[4096];
+        byte[] tempBuffer = new byte[4096];
         int counter;
         while ( (counter = inputStream.read(tempBuffer)) > 0) {
             outputStream.write(tempBuffer, 0, counter);
@@ -263,20 +263,20 @@ public abstract class Updater {
      * @throws ZipException If something goes wrong in the {@link ZipFile}.
      * @throws IOException If something goes wrong with the file system.
      */
-    public void extract(final File zip, final String zipPath, final File destinationFile) throws ZipException, IOException {
+    public void extract(File zip, String zipPath, File destinationFile) throws ZipException, IOException {
 
-        final ZipFile zipFile = new ZipFile(zip);
-        final ZipEntry zipEntry = zipFile.getEntry(zipPath);
+        ZipFile zipFile = new ZipFile(zip);
+        ZipEntry zipEntry = zipFile.getEntry(zipPath);
 
-        final byte[] BUFFER = new byte[0xFFFF];
+        byte[] BUFFER = new byte[0xFFFF];
 
         if (zipEntry.isDirectory()) {
             destinationFile.mkdirs();
         } else {
             destinationFile.getParentFile().mkdirs();
 
-            final InputStream inputStream = zipFile.getInputStream(zipEntry);
-            final OutputStream outputStream = new FileOutputStream(destinationFile);
+            InputStream inputStream = zipFile.getInputStream(zipEntry);
+            OutputStream outputStream = new FileOutputStream(destinationFile);
 
             for (int lenght; (lenght = inputStream.read(BUFFER)) != -1;) {
                 outputStream.write(BUFFER, 0, lenght);
@@ -289,11 +289,11 @@ public abstract class Updater {
         zipFile.close();
     }
 
-    private String getFileURL(final String link) throws IOException {
+    private String getFileURL(String link) throws IOException {
 
-        final URL url = new URL(link);
+        URL url = new URL(link);
         URLConnection connection = url.openConnection();
-        final BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
         String line;
         while ( (line = reader.readLine()) != null) {
@@ -309,13 +309,13 @@ public abstract class Updater {
 
     private Map<String, String> getFeedData() throws IOException, XMLStreamException {
 
-        final Map<String, String> returnMap = new HashMap<String, String>();
+        Map<String, String> returnMap = new HashMap<String, String>();
         String title = null;
         String link = null;
 
-        final XMLInputFactory inputFactory = XMLInputFactory.newInstance();
-        final InputStream inputStream = feedUrl.openStream();
-        final XMLEventReader eventReader = inputFactory.createXMLEventReader(inputStream);
+        XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+        InputStream inputStream = feedUrl.openStream();
+        XMLEventReader eventReader = inputFactory.createXMLEventReader(inputStream);
 
         while (eventReader.hasNext()) {
             XMLEvent event = eventReader.nextEvent();
@@ -345,7 +345,7 @@ public abstract class Updater {
     @Override
     public int hashCode() {
 
-        final int prime = 31;
+        int prime = 31;
         int result = 1;
         result = prime * result + (feedUrl == null ? 0 : feedUrl.hashCode());
         result = prime * result + (plugin == null ? 0 : plugin.hashCode());
@@ -356,7 +356,7 @@ public abstract class Updater {
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(Object obj) {
 
         if (this == obj) {
             return true;
@@ -367,7 +367,7 @@ public abstract class Updater {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Updater other = (Updater) obj;
+        Updater other = (Updater) obj;
         if (feedUrl == null) {
             if (other.feedUrl != null) {
                 return false;

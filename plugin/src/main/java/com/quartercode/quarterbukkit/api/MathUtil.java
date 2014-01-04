@@ -30,7 +30,7 @@ public class MathUtil {
      * @param millis The milliseconds.
      * @return The minecraft-ticks.
      */
-    public static long getTicks(final long millis) {
+    public static long getTicks(long millis) {
 
         return (long) (millis / 50D);
     }
@@ -41,7 +41,7 @@ public class MathUtil {
      * @param ticks The minecraft-ticks
      * @return The milliseconds
      */
-    public static long getMillis(final long ticks) {
+    public static long getMillis(long ticks) {
 
         return (long) (ticks * 50D);
     }

@@ -35,7 +35,7 @@ public class InventoryUtil {
      * @param itemStack The {@link ItemStack} to check.
      * @return If the given {@link Inventory} contains at least one {@link ItemStack} which equals the given {@link ItemStack}.
      */
-    public static boolean contains(final Inventory inventory, final ItemStack itemStack) {
+    public static boolean contains(Inventory inventory, ItemStack itemStack) {
 
         return containsAtLeast(inventory, itemStack, 1);
     }
@@ -47,12 +47,12 @@ public class InventoryUtil {
      * @param itemStack The {@link ItemStack} to check.
      * @return If the given {@link Inventory} contains at least the given amount of {@link ItemStack}s which equal the given {@link ItemStack}.
      */
-    public static boolean containsAtLeast(final Inventory inventory, final ItemStack itemStack, final int minimumAmount) {
+    public static boolean containsAtLeast(Inventory inventory, ItemStack itemStack, int minimumAmount) {
 
         int foundItems = 0;
 
         if (inventory instanceof PlayerInventory) {
-            final PlayerInventory playerInventory = (PlayerInventory) inventory;
+            PlayerInventory playerInventory = (PlayerInventory) inventory;
             if (playerInventory.getHolder() instanceof Player && ((Player) playerInventory.getHolder()).getItemOnCursor() != null && ((Player) playerInventory.getHolder()).getItemOnCursor().equals(itemStack)) {
                 foundItems++;
             }
@@ -61,7 +61,7 @@ public class InventoryUtil {
             }
         }
 
-        for (final ItemStack itemStack2 : inventory.getContents()) {
+        for (ItemStack itemStack2 : inventory.getContents()) {
             if (itemStack2 != null && itemStack.equals(itemStack2)) {
                 foundItems++;
             }

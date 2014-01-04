@@ -37,7 +37,7 @@ public abstract class ScheduleTask implements Runnable {
      * 
      * @param plugin The custom plugin.
      */
-    public ScheduleTask(final Plugin plugin) {
+    public ScheduleTask(Plugin plugin) {
 
         this.plugin = plugin;
     }
@@ -59,7 +59,7 @@ public abstract class ScheduleTask implements Runnable {
      * @param collection The {@link Collection} to add the task.
      * @return This schedule task.
      */
-    public ScheduleTask add(final Collection<ScheduleTask> collection) {
+    public ScheduleTask add(Collection<ScheduleTask> collection) {
 
         collection.add(this);
         return this;
@@ -79,7 +79,7 @@ public abstract class ScheduleTask implements Runnable {
      * @param delay The delay in ticks.
      * @return This schedule task.
      */
-    public ScheduleTask run(final boolean sync, final long delay) {
+    public ScheduleTask run(boolean sync, long delay) {
 
         checkRunning();
 
@@ -100,7 +100,7 @@ public abstract class ScheduleTask implements Runnable {
      * @param period The delay between two repeatings in ticks.
      * @return This schedule task.
      */
-    public ScheduleTask run(final boolean sync, final long delay, final long period) {
+    public ScheduleTask run(boolean sync, long delay, long period) {
 
         checkRunning();
 
@@ -122,7 +122,7 @@ public abstract class ScheduleTask implements Runnable {
      * @deprecated This method is deprecated. Use {@link ScheduleTask#run(boolean, long)} instead.
      */
     @Deprecated
-    public ScheduleTask run(final long delay) {
+    public ScheduleTask run(long delay) {
 
         run(true, delay);
 
@@ -139,7 +139,7 @@ public abstract class ScheduleTask implements Runnable {
      * @deprecated This method is deprecated. Use {@link ScheduleTask#run(boolean, long, long)} instead.
      */
     @Deprecated
-    public ScheduleTask run(final long delay, final long period) {
+    public ScheduleTask run(long delay, long period) {
 
         run(true, delay, period);
 
@@ -166,7 +166,7 @@ public abstract class ScheduleTask implements Runnable {
     @Override
     public int hashCode() {
 
-        final int prime = 31;
+        int prime = 31;
         int result = 1;
         result = prime * result + bukkitTask.getTaskId();
         result = prime * result + (plugin == null ? 0 : plugin.hashCode());
@@ -174,7 +174,7 @@ public abstract class ScheduleTask implements Runnable {
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(Object obj) {
 
         if (this == obj) {
             return true;
@@ -185,7 +185,7 @@ public abstract class ScheduleTask implements Runnable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ScheduleTask other = (ScheduleTask) obj;
+        ScheduleTask other = (ScheduleTask) obj;
         if (bukkitTask != other.bukkitTask) {
             return false;
         }

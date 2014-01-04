@@ -42,7 +42,7 @@ public class CommandInfo {
      * @param labels All labels a user can use for the {@link Command}. If you type in /command help, help will be the label (use &lt;empty&gt; if you want the command can be executed with no label,
      *        e.g. /command). You can define unltimited labels via vararg.
      */
-    public CommandInfo(final boolean ignoreCase, final String parameterUsage, final String description, final String permission, final String... labels) {
+    public CommandInfo(boolean ignoreCase, String parameterUsage, String description, String permission, String... labels) {
 
         this.ignoreCase = ignoreCase;
         this.parameterUsage = parameterUsage;
@@ -105,7 +105,7 @@ public class CommandInfo {
     @Override
     public int hashCode() {
 
-        final int prime = 31;
+        int prime = 31;
         int result = 1;
         result = prime * result + (description == null ? 0 : description.hashCode());
         result = prime * result + (ignoreCase ? 1231 : 1237);
@@ -116,7 +116,7 @@ public class CommandInfo {
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(Object obj) {
 
         if (this == obj) {
             return true;
@@ -127,7 +127,7 @@ public class CommandInfo {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final CommandInfo other = (CommandInfo) obj;
+        CommandInfo other = (CommandInfo) obj;
         if (description == null) {
             if (other.description != null) {
                 return false;

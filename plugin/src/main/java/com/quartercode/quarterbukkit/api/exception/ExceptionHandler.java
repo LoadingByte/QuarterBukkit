@@ -37,7 +37,7 @@ public class ExceptionHandler {
      * @param exception The {@link GameException} to handle.
      * @return If the process should continue (if the exception is an instance of {@link Cancellable}, else true).
      */
-    public static boolean exception(final GameException exception) {
+    public static boolean exception(GameException exception) {
 
         call(exception);
 
@@ -48,12 +48,12 @@ public class ExceptionHandler {
         }
     }
 
-    private static void call(final GameException exception) {
+    private static void call(GameException exception) {
 
-        final HandlerList handlers = exception.getHandlers();
-        final RegisteredListener[] listeners = handlers.getRegisteredListeners();
+        HandlerList handlers = exception.getHandlers();
+        RegisteredListener[] listeners = handlers.getRegisteredListeners();
 
-        for (final RegisteredListener registration : listeners) {
+        for (RegisteredListener registration : listeners) {
             if (!registration.getPlugin().isEnabled() || !registration.getPlugin().equals(exception.getPlugin())) {
                 continue;
             }
@@ -61,15 +61,15 @@ public class ExceptionHandler {
             try {
                 registration.callEvent(exception);
             }
-            catch (final AuthorNagException ex) {
-                final Plugin plugin = registration.getPlugin();
+            catch (AuthorNagException ex) {
+                Plugin plugin = registration.getPlugin();
 
                 if (plugin.isNaggable()) {
                     plugin.setNaggable(false);
                     Bukkit.getLogger().log(Level.SEVERE, String.format("Nag author(s): '%s' of '%s' about the following: %s", plugin.getDescription().getAuthors(), plugin.getDescription().getFullName(), ex.getMessage()));
                 }
             }
-            catch (final Throwable e) {
+            catch (Throwable e) {
                 Bukkit.getLogger().log(Level.SEVERE, "Could not pass exception " + exception.getEventName() + " to " + registration.getPlugin().getDescription().getFullName(), e);
             }
         }

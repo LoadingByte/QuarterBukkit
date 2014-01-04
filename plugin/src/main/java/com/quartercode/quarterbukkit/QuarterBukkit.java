@@ -82,13 +82,13 @@ public class QuarterBukkit extends JavaPlugin {
 
         if (config.getBoolean("autoupdate")) {
             try {
-                final QuarterBukkitUpdater updater = new QuarterBukkitUpdater(this);
+                QuarterBukkitUpdater updater = new QuarterBukkitUpdater(this);
                 if (updater.isNewVersionAvaiable(Bukkit.getConsoleSender())) {
                     getLogger().info("Updating QuarterBukkit ...");
                     updater.tryInstall();
                 }
             }
-            catch (final Exception e) {
+            catch (Exception e) {
                 Bukkit.getLogger().severe("An error occurred while updating QuarterBukkit (" + e + ")");
             }
         }
@@ -97,7 +97,7 @@ public class QuarterBukkit extends JavaPlugin {
             metrics = new Metrics(this);
             metrics.start();
         }
-        catch (final IOException e) {
+        catch (IOException e) {
             getLogger().severe("An error occurred while enabling Metrics (" + e + ")");
         }
 

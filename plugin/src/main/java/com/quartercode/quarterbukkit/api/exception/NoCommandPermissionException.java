@@ -37,7 +37,7 @@ public class NoCommandPermissionException extends NoPermissionException {
      * @param causer The {@link CommandSender} who has't enough permissions.
      * @param command The {@link Command} which the {@link CommandSender} tried to execute.
      */
-    public NoCommandPermissionException(final Plugin plugin, final String permission, final CommandSender causer, final Command command) {
+    public NoCommandPermissionException(Plugin plugin, String permission, CommandSender causer, Command command) {
 
         super(plugin, permission, causer);
         this.command = command;
@@ -52,7 +52,7 @@ public class NoCommandPermissionException extends NoPermissionException {
      * @param command The {@link Command} which the {@link CommandSender} tried to execute.
      * @param message The information message.
      */
-    public NoCommandPermissionException(final Plugin plugin, final String permission, final CommandSender causer, final Command command, final String message) {
+    public NoCommandPermissionException(Plugin plugin, String permission, CommandSender causer, Command command, String message) {
 
         super(plugin, permission, causer, message);
         this.command = command;

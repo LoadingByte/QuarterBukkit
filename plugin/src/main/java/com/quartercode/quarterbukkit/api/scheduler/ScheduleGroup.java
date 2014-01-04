@@ -44,7 +44,7 @@ public class ScheduleGroup extends ArrayList<ScheduleTask> {
      * 
      * @param collection The {@link ScheduleTask} collection.
      */
-    public ScheduleGroup(final Collection<? extends ScheduleTask> collection) {
+    public ScheduleGroup(Collection<? extends ScheduleTask> collection) {
 
         super(collection);
     }
@@ -54,7 +54,7 @@ public class ScheduleGroup extends ArrayList<ScheduleTask> {
      */
     public void cancel() {
 
-        for (final ScheduleTask scheduleTask : this) {
+        for (ScheduleTask scheduleTask : this) {
             if (scheduleTask.isRunning()) {
                 scheduleTask.cancel();
             }

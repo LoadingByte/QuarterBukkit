@@ -34,7 +34,7 @@ public class ItemData {
      * @param itemStack2 The second {@link ItemStack}.
      * @return If both {@link ItemStack}s are the same.
      */
-    public static boolean equals(final ItemStack itemStack1, final ItemStack itemStack2) {
+    public static boolean equals(ItemStack itemStack1, ItemStack itemStack2) {
 
         return new ItemData(itemStack1).equals(itemStack2);
     }
@@ -46,7 +46,7 @@ public class ItemData {
      * @param block2 The second {@link Block}.
      * @return If both {@link Block}s are the same.
      */
-    public static boolean equals(final Block block1, final Block block2) {
+    public static boolean equals(Block block1, Block block2) {
 
         return new ItemData(block1).equals(block2);
     }
@@ -58,7 +58,7 @@ public class ItemData {
      * @param block2 The second {@link Block}.
      * @return If the datas of the {@link ItemStack} and the {@link Block} are the same.
      */
-    public static boolean equals(final ItemStack itemStack1, final Block block2) {
+    public static boolean equals(ItemStack itemStack1, Block block2) {
 
         return new ItemData(itemStack1).equals(block2);
     }
@@ -79,7 +79,7 @@ public class ItemData {
      * 
      * @param material The {@link Material}.
      */
-    public ItemData(final Material material) {
+    public ItemData(Material material) {
 
         this.material = material;
         data = 0;
@@ -91,7 +91,7 @@ public class ItemData {
      * @param material The {@link Material}.
      * @param data The data value.
      */
-    public ItemData(final Material material, final byte data) {
+    public ItemData(Material material, byte data) {
 
         this.material = material;
         this.data = data;
@@ -103,7 +103,7 @@ public class ItemData {
      * @param itemStack The {@link ItemStack} to read the data from.
      */
     @SuppressWarnings ("deprecation")
-    public ItemData(final ItemStack itemStack) {
+    public ItemData(ItemStack itemStack) {
 
         material = itemStack.getType();
         data = itemStack.getData().getData();
@@ -115,7 +115,7 @@ public class ItemData {
      * @param block The {@link Block} to read the data from.
      */
     @SuppressWarnings ("deprecation")
-    public ItemData(final Block block) {
+    public ItemData(Block block) {
 
         material = block.getType();
         data = block.getData();
@@ -136,7 +136,7 @@ public class ItemData {
      * 
      * @param material The new {@link Material} of the item data object.
      */
-    public void setMaterial(final Material material) {
+    public void setMaterial(Material material) {
 
         this.material = material;
     }
@@ -156,7 +156,7 @@ public class ItemData {
      * 
      * @param data The new data value of the item data object.
      */
-    public void setData(final byte data) {
+    public void setData(byte data) {
 
         this.data = data;
     }
@@ -167,7 +167,7 @@ public class ItemData {
      * @param itemData The item data object to compare with.
      * @return If this item data object equals the other one.
      */
-    public boolean equals(final ItemData itemData) {
+    public boolean equals(ItemData itemData) {
 
         return itemData.getMaterial() == material && itemData.getData() == data;
     }
@@ -179,7 +179,7 @@ public class ItemData {
      * @return If the data of this item data object equals the data from the {@link ItemStack}.
      */
     @SuppressWarnings ("deprecation")
-    public boolean equals(final ItemStack itemStack) {
+    public boolean equals(ItemStack itemStack) {
 
         return itemStack != null && itemStack.getType() == material && itemStack.getData().getData() == data;
     }
@@ -191,7 +191,7 @@ public class ItemData {
      * @return If the data of this item data object equals the data from the {@link Block}.
      */
     @SuppressWarnings ("deprecation")
-    public boolean equals(final Block block) {
+    public boolean equals(Block block) {
 
         return block != null && block.getType() == material && block.getData() == data;
     }
@@ -202,7 +202,7 @@ public class ItemData {
      * @param inventory The {@link Inventory} to check.
      * @return If the given {@link Inventory} contains at least one {@link ItemStack} with the data of this item data object.
      */
-    public boolean contains(final Inventory inventory) {
+    public boolean contains(Inventory inventory) {
 
         return containsAtLeast(inventory, 1);
     }
@@ -214,18 +214,18 @@ public class ItemData {
      * @param minimumAmount The minimum count of item stacks.
      * @return If the given {@link Inventory} contains at least the given amount of {@link ItemStack}s with the data of this item data object.
      */
-    public boolean containsAtLeast(final Inventory inventory, final int minimumAmount) {
+    public boolean containsAtLeast(Inventory inventory, int minimumAmount) {
 
         int foundItems = 0;
 
         if (inventory instanceof PlayerInventory) {
-            final PlayerInventory playerInventory = (PlayerInventory) inventory;
+            PlayerInventory playerInventory = (PlayerInventory) inventory;
             if (equals(playerInventory.getBoots()) || equals(playerInventory.getLeggings()) || equals(playerInventory.getChestplate()) || equals(playerInventory.getHelmet())) {
                 foundItems++;
             }
         }
 
-        for (final ItemStack itemStack : inventory.getContents()) {
+        for (ItemStack itemStack : inventory.getContents()) {
             if (equals(itemStack)) {
                 foundItems++;
             }
@@ -240,10 +240,10 @@ public class ItemData {
      * @param itemStack The {@link ItemStack} to apply the data.
      */
     @SuppressWarnings ("deprecation")
-    public void apply(final ItemStack itemStack) {
+    public void apply(ItemStack itemStack) {
 
         itemStack.setType(material);
-        final MaterialData itemData = itemStack.getData();
+        MaterialData itemData = itemStack.getData();
         itemData.setData(data);
         itemStack.setData(itemData);
     }
@@ -254,19 +254,19 @@ public class ItemData {
      * @param block The {@link Block} to apply the data.
      */
     @SuppressWarnings ("deprecation")
-    public void apply(final Block block) {
+    public void apply(Block block) {
 
         block.setType(material);
         block.setData(data);
     }
 
     @Override
-    public boolean equals(final Object object) {
+    public boolean equals(Object object) {
 
         if (object == null || ! (object instanceof ItemData)) {
             return false;
         } else {
-            final ItemData itemData = (ItemData) object;
+            ItemData itemData = (ItemData) object;
             return itemData.getMaterial() == material && itemData.getData() == data;
         }
     }

@@ -45,7 +45,7 @@ public class ParticleDescription {
      * 
      * @param shape The {@link ParticleShape}.
      */
-    public ParticleDescription(final ParticleShape shape) {
+    public ParticleDescription(ParticleShape shape) {
 
         this.shape = shape;
     }
@@ -55,7 +55,7 @@ public class ParticleDescription {
      * 
      * @param colors The particle {@link Color}s as an array/vararg.
      */
-    public ParticleDescription(final Color... colors) {
+    public ParticleDescription(Color... colors) {
 
         this.colors = Arrays.asList(colors);
     }
@@ -65,7 +65,7 @@ public class ParticleDescription {
      * 
      * @param colors The particle {@link Color}s as a {@link List}.
      */
-    public ParticleDescription(final List<Color> colors) {
+    public ParticleDescription(List<Color> colors) {
 
         this.colors = colors;
     }
@@ -76,7 +76,7 @@ public class ParticleDescription {
      * @param shape The {@link ParticleShape}.
      * @param colors The particle {@link Color}s as an array/vararg.
      */
-    public ParticleDescription(final ParticleShape shape, final Color... colors) {
+    public ParticleDescription(ParticleShape shape, Color... colors) {
 
         this.shape = shape;
         this.colors = Arrays.asList(colors);
@@ -88,7 +88,7 @@ public class ParticleDescription {
      * @param shape The {@link ParticleShape}.
      * @param colors The particle {@link Color}s as a {@link List}.
      */
-    public ParticleDescription(final ParticleShape shape, final List<Color> colors) {
+    public ParticleDescription(ParticleShape shape, List<Color> colors) {
 
         this.shape = shape;
         this.colors = colors;
@@ -110,7 +110,7 @@ public class ParticleDescription {
      * @param shape The {@link ParticleShape}.
      * @return This particle description.
      */
-    public ParticleDescription setShape(final ParticleShape shape) {
+    public ParticleDescription setShape(ParticleShape shape) {
 
         this.shape = shape;
         return this;
@@ -132,7 +132,7 @@ public class ParticleDescription {
      * @param colors The particle {@link Color}s as an array/vararg.
      * @return This particle description.
      */
-    public ParticleDescription setColors(final Color... colors) {
+    public ParticleDescription setColors(Color... colors) {
 
         this.colors = Arrays.asList(colors);
         return this;
@@ -144,7 +144,7 @@ public class ParticleDescription {
      * @param colors The particle {@link Color}s as a {@link List}.
      * @return This particle description.
      */
-    public ParticleDescription setColors(final List<Color> colors) {
+    public ParticleDescription setColors(List<Color> colors) {
 
         this.colors = colors;
         return this;
@@ -156,7 +156,7 @@ public class ParticleDescription {
      * @param color The particle {@link Color} to add.
      * @return This particle description.
      */
-    public ParticleDescription addColor(final Color color) {
+    public ParticleDescription addColor(Color color) {
 
         colors.add(color);
         return this;
@@ -168,7 +168,7 @@ public class ParticleDescription {
      * @param color The particle {@link Color} to remove.
      * @return This particle description.
      */
-    public ParticleDescription removeColor(final Color color) {
+    public ParticleDescription removeColor(Color color) {
 
         colors.remove(color);
         return this;
@@ -190,7 +190,7 @@ public class ParticleDescription {
      * @param fadeColors The fade particle {@link Color}s as an array/vararg.
      * @return This particle description.
      */
-    public ParticleDescription setFadeColors(final Color... fadeColors) {
+    public ParticleDescription setFadeColors(Color... fadeColors) {
 
         this.fadeColors = Arrays.asList(fadeColors);
         return this;
@@ -202,7 +202,7 @@ public class ParticleDescription {
      * @param fadeColors The fade particle {@link Color}s as a {@link List}.
      * @return This particle description.
      */
-    public ParticleDescription setFadeColors(final List<Color> fadeColors) {
+    public ParticleDescription setFadeColors(List<Color> fadeColors) {
 
         this.fadeColors = fadeColors;
         return this;
@@ -214,7 +214,7 @@ public class ParticleDescription {
      * @param fadeColor The fade particle {@link Color} to add.
      * @return This particle description.
      */
-    public ParticleDescription addFadeColor(final Color fadeColor) {
+    public ParticleDescription addFadeColor(Color fadeColor) {
 
         fadeColors.add(fadeColor);
         return this;
@@ -226,7 +226,7 @@ public class ParticleDescription {
      * @param fadeColor The fade particle {@link Color} to remove.
      * @return This particle description.
      */
-    public ParticleDescription removeFadeColor(final Color fadeColor) {
+    public ParticleDescription removeFadeColor(Color fadeColor) {
 
         fadeColors.remove(fadeColor);
         return this;

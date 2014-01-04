@@ -38,7 +38,7 @@ public class InstallException extends GameException {
      * @param updater The {@link Updater} which caused the error.
      * @param cause The cause for the error.
      */
-    public InstallException(final Plugin plugin, final Updater updater, final Exception cause) {
+    public InstallException(Plugin plugin, Updater updater, Exception cause) {
 
         super(plugin);
         this.updater = updater;
@@ -54,7 +54,7 @@ public class InstallException extends GameException {
      * @param cause The cause for the error.
      * @param causer The {@link CommandSender} who caused the exception.
      */
-    public InstallException(final Plugin plugin, final Updater updater, final Exception cause, final CommandSender causer) {
+    public InstallException(Plugin plugin, Updater updater, Exception cause, CommandSender causer) {
 
         super(plugin);
         this.updater = updater;
@@ -70,7 +70,7 @@ public class InstallException extends GameException {
      * @param cause The cause for the error.
      * @param message The informational message.
      */
-    public InstallException(final Plugin plugin, final Updater updater, final Exception cause, final String message) {
+    public InstallException(Plugin plugin, Updater updater, Exception cause, String message) {
 
         super(plugin, message);
         this.updater = updater;
@@ -88,7 +88,7 @@ public class InstallException extends GameException {
      * @param causer The {@link CommandSender} who caused the exception.
      * @param message The informational message.
      */
-    public InstallException(final Plugin plugin, final Updater updater, final Exception cause, final CommandSender causer, final String message) {
+    public InstallException(Plugin plugin, Updater updater, Exception cause, CommandSender causer, String message) {
 
         super(plugin, message);
         this.updater = updater;

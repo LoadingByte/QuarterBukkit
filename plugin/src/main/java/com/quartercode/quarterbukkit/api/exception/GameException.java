@@ -27,7 +27,7 @@ import org.bukkit.plugin.Plugin;
  */
 public class GameException extends Event {
 
-    private static final HandlerList handlers = new HandlerList();
+    private static HandlerList handlers = new HandlerList();
 
     public static HandlerList getHandlerList() {
 
@@ -42,7 +42,7 @@ public class GameException extends Event {
      * 
      * @param plugin The causing {@link Plugin}.
      */
-    public GameException(final Plugin plugin) {
+    public GameException(Plugin plugin) {
 
         this.plugin = plugin;
     }
@@ -53,7 +53,7 @@ public class GameException extends Event {
      * @param plugin The causing {@link Plugin}.
      * @param message The information as a human-readable message.
      */
-    public GameException(final Plugin plugin, final String message) {
+    public GameException(Plugin plugin, String message) {
 
         this.plugin = plugin;
         this.message = message;

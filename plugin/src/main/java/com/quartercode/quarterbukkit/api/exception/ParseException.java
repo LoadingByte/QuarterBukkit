@@ -36,7 +36,7 @@ public class ParseException extends GameException {
      * @param cause The cause for the error.
      * @param string {@link String} which could not be parsed.
      */
-    public ParseException(final Plugin plugin, final Exception cause, final String string) {
+    public ParseException(Plugin plugin, Exception cause, String string) {
 
         super(plugin);
         this.cause = cause;
@@ -51,7 +51,7 @@ public class ParseException extends GameException {
      * @param string The {@link String} which could not be parsed.
      * @param message The informational message.
      */
-    public ParseException(final Plugin plugin, final Exception cause, final String string, final String message) {
+    public ParseException(Plugin plugin, Exception cause, String string, String message) {
 
         super(plugin, message);
         this.cause = cause;

@@ -49,20 +49,20 @@ public class DefaultParticleSpawner implements ParticleSpawner {
     }
 
     @Override
-    public void spawn(final Plugin plugin, final List<ParticleDescription> descriptions, final Location location) {
+    public void spawn(Plugin plugin, List<ParticleDescription> descriptions, Location location) {
 
-        final Firework firework = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
+        Firework firework = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
 
         try {
             checkMethodCache(firework.getWorld(), firework);
-            final Object nmsWorld = world_getHandle.invoke(firework.getWorld());
-            final Object nmsFirework = firework_getHandle.invoke(firework);
+            Object nmsWorld = world_getHandle.invoke(firework.getWorld());
+            Object nmsFirework = firework_getHandle.invoke(firework);
             nmsFirwork_setInvisible.invoke(nmsFirework, true);
 
-            final FireworkMeta meta = firework.getFireworkMeta();
+            FireworkMeta meta = firework.getFireworkMeta();
             meta.clearEffects();
-            for (final ParticleDescription description : descriptions) {
-                final Builder builder = FireworkEffect.builder();
+            for (ParticleDescription description : descriptions) {
+                Builder builder = FireworkEffect.builder();
                 builder.with(description.getShape().getFireworkType());
                 builder.withColor(description.getColors().toArray(new Color[description.getColors().size()]));
                 builder.withFade(description.getFadeColors().toArray(new Color[description.getFadeColors().size()]));
@@ -73,14 +73,14 @@ public class DefaultParticleSpawner implements ParticleSpawner {
 
             nmsWorld_broadcastEntityEffect.invoke(nmsWorld, nmsFirework, (byte) 17);
         }
-        catch (final Exception e) {
+        catch (Exception e) {
             ExceptionHandler.exception(new InternalException(plugin, e, "Reflection read error"));
         }
 
         firework.remove();
     }
 
-    private void checkMethodCache(final World world, final Firework firework) throws Exception {
+    private void checkMethodCache(World world, Firework firework) throws Exception {
 
         if (world_getHandle == null) {
             world_getHandle = world.getClass().getDeclaredMethod("getHandle");
@@ -91,7 +91,7 @@ public class DefaultParticleSpawner implements ParticleSpawner {
         }
 
         if (nmsFirwork_setInvisible == null) {
-            for (final Method method : firework_getHandle.invoke(firework).getClass().getMethods()) {
+            for (Method method : firework_getHandle.invoke(firework).getClass().getMethods()) {
                 if (method.getName().equals("setInvisible")) {
                     nmsFirwork_setInvisible = method;
                     break;
@@ -100,7 +100,7 @@ public class DefaultParticleSpawner implements ParticleSpawner {
         }
 
         if (nmsWorld_broadcastEntityEffect == null) {
-            for (final Method method : world_getHandle.invoke(world).getClass().getMethods()) {
+            for (Method method : world_getHandle.invoke(world).getClass().getMethods()) {
                 if (method.getName().equals("broadcastEntityEffect")) {
                     nmsWorld_broadcastEntityEffect = method;
                     break;

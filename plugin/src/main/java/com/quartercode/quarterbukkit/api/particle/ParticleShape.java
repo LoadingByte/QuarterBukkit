@@ -52,9 +52,9 @@ public enum ParticleShape {
      * @param fireworkType The firework {@link Type}.
      * @return The particle shape.
      */
-    public static ParticleShape getShape(final Type fireworkType) {
+    public static ParticleShape getShape(Type fireworkType) {
 
-        for (final ParticleShape shape : values()) {
+        for (ParticleShape shape : values()) {
             if (shape.getFireworkType().equals(fireworkType)) {
                 return shape;
             }
@@ -65,7 +65,7 @@ public enum ParticleShape {
 
     private Type fireworkType;
 
-    private ParticleShape(final Type fireworkType) {
+    private ParticleShape(Type fireworkType) {
 
         this.fireworkType = fireworkType;
     }

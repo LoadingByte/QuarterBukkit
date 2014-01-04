@@ -34,6 +34,6 @@ public interface ParticleSpawner {
      * @param descriptions The {@link ParticleDescription}s for the particle effect.
      * @param location The spawn {@link Location} for the particles.
      */
-    public void spawn(Plugin plugin, final List<ParticleDescription> descriptions, final Location location);
+    public void spawn(Plugin plugin, List<ParticleDescription> descriptions, Location location);
 
 }

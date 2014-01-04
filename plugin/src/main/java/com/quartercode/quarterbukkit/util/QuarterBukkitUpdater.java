@@ -38,19 +38,19 @@ public class QuarterBukkitUpdater extends Updater {
      * 
      * @param plugin The {@link QuarterBukkit}-{@link Plugin}.
      */
-    public QuarterBukkitUpdater(final Plugin plugin) {
+    public QuarterBukkitUpdater(Plugin plugin) {
 
         super(plugin, plugin, "quarterbukkit");
     }
 
     @Override
-    protected String parseVersion(final String title) {
+    protected String parseVersion(String title) {
 
         return title.replaceAll("QuarterBukkit ", "");
     }
 
     @Override
-    protected boolean doInstall(final File downloadedFile, final CommandSender causer) throws IOException {
+    protected boolean doInstall(File downloadedFile, CommandSender causer) throws IOException {
 
         extract(downloadedFile, "QuarterBukkit.jar", new File("plugins", "QuarterBukkit.jar"));
         downloadedFile.delete();
@@ -60,7 +60,7 @@ public class QuarterBukkitUpdater extends Updater {
             Bukkit.getPluginManager().enablePlugin(Bukkit.getPluginManager().loadPlugin(new File("plugins", "QuarterBukkit.jar")));
             return true;
         }
-        catch (final Exception e) {
+        catch (Exception e) {
             ExceptionHandler.exception(new InstallException(plugin, this, e, "Error while reloading"));
         }
 

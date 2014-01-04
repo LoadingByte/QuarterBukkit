@@ -34,7 +34,7 @@ public class Selection {
      * @param value The value as an {@link Object}.
      * @param itemStack The graphical {@link ItemStack}.
      */
-    public Selection(final Object value, final ItemStack itemStack) {
+    public Selection(Object value, ItemStack itemStack) {
 
         this.value = value;
         this.itemStack = itemStack;
@@ -63,14 +63,14 @@ public class Selection {
     @Override
     public int hashCode() {
 
-        final int prime = 31;
+        int prime = 31;
         int result = 1;
         result = prime * result + (value == null ? 0 : value.hashCode());
         return result;
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(Object obj) {
 
         if (this == obj) {
             return true;
@@ -81,7 +81,7 @@ public class Selection {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Selection other = (Selection) obj;
+        Selection other = (Selection) obj;
         if (value == null) {
             if (other.value != null) {
                 return false;

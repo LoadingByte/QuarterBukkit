@@ -34,7 +34,7 @@ public class NoDefaultCommandFoundException extends NoCommandFoundException {
      * @param command The not registered {@link Command}.
      * @param commandExecutor The {@link CommandExecutor} which should execute the {@link Command}.
      */
-    public NoDefaultCommandFoundException(final Plugin plugin, final Command command, final CommandExecutor commandExecutor) {
+    public NoDefaultCommandFoundException(Plugin plugin, Command command, CommandExecutor commandExecutor) {
 
         super(plugin, command, commandExecutor);
     }
@@ -47,7 +47,7 @@ public class NoDefaultCommandFoundException extends NoCommandFoundException {
      * @param commandExecutor The {@link CommandExecutor} which should execute the {@link Command}.
      * @param message The information message.
      */
-    public NoDefaultCommandFoundException(final Plugin plugin, final Command command, final CommandExecutor commandExecutor, final String message) {
+    public NoDefaultCommandFoundException(Plugin plugin, Command command, CommandExecutor commandExecutor, String message) {
 
         super(plugin, command, commandExecutor, message);
     }

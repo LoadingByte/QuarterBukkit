@@ -30,7 +30,7 @@ public class QuarterBukkitExceptionListener implements Listener {
 
     private final Plugin plugin;
 
-    public QuarterBukkitExceptionListener(final Plugin plugin) {
+    public QuarterBukkitExceptionListener(Plugin plugin) {
 
         this.plugin = plugin;
 
@@ -38,7 +38,7 @@ public class QuarterBukkitExceptionListener implements Listener {
     }
 
     @EventHandler
-    public void installException(final InstallException exception) {
+    public void installException(InstallException exception) {
 
         if (exception.getCauser() != null) {
             exception.getCauser().sendMessage(ChatColor.RED + "Can't update QuarterBukkit: " + exception.getMessage());
@@ -48,7 +48,7 @@ public class QuarterBukkitExceptionListener implements Listener {
     }
 
     @EventHandler
-    public void internalException(final InternalException exception) {
+    public void internalException(InternalException exception) {
 
         exception.getCause().printStackTrace();
     }
