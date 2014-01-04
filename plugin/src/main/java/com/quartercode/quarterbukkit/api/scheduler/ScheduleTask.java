@@ -114,39 +114,6 @@ public abstract class ScheduleTask implements Runnable {
     }
 
     /**
-     * Runs the scheduler once with a delay. You have to cancel it after running if you want to reuse it.
-     * 
-     * @param delay The delay in ticks.
-     * @return This schedule task.
-     * 
-     * @deprecated This method is deprecated. Use {@link ScheduleTask#run(boolean, long)} instead.
-     */
-    @Deprecated
-    public ScheduleTask run(long delay) {
-
-        run(true, delay);
-
-        return this;
-    }
-
-    /**
-     * Runs the scheduler repeating with a delay until it's cancelled.
-     * 
-     * @param delay The delay in ticks.
-     * @param period The delay between two repeatings in ticks.
-     * @return This schedule task.
-     * 
-     * @deprecated This method is deprecated. Use {@link ScheduleTask#run(boolean, long, long)} instead.
-     */
-    @Deprecated
-    public ScheduleTask run(long delay, long period) {
-
-        run(true, delay, period);
-
-        return this;
-    }
-
-    /**
      * Cancels this schedule task.
      * 
      * @return This schedule task.
