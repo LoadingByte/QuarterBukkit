@@ -66,6 +66,22 @@
         <url>https://github.com/QuarterCode/QuarterBukkit/issues</url>
     </issueManagement>
 
+    <ciManagement>
+        <system>Jenkins</system>
+        <url>http://ci.quartercode.com</url>
+    </ciManagement>
+
+    <distributionManagement>
+        <repository>
+            <id>quartercode-deployment</id>
+            <url>http://repo.quartercode.com/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>quartercode-deployment</id>
+            <url>http://repo.quartercode.com/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <dependencies>
         <!-- Bukkit -->
         <dependency>
