@@ -4,7 +4,7 @@
 
     <groupId>com.quartercode</groupId>
     <artifactId>quarterbukkit</artifactId>
-    <version>1.5-BETA</version>
+    <version>1.5.1-BETA</version>
     <packaging>pom</packaging>
 
     <name>QuarterBukkit</name>
