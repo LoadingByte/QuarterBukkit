@@ -161,7 +161,8 @@ public class QuarterBukkitIntegration {
         File unzipDir = new File(target.getParentFile(), PLUGIN_NAME + "_extract");
         unzipDir.mkdirs();
         unzip(zipFile, unzipDir);
-        copy(new File(unzipDir, PLUGIN_NAME + "/" + target.getName()), target);
+        File unzipInnerDir = unzipDir.listFiles()[0];
+        copy(new File(unzipInnerDir, target.getName()), target);
         zipFile.delete();
         deleteRecursive(unzipDir);
 
