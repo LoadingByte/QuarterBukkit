@@ -40,13 +40,15 @@ You can do that in two different ways:
 
 ### Maven
 
-If you build with Maven, you have to add QuarterBukkit to your local repository first (we don't have a public QuarterBukkit repository yet, but we'll setup one soon).
+If you build with Maven, you have to add some dependecies related to QuarterBukkit to your project object model.
 
-* Download & install [Maven 3](http://maven.apache.org/download.cgi) (if you haven't done that yet).
-* Check out this repository (clone or download).
-* Open a command prompt, navigate to the cloned repository and issue the command:
+* Add the QuarterCode maven repository to the pom.xml of your maven project:
 
-        mvn clean install
+        <repository>
+            <id>quartercode-repository</id>
+            <name>QuarterCode Repository</name>
+            <url>http://repo.quartercode.com/content/groups/public/</url>
+        </repository>
 
 * Add these dependencies to the pom.xml of your maven project (only change VERSION to the version of QuarterBukkit you just cloned and built):
 
@@ -139,6 +141,11 @@ In the end, your final pom.xml should look like this:
                     <name>Bukkit Repository</name>
                     <url>http://repo.bukkit.org/content/groups/public</url>
                 </repository>
+                <repository>
+                    <id>quartercode-repository</id>
+                    <name>QuarterCode Repository</name>
+                    <url>http://repo.quartercode.com/content/groups/public/</url>
+                </repository>
             </repositories>
 
             <build>
@@ -187,7 +194,7 @@ In the end, your final pom.xml should look like this:
             </build>
         </project>
 
-Keep in mind that you have to clone and build QuarterBukkit and change the versions in your pom.xml if you want to use a new update.
+Keep in mind that you have to change the versions in your pom.xml if you want to use a new updated version of QuarterBukkit.
 
 ### Ant
 
@@ -253,3 +260,4 @@ We recommend to use a second main class which also implements `onEnable()` and `
 You can put all your code in there and call the methods from your real main plugin class.
 
 Keep in mind: Always check your plugins for this issue!
+
