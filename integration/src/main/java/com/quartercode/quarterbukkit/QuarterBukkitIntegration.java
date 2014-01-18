@@ -82,7 +82,6 @@ public class QuarterBukkitIntegration {
      * Call this method in onEnable() for integrating QuarterBukkit into your plugin.
      * It creates a config where the user has to turn a value to "Yes" for the actual installation.
      * The class notfies him on the console and every time an op joins to the server.
-     * If QuarterBukkit couldn't be installed or can only be installed after a restart, the calling {@link Plugin} is disabled.
      * 
      * @param plugin The {@link Plugin} which tries to integrate QuarterBukkit.
      * @return True if QuarterBukkit can be used after the call, false if not.
@@ -131,7 +130,6 @@ public class QuarterBukkitIntegration {
             e.printStackTrace();
         }
 
-        Bukkit.getPluginManager().disablePlugin(plugin);
         return false;
     }
 
