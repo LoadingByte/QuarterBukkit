@@ -79,8 +79,13 @@ public class QuarterBukkit extends JavaPlugin {
     @Override
     public void onEnable() {
 
+        // Internal Exceptions
+        new QuarterBukkitExceptionListener(plugin);
+
+        // Config
         config = new Config(this, new File(getDataFolder(), "config.yml"));
 
+        // Autoupdate
         if (config.getBoolean("autoupdate")) {
             try {
                 QuarterBukkitUpdater updater = new QuarterBukkitUpdater(this);
@@ -94,6 +99,7 @@ public class QuarterBukkit extends JavaPlugin {
             }
         }
 
+        // Metrics
         try {
             metrics = new Metrics(this);
             metrics.start();
@@ -101,9 +107,6 @@ public class QuarterBukkit extends JavaPlugin {
         catch (IOException e) {
             getLogger().severe("An error occurred while enabling Metrics (" + e + ")");
         }
-
-        // Internal Exceptions
-        new QuarterBukkitExceptionListener(plugin);
 
         // Custom Events
         new CustomEventListener(plugin);

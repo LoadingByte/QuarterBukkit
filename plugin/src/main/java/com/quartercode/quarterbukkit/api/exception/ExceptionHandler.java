@@ -27,7 +27,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredListener;
 
 /**
- * The main class for handling event-exceptions.
+ * A utility class for handling event exceptions ({@link GameException}s).
  */
 public class ExceptionHandler {
 
