@@ -54,19 +54,23 @@ public class ExceptionHandler {
         RegisteredListener[] listeners = handlers.getRegisteredListeners();
 
         for (RegisteredListener registration : listeners) {
-            if (!registration.getPlugin().isEnabled() || !registration.getPlugin().equals(exception.getPlugin())) {
+            if (!registration.getPlugin().isEnabled()) {
+                continue;
+            }
+            // Check if the exception belongs to the plugin which registered the listener
+            else if (!registration.getPlugin().equals(exception.getPlugin())) {
                 continue;
             }
 
             try {
                 registration.callEvent(exception);
             }
-            catch (AuthorNagException ex) {
+            catch (AuthorNagException e) {
                 Plugin plugin = registration.getPlugin();
 
                 if (plugin.isNaggable()) {
                     plugin.setNaggable(false);
-                    Bukkit.getLogger().log(Level.SEVERE, String.format("Nag author(s): '%s' of '%s' about the following: %s", plugin.getDescription().getAuthors(), plugin.getDescription().getFullName(), ex.getMessage()));
+                    Bukkit.getLogger().log(Level.SEVERE, String.format("Nag author(s): '%s' of '%s' about the following: %s", new Object[] { plugin.getDescription().getAuthors(), plugin.getDescription().getFullName(), e.getMessage() }));
                 }
             }
             catch (Throwable e) {
