@@ -20,8 +20,6 @@ package com.quartercode.quarterbukkit;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,14 +29,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipException;
-import java.util.zip.ZipFile;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -64,6 +60,11 @@ public class QuarterBukkitIntegration {
 
     private static URL          feedUrl;
 
+    // The plugins which called the integrate() method
+    private static Set<Plugin>  callers     = new HashSet<Plugin>();
+    // Determinates if the integration process was already invoked
+    private static boolean      invoked     = false;
+
     static {
 
         URL feed = null;
@@ -82,57 +83,78 @@ public class QuarterBukkitIntegration {
      * Call this method in onEnable() for integrating QuarterBukkit into your plugin.
      * It creates a config where the user has to turn a value to "Yes" for the actual installation.
      * The class notfies him on the console and every time an op joins to the server.
-     * If QuarterBukkit couldn't be installed or can only be installed after a restart, the calling {@link Plugin} is disabled.
      * 
      * @param plugin The {@link Plugin} which tries to integrate QuarterBukkit.
      * @return True if QuarterBukkit can be used after the call, false if not.
      */
     public static boolean integrate(final Plugin plugin) {
 
-        if (new File("plugins/" + PLUGIN_NAME + "_extract").exists()) {
-            deleteRecursive(new File("plugins/" + PLUGIN_NAME + "_extract"));
-        }
+        // Register caller
+        callers.add(plugin);
 
-        File installConfigFile = new File("plugins/" + PLUGIN_NAME, "install.yml");
+        if (!Bukkit.getPluginManager().isPluginEnabled(PLUGIN_NAME)) {
+            if (!invoked) {
+                // Block this part (it should only be called once)
+                invoked = true;
 
-        try {
-            if (!Bukkit.getPluginManager().isPluginEnabled(PLUGIN_NAME)) {
-                if (!installConfigFile.exists()) {
-                    YamlConfiguration installConfig = new YamlConfiguration();
-                    installConfig.set("install-" + PLUGIN_NAME, true);
-                    installConfig.save(installConfigFile);
-                } else {
-                    YamlConfiguration installConfig = YamlConfiguration.loadConfiguration(installConfigFile);
-                    if (installConfig.isBoolean("install-" + PLUGIN_NAME) && installConfig.getBoolean("install-" + PLUGIN_NAME)) {
-                        installConfigFile.delete();
-                        install(new File("plugins", PLUGIN_NAME + ".jar"));
-                        return true;
+                // Clean up
+                if (new File("plugins/" + PLUGIN_NAME + "_extract").exists()) {
+                    try {
+                        FileUtils.delete(new File("plugins/" + PLUGIN_NAME + "_extract"));
+                    }
+                    catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
-            } else {
-                return true;
+
+                // Read installation confirmation file
+                File installConfigFile = new File("plugins/" + PLUGIN_NAME, "install.yml");
+
+                try {
+                    if (!installConfigFile.exists()) {
+                        // No installation confirmation file -> create a new one and wait until restart
+                        YamlConfiguration installConfig = new YamlConfiguration();
+                        installConfig.set("install-" + PLUGIN_NAME, true);
+                        installConfig.save(installConfigFile);
+                    } else {
+                        YamlConfiguration installConfig = YamlConfiguration.loadConfiguration(installConfigFile);
+                        if (installConfig.isBoolean("install-" + PLUGIN_NAME) && installConfig.getBoolean("install-" + PLUGIN_NAME)) {
+                            // Installation confirmed -> install
+                            installConfigFile.delete();
+                            install(new File("plugins", PLUGIN_NAME + ".jar"));
+                            return true;
+                        }
+                    }
+
+                    // Schedule with a time because the integrating plugin might get disabled
+                    new Timer().schedule(new TimerTask() {
+
+                        @Override
+                        public void run() {
+
+                            Bukkit.broadcastMessage(ChatColor.YELLOW + "===============[ " + PLUGIN_NAME + " Installation ]===============");
+                            String plugins = "";
+                            for (Plugin caller : callers) {
+                                plugins += ", " + caller.getName();
+                            }
+                            plugins = plugins.substring(2);
+                            Bukkit.broadcastMessage(ChatColor.RED + "For using " + plugins + " which requires " + PLUGIN_NAME + ", you should " + ChatColor.DARK_AQUA + "restart" + ChatColor.RED + " the server!");
+                        }
+                    }, 100, 3 * 1000);
+                }
+                catch (UnknownHostException e) {
+                    Bukkit.getLogger().warning("Can't connect to dev.bukkit.org for installing " + PLUGIN_NAME + "!");
+                }
+                catch (Exception e) {
+                    Bukkit.getLogger().severe("An error occurred while installing " + PLUGIN_NAME + " (" + e + ")");
+                    e.printStackTrace();
+                }
             }
 
-            new Timer().schedule(new TimerTask() {
-
-                @Override
-                public void run() {
-
-                    Bukkit.broadcastMessage(ChatColor.YELLOW + "===============[ " + PLUGIN_NAME + " Installation ]===============");
-                    Bukkit.broadcastMessage(ChatColor.RED + "For using " + plugin.getName() + " which requires " + PLUGIN_NAME + ", you should " + ChatColor.DARK_AQUA + "restart" + ChatColor.RED + " the server!");
-                }
-            }, 100, 3 * 1000);
+            return false;
+        } else {
+            return true;
         }
-        catch (UnknownHostException e) {
-            Bukkit.getLogger().warning("Can't connect to dev.bukkit.org for installing " + PLUGIN_NAME + "!");
-        }
-        catch (Exception e) {
-            Bukkit.getLogger().severe("An error occurred while installing " + PLUGIN_NAME + " (" + e + ")");
-            e.printStackTrace();
-        }
-
-        Bukkit.getPluginManager().disablePlugin(plugin);
-        return false;
     }
 
     private static void install(File target) throws IOException, XMLStreamException, UnknownDependencyException, InvalidPluginException, InvalidDescriptionException {
@@ -159,84 +181,17 @@ public class QuarterBukkitIntegration {
 
         Bukkit.getLogger().info("Extracting " + PLUGIN_NAME + " ...");
         File unzipDir = new File(target.getParentFile(), PLUGIN_NAME + "_extract");
-        unzipDir.mkdirs();
-        unzip(zipFile, unzipDir);
+        FileUtils.unzip(zipFile, unzipDir);
+        FileUtils.delete(zipFile);
         File unzipInnerDir = unzipDir.listFiles()[0];
-        copy(new File(unzipInnerDir, target.getName()), target);
-        zipFile.delete();
-        deleteRecursive(unzipDir);
+        FileUtils.copy(new File(unzipInnerDir, target.getName()), target);
+        FileUtils.delete(unzipDir);
 
         Bukkit.getLogger().info("Loading " + PLUGIN_NAME + " ...");
         Bukkit.getPluginManager().enablePlugin(Bukkit.getPluginManager().loadPlugin(target));
 
         Bukkit.getLogger().info("Successfully installed " + PLUGIN_NAME + "!");
         Bukkit.getLogger().info("Enabling other plugins ...");
-    }
-
-    private static void unzip(File zip, File destination) throws ZipException, IOException {
-
-        ZipFile zipFile = new ZipFile(zip);
-
-        for (ZipEntry zipEntry : Collections.list(zipFile.entries())) {
-            File file = new File(destination, zipEntry.getName());
-            byte[] BUFFER = new byte[0xFFFF];
-
-            if (zipEntry.isDirectory()) {
-                file.mkdirs();
-            } else {
-                new File(file.getParent()).mkdirs();
-
-                InputStream inputStream = zipFile.getInputStream(zipEntry);
-                OutputStream outputStream = new FileOutputStream(file);
-
-                for (int lenght; (lenght = inputStream.read(BUFFER)) != -1;) {
-                    outputStream.write(BUFFER, 0, lenght);
-                }
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-            }
-        }
-
-        zipFile.close();
-    }
-
-    private static void copy(File source, File destination) throws FileNotFoundException, IOException {
-
-        if (source.isDirectory()) {
-            destination.mkdirs();
-
-            for (File entry : source.listFiles()) {
-                copy(new File(source, entry.getName()), new File(destination, entry.getName()));
-            }
-        } else {
-            byte[] buffer = new byte[32768];
-
-            InputStream inputStream = new FileInputStream(source);
-            OutputStream outputStream = new FileOutputStream(destination);
-
-            int numberOfBytes;
-            while ( (numberOfBytes = inputStream.read(buffer)) > 0) {
-                outputStream.write(buffer, 0, numberOfBytes);
-            }
-
-            inputStream.close();
-            outputStream.close();
-        }
-    }
-
-    private static void deleteRecursive(File file) {
-
-        if (file.isDirectory()) {
-            for (File entry : file.listFiles()) {
-                deleteRecursive(entry);
-            }
-        }
-
-        file.delete();
     }
 
     private static String getFileURL(String link) throws IOException {

@@ -50,7 +50,7 @@ If you build with Maven, you have to add some dependecies related to QuarterBukk
             <url>http://repo.quartercode.com/content/groups/public/</url>
         </repository>
 
-* Add these dependencies to the pom.xml of your maven project (only change VERSION to the version of QuarterBukkit you just cloned and built):
+* Add these dependencies to the pom.xml of your maven project (change VERSION to the version of QuarterBukkit you want to use):
 
         <dependency>
             <groupId>com.quartercode</groupId>
@@ -64,7 +64,7 @@ If you build with Maven, you have to add some dependecies related to QuarterBukk
             <version>VERSION</version>
         </dependency>
 
-* Add the scope `provided` to all of your other dependencies which shouldn't be included in the final jar (e.g. bukkit org craftbukkit):
+* Add the scope `provided` to all of your other dependencies which shouldn't be included in the final jar (e.g. bukkit or craftbukkit):
 
         <dependency>
             <groupId>org.bukkit</groupId>
@@ -137,7 +137,7 @@ In the end, your final pom.xml should look like this:
 
             <repositories>
                 <repository>
-                    <id>bukkit-repo</id>
+                    <id>bukkit-repository</id>
                     <name>Bukkit Repository</name>
                     <url>http://repo.bukkit.org/content/groups/public</url>
                 </repository>
@@ -151,27 +151,6 @@ In the end, your final pom.xml should look like this:
             <build>
                 <plugins>
                     ...
-
-                    <!-- Compiler -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <version>2.3.2</version>
-                        <configuration>
-                            <source>1.6</source>
-                            <target>1.6</target>
-                        </configuration>
-                    </plugin>
-
-                    <!-- Build JAR -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <version>2.4</version>
-                        <configuration>
-                            <finalName>${project.name}</finalName>
-                        </configuration>
-                    </plugin>
 
                     <!-- Shade JAR -->
                     <plugin>
@@ -205,11 +184,11 @@ Your build.xml script should look like this:
 
     <?xml version="1.0" encoding="UTF-8"?>
     <project name="Build Plugin Jar" default="main" basedir=".">
-        <!-- Set this to the path to your class folder -->
+        <!-- Set this to the path of your class folder -->
         <property name="bin" value="bin/" />
-        <!-- Set this to the path to your final plugin jar file -->
+        <!-- Set this to the path of your final plugin jar file -->
         <property name="dest" value="Plugin.jar" />
-        <!-- Set this to the path to your QuarterBukkit-Integration.jar library -->
+        <!-- Set this to the path of your QuarterBukkit-Integration.jar library -->
         <property name="integrationlib" value="QuarterBukkit-Integration.jar" />
 
         <target name="main">
@@ -225,8 +204,8 @@ Of course, you have to modify the property values to suit your directory structu
 Integration Code
 ----------------
 
-Simply import `com.quartercode.quarterbukkit.QuarterBukkitIntegration` and call `QuarterBukkitIntegration.integrate()` in your `onEnable()`-method.
-The method returns `true` if the integration was sucessfully. If not, the method and disables the plugin, so you can simple put a `return` there.
+Simply import `com.quartercode.quarterbukkit.QuarterBukkitIntegration` and call `QuarterBukkitIntegration.integrate(Plugin)` with your plugin object (probably just `this`) in your `onEnable()`-method.
+The method returns `true` if the integration was sucessful. If not, you should disable your plugin, because it probably wouldn't function without QuarterBukkit. Of course, you could develop plugins which don't completely depend on QuarterBukkit, but the doesn't seem to make any sense ...
 
 Example:
 
@@ -234,6 +213,7 @@ Example:
     public void onEnable() {
 
         if (!QuarterBukkitIntegration.integrate(this)) {
+            Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
 
@@ -241,7 +221,7 @@ Example:
     }
 
 After that, you should add `QuarterBukkit-Plugin` to your `softdepend`-list in the `plugin.yml` of your plugin.
-If you don't have this entry, simply add this line:
+If you don't have this entry yet, simply add this line:
 
     softdepend: [QuarterBukkit-Plugin]
 
@@ -260,4 +240,3 @@ We recommend to use a second main class which also implements `onEnable()` and `
 You can put all your code in there and call the methods from your real main plugin class.
 
 Keep in mind: Always check your plugins for this issue!
-

@@ -20,12 +20,11 @@ package com.quartercode.quarterbukkit.api.select;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.bukkit.event.Listener;
 
 /**
  * This class represents the layout of the {@link Selection}s in a {@link SelectInventory}.
  */
-public class InventoryLayout implements Listener {
+public class InventoryLayout {
 
     private final int             maxColumns;
     private List<List<Selection>> layout = new ArrayList<List<Selection>>();

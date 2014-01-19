@@ -20,15 +20,15 @@ package com.quartercode.quarterbukkit.api;
 
 /**
  * A math helper class.
- * You can convert values with this Utility-Class.
+ * You can convert values with this utility class.
  */
 public class MathUtil {
 
     /**
-     * Convert milliseconds to minecraft-ticks.
+     * Convert milliseconds to minecraft ticks.
      * 
      * @param millis The milliseconds.
-     * @return The minecraft-ticks.
+     * @return The minecraft ticks.
      */
     public static long getTicks(long millis) {
 
@@ -36,10 +36,10 @@ public class MathUtil {
     }
 
     /**
-     * Convert minecraft-ticks to milliseconds.
+     * Convert minecraft ticks to milliseconds.
      * 
-     * @param ticks The minecraft-ticks
-     * @return The milliseconds
+     * @param ticks The minecraft ticks.
+     * @return The milliseconds.
      */
     public static long getMillis(long ticks) {
 
