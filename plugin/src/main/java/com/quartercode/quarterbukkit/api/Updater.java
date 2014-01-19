@@ -31,9 +31,6 @@ import java.net.URLConnection;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipException;
-import java.util.zip.ZipFile;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -55,9 +52,9 @@ public abstract class Updater {
     private static final String LINK_TAG  = "link";
     private static final String ITEM_TAG  = "item";
 
-    protected Plugin            plugin;
-    protected Plugin            updatePlugin;
-    protected String            slug;
+    private final Plugin        plugin;
+    private final Plugin        updatePlugin;
+    private final String        slug;
     private URL                 url;
     private URL                 feedUrl;
 
@@ -121,13 +118,14 @@ public abstract class Updater {
      * You can call this in onEnable().
      * 
      * @param causer The executor of the action.
-     * @return If the installation was successful.
+     * @return True if a new version is avaiable and was installed successfully.
      */
     public boolean tryInstall(CommandSender causer) {
 
         try {
             if (isNewVersionAvaiable()) {
-                return install(new File("plugins"), causer);
+                install(new File("plugins"), causer);
+                return true;
             }
         }
         catch (UnknownHostException e) {
@@ -137,7 +135,7 @@ public abstract class Updater {
             ExceptionHandler.exception(new InstallException(plugin, this, e, causer, "Something went wrong with the file system"));
         }
         catch (XMLStreamException e) {
-            ExceptionHandler.exception(new InstallException(plugin, this, e, causer, "Something went wrong with the version XML-feed (" + feedUrl.toExternalForm() + ")"));
+            ExceptionHandler.exception(new InstallException(plugin, this, e, causer, "Something went wrong with the version XML feed (" + feedUrl.toExternalForm() + ")"));
         }
         catch (InvalidPluginException e) {
             ExceptionHandler.exception(new InstallException(plugin, this, e, causer, "The downloaded plugin isn't valid"));
@@ -146,7 +144,10 @@ public abstract class Updater {
             ExceptionHandler.exception(new InstallException(plugin, this, e, causer, "The plugin.yml in the downloaded plugin isn't valid"));
         }
         catch (UnknownDependencyException e) {
-            ExceptionHandler.exception(new InstallException(plugin, this, e, causer, "The downloaded plugin has a depency to a plugin which isn't installed"));
+            ExceptionHandler.exception(new InstallException(plugin, this, e, causer, "The downloaded plugin has a dependency to a plugin which isn't installed"));
+        }
+        catch (RuntimeException e) {
+            ExceptionHandler.exception(new InstallException(plugin, this, e, causer, "An unexpected exception happened; that's probably an error in the code"));
         }
 
         return false;
@@ -210,7 +211,7 @@ public abstract class Updater {
         if (updatePlugin == null) {
             return true;
         } else {
-            String latestVersion = getLatestVersion();
+            String latestVersion = getLatestVersion(causer);
             if (latestVersion != null) {
                 if (!latestVersion.equals(updatePlugin.getDescription().getVersion())) {
                     return true;
@@ -221,7 +222,7 @@ public abstract class Updater {
         }
     }
 
-    private boolean install(File directory, CommandSender causer) throws IOException, XMLStreamException, UnknownDependencyException, InvalidPluginException, InvalidDescriptionException {
+    private void install(File directory, CommandSender causer) throws IOException, XMLStreamException, UnknownDependencyException, InvalidPluginException, InvalidDescriptionException {
 
         URL url = new URL(getFileURL(getFeedData().get("link")));
         String fileName = url.getPath().split("/")[url.getPath().split("/").length - 1];
@@ -240,54 +241,18 @@ public abstract class Updater {
         inputStream.close();
         outputStream.close();
 
-        return doInstall(file, causer);
+        doInstall(file, causer);
     }
 
     /**
-     * Does some post-installation-activities, like extracting zips or relaoding the plugin.
+     * Does some post-installation-activities, like moving the downloaded file to the actual plugin location, extracting zips or reloading the plugin.
      * 
      * @param downloadedFile The downloaded file from BukkitDev.
      * @param causer The executor of the action.
      * @return If the post-installation-activity was successful.
      * @throws IOException If something goes wrong with the post-installation-activities.
      */
-    protected abstract boolean doInstall(File downloadedFile, CommandSender causer) throws IOException;
-
-    /**
-     * Extracts some {@link File}s in a zip.
-     * You can use this in doInstall().
-     * 
-     * @param zip The zip as a {@link File}.
-     * @param zipPath The path in the zip file (relative).
-     * @param destinationFile Where to extract the {@link File}.
-     * @throws ZipException If something goes wrong in the {@link ZipFile}.
-     * @throws IOException If something goes wrong with the file system.
-     */
-    public void extract(File zip, String zipPath, File destinationFile) throws ZipException, IOException {
-
-        ZipFile zipFile = new ZipFile(zip);
-        ZipEntry zipEntry = zipFile.getEntry(zipPath);
-
-        byte[] BUFFER = new byte[0xFFFF];
-
-        if (zipEntry.isDirectory()) {
-            destinationFile.mkdirs();
-        } else {
-            destinationFile.getParentFile().mkdirs();
-
-            InputStream inputStream = zipFile.getInputStream(zipEntry);
-            OutputStream outputStream = new FileOutputStream(destinationFile);
-
-            for (int lenght; (lenght = inputStream.read(BUFFER)) != -1;) {
-                outputStream.write(BUFFER, 0, lenght);
-            }
-
-            outputStream.close();
-            inputStream.close();
-        }
-
-        zipFile.close();
-    }
+    protected abstract void doInstall(File downloadedFile, CommandSender causer) throws IOException;
 
     private String getFileURL(String link) throws IOException {
 

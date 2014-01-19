@@ -41,9 +41,15 @@ public class QuarterBukkitExceptionListener implements Listener {
     public void installException(InstallException exception) {
 
         if (exception.getCauser() != null) {
-            exception.getCauser().sendMessage(ChatColor.RED + "Can't update QuarterBukkit: " + exception.getMessage());
+            exception.getCauser().sendMessage(ChatColor.RED + "Can't update " + plugin.getName() + ": " + exception.getMessage());
+            if (exception.getCause() != null) {
+                exception.getCauser().sendMessage(ChatColor.RED + "Reason: " + exception.getCause().toString());
+            }
         } else {
-            plugin.getLogger().warning("Can't update QuarterBukkit: " + exception.getMessage());
+            plugin.getLogger().warning("Can't update " + plugin.getName() + ": " + exception.getMessage());
+            if (exception.getCause() != null) {
+                plugin.getLogger().warning("Reason: " + exception.getCause().toString());
+            }
         }
     }
 

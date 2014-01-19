@@ -20,7 +20,6 @@ package com.quartercode.quarterbukkit;
 
 import java.io.File;
 import java.io.IOException;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.quartercode.quarterbukkit.util.Config;
@@ -87,15 +86,11 @@ public class QuarterBukkit extends JavaPlugin {
 
         // Autoupdate
         if (config.getBoolean("autoupdate")) {
-            try {
-                QuarterBukkitUpdater updater = new QuarterBukkitUpdater(this);
-                if (updater.isNewVersionAvaiable(Bukkit.getConsoleSender())) {
-                    getLogger().info("Updating QuarterBukkit ...");
-                    updater.tryInstall();
-                }
-            }
-            catch (Exception e) {
-                Bukkit.getLogger().severe("An error occurred while updating QuarterBukkit (" + e + ")");
+            QuarterBukkitUpdater updater = new QuarterBukkitUpdater(this);
+            getLogger().info("Checking for a new version and updating " + getName() + " ...");
+            if (updater.tryInstall()) {
+                // Stop here if the updater succeeded
+                return;
             }
         }
 

@@ -24,6 +24,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import com.quartercode.quarterbukkit.QuarterBukkit;
+import com.quartercode.quarterbukkit.api.FileUtils;
 import com.quartercode.quarterbukkit.api.Updater;
 import com.quartercode.quarterbukkit.api.exception.ExceptionHandler;
 import com.quartercode.quarterbukkit.api.exception.InstallException;
@@ -50,23 +51,29 @@ public class QuarterBukkitUpdater extends Updater {
     }
 
     @Override
-    protected boolean doInstall(File downloadedFile, CommandSender causer) throws IOException {
+    protected void doInstall(File downloadedFile, CommandSender causer) throws IOException {
 
-        extract(downloadedFile, "QuarterBukkit.jar", new File("plugins", "QuarterBukkit.jar"));
-        downloadedFile.delete();
+        File pluginJar = new File("plugins" + File.separator + getUpdatePlugin().getName() + ".jar");
 
+        // Unzip the new plugin jar from the downloaded file
+        File unzipDir = new File(downloadedFile.getParent(), getUpdatePlugin().getName() + "_extract");
+        FileUtils.unzip(downloadedFile, unzipDir);
+        FileUtils.delete(downloadedFile);
+        File unzipInnerDir = unzipDir.listFiles()[0];
+        FileUtils.delete(pluginJar);
+        FileUtils.copy(new File(unzipInnerDir, pluginJar.getName()), pluginJar);
+        FileUtils.delete(unzipDir);
+
+        // Reload the plugin
         try {
-            Bukkit.getPluginManager().disablePlugin(plugin);
-            Bukkit.getPluginManager().enablePlugin(Bukkit.getPluginManager().loadPlugin(new File("plugins", "QuarterBukkit.jar")));
-            return true;
+            Bukkit.getPluginManager().disablePlugin(getUpdatePlugin());
+            Bukkit.getPluginManager().enablePlugin(Bukkit.getPluginManager().loadPlugin(pluginJar));
         }
         catch (Exception e) {
-            ExceptionHandler.exception(new InstallException(plugin, this, e, "Error while reloading"));
+            ExceptionHandler.exception(new InstallException(getPlugin(), this, e, "Error while reloading new plugin jar"));
         }
 
-        plugin.getLogger().info("Successfull updated QuarterBukkit!");
-
-        return false;
+        getPlugin().getLogger().info("Successfully updated " + getUpdatePlugin().getName() + "!");
     }
 
 }

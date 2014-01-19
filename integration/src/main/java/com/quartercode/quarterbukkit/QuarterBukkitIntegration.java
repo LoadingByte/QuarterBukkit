@@ -20,8 +20,6 @@ package com.quartercode.quarterbukkit;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,16 +29,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipException;
-import java.util.zip.ZipFile;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -105,7 +99,12 @@ public class QuarterBukkitIntegration {
 
                 // Clean up
                 if (new File("plugins/" + PLUGIN_NAME + "_extract").exists()) {
-                    deleteRecursive(new File("plugins/" + PLUGIN_NAME + "_extract"));
+                    try {
+                        FileUtils.delete(new File("plugins/" + PLUGIN_NAME + "_extract"));
+                    }
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 // Read installation confirmation file
@@ -127,6 +126,7 @@ public class QuarterBukkitIntegration {
                         }
                     }
 
+                    // Schedule with a time because the integrating plugin might get disabled
                     new Timer().schedule(new TimerTask() {
 
                         @Override
@@ -181,84 +181,17 @@ public class QuarterBukkitIntegration {
 
         Bukkit.getLogger().info("Extracting " + PLUGIN_NAME + " ...");
         File unzipDir = new File(target.getParentFile(), PLUGIN_NAME + "_extract");
-        unzipDir.mkdirs();
-        unzip(zipFile, unzipDir);
+        FileUtils.unzip(zipFile, unzipDir);
+        FileUtils.delete(zipFile);
         File unzipInnerDir = unzipDir.listFiles()[0];
-        copy(new File(unzipInnerDir, target.getName()), target);
-        zipFile.delete();
-        deleteRecursive(unzipDir);
+        FileUtils.copy(new File(unzipInnerDir, target.getName()), target);
+        FileUtils.delete(unzipDir);
 
         Bukkit.getLogger().info("Loading " + PLUGIN_NAME + " ...");
         Bukkit.getPluginManager().enablePlugin(Bukkit.getPluginManager().loadPlugin(target));
 
         Bukkit.getLogger().info("Successfully installed " + PLUGIN_NAME + "!");
         Bukkit.getLogger().info("Enabling other plugins ...");
-    }
-
-    private static void unzip(File zip, File destination) throws ZipException, IOException {
-
-        ZipFile zipFile = new ZipFile(zip);
-
-        for (ZipEntry zipEntry : Collections.list(zipFile.entries())) {
-            File file = new File(destination, zipEntry.getName());
-            byte[] BUFFER = new byte[0xFFFF];
-
-            if (zipEntry.isDirectory()) {
-                file.mkdirs();
-            } else {
-                new File(file.getParent()).mkdirs();
-
-                InputStream inputStream = zipFile.getInputStream(zipEntry);
-                OutputStream outputStream = new FileOutputStream(file);
-
-                for (int lenght; (lenght = inputStream.read(BUFFER)) != -1;) {
-                    outputStream.write(BUFFER, 0, lenght);
-                }
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-            }
-        }
-
-        zipFile.close();
-    }
-
-    private static void copy(File source, File destination) throws FileNotFoundException, IOException {
-
-        if (source.isDirectory()) {
-            destination.mkdirs();
-
-            for (File entry : source.listFiles()) {
-                copy(new File(source, entry.getName()), new File(destination, entry.getName()));
-            }
-        } else {
-            byte[] buffer = new byte[32768];
-
-            InputStream inputStream = new FileInputStream(source);
-            OutputStream outputStream = new FileOutputStream(destination);
-
-            int numberOfBytes;
-            while ( (numberOfBytes = inputStream.read(buffer)) > 0) {
-                outputStream.write(buffer, 0, numberOfBytes);
-            }
-
-            inputStream.close();
-            outputStream.close();
-        }
-    }
-
-    private static void deleteRecursive(File file) {
-
-        if (file.isDirectory()) {
-            for (File entry : file.listFiles()) {
-                deleteRecursive(entry);
-            }
-        }
-
-        file.delete();
     }
 
     private static String getFileURL(String link) throws IOException {
