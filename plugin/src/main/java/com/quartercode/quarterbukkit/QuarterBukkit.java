@@ -24,6 +24,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.quartercode.quarterbukkit.util.Config;
+import com.quartercode.quarterbukkit.util.CustomEventListener;
 import com.quartercode.quarterbukkit.util.Metrics;
 import com.quartercode.quarterbukkit.util.QuarterBukkitExceptionListener;
 import com.quartercode.quarterbukkit.util.QuarterBukkitUpdater;
@@ -101,7 +102,11 @@ public class QuarterBukkit extends JavaPlugin {
             getLogger().severe("An error occurred while enabling Metrics (" + e + ")");
         }
 
+        // Internal Exceptions
         new QuarterBukkitExceptionListener(plugin);
+
+        // Custom Events
+        new CustomEventListener(plugin);
 
         getLogger().info("Successfully enabled " + getName() + "!");
     }
