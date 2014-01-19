@@ -33,7 +33,9 @@ import java.net.URLConnection;
 import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.zip.ZipEntry;
@@ -64,6 +66,11 @@ public class QuarterBukkitIntegration {
 
     private static URL          feedUrl;
 
+    // The plugins which called the integrate() method
+    private static Set<Plugin>  callers     = new HashSet<Plugin>();
+    // Determinates if the integration process was already invoked
+    private static boolean      invoked     = false;
+
     static {
 
         URL feed = null;
@@ -88,49 +95,66 @@ public class QuarterBukkitIntegration {
      */
     public static boolean integrate(final Plugin plugin) {
 
-        if (new File("plugins/" + PLUGIN_NAME + "_extract").exists()) {
-            deleteRecursive(new File("plugins/" + PLUGIN_NAME + "_extract"));
-        }
+        // Register caller
+        callers.add(plugin);
 
-        File installConfigFile = new File("plugins/" + PLUGIN_NAME, "install.yml");
+        if (!Bukkit.getPluginManager().isPluginEnabled(PLUGIN_NAME)) {
+            if (!invoked) {
+                // Block this part (it should only be called once)
+                invoked = true;
 
-        try {
-            if (!Bukkit.getPluginManager().isPluginEnabled(PLUGIN_NAME)) {
-                if (!installConfigFile.exists()) {
-                    YamlConfiguration installConfig = new YamlConfiguration();
-                    installConfig.set("install-" + PLUGIN_NAME, true);
-                    installConfig.save(installConfigFile);
-                } else {
-                    YamlConfiguration installConfig = YamlConfiguration.loadConfiguration(installConfigFile);
-                    if (installConfig.isBoolean("install-" + PLUGIN_NAME) && installConfig.getBoolean("install-" + PLUGIN_NAME)) {
-                        installConfigFile.delete();
-                        install(new File("plugins", PLUGIN_NAME + ".jar"));
-                        return true;
-                    }
+                // Clean up
+                if (new File("plugins/" + PLUGIN_NAME + "_extract").exists()) {
+                    deleteRecursive(new File("plugins/" + PLUGIN_NAME + "_extract"));
                 }
-            } else {
-                return true;
+
+                // Read installation confirmation file
+                File installConfigFile = new File("plugins/" + PLUGIN_NAME, "install.yml");
+
+                try {
+                    if (!installConfigFile.exists()) {
+                        // No installation confirmation file -> create a new one and wait until restart
+                        YamlConfiguration installConfig = new YamlConfiguration();
+                        installConfig.set("install-" + PLUGIN_NAME, true);
+                        installConfig.save(installConfigFile);
+                    } else {
+                        YamlConfiguration installConfig = YamlConfiguration.loadConfiguration(installConfigFile);
+                        if (installConfig.isBoolean("install-" + PLUGIN_NAME) && installConfig.getBoolean("install-" + PLUGIN_NAME)) {
+                            // Installation confirmed -> install
+                            installConfigFile.delete();
+                            install(new File("plugins", PLUGIN_NAME + ".jar"));
+                            return true;
+                        }
+                    }
+
+                    new Timer().schedule(new TimerTask() {
+
+                        @Override
+                        public void run() {
+
+                            Bukkit.broadcastMessage(ChatColor.YELLOW + "===============[ " + PLUGIN_NAME + " Installation ]===============");
+                            String plugins = "";
+                            for (Plugin caller : callers) {
+                                plugins += ", " + caller.getName();
+                            }
+                            plugins = plugins.substring(2);
+                            Bukkit.broadcastMessage(ChatColor.RED + "For using " + plugins + " which requires " + PLUGIN_NAME + ", you should " + ChatColor.DARK_AQUA + "restart" + ChatColor.RED + " the server!");
+                        }
+                    }, 100, 3 * 1000);
+                }
+                catch (UnknownHostException e) {
+                    Bukkit.getLogger().warning("Can't connect to dev.bukkit.org for installing " + PLUGIN_NAME + "!");
+                }
+                catch (Exception e) {
+                    Bukkit.getLogger().severe("An error occurred while installing " + PLUGIN_NAME + " (" + e + ")");
+                    e.printStackTrace();
+                }
             }
 
-            new Timer().schedule(new TimerTask() {
-
-                @Override
-                public void run() {
-
-                    Bukkit.broadcastMessage(ChatColor.YELLOW + "===============[ " + PLUGIN_NAME + " Installation ]===============");
-                    Bukkit.broadcastMessage(ChatColor.RED + "For using " + plugin.getName() + " which requires " + PLUGIN_NAME + ", you should " + ChatColor.DARK_AQUA + "restart" + ChatColor.RED + " the server!");
-                }
-            }, 100, 3 * 1000);
+            return false;
+        } else {
+            return true;
         }
-        catch (UnknownHostException e) {
-            Bukkit.getLogger().warning("Can't connect to dev.bukkit.org for installing " + PLUGIN_NAME + "!");
-        }
-        catch (Exception e) {
-            Bukkit.getLogger().severe("An error occurred while installing " + PLUGIN_NAME + " (" + e + ")");
-            e.printStackTrace();
-        }
-
-        return false;
     }
 
     private static void install(File target) throws IOException, XMLStreamException, UnknownDependencyException, InvalidPluginException, InvalidDescriptionException {
