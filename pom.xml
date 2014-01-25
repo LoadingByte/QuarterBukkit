@@ -55,10 +55,9 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/QuarterCode/QuarterBukkit/tree/master/</url>
+        <url>https://github.com/QuarterCode/QuarterBukkit</url>
         <connection>scm:git:git://github.com/QuarterCode/QuarterBukkit.git</connection>
         <developerConnection>scm:git:git@github.com:QuarterCode/QuarterBukkit.git</developerConnection>
-        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
