@@ -49,8 +49,7 @@
     <licenses>
         <license>
             <name>GNU General Public License Version 3</name>
-            <url>http://opensource.org/licenses/GPL-3.0</url>
-            <distribution>repo</distribution>
+            <url>https://www.gnu.org/licenses/gpl-3.0.txt</url>
         </license>
     </licenses>
 
