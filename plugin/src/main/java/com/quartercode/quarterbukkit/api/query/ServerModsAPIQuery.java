@@ -36,7 +36,7 @@ import com.quartercode.quarterbukkit.api.query.QueryException.QueryExceptionType
 public class ServerModsAPIQuery {
 
     private static final String HOST               = "https://api.curseforge.com/servermods/";
-    private static final String USER_AGENT         = QuarterBukkit.getPlugin().getName() + "/API-" + ServerModsAPIQuery.class.getSimpleName();
+    private static final String USER_AGENT         = "QuarterBukkit/" + ServerModsAPIQuery.class.getSimpleName();
     private static final int    CONNECTION_TIMEOUT = 10 * 1000;
 
     private final String        query;

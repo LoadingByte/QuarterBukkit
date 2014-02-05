@@ -83,7 +83,7 @@ public abstract class FilesQuery {
                     // Impossible
                 }
                 String fileName = entry.get("fileName").toString();
-                String version = parseVersion(new ProjectFile(fileName, null, releaseType, location, fileName));
+                String version = parseVersion(new ProjectFile(name, null, releaseType, location, fileName));
 
                 files.add(new ProjectFile(name, version, releaseType, location, fileName));
             }
