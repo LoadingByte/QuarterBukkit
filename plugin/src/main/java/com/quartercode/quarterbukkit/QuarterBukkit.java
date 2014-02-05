@@ -86,9 +86,9 @@ public class QuarterBukkit extends JavaPlugin {
 
         // Autoupdate of the api plugin
         if (config.getBoolean("autoupdate")) {
-            QuarterBukkitUpdater updater = new QuarterBukkitUpdater(this);
+            QuarterBukkitUpdater updater = new QuarterBukkitUpdater();
             getLogger().info("Checking for a new version and updating " + getName() + " ...");
-            if (updater.tryInstall()) {
+            if (updater.checkAndUpdate()) {
                 // Stop here if the updater succeeded (it reloads the plugin)
                 return;
             }
