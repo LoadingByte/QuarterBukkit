@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import com.quartercode.quarterbukkit.QuarterBukkit;
 import com.quartercode.quarterbukkit.api.FileUtils;
 import com.quartercode.quarterbukkit.api.exception.ExceptionHandler;
@@ -74,17 +73,21 @@ public class QuarterBukkitUpdater {
                 return false;
             }
 
-            plugin.getLogger().info("Found new version of " + plugin.getName() + ": " + latestFile.getVersion());
+            plugin.getLogger().info("Found a new version of " + plugin.getName() + ": " + latestFile.getVersion());
 
             // ----- Download and Installation -----
 
-            plugin.getLogger().info("Installing latest version of " + plugin.getName());
+            plugin.getLogger().info("Installing " + plugin.getName() + " " + latestFile.getVersion());
+
+            // Variables
+            File pluginsDir = plugin.getDataFolder().getParentFile();
+            File pluginJar = new File(pluginsDir, File.separator + plugin.getName() + ".jar");
 
             // Disable plugin
             Bukkit.getPluginManager().disablePlugin(plugin);
 
             // Download zip
-            File zip = new File(plugin.getDataFolder().getParent(), latestFile.getFileName());
+            File zip = new File(pluginsDir, latestFile.getFileName());
             FileUtils.download(latestFile.getLocation().toURL(), zip);
 
             // Unzip zip
@@ -96,14 +99,10 @@ public class QuarterBukkitUpdater {
             File innerUnzipDir = unzipDir.listFiles()[0];
 
             // Overwrite current plugin jar
-            File pluginJar = new File(plugin.getDataFolder().getParent() + File.separator + plugin.getName() + ".jar");
-            // FileUtils.delete(pluginJar);
             FileUtils.copy(new File(innerUnzipDir, pluginJar.getName()), pluginJar);
 
             // Delete temporary unzip dir
             FileUtils.delete(unzipDir);
-
-            plugin.getLogger().info("Successfully installed " + plugin.getName() + "!");
 
             // Load plugin from file
             try {
@@ -114,7 +113,7 @@ public class QuarterBukkitUpdater {
                 return false;
             }
 
-            plugin.getLogger().info(ChatColor.GREEN + "Successfully updated " + plugin.getName() + "!");
+            plugin.getLogger().info("Successfully updated " + plugin.getName() + " to " + latestFile.getVersion() + "!");
             return true;
         }
         catch (QueryException e) {
