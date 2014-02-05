@@ -77,6 +77,7 @@ public class Config extends YamlConfiguration {
     private void setDefaults() {
 
         addDefaultGV("autoupdate", true);
+        addDefaultGV("server-mods-api-key", "");
     }
 
     private void addDefaultGV(String path, Object value) {
