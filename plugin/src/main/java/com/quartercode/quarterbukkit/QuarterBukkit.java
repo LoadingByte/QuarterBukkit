@@ -34,14 +34,14 @@ import com.quartercode.quarterbukkit.util.QuarterBukkitUpdater;
  */
 public class QuarterBukkit extends JavaPlugin {
 
-    private static Plugin plugin;
+    private static QuarterBukkit plugin;
 
     /**
-     * Returns the current {@link Plugin}.
+     * Returns the current QuarterBukkit {@link Plugin} instance.
      * 
-     * @return The current {@link Plugin}.
+     * @return The current QuarterBukkit instance.
      */
-    public static Plugin getPlugin() {
+    public static QuarterBukkit getPlugin() {
 
         return plugin;
     }
@@ -84,12 +84,12 @@ public class QuarterBukkit extends JavaPlugin {
         // Config
         config = new Config(this, new File(getDataFolder(), "config.yml"));
 
-        // Autoupdate
+        // Autoupdate of the api plugin
         if (config.getBoolean("autoupdate")) {
             QuarterBukkitUpdater updater = new QuarterBukkitUpdater(this);
             getLogger().info("Checking for a new version and updating " + getName() + " ...");
             if (updater.tryInstall()) {
-                // Stop here if the updater succeeded
+                // Stop here if the updater succeeded (it reloads the plugin)
                 return;
             }
         }
@@ -119,16 +119,15 @@ public class QuarterBukkit extends JavaPlugin {
         getLogger().info("Successfully disabled " + getName() + "!");
     }
 
+    /**
+     * Returns the internal config of QuarterBukkit.
+     * 
+     * @return The {@link Config} object QuarterBukkit uses for its configuration.
+     */
     @Override
     public Config getConfig() {
 
         return config;
-    }
-
-    @Override
-    public String toString() {
-
-        return getClass().getName() + " [metrics=" + metrics + ", getServer()=" + getServer() + ", getName()=" + getName() + "]";
     }
 
 }
