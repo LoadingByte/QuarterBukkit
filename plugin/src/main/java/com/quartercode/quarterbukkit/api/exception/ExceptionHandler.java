@@ -48,6 +48,7 @@ public class ExceptionHandler {
         }
     }
 
+    // Modified bukkit code
     private static void call(GameException exception) {
 
         HandlerList handlers = exception.getHandlers();
@@ -73,7 +74,7 @@ public class ExceptionHandler {
                     Bukkit.getLogger().log(Level.SEVERE, String.format("Nag author(s): '%s' of '%s' about the following: %s", new Object[] { plugin.getDescription().getAuthors(), plugin.getDescription().getFullName(), e.getMessage() }));
                 }
             }
-            catch (Throwable e) {
+            catch (Exception e) {
                 Bukkit.getLogger().log(Level.SEVERE, "Could not pass exception " + exception.getEventName() + " to " + registration.getPlugin().getDescription().getFullName(), e);
             }
         }
