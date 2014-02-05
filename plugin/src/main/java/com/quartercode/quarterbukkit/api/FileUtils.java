@@ -24,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
 import java.util.Collections;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -32,6 +33,52 @@ import java.util.zip.ZipFile;
  * This class provides some simple utility methods for advanced file operations.
  */
 public class FileUtils {
+
+    /**
+     * Downloads the file which is avaiable under the given source {@link URL} to the given destination {@link File}.
+     * 
+     * @param source The source {@link URL} where you can find the file which should be downloaded.
+     * @param destination The destination {@link File} where the downloaded file should be stored.
+     * @throws IOException Something goes wrong while opening a connection, reading the stream or executing some file operations.
+     */
+    public static void download(URL source, File destination) throws IOException {
+
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
+        try {
+            inputStream = source.openStream();
+            outputStream = new FileOutputStream(destination);
+            outputStream.flush();
+
+            byte[] tempBuffer = new byte[4096];
+            int counter;
+            while ( (counter = inputStream.read(tempBuffer)) > 0) {
+                outputStream.write(tempBuffer, 0, counter);
+                outputStream.flush();
+            }
+        }
+        catch (IOException e) {
+            throw e;
+        }
+        finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                }
+                catch (IOException e) {
+                    // Ignore
+                }
+            }
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                }
+                catch (IOException e) {
+                    // Ignore
+                }
+            }
+        }
+    }
 
     /**
      * Copies the given source {@link File} or directory to the given destination {@link File} or directory.
@@ -50,18 +97,39 @@ public class FileUtils {
                 copy(new File(source, entry.getName()), new File(destination, entry.getName()));
             }
         } else {
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+            try {
+                inputStream = new FileInputStream(source);
+                outputStream = new FileOutputStream(destination);
 
-            InputStream inputStream = new FileInputStream(source);
-            OutputStream outputStream = new FileOutputStream(destination);
-
-            byte[] buffer = new byte[0xFFFF];
-            int numberOfBytes;
-            while ( (numberOfBytes = inputStream.read(buffer)) > 0) {
-                outputStream.write(buffer, 0, numberOfBytes);
+                byte[] buffer = new byte[0xFFFF];
+                int numberOfBytes;
+                while ( (numberOfBytes = inputStream.read(buffer)) > 0) {
+                    outputStream.write(buffer, 0, numberOfBytes);
+                }
             }
-
-            inputStream.close();
-            outputStream.close();
+            catch (IOException e) {
+                throw e;
+            }
+            finally {
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    }
+                    catch (IOException e) {
+                        // Ignore
+                    }
+                }
+                if (outputStream != null) {
+                    try {
+                        outputStream.close();
+                    }
+                    catch (IOException e) {
+                        // Ignore
+                    }
+                }
+            }
         }
     }
 
@@ -93,33 +161,67 @@ public class FileUtils {
      */
     public static void unzip(File zip, File destination) throws IOException {
 
-        ZipFile zipFile = new ZipFile(zip);
+        ZipFile zipFile = null;
 
-        for (ZipEntry zipEntry : Collections.list(zipFile.entries())) {
-            File file = new File(destination, zipEntry.getName());
+        try {
+            zipFile = new ZipFile(zip);
 
-            if (zipEntry.isDirectory()) {
-                file.mkdirs();
-            } else {
-                new File(file.getParent()).mkdirs();
+            for (ZipEntry zipEntry : Collections.list(zipFile.entries())) {
+                File file = new File(destination, zipEntry.getName());
 
-                InputStream inputStream = zipFile.getInputStream(zipEntry);
-                OutputStream outputStream = new FileOutputStream(file);
+                if (zipEntry.isDirectory()) {
+                    file.mkdirs();
+                } else {
+                    new File(file.getParent()).mkdirs();
 
-                byte[] buffer = new byte[0xFFFF];
-                for (int lenght; (lenght = inputStream.read(buffer)) != -1;) {
-                    outputStream.write(buffer, 0, lenght);
-                }
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-                if (inputStream != null) {
-                    inputStream.close();
+                    InputStream inputStream = null;
+                    OutputStream outputStream = null;
+                    try {
+                        inputStream = zipFile.getInputStream(zipEntry);
+                        outputStream = new FileOutputStream(file);
+
+                        byte[] buffer = new byte[0xFFFF];
+                        for (int lenght; (lenght = inputStream.read(buffer)) != -1;) {
+                            outputStream.write(buffer, 0, lenght);
+                        }
+                    }
+                    catch (IOException e) {
+                        throw e;
+                    }
+                    finally {
+                        if (outputStream != null) {
+                            try {
+                                outputStream.close();
+                            }
+                            catch (IOException e) {
+                                // Ignore
+                            }
+                        }
+                        if (inputStream != null) {
+                            try {
+                                inputStream.close();
+                            }
+                            catch (IOException e) {
+                                // Ignore
+                            }
+                        }
+                    }
                 }
             }
         }
-
-        zipFile.close();
+        catch (IOException e) {
+            throw e;
+        }
+        finally {
+            if (zipFile != null) {
+                try {
+                    zipFile.close();
+                }
+                catch (IOException e) {
+                    // Ignore
+                }
+            }
+        }
     }
 
     private FileUtils() {
