@@ -68,7 +68,6 @@ public class QuarterBukkit extends JavaPlugin {
     @Override
     public void onLoad() {
 
-        getLogger().info("Successfully loaded " + getName() + "!");
     }
 
     /**
@@ -105,8 +104,6 @@ public class QuarterBukkit extends JavaPlugin {
 
         // Custom Events
         new CustomEventListener(plugin);
-
-        getLogger().info("Successfully enabled " + getName() + "!");
     }
 
     /**
@@ -116,7 +113,6 @@ public class QuarterBukkit extends JavaPlugin {
     @Override
     public void onDisable() {
 
-        getLogger().info("Successfully disabled " + getName() + "!");
     }
 
     /**
