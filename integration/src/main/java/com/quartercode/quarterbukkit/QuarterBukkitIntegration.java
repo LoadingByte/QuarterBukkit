@@ -36,6 +36,7 @@ import org.bukkit.plugin.UnknownDependencyException;
 import com.quartercode.quarterbukkit.api.FileUtils;
 import com.quartercode.quarterbukkit.api.query.FilesQuery;
 import com.quartercode.quarterbukkit.api.query.FilesQuery.ProjectFile;
+import com.quartercode.quarterbukkit.api.query.FilesQuery.VersionParser;
 import com.quartercode.quarterbukkit.api.query.QueryException;
 
 /**
@@ -128,14 +129,14 @@ public class QuarterBukkitIntegration {
         Bukkit.getLogger().info("Querying server mods api ...");
 
         // Get latest version
-        List<ProjectFile> avaiableFiles = new FilesQuery(PROJECT_ID) {
+        List<ProjectFile> avaiableFiles = new FilesQuery(PROJECT_ID, new VersionParser() {
 
             @Override
             public String parseVersion(ProjectFile file) {
 
                 return file.getName().replace("QuarterBukkit ", "");
             }
-        }.execute();
+        }).execute();
         if (avaiableFiles.size() == 0) {
             // No file avaiable
             return;
