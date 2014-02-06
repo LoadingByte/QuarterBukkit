@@ -45,6 +45,11 @@ public class QuarterBukkitUpdater {
 
     }
 
+    /**
+     * Checks for a new version of QuarterBukkit and executes the update if necessary.
+     * 
+     * @return True if an update was executed successfully.
+     */
     public boolean checkAndUpdate() {
 
         QuarterBukkit plugin = QuarterBukkit.getPlugin();
