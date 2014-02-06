@@ -32,12 +32,14 @@ import com.quartercode.quarterbukkit.api.query.FilesQuery.ProjectFile.ReleaseTyp
  * 
  * @see ServerModsAPIQuery
  */
-public abstract class FilesQuery {
+public class FilesQuery {
 
-    private final int projectId;
+    private final int     projectId;
+    private VersionParser versionParser;
 
     /**
-     * Creates a new files query which may retrieve all files of the project with the given project id.
+     * Creates a new files query which may retrieve all files of the project with the given project id <b>without their versions</b>.
+     * If you want to use a {@link VersionParser} for retrieving the files' versions, you can use the constructor {@link #FilesQuery(int, VersionParser)}.
      * The files are ordered by the date of upload. The file which was uploaded first comes first.
      * 
      * @param projectId The project id of the project whose avaiable files should be retrieved.
@@ -45,6 +47,20 @@ public abstract class FilesQuery {
     public FilesQuery(int projectId) {
 
         this.projectId = projectId;
+    }
+
+    /**
+     * Creates a new files query which may retrieve all files of the project with the given project id.
+     * Every file's version is parsed by the given {@link VersionParser}, so you can retrieve the version of a file using {@link ProjectFile#getVersion()}.
+     * The files are ordered by the date of upload. The file which was uploaded first comes first.
+     * 
+     * @param projectId The project id of the project whose avaiable files should be retrieved.
+     * @param versionParser The {@link VersionParser} for parsing the version of every resulting {@link ProjectFile}.
+     */
+    public FilesQuery(int projectId, VersionParser versionParser) {
+
+        this.projectId = projectId;
+        this.versionParser = versionParser;
     }
 
     /**
@@ -58,7 +74,20 @@ public abstract class FilesQuery {
     }
 
     /**
+     * Returns the {@link VersionParser} for parsing the version of every resulting {@link ProjectFile}.
+     * It is called on every {@link ProjectFile} discovered by the {@link #execute()} method.
+     * That way you can retrieve the version of a resulting file using {@link ProjectFile#getVersion()}.
+     * 
+     * @return The {@link VersionParser} used by the files query.
+     */
+    public VersionParser getVersionParser() {
+
+        return versionParser;
+    }
+
+    /**
      * Retrieves the avaiable files of the project with the set project id ({@link #getProjectId()}) from BukkitDev.
+     * If a {@link VersionParser} is set, it will be called in order to add versions to all {@link ProjectFile}s.
      * 
      * @return The {@link ProjectFile}s the files query found.
      * @throws QueryException Something goes wrong while querying the server mods api.
@@ -83,7 +112,11 @@ public abstract class FilesQuery {
                     // Impossible
                 }
                 String fileName = entry.get("fileName").toString();
-                String version = parseVersion(new ProjectFile(name, null, releaseType, location, fileName));
+
+                String version = null;
+                if (versionParser != null) {
+                    version = versionParser.parseVersion(new ProjectFile(name, null, releaseType, location, fileName));
+                }
 
                 files.add(new ProjectFile(name, version, releaseType, location, fileName));
             }
@@ -93,13 +126,21 @@ public abstract class FilesQuery {
     }
 
     /**
-     * Parses and returns the version of the given {@link ProjectFile}.
-     * This should be implemented by subclasses to suit the project's naming conventions.
-     * 
-     * @param file The file which was retrieved without the version attribute.
-     * @return The version of the given {@link ProjectFile}.
+     * A version parser can be used to parse the version of a given {@link ProjectFile}.
+     * That allows to create {@link ProjectFile} objects which have a version associated with them.
      */
-    public abstract String parseVersion(ProjectFile file);
+    public static interface VersionParser {
+
+        /**
+         * Parses and returns the version of the given {@link ProjectFile}.
+         * This should be implemented by subclasses to suit the project's naming conventions.
+         * 
+         * @param file The file which was retrieved without the version attribute.
+         * @return The version of the given {@link ProjectFile}.
+         */
+        public abstract String parseVersion(ProjectFile file);
+
+    }
 
     /**
      * A project file represents a file uploaded to BukkitDev and contains its name, version and {@link ReleaseType}, as well as the link to the actual file and its name.
