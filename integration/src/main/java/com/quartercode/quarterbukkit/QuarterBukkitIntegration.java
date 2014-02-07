@@ -104,11 +104,9 @@ public class QuarterBukkitIntegration {
                             Bukkit.broadcastMessage(ChatColor.RED + "For using " + plugins + " which requires " + PLUGIN_NAME + ", you need to " + ChatColor.DARK_AQUA + "restart" + ChatColor.RED + " the server!");
                         }
                     }, 100, 10 * 1000);
-                }
-                catch (UnknownHostException e) {
+                } catch (UnknownHostException e) {
                     Bukkit.getLogger().warning("Can't connect to dev.bukkit.org for installing " + PLUGIN_NAME + "!");
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     Bukkit.getLogger().severe("An error occurred while installing " + PLUGIN_NAME + " (" + e + ")");
                     e.printStackTrace();
                 }

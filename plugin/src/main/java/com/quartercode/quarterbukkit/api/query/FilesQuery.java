@@ -107,8 +107,7 @@ public class FilesQuery {
                 URI location = null;
                 try {
                     location = new URI(entry.get("downloadUrl").toString());
-                }
-                catch (URISyntaxException e) {
+                } catch (URISyntaxException e) {
                     // Impossible
                 }
                 String fileName = entry.get("fileName").toString();

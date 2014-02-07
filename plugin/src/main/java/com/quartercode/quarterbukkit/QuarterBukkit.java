@@ -97,8 +97,7 @@ public class QuarterBukkit extends JavaPlugin {
         try {
             metrics = new Metrics(this);
             metrics.start();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             getLogger().severe("An error occurred while enabling Metrics (" + e + ")");
         }
 

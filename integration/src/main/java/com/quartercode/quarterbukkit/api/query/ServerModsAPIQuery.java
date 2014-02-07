@@ -75,8 +75,7 @@ public class ServerModsAPIQuery {
         URL requestUrl = null;
         try {
             requestUrl = new URL(HOST + query);
-        }
-        catch (MalformedURLException e) {
+        } catch (MalformedURLException e) {
             throw new QueryException(QueryExceptionType.MALFORMED_URL, this, HOST + query, e);
         }
 
@@ -84,8 +83,7 @@ public class ServerModsAPIQuery {
         URLConnection request = null;
         try {
             request = requestUrl.openConnection();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new QueryException(QueryExceptionType.CANNOT_OPEN_CONNECTION, this, requestUrl.toExternalForm(), e);
         }
 
@@ -104,20 +102,17 @@ public class ServerModsAPIQuery {
         try {
             reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
             response = reader.readLine();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             if (e.getMessage().contains("HTTP response code: 403")) {
                 throw new QueryException(QueryExceptionType.INVALID_API_KEY, this, requestUrl.toExternalForm(), e);
             } else {
                 throw new QueryException(QueryExceptionType.CANNOT_READ_RESPONSE, this, requestUrl.toExternalForm(), e);
             }
-        }
-        finally {
+        } finally {
             // Can't be null because we return in that case (see the catch block)
             try {
                 reader.close();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 throw new QueryException(QueryExceptionType.CANNOT_CLOSE_RESPONSE_STREAM, this, requestUrl.toExternalForm(), e);
             }
         }

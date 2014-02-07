@@ -56,24 +56,20 @@ public class FileUtils {
                 outputStream.write(tempBuffer, 0, counter);
                 outputStream.flush();
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw e;
-        }
-        finally {
+        } finally {
             if (inputStream != null) {
                 try {
                     inputStream.close();
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     // Ignore
                 }
             }
             if (outputStream != null) {
                 try {
                     outputStream.close();
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     // Ignore
                 }
             }
@@ -108,24 +104,20 @@ public class FileUtils {
                 while ( (numberOfBytes = inputStream.read(buffer)) > 0) {
                     outputStream.write(buffer, 0, numberOfBytes);
                 }
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 throw e;
-            }
-            finally {
+            } finally {
                 if (inputStream != null) {
                     try {
                         inputStream.close();
-                    }
-                    catch (IOException e) {
+                    } catch (IOException e) {
                         // Ignore
                     }
                 }
                 if (outputStream != null) {
                     try {
                         outputStream.close();
-                    }
-                    catch (IOException e) {
+                    } catch (IOException e) {
                         // Ignore
                     }
                 }
@@ -184,40 +176,33 @@ public class FileUtils {
                         for (int lenght; (lenght = inputStream.read(buffer)) != -1;) {
                             outputStream.write(buffer, 0, lenght);
                         }
-                    }
-                    catch (IOException e) {
+                    } catch (IOException e) {
                         throw e;
-                    }
-                    finally {
+                    } finally {
                         if (outputStream != null) {
                             try {
                                 outputStream.close();
-                            }
-                            catch (IOException e) {
+                            } catch (IOException e) {
                                 // Ignore
                             }
                         }
                         if (inputStream != null) {
                             try {
                                 inputStream.close();
-                            }
-                            catch (IOException e) {
+                            } catch (IOException e) {
                                 // Ignore
                             }
                         }
                     }
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw e;
-        }
-        finally {
+        } finally {
             if (zipFile != null) {
                 try {
                     zipFile.close();
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     // Ignore
                 }
             }

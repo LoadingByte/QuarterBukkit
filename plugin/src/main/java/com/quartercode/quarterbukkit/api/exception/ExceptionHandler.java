@@ -65,16 +65,14 @@ public class ExceptionHandler {
 
             try {
                 registration.callEvent(exception);
-            }
-            catch (AuthorNagException e) {
+            } catch (AuthorNagException e) {
                 Plugin plugin = registration.getPlugin();
 
                 if (plugin.isNaggable()) {
                     plugin.setNaggable(false);
                     Bukkit.getLogger().log(Level.SEVERE, String.format("Nag author(s): '%s' of '%s' about the following: %s", new Object[] { plugin.getDescription().getAuthors(), plugin.getDescription().getFullName(), e.getMessage() }));
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 Bukkit.getLogger().log(Level.SEVERE, "Could not pass exception " + exception.getEventName() + " to " + registration.getPlugin().getDescription().getFullName(), e);
             }
         }

@@ -113,19 +113,16 @@ public class QuarterBukkitUpdater {
             // Load plugin from file
             try {
                 Bukkit.getPluginManager().enablePlugin(Bukkit.getPluginManager().loadPlugin(pluginJar));
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 ExceptionHandler.exception(new InstallException(plugin, e, "Error while reloading the plugin with the new jar"));
                 return false;
             }
 
             plugin.getLogger().info("Successfully updated " + plugin.getName() + " to " + latestFile.getVersion() + "!");
             return true;
-        }
-        catch (QueryException e) {
+        } catch (QueryException e) {
             ExceptionHandler.exception(new InstallException(plugin, e, "Error while querying the server mods api: " + e.getType()));
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             ExceptionHandler.exception(new InstallException(plugin, e, "Error while doing some file operations"));
         }
 
