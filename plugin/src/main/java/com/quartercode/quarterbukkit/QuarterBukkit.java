@@ -34,14 +34,14 @@ import com.quartercode.quarterbukkit.util.QuarterBukkitUpdater;
  */
 public class QuarterBukkit extends JavaPlugin {
 
-    private static Plugin plugin;
+    private static QuarterBukkit plugin;
 
     /**
-     * Returns the current {@link Plugin}.
+     * Returns the current QuarterBukkit {@link Plugin} instance.
      * 
-     * @return The current {@link Plugin}.
+     * @return The current QuarterBukkit instance.
      */
-    public static Plugin getPlugin() {
+    public static QuarterBukkit getPlugin() {
 
         return plugin;
     }
@@ -68,7 +68,6 @@ public class QuarterBukkit extends JavaPlugin {
     @Override
     public void onLoad() {
 
-        getLogger().info("Successfully loaded " + getName() + "!");
     }
 
     /**
@@ -84,12 +83,12 @@ public class QuarterBukkit extends JavaPlugin {
         // Config
         config = new Config(this, new File(getDataFolder(), "config.yml"));
 
-        // Autoupdate
+        // Autoupdate of the api plugin
         if (config.getBoolean("autoupdate")) {
-            QuarterBukkitUpdater updater = new QuarterBukkitUpdater(this);
+            QuarterBukkitUpdater updater = new QuarterBukkitUpdater();
             getLogger().info("Checking for a new version and updating " + getName() + " ...");
-            if (updater.tryInstall()) {
-                // Stop here if the updater succeeded
+            if (updater.checkAndUpdate()) {
+                // Stop here if the updater succeeded (it reloads the plugin)
                 return;
             }
         }
@@ -98,15 +97,12 @@ public class QuarterBukkit extends JavaPlugin {
         try {
             metrics = new Metrics(this);
             metrics.start();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             getLogger().severe("An error occurred while enabling Metrics (" + e + ")");
         }
 
         // Custom Events
         new CustomEventListener(plugin);
-
-        getLogger().info("Successfully enabled " + getName() + "!");
     }
 
     /**
@@ -116,19 +112,17 @@ public class QuarterBukkit extends JavaPlugin {
     @Override
     public void onDisable() {
 
-        getLogger().info("Successfully disabled " + getName() + "!");
     }
 
+    /**
+     * Returns the internal config of QuarterBukkit.
+     * 
+     * @return The {@link Config} object QuarterBukkit uses for its configuration.
+     */
     @Override
     public Config getConfig() {
 
         return config;
-    }
-
-    @Override
-    public String toString() {
-
-        return getClass().getName() + " [metrics=" + metrics + ", getServer()=" + getServer() + ", getName()=" + getName() + "]";
     }
 
 }

@@ -52,7 +52,7 @@ public class RedstoneToggleEvent extends BlockEvent {
     /**
      * Returns true if the set {@link Block} got powered or false if it got unpowered.
      * 
-     * @return If the set {@link Block} you can retreive with {@link #getBlock()} is powered.
+     * @return If the set {@link Block} you can retrieve with {@link #getBlock()} is powered.
      */
     public boolean isPowered() {
 

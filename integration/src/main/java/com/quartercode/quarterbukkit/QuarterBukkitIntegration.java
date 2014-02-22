@@ -18,27 +18,14 @@
 
 package com.quartercode.quarterbukkit;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.net.UnknownHostException;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.XMLEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -46,6 +33,11 @@ import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.UnknownDependencyException;
+import com.quartercode.quarterbukkit.api.FileUtils;
+import com.quartercode.quarterbukkit.api.query.FilesQuery;
+import com.quartercode.quarterbukkit.api.query.FilesQuery.ProjectFile;
+import com.quartercode.quarterbukkit.api.query.FilesQuery.VersionParser;
+import com.quartercode.quarterbukkit.api.query.QueryException;
 
 /**
  * This class is used for integrating QuarterBukkit into a {@link Plugin}.
@@ -53,31 +45,12 @@ import org.bukkit.plugin.UnknownDependencyException;
 public class QuarterBukkitIntegration {
 
     private static final String PLUGIN_NAME = "QuarterBukkit-Plugin";
-
-    private static final String TITLE_TAG   = "title";
-    private static final String LINK_TAG    = "link";
-    private static final String ITEM_TAG    = "item";
-
-    private static URL          feedUrl;
+    private static final int    PROJECT_ID  = 47006;
 
     // The plugins which called the integrate() method
     private static Set<Plugin>  callers     = new HashSet<Plugin>();
     // Determinates if the integration process was already invoked
     private static boolean      invoked     = false;
-
-    static {
-
-        URL feed = null;
-        try {
-            feed = new URL("http://dev.bukkit.org/server-mods/quarterbukkit/files.rss");
-        }
-        catch (MalformedURLException e) {
-            Bukkit.getLogger().severe("Error while initalizing URL (" + e + ")");
-        }
-
-        feedUrl = feed;
-
-    }
 
     /**
      * Call this method in onEnable() for integrating QuarterBukkit into your plugin.
@@ -96,16 +69,6 @@ public class QuarterBukkitIntegration {
             if (!invoked) {
                 // Block this part (it should only be called once)
                 invoked = true;
-
-                // Clean up
-                if (new File("plugins/" + PLUGIN_NAME + "_extract").exists()) {
-                    try {
-                        FileUtils.delete(new File("plugins/" + PLUGIN_NAME + "_extract"));
-                    }
-                    catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
 
                 // Read installation confirmation file
                 File installConfigFile = new File("plugins/" + PLUGIN_NAME, "install.yml");
@@ -138,14 +101,12 @@ public class QuarterBukkitIntegration {
                                 plugins += ", " + caller.getName();
                             }
                             plugins = plugins.substring(2);
-                            Bukkit.broadcastMessage(ChatColor.RED + "For using " + plugins + " which requires " + PLUGIN_NAME + ", you should " + ChatColor.DARK_AQUA + "restart" + ChatColor.RED + " the server!");
+                            Bukkit.broadcastMessage(ChatColor.RED + "For using " + plugins + " which requires " + PLUGIN_NAME + ", you need to " + ChatColor.DARK_AQUA + "restart" + ChatColor.RED + " the server!");
                         }
-                    }, 100, 3 * 1000);
-                }
-                catch (UnknownHostException e) {
+                    }, 100, 10 * 1000);
+                } catch (UnknownHostException e) {
                     Bukkit.getLogger().warning("Can't connect to dev.bukkit.org for installing " + PLUGIN_NAME + "!");
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     Bukkit.getLogger().severe("An error occurred while installing " + PLUGIN_NAME + " (" + e + ")");
                     e.printStackTrace();
                 }
@@ -157,94 +118,62 @@ public class QuarterBukkitIntegration {
         }
     }
 
-    private static void install(File target) throws IOException, XMLStreamException, UnknownDependencyException, InvalidPluginException, InvalidDescriptionException {
+    private static void install(File target) throws QueryException, IOException, UnknownDependencyException, InvalidPluginException, InvalidDescriptionException {
+
+        // ----- Get Latest Version -----
 
         Bukkit.getLogger().info("===============[ " + PLUGIN_NAME + " Installation ]===============");
-        Bukkit.getLogger().info("Installing " + PLUGIN_NAME + " ...");
 
-        Bukkit.getLogger().info("Downloading " + PLUGIN_NAME + " ...");
-        File zipFile = new File(target.getParentFile(), PLUGIN_NAME + "_download.zip");
-        URL url = new URL(getFileURL(getFeedData().get("link")));
-        InputStream inputStream = url.openStream();
-        OutputStream outputStream = new FileOutputStream(zipFile);
-        outputStream.flush();
+        Bukkit.getLogger().info("Querying server mods api ...");
 
-        byte[] tempBuffer = new byte[4096];
-        int counter;
-        while ( (counter = inputStream.read(tempBuffer)) > 0) {
-            outputStream.write(tempBuffer, 0, counter);
-            outputStream.flush();
+        // Get latest version
+        List<ProjectFile> avaiableFiles = new FilesQuery(PROJECT_ID, new VersionParser() {
+
+            @Override
+            public String parseVersion(ProjectFile file) {
+
+                return file.getName().replace("QuarterBukkit ", "");
+            }
+        }).execute();
+        if (avaiableFiles.size() == 0) {
+            // No file avaiable
+            return;
         }
+        ProjectFile latestFile = avaiableFiles.get(avaiableFiles.size() - 1);
 
-        inputStream.close();
-        outputStream.close();
+        Bukkit.getLogger().info("Found the latest version of " + PLUGIN_NAME + ": " + latestFile.getVersion());
 
-        Bukkit.getLogger().info("Extracting " + PLUGIN_NAME + " ...");
-        File unzipDir = new File(target.getParentFile(), PLUGIN_NAME + "_extract");
-        FileUtils.unzip(zipFile, unzipDir);
-        FileUtils.delete(zipFile);
-        File unzipInnerDir = unzipDir.listFiles()[0];
-        FileUtils.copy(new File(unzipInnerDir, target.getName()), target);
+        // ----- Download and Installation -----
+
+        Bukkit.getLogger().info("Installing " + PLUGIN_NAME + " " + latestFile.getVersion());
+
+        // Variables
+        File pluginDir = callers.iterator().next().getDataFolder().getParentFile();
+
+        // Download zip
+        File zip = new File(pluginDir, latestFile.getFileName());
+        FileUtils.download(latestFile.getLocation().toURL(), zip);
+
+        // Unzip zip
+        File unzipDir = new File(zip.getParent(), zip.getName() + "_extract");
+        FileUtils.unzip(zip, unzipDir);
+        FileUtils.delete(zip);
+
+        // Get inner directory
+        File innerUnzipDir = unzipDir.listFiles()[0];
+
+        // Overwrite current plugin jar
+        File pluginJar = new File(pluginDir, PLUGIN_NAME + ".jar");
+        // FileUtils.delete(pluginJar);
+        FileUtils.copy(new File(innerUnzipDir, pluginJar.getName()), pluginJar);
+
+        // Delete temporary unzip dir
         FileUtils.delete(unzipDir);
 
-        Bukkit.getLogger().info("Loading " + PLUGIN_NAME + " ...");
-        Bukkit.getPluginManager().enablePlugin(Bukkit.getPluginManager().loadPlugin(target));
+        // Load plugin from file
+        Bukkit.getPluginManager().enablePlugin(Bukkit.getPluginManager().loadPlugin(pluginJar));
 
-        Bukkit.getLogger().info("Successfully installed " + PLUGIN_NAME + "!");
-        Bukkit.getLogger().info("Enabling other plugins ...");
-    }
-
-    private static String getFileURL(String link) throws IOException {
-
-        URL url = new URL(link);
-        URLConnection connection = url.openConnection();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-        String line;
-        while ( (line = reader.readLine()) != null) {
-            if (line.contains("<li class=\"user-action user-action-download\">")) {
-                return line.split("<a href=\"")[1].split("\">Download</a>")[0];
-            }
-        }
-        connection = null;
-        reader.close();
-
-        return null;
-    }
-
-    private static Map<String, String> getFeedData() throws IOException, XMLStreamException {
-
-        Map<String, String> returnMap = new HashMap<String, String>();
-        String title = null;
-        String link = null;
-
-        XMLInputFactory inputFactory = XMLInputFactory.newInstance();
-        InputStream inputStream = feedUrl.openStream();
-        XMLEventReader eventReader = inputFactory.createXMLEventReader(inputStream);
-
-        while (eventReader.hasNext()) {
-            XMLEvent event = eventReader.nextEvent();
-            if (event.isStartElement()) {
-                if (event.asStartElement().getName().getLocalPart().equals(TITLE_TAG)) {
-                    event = eventReader.nextEvent();
-                    title = event.asCharacters().getData();
-                    continue;
-                }
-                if (event.asStartElement().getName().getLocalPart().equals(LINK_TAG)) {
-                    event = eventReader.nextEvent();
-                    link = event.asCharacters().getData();
-                    continue;
-                }
-            } else if (event.isEndElement()) {
-                if (event.asEndElement().getName().getLocalPart().equals(ITEM_TAG)) {
-                    returnMap.put("title", title);
-                    returnMap.put("link", link);
-                    return returnMap;
-                }
-            }
-        }
-
-        return returnMap;
+        Bukkit.getLogger().info("Successfully installed " + PLUGIN_NAME + " " + latestFile.getVersion() + "!");
     }
 
 }

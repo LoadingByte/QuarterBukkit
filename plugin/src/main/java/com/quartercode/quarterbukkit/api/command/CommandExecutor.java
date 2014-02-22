@@ -239,8 +239,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
         try {
             getCommandHandler(label);
             return true;
-        }
-        catch (IllegalStateException e) {
+        } catch (IllegalStateException e) {
             return false;
         }
     }

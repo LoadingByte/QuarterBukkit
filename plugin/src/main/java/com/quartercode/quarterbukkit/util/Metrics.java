@@ -275,8 +275,7 @@ public class Metrics {
                         // After the first post we set firstPost to false
                         // Each post thereafter will be a ping
                         firstPost = false;
-                    }
-                    catch (IOException e) {
+                    } catch (IOException e) {
                         if (debug) {
                             Bukkit.getLogger().log(Level.INFO, "[Metrics] " + e.getMessage());
                         }
@@ -299,14 +298,12 @@ public class Metrics {
             try {
                 // Reload the metrics file
                 configuration.load(getConfigFile());
-            }
-            catch (IOException ex) {
+            } catch (IOException ex) {
                 if (debug) {
                     Bukkit.getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
                 }
                 return true;
-            }
-            catch (InvalidConfigurationException ex) {
+            } catch (InvalidConfigurationException ex) {
                 if (debug) {
                     Bukkit.getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
                 }
@@ -511,8 +508,7 @@ public class Metrics {
         try {
             Class.forName("mineshafter.MineServer");
             return true;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return false;
         }
     }

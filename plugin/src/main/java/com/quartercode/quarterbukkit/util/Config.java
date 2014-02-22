@@ -49,11 +49,9 @@ public class Config extends YamlConfiguration {
 
         try {
             super.load(file);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             ExceptionHandler.exception(new GameException(plugin, "Can't load QuarterBukkit config (" + e + ")"));
-        }
-        catch (InvalidConfigurationException e) {
+        } catch (InvalidConfigurationException e) {
             ExceptionHandler.exception(new GameException(plugin, "Can't load QuarterBukkit config (" + e + ")"));
         }
     }
@@ -63,8 +61,7 @@ public class Config extends YamlConfiguration {
 
         try {
             super.save(file);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             ExceptionHandler.exception(new GameException(plugin, "Can't save QuarterBukkit config (" + e + ")"));
         }
     }
@@ -77,6 +74,7 @@ public class Config extends YamlConfiguration {
     private void setDefaults() {
 
         addDefaultGV("autoupdate", true);
+        addDefaultGV("server-mods-api-key", "");
     }
 
     private void addDefaultGV(String path, Object value) {

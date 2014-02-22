@@ -72,8 +72,7 @@ public class DefaultParticleSpawner implements ParticleSpawner {
             firework.setFireworkMeta(meta);
 
             nmsWorld_broadcastEntityEffect.invoke(nmsWorld, nmsFirework, (byte) 17);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             ExceptionHandler.exception(new InternalException(plugin, e, "Reflection read error"));
         }
 
