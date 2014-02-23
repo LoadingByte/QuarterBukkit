@@ -21,7 +21,7 @@ package com.quartercode.quarterbukkit.api.particle;
 import org.bukkit.FireworkEffect.Type;
 
 /**
- * A enumeration of all avaiable particle shapes.
+ * A enumeration of all available particle shapes.
  */
 public enum ParticleShape {
 

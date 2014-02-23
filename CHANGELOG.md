@@ -2,7 +2,7 @@
 -----
 
 ### Additions
-* ServerMods Query API for querying the official ServerMods API which is avaiable under https://api.curseforge.com/servermods.
+* ServerMods Query API for querying the official ServerMods API which is available under https://api.curseforge.com/servermods.
 * The QuarterBukkitUpdater and QuarterBukkitIntegration classes now use the ServerMods Query API.
 
 ### Removals
@@ -17,7 +17,7 @@
 -----
 
 ### Additions
-* Utility events which extend the currently avaiable bukkit events.
+* Utility events which extend the currently available bukkit events.
 * RedstoneToggleEvent which is fired whenever the power status of any block changes.
 * The integration method can now handle multiple caller plugins.
 

@@ -35,7 +35,7 @@ import java.util.zip.ZipFile;
 public class FileUtils {
 
     /**
-     * Downloads the file which is avaiable under the given source {@link URL} to the given destination {@link File}.
+     * Downloads the file which is available under the given source {@link URL} to the given destination {@link File}.
      * 
      * @param source The source {@link URL} where you can find the file which should be downloaded.
      * @param destination The destination {@link File} where the downloaded file should be stored.

@@ -27,7 +27,7 @@ import org.json.simple.JSONObject;
 import com.quartercode.quarterbukkit.api.query.FilesQuery.ProjectFile.ReleaseType;
 
 /**
- * The files query can be used to retrieve all files of a project which are currently avaiable on BukkitDev.
+ * The files query can be used to retrieve all files of a project which are currently available on BukkitDev.
  * The class internally uses the {@link ServerModsAPIQuery}.
  * 
  * @see ServerModsAPIQuery
@@ -42,7 +42,7 @@ public class FilesQuery {
      * If you want to use a {@link VersionParser} for retrieving the files' versions, you can use the constructor {@link #FilesQuery(int, VersionParser)}.
      * The files are ordered by the date of upload. The file which was uploaded first comes first.
      * 
-     * @param projectId The project id of the project whose avaiable files should be retrieved.
+     * @param projectId The project id of the project whose available files should be retrieved.
      */
     public FilesQuery(int projectId) {
 
@@ -54,7 +54,7 @@ public class FilesQuery {
      * Every file's version is parsed by the given {@link VersionParser}, so you can retrieve the version of a file using {@link ProjectFile#getVersion()}.
      * The files are ordered by the date of upload. The file which was uploaded first comes first.
      * 
-     * @param projectId The project id of the project whose avaiable files should be retrieved.
+     * @param projectId The project id of the project whose available files should be retrieved.
      * @param versionParser The {@link VersionParser} for parsing the version of every resulting {@link ProjectFile}.
      */
     public FilesQuery(int projectId, VersionParser versionParser) {
@@ -64,7 +64,7 @@ public class FilesQuery {
     }
 
     /**
-     * Returns the project id of the project whose avaiable files should be retrieved.
+     * Returns the project id of the project whose available files should be retrieved.
      * 
      * @return The project id for retrieval.
      */
@@ -86,7 +86,7 @@ public class FilesQuery {
     }
 
     /**
-     * Retrieves the avaiable files of the project with the set project id ({@link #getProjectId()}) from BukkitDev.
+     * Retrieves the available files of the project with the set project id ({@link #getProjectId()}) from BukkitDev.
      * If a {@link VersionParser} is set, it will be called in order to add versions to all {@link ProjectFile}s.
      * 
      * @return The {@link ProjectFile}s the files query found.
