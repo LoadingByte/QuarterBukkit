@@ -89,7 +89,7 @@ public class QuarterBukkitIntegration {
                         }
                     }
 
-                    // Schedule with a time because the integrating plugin might get disabled
+                    // Schedule with a timer because the integrating plugin might become disabled
                     new Timer().schedule(new TimerTask() {
 
                         @Override
@@ -103,7 +103,8 @@ public class QuarterBukkitIntegration {
                             plugins = plugins.substring(2);
                             Bukkit.broadcastMessage(ChatColor.RED + "For using " + plugins + " which requires " + PLUGIN_NAME + ", you need to " + ChatColor.DARK_AQUA + "restart" + ChatColor.RED + " the server!");
                         }
-                    }, 100, 10 * 1000);
+
+                    }, 0, 10 * 1000);
                 } catch (UnknownHostException e) {
                     Bukkit.getLogger().warning("Can't connect to dev.bukkit.org for installing " + PLUGIN_NAME + "!");
                 } catch (Exception e) {
