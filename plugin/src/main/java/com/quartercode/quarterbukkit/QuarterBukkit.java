@@ -22,9 +22,9 @@ import java.io.File;
 import java.io.IOException;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mcstats.MetricsLite;
 import com.quartercode.quarterbukkit.util.Config;
 import com.quartercode.quarterbukkit.util.CustomEventListener;
-import com.quartercode.quarterbukkit.util.Metrics;
 import com.quartercode.quarterbukkit.util.QuarterBukkitExceptionListener;
 import com.quartercode.quarterbukkit.util.QuarterBukkitUpdater;
 
@@ -46,8 +46,7 @@ public class QuarterBukkit extends JavaPlugin {
         return plugin;
     }
 
-    private Config  config;
-    private Metrics metrics;
+    private Config config;
 
     /**
      * The default constructor for Bukkit.
@@ -78,7 +77,7 @@ public class QuarterBukkit extends JavaPlugin {
     public void onEnable() {
 
         // Internal Exceptions
-        new QuarterBukkitExceptionListener(plugin);
+        new QuarterBukkitExceptionListener(this);
 
         // Config
         config = new Config(this, new File(getDataFolder(), "config.yml"));
@@ -93,16 +92,17 @@ public class QuarterBukkit extends JavaPlugin {
             }
         }
 
+        getLogger().info("Starting up metrics ...");
         // Metrics
         try {
-            metrics = new Metrics(this);
+            MetricsLite metrics = new MetricsLite(this);
             metrics.start();
         } catch (IOException e) {
             getLogger().severe("An error occurred while enabling Metrics (" + e + ")");
         }
 
         // Custom Events
-        new CustomEventListener(plugin);
+        new CustomEventListener(this);
     }
 
     /**

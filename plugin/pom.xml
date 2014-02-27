@@ -12,4 +12,22 @@
 
     <name>QuarterBukkit-Plugin</name>
     <description>The main QuarterBukkit plugin which is is essentially a bukkit plugin jar.</description>
+
+    <dependencies>
+        <!-- MCStats -->
+        <dependency>
+            <groupId>org.mcstats.bukkit</groupId>
+            <artifactId>metrics-lite</artifactId>
+            <version>R7</version>
+        </dependency>
+    </dependencies>
+
+    <repositories>
+        <!-- MCStats -->
+        <repository>
+            <id>mcstats-repository</id>
+            <name>MCStats Repository</name>
+            <url>http://repo.mcstats.org/content/groups/public/</url>
+        </repository>
+    </repositories>
 </project>
