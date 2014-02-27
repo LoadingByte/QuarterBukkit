@@ -115,11 +115,12 @@ public class ServerModsAPIQuery {
                 throw new QueryException(QueryExceptionType.CANNOT_READ_RESPONSE, this, requestUrl.toExternalForm(), e);
             }
         } finally {
-            // Can't be null because we return in that case (see the catch block)
-            try {
-                reader.close();
-            } catch (IOException e) {
-                throw new QueryException(QueryExceptionType.CANNOT_CLOSE_RESPONSE_STREAM, this, requestUrl.toExternalForm(), e);
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    throw new QueryException(QueryExceptionType.CANNOT_CLOSE_RESPONSE_STREAM, this, requestUrl.toExternalForm(), e);
+                }
             }
         }
 
