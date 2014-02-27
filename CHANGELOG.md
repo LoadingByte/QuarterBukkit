@@ -1,3 +1,9 @@
+0.2.1
+-----
+
+### Fixes
+* Fixed a bug which caused the ServerModsAPIQuery to throw a NullPointerException if the connection to the server mods api failed.
+
 0.2.0
 -----
 
