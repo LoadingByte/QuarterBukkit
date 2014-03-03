@@ -1,6 +1,10 @@
 0.3.0
 -----
 
+### Fixes
+* Fixed JavaDoc errors which caused generation warnings.
+* Fixed some other very minor issues.
+
 ### Notes
 * Maven will publish the sources and JavaDocs from this version onwards.
 
