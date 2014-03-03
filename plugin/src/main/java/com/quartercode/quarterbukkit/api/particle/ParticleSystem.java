@@ -31,7 +31,7 @@ import com.quartercode.quarterbukkit.api.scheduler.ScheduleTask;
 
 /**
  * This class represents a complex particle system using firework particles.
- * The system can also get customized with sutom renderers and spawners.
+ * The system can also get customized with custom renderers and spawners.
  * All parameters can be changed in real time between to runs.
  */
 public class ParticleSystem {
@@ -335,7 +335,8 @@ public class ParticleSystem {
     }
 
     /**
-     * Executes the particle animation; may override in subclass for more customization.
+     * Executes the particle animation.
+     * This method can be overriden in subclasses for more customization.
      * 
      * @param plugin The {@link Plugin} to bind the {@link ScheduleTask} and exception-handling on.
      * @param location The current particle source.
@@ -346,7 +347,7 @@ public class ParticleSystem {
     }
 
     /**
-     * Gets called when the animation ends.
+     * Is called when the animation ends.
      * 
      * @param plugin The {@link Plugin} to bind the {@link ScheduleTask} and exception-handling on.
      * @param location The current particle source.

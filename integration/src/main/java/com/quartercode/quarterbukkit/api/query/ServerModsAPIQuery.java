@@ -31,7 +31,9 @@ import com.quartercode.quarterbukkit.api.query.QueryException.QueryExceptionType
 
 /**
  * A server mods api query can be used to query the official server mods api (https://api.curseforge.com/servermods).
- * For example, it is used by the {@link Updater} class.
+ * For example, you can create updaters or version checkers with this query.
+ * 
+ * @see FilesQuery
  */
 public class ServerModsAPIQuery {
 

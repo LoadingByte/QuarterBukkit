@@ -232,7 +232,7 @@ public class FilesQuery {
         }
 
         /**
-         * Returns the name of the actual file which can be found under the set file location ({@link #getFile()}).
+         * Returns the name of the actual file which can be found under the set file location ({@link #getLocation()}).
          * 
          * @return The name of the actual file.
          */
