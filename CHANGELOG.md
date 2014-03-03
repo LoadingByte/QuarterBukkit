@@ -1,3 +1,9 @@
+0.3.0
+-----
+
+### Notes
+* Maven will publish the sources and JavaDocs from this version onwards.
+
 0.2.1
 -----
 
