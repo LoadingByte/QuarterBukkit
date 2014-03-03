@@ -177,4 +177,8 @@ public class QuarterBukkitIntegration {
         Bukkit.getLogger().info("Successfully installed " + PLUGIN_NAME + " " + latestFile.getVersion() + "!");
     }
 
+    private QuarterBukkitIntegration() {
+
+    }
+
 }
