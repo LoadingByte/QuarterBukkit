@@ -99,7 +99,7 @@ public class CommandInfo {
      */
     public String[] getLabels() {
 
-        return labels;
+        return labels.clone();
     }
 
     @Override

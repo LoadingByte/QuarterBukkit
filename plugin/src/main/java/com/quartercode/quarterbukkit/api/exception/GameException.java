@@ -35,7 +35,7 @@ public class GameException extends Event {
     }
 
     private final Plugin plugin;
-    private String       message;
+    private final String message;
 
     /**
      * Creates a new empty {@link GameException} with a {@link Plugin}.
@@ -45,6 +45,7 @@ public class GameException extends Event {
     public GameException(Plugin plugin) {
 
         this.plugin = plugin;
+        message = null;
     }
 
     /**

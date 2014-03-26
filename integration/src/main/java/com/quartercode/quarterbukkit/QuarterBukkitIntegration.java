@@ -26,13 +26,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.UnknownDependencyException;
 import com.quartercode.quarterbukkit.api.FileUtils;
 import com.quartercode.quarterbukkit.api.query.FilesQuery;
 import com.quartercode.quarterbukkit.api.query.FilesQuery.ProjectFile;
@@ -49,7 +49,7 @@ public class QuarterBukkitIntegration {
 
     // The plugins which called the integrate() method
     private static Set<Plugin>  callers     = new HashSet<Plugin>();
-    // Determinates if the integration process was already invoked
+    // Determinates whether the integration process was already invoked
     private static boolean      invoked     = false;
 
     /**
@@ -84,7 +84,7 @@ public class QuarterBukkitIntegration {
                         if (installConfig.isBoolean("install-" + PLUGIN_NAME) && installConfig.getBoolean("install-" + PLUGIN_NAME)) {
                             // Installation confirmed -> install
                             installConfigFile.delete();
-                            install(new File("plugins", PLUGIN_NAME + ".jar"));
+                            install();
                             return true;
                         }
                     }
@@ -96,20 +96,18 @@ public class QuarterBukkitIntegration {
                         public void run() {
 
                             Bukkit.broadcastMessage(ChatColor.YELLOW + "===============[ " + PLUGIN_NAME + " Installation ]===============");
-                            String plugins = "";
+                            StringBuilder plugins = new StringBuilder();
                             for (Plugin caller : callers) {
-                                plugins += ", " + caller.getName();
+                                plugins.append(", ").append(caller.getName());
                             }
-                            plugins = plugins.substring(2);
-                            Bukkit.broadcastMessage(ChatColor.RED + "For using " + plugins + " which requires " + PLUGIN_NAME + ", you need to " + ChatColor.DARK_AQUA + "restart" + ChatColor.RED + " the server!");
+                            Bukkit.broadcastMessage(ChatColor.RED + "For using " + plugins.substring(2) + " which requires " + PLUGIN_NAME + ", you need to " + ChatColor.DARK_AQUA + "restart" + ChatColor.RED + " the server!");
                         }
 
                     }, 0, 10 * 1000);
                 } catch (UnknownHostException e) {
                     Bukkit.getLogger().warning("Can't connect to dev.bukkit.org for installing " + PLUGIN_NAME + "!");
                 } catch (Exception e) {
-                    Bukkit.getLogger().severe("An error occurred while installing " + PLUGIN_NAME + " (" + e + ")");
-                    e.printStackTrace();
+                    Bukkit.getLogger().log(Level.SEVERE, "An error occurred while installing " + PLUGIN_NAME, e);
                 }
             }
 
@@ -119,7 +117,7 @@ public class QuarterBukkitIntegration {
         }
     }
 
-    private static void install(File target) throws QueryException, IOException, UnknownDependencyException, InvalidPluginException, InvalidDescriptionException {
+    private static void install() throws QueryException, IOException, InvalidPluginException, InvalidDescriptionException {
 
         // ----- Get Latest Version -----
 
@@ -136,7 +134,7 @@ public class QuarterBukkitIntegration {
                 return file.getName().replace("QuarterBukkit ", "");
             }
         }).execute();
-        if (availableFiles.size() == 0) {
+        if (availableFiles.isEmpty()) {
             // No file available
             return;
         }
@@ -165,7 +163,6 @@ public class QuarterBukkitIntegration {
 
         // Overwrite current plugin jar
         File pluginJar = new File(pluginDir, PLUGIN_NAME + ".jar");
-        // FileUtils.delete(pluginJar);
         FileUtils.copy(new File(innerUnzipDir, pluginJar.getName()), pluginJar);
 
         // Delete temporary unzip dir

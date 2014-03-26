@@ -52,7 +52,7 @@ public class Config extends YamlConfiguration {
         } catch (IOException e) {
             ExceptionHandler.exception(new GameException(plugin, "Can't load QuarterBukkit config (" + e + ")"));
         } catch (InvalidConfigurationException e) {
-            ExceptionHandler.exception(new GameException(plugin, "Can't load QuarterBukkit config (" + e + ")"));
+            ExceptionHandler.exception(new GameException(plugin, "Invalid QuarterBukkit config (" + e + ")"));
         }
     }
 

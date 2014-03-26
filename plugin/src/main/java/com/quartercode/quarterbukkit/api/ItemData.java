@@ -263,7 +263,7 @@ public class ItemData {
     @Override
     public boolean equals(Object object) {
 
-        if (object == null || ! (object instanceof ItemData)) {
+        if (! (object instanceof ItemData)) {
             return false;
         } else {
             ItemData itemData = (ItemData) object;

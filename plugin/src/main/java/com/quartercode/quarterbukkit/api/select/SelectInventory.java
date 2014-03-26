@@ -557,7 +557,7 @@ public abstract class SelectInventory implements Listener {
         }
     }
 
-    private class ViewMap {
+    private static class ViewMap {
 
         private final Inventory               inventory;
         private final InventoryView           view;

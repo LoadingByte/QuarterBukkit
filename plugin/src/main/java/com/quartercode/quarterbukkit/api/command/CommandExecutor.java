@@ -38,8 +38,13 @@ import com.quartercode.quarterbukkit.api.exception.NoDefaultCommandFoundExceptio
  */
 public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabCompleter {
 
+    /**
+     * Command executors that use this label are marked as default executors and executed when no label is provided (e.g. just /command).
+     */
+    public static final String         DEFAULT_COMMAND_LABEL = "<empty>";
+
     private final Plugin               plugin;
-    private final List<CommandHandler> commandHandlers = new ArrayList<CommandHandler>();
+    private final List<CommandHandler> commandHandlers       = new ArrayList<CommandHandler>();
 
     /**
      * Creates a new CommandExecutor which can be used as Bukkit-{@link CommandExecutor}.
@@ -76,7 +81,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
                 CommandInfo info = commandHandler.getInfo();
 
                 for (String commandLabel : info.getLabels()) {
-                    if (!commandLabel.equalsIgnoreCase("<empty>")) {
+                    if (!commandLabel.equalsIgnoreCase(DEFAULT_COMMAND_LABEL)) {
                         if (info.isIgnoreCase()) {
                             if (commandLabel.equalsIgnoreCase(arguments[0])) {
                                 executeCommand(sender, commandHandler, label, arguments);
@@ -96,7 +101,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
                 CommandInfo info = commandHandler.getInfo();
 
                 for (String commandLabel : info.getLabels()) {
-                    if (commandLabel.equalsIgnoreCase("<empty>")) {
+                    if (commandLabel.equalsIgnoreCase(DEFAULT_COMMAND_LABEL)) {
                         executeCommand(sender, commandHandler, label, new String[0]);
                         return true;
                     }
@@ -161,7 +166,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
             for (CommandHandler commandHandler : commandHandlers) {
                 for (String label : commandHandler.getInfo().getLabels()) {
                     for (String argument : arguments) {
-                        if (!label.equalsIgnoreCase("<empty>") && label.toLowerCase().startsWith(argument.toLowerCase())) {
+                        if (!label.equalsIgnoreCase(DEFAULT_COMMAND_LABEL) && label.toLowerCase().startsWith(argument.toLowerCase())) {
                             if (commandHandler.getInfo().getPermission() == null || commandHandler.getInfo().getPermission().isEmpty() || sender.hasPermission(commandHandler.getInfo().getPermission())) {
                                 proposals.add(label);
                             }

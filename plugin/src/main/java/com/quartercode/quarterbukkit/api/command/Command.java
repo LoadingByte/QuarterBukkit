@@ -87,7 +87,7 @@ public class Command {
      */
     public String[] getArguments() {
 
-        return arguments;
+        return arguments.clone();
     }
 
     @Override
