@@ -1,7 +1,12 @@
 0.3.0
 -----
 
+### Removals
+* Removed the CANNOT_CLOSE_RESPONSE_STREAM query api exception type because it was trashing other more important exceptions.
+
 ### Fixes
+* The FileUtils class now logs exceptions that occur during closing resources.
+* The CommandExecutor class now provides a DEFAULT_COMMAND_LABEL constant. It should be used instead of the plain "<empty>".
 * Fixed JavaDoc errors which caused generation warnings.
 * Fixed some other very minor issues.
 
