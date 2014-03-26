@@ -18,6 +18,7 @@
 
 package com.quartercode.quarterbukkit.api;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -26,6 +27,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -33,6 +36,8 @@ import java.util.zip.ZipFile;
  * This class provides some simple utility methods for advanced file operations.
  */
 public class FileUtils {
+
+    private static final Logger LOGGER = Logger.getLogger(FileUtils.class.getName());
 
     /**
      * Downloads the file which is available under the given source {@link URL} to the given destination {@link File}.
@@ -56,23 +61,8 @@ public class FileUtils {
                 outputStream.write(tempBuffer, 0, counter);
                 outputStream.flush();
             }
-        } catch (IOException e) {
-            throw e;
         } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    // Ignore
-                }
-            }
-            if (outputStream != null) {
-                try {
-                    outputStream.close();
-                } catch (IOException e) {
-                    // Ignore
-                }
-            }
+            closeResources(inputStream, outputStream);
         }
     }
 
@@ -104,23 +94,8 @@ public class FileUtils {
                 while ( (numberOfBytes = inputStream.read(buffer)) > 0) {
                     outputStream.write(buffer, 0, numberOfBytes);
                 }
-            } catch (IOException e) {
-                throw e;
             } finally {
-                if (inputStream != null) {
-                    try {
-                        inputStream.close();
-                    } catch (IOException e) {
-                        // Ignore
-                    }
-                }
-                if (outputStream != null) {
-                    try {
-                        outputStream.close();
-                    } catch (IOException e) {
-                        // Ignore
-                    }
-                }
+                closeResources(inputStream, outputStream);
             }
         }
     }
@@ -176,34 +151,32 @@ public class FileUtils {
                         for (int lenght; (lenght = inputStream.read(buffer)) != -1;) {
                             outputStream.write(buffer, 0, lenght);
                         }
-                    } catch (IOException e) {
-                        throw e;
                     } finally {
-                        if (outputStream != null) {
-                            try {
-                                outputStream.close();
-                            } catch (IOException e) {
-                                // Ignore
-                            }
-                        }
-                        if (inputStream != null) {
-                            try {
-                                inputStream.close();
-                            } catch (IOException e) {
-                                // Ignore
-                            }
-                        }
+                        closeResources(inputStream, outputStream);
                     }
                 }
             }
-        } catch (IOException e) {
-            throw e;
         } finally {
-            if (zipFile != null) {
+            final ZipFile finalZipFile = zipFile;
+            closeResources(new Closeable() {
+
+                @Override
+                public void close() throws IOException {
+
+                    finalZipFile.close();
+                }
+            });
+        }
+    }
+
+    private static void closeResources(Closeable... closeables) {
+
+        for (Closeable closeable : closeables) {
+            if (closeable != null) {
                 try {
-                    zipFile.close();
+                    closeable.close();
                 } catch (IOException e) {
-                    // Ignore
+                    LOGGER.log(Level.SEVERE, "Unexpected exception while closing resource", e);
                 }
             }
         }
