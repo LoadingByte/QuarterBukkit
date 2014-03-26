@@ -18,7 +18,6 @@
 
 package com.quartercode.quarterbukkit.api.query;
 
-import java.io.InputStream;
 import java.net.URL;
 import org.json.simple.JSONArray;
 
@@ -56,10 +55,6 @@ public class QueryException extends Exception {
          * The api key provided in QuarterBukkit's configuration was rejected by the server mods api.
          */
         INVALID_API_KEY,
-        /**
-         * Can't close the {@link InputStream} which was opened in order to read the server mods api's response.
-         */
-        CANNOT_CLOSE_RESPONSE_STREAM,
         /**
          * The response of the server mods api isn't a valid {@link JSONArray}.
          */

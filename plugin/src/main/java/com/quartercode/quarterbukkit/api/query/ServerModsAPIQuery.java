@@ -122,7 +122,7 @@ public class ServerModsAPIQuery {
                 try {
                     reader.close();
                 } catch (IOException e) {
-                    throw new QueryException(QueryExceptionType.CANNOT_CLOSE_RESPONSE_STREAM, this, requestUrl.toExternalForm(), e);
+                    // Ignore
                 }
             }
         }
