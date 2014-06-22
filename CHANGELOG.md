@@ -6,7 +6,7 @@
 
 ### Fixes
 * The FileUtils class now logs exceptions that occur during closing resources.
-* The CommandExecutor class now provides a DEFAULT_COMMAND_LABEL constant. It should be used instead of the plain "<empty>".
+* The CommandExecutor class now provides a DEFAULT_COMMAND_LABEL constant. It should be used instead of the plain "\<empty\>".
 * Fixed JavaDoc errors which caused generation warnings.
 * Fixed some other very minor issues.
 

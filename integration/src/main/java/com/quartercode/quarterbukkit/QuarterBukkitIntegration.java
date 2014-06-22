@@ -133,6 +133,7 @@ public class QuarterBukkitIntegration {
 
                 return file.getName().replace("QuarterBukkit ", "");
             }
+
         }).execute();
         if (availableFiles.isEmpty()) {
             // No file available
