@@ -91,6 +91,7 @@ public class ServerModsAPIQuery {
 
         // Set connection timeout
         request.setConnectTimeout(CONNECTION_TIMEOUT);
+        request.setReadTimeout(CONNECTION_TIMEOUT);
 
         // Set user agent
         request.addRequestProperty("User-Agent", USER_AGENT);
