@@ -55,21 +55,10 @@ public abstract class SelectInventory implements Listener {
     private final Map<Player, ViewMap> inventoryMap = new HashMap<Player, ViewMap>();
 
     /**
-     * Creates an empty select inventory without a title.
+     * Creates an empty select inventory with the given title.
      * 
      * @param plugin The plugin to bind the internal methods on.
-     */
-    public SelectInventory(Plugin plugin) {
-
-        this.plugin = plugin;
-    }
-
-    /**
-     * Creates an empty select inventory with a title.
-     * You can also colorize the title with {@link ChatColor}s.
-     * 
-     * @param plugin The plugin to bind the internal methods on.
-     * @param title The visible title, maybe colored with {@link ChatColor}s.
+     * @param title The visible title of the inventory; it can be colored with {@link ChatColor}s.
      */
     public SelectInventory(Plugin plugin, String title) {
 
@@ -78,23 +67,10 @@ public abstract class SelectInventory implements Listener {
     }
 
     /**
-     * Creates an empty select inventory with an {@link InventoryLayouter}.
+     * Creates an empty select inventory with the given title and an {@link InventoryLayouter}.
      * 
      * @param plugin The plugin to bind the internal methods on.
-     * @param layouter The {@link InventoryLayouter} for layouting the {@link Inventory}.
-     */
-    public SelectInventory(Plugin plugin, InventoryLayouter layouter) {
-
-        this.plugin = plugin;
-        this.layouter = layouter;
-    }
-
-    /**
-     * Creates an empty select inventory with a title and an {@link InventoryLayouter}.
-     * You can also colorize the title with {@link ChatColor}s.
-     * 
-     * @param plugin The plugin to bind the internal methods on.
-     * @param title The visible title, maybe colored with {@link ChatColor}s.
+     * @param title The visible title of the inventory; it can be colored with {@link ChatColor}s.
      * @param layouter The {@link InventoryLayouter} for layouting the {@link Inventory}.
      */
     public SelectInventory(Plugin plugin, String title, InventoryLayouter layouter) {
