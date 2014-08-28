@@ -3,6 +3,7 @@
 
 ### Removals
 * Removed the CANNOT_CLOSE_RESPONSE_STREAM query api exception type because it was trashing other more important exceptions.
+* Removed the constructors which do not require an inventory title from SelectInventory because minecraft no longer supports that.
 
 ### Fixes
 * The FileUtils class now logs exceptions that occur during closing resources.
