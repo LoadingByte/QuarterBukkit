@@ -45,7 +45,10 @@ import org.bukkit.util.Vector;
  * Here's an example how the sorting works: We have two locations with the coordinates {@code 5, 10, 7} and {@code 12, 6, 18}, the {@link Vector}s will be the larger one {@code 12, 10, 18} and the
  * smaller one {@code 5, 6, 7}.
  * </p>
+ * 
+ * @deprecated This class was replaced by the new {@link com.quartercode.quarterbukkit.api.shape.Cuboid} class inside the shape package.
  */
+@Deprecated
 public class Cuboid {
 
     private final Vector vector1;
