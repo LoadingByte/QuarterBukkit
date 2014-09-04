@@ -46,7 +46,8 @@ public class QuarterBukkit extends JavaPlugin {
         return plugin;
     }
 
-    private Config config;
+    private Config      config;
+    private MetricsLite metrics;
 
     /**
      * The default constructor for Bukkit.
@@ -92,13 +93,13 @@ public class QuarterBukkit extends JavaPlugin {
             }
         }
 
-        getLogger().info("Starting up metrics ...");
-        // Metrics
+        // Enable MetricsLite
+        getLogger().info("Enabling MetricsLite ...");
         try {
-            MetricsLite metrics = new MetricsLite(this);
-            metrics.start();
+            metrics = new MetricsLite(this);
+            metrics.enable();
         } catch (IOException e) {
-            getLogger().severe("An error occurred while enabling Metrics (" + e + ")");
+            getLogger().severe("An error occurred while enabling MetricsLite (" + e + ")");
         }
 
         // Custom Events
@@ -112,6 +113,13 @@ public class QuarterBukkit extends JavaPlugin {
     @Override
     public void onDisable() {
 
+        // Disable MetricsLite
+        getLogger().info("Disabling MetricsLite ...");
+        try {
+            metrics.disable();
+        } catch (IOException e) {
+            getLogger().severe("An error occurred while disabling MetricsLite (" + e + ")");
+        }
     }
 
     /**
