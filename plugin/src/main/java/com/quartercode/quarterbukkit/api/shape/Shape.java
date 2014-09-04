@@ -52,7 +52,7 @@ public interface Shape {
      * 
      * @return A cuboid that surrounds the current shape.
      */
-    public Shape getBoundingBox();
+    public Shape getAxisAlignedBoundingBox();
 
     /**
      * Returns a collection of {@link Vector}s that are located inside the shape and completely fill in the shape.

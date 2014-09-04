@@ -192,7 +192,7 @@ public class Cuboid implements Shape {
     }
 
     @Override
-    public Shape getBoundingBox() {
+    public Shape getAxisAlignedBoundingBox() {
 
         return this;
     }

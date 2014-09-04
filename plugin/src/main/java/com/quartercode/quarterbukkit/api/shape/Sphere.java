@@ -149,7 +149,7 @@ public class Sphere implements Shape {
     }
 
     @Override
-    public Cuboid getBoundingBox() {
+    public Cuboid getAxisAlignedBoundingBox() {
 
         return new Cuboid(origin.getX() + radius, origin.getY() + radius, origin.getZ() + radius, origin.getX() - radius, origin.getY() - radius, origin.getZ() - radius);
     }
@@ -159,7 +159,7 @@ public class Sphere implements Shape {
 
         Collection<Vector> vectors = new ArrayList<Vector>();
 
-        for (Vector bbVector : getBoundingBox().getContent(distance)) {
+        for (Vector bbVector : getAxisAlignedBoundingBox().getContent(distance)) {
             if (intersects(bbVector)) {
                 vectors.add(bbVector);
             }

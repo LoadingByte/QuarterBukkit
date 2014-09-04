@@ -196,7 +196,7 @@ public class Cylinder implements Shape {
     }
 
     @Override
-    public Cuboid getBoundingBox() {
+    public Cuboid getAxisAlignedBoundingBox() {
 
         float angle = topCircleOrigin.angle(bottomCircleOrigin);
 
@@ -218,7 +218,7 @@ public class Cylinder implements Shape {
 
         Collection<Vector> vectors = new ArrayList<Vector>();
 
-        for (Vector bbVector : getBoundingBox().getContent(distance)) {
+        for (Vector bbVector : getAxisAlignedBoundingBox().getContent(distance)) {
             if (intersects(bbVector)) {
                 vectors.add(bbVector);
             }
