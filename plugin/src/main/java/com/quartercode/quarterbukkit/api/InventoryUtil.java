@@ -45,6 +45,7 @@ public class InventoryUtil {
      * 
      * @param inventory The {@link Inventory} to check.
      * @param itemStack The {@link ItemStack} to check.
+     * @param minimumAmount The least amount of items for a positive result.
      * @return If the given {@link Inventory} contains at least the given amount of {@link ItemStack}s which equal the given {@link ItemStack}.
      */
     public static boolean containsAtLeast(Inventory inventory, ItemStack itemStack, int minimumAmount) {

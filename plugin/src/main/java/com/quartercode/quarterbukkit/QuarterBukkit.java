@@ -102,7 +102,7 @@ public class QuarterBukkit extends JavaPlugin {
             getLogger().severe("An error occurred while enabling MetricsLite (" + e + ")");
         }
 
-        // Custom Events
+        // Custom events
         new CustomEventListener(this);
     }
 

@@ -67,6 +67,7 @@ public class QuarterBukkitUpdater {
 
                     return file.getName().replace("QuarterBukkit ", "");
                 }
+
             }).execute();
             if (availableFiles.isEmpty()) {
                 // No file available
