@@ -1,6 +1,10 @@
 0.3.0
 -----
 
+### Additions
+* The expandable Shape API allows to work with a lot of different shapes in 3D space and does the math for the user.
+* The flexible Object System API allows to create complex systems of different objects with physics and visual effects.
+
 ### Removals
 * Removed the CANNOT_CLOSE_RESPONSE_STREAM query api exception type because it was trashing other more important exceptions.
 * Removed the constructors which do not require an inventory title from SelectInventory because minecraft no longer supports that.
@@ -8,6 +12,8 @@
 ### Fixes
 * The FileUtils class now logs exceptions that occur during closing resources.
 * The CommandExecutor class now provides a DEFAULT_COMMAND_LABEL constant. It should be used instead of the plain "\<empty\>".
+* The SelectInventory now cancels the event when the player clicks on an item so the player can no longer take the item.
+* The integrated MetricsLite client now properly shuts down when the plugin is disabled.
 * Fixed JavaDoc errors which caused generation warnings.
 * Fixed some other very minor issues.
 
