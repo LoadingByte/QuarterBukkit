@@ -33,7 +33,11 @@ import com.quartercode.quarterbukkit.api.scheduler.ScheduleTask;
  * This class represents a complex particle system using firework particles.
  * The system can also get customized with custom renderers and spawners.
  * All parameters can be changed in real time between to runs.
+ * 
+ * @deprecated The particle api was replaced by the more flexible object system api.
+ *             See the wiki for more information on that new api.
  */
+@Deprecated
 public class ParticleSystem {
 
     private List<ParticleDescription> descriptions = new ArrayList<ParticleDescription>();

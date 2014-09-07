@@ -26,7 +26,11 @@ import org.bukkit.Color;
 
 /**
  * This class describes the look of one particle run.
+ * 
+ * @deprecated The particle api was replaced by the more flexible object system api.
+ *             See the wiki for more information on that new api.
  */
+@Deprecated
 public class ParticleDescription {
 
     private ParticleShape shape;

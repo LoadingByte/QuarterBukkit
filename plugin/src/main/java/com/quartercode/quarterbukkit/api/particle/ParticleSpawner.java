@@ -24,7 +24,11 @@ import org.bukkit.plugin.Plugin;
 
 /**
  * Interface for particle spawners which spawn/render the particles.
+ * 
+ * @deprecated The particle api was replaced by the more flexible object system api.
+ *             See the wiki for more information on that new api.
  */
+@Deprecated
 public interface ParticleSpawner {
 
     /**

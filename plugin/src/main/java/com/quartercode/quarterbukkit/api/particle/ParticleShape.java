@@ -22,7 +22,11 @@ import org.bukkit.FireworkEffect.Type;
 
 /**
  * A enumeration of all available particle shapes.
+ * 
+ * @deprecated The particle api was replaced by the more flexible object system api.
+ *             See the wiki for more information on that new api.
  */
+@Deprecated
 public enum ParticleShape {
 
     /**
