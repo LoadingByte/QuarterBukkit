@@ -177,7 +177,19 @@ public class Cylinder implements Shape {
     }
 
     /**
+     * Returns the length of the cylinder, which is basically the distance between the two confining circle origins.
+     * Note that this value is not cached and the operation might be expensive because a square root needs to be calculated.
+     * 
+     * @return The length of the cylinder.
+     */
+    public double getLength() {
+
+        return topCircleOrigin.distance(bottomCircleOrigin);
+    }
+
+    /**
      * Returns the length of the cylinder, which is basically the distance between the two confining circle origins, squared.
+     * Note that this value is cached (primarily for internal use).
      * 
      * @return The squared length of the cylinder.
      */
