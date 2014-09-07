@@ -19,6 +19,10 @@
 package com.quartercode.quarterbukkit.api.scheduler;
 
 import java.util.Collection;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import com.quartercode.quarterbukkit.api.MathUtil;
@@ -132,43 +136,19 @@ public abstract class ScheduleTask implements Runnable {
     @Override
     public int hashCode() {
 
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + bukkitTaskId;
-        result = prime * result + (plugin == null ? 0 : plugin.hashCode());
-        return result;
+        return HashCodeBuilder.reflectionHashCode(this, new String[] { "plugin" });
     }
 
     @Override
     public boolean equals(Object obj) {
 
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        ScheduleTask other = (ScheduleTask) obj;
-        if (bukkitTaskId != other.bukkitTaskId) {
-            return false;
-        }
-        if (plugin == null) {
-            if (other.plugin != null) {
-                return false;
-            }
-        } else if (!plugin.equals(other.plugin)) {
-            return false;
-        }
-        return true;
+        return EqualsBuilder.reflectionEquals(this, obj, new String[] { "plugin" });
     }
 
     @Override
     public String toString() {
 
-        return getClass().getName() + " [plugin=" + plugin + ", bukkitTaskId=" + bukkitTaskId + "]";
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
 }

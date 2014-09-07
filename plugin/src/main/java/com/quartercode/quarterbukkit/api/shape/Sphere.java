@@ -20,6 +20,10 @@ package com.quartercode.quarterbukkit.api.shape;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
@@ -189,43 +193,19 @@ public class Sphere implements Shape {
     @Override
     public int hashCode() {
 
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + (origin == null ? 0 : origin.hashCode());
-        result = prime * result + Float.floatToIntBits(radius);
-        return result;
+        return HashCodeBuilder.reflectionHashCode(this);
     }
 
     @Override
     public boolean equals(Object obj) {
 
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Sphere other = (Sphere) obj;
-        if (origin == null) {
-            if (other.origin != null) {
-                return false;
-            }
-        } else if (!origin.equals(other.origin)) {
-            return false;
-        }
-        if (Float.floatToIntBits(radius) != Float.floatToIntBits(other.radius)) {
-            return false;
-        }
-        return true;
+        return EqualsBuilder.reflectionEquals(this, obj);
     }
 
     @Override
     public String toString() {
 
-        return getClass().getName() + " [origin=" + origin + ", radius=" + radius + "]";
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
 }

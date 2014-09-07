@@ -20,6 +20,10 @@ package com.quartercode.quarterbukkit.api.shape;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
@@ -306,51 +310,19 @@ public class Cylinder implements Shape {
     @Override
     public int hashCode() {
 
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + (bottomCircleOrigin == null ? 0 : bottomCircleOrigin.hashCode());
-        result = prime * result + Float.floatToIntBits(radius);
-        result = prime * result + (topCircleOrigin == null ? 0 : topCircleOrigin.hashCode());
-        return result;
+        return HashCodeBuilder.reflectionHashCode(this, new String[] { "lengthSquared" });
     }
 
     @Override
     public boolean equals(Object obj) {
 
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Cylinder other = (Cylinder) obj;
-        if (bottomCircleOrigin == null) {
-            if (other.bottomCircleOrigin != null) {
-                return false;
-            }
-        } else if (!bottomCircleOrigin.equals(other.bottomCircleOrigin)) {
-            return false;
-        }
-        if (Float.floatToIntBits(radius) != Float.floatToIntBits(other.radius)) {
-            return false;
-        }
-        if (topCircleOrigin == null) {
-            if (other.topCircleOrigin != null) {
-                return false;
-            }
-        } else if (!topCircleOrigin.equals(other.topCircleOrigin)) {
-            return false;
-        }
-        return true;
+        return EqualsBuilder.reflectionEquals(this, obj, new String[] { "lengthSquared" });
     }
 
     @Override
     public String toString() {
 
-        return getClass().getName() + " [topCircleOrigin=" + topCircleOrigin + ", bottomCircleOrigin=" + bottomCircleOrigin + ", radius=" + radius + "]";
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
 }

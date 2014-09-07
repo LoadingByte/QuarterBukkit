@@ -18,7 +18,10 @@
 
 package com.quartercode.quarterbukkit.api.command;
 
-import java.util.Arrays;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -93,59 +96,19 @@ public class Command {
     @Override
     public int hashCode() {
 
-        int prime = 31;
-        int result = 1;
-        result = prime * result + Arrays.hashCode(arguments);
-        result = prime * result + (globalLabel == null ? 0 : globalLabel.hashCode());
-        result = prime * result + (label == null ? 0 : label.hashCode());
-        result = prime * result + (sender == null ? 0 : sender.hashCode());
-        return result;
+        return HashCodeBuilder.reflectionHashCode(this);
     }
 
     @Override
     public boolean equals(Object obj) {
 
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Command other = (Command) obj;
-        if (!Arrays.equals(arguments, other.arguments)) {
-            return false;
-        }
-        if (globalLabel == null) {
-            if (other.globalLabel != null) {
-                return false;
-            }
-        } else if (!globalLabel.equals(other.globalLabel)) {
-            return false;
-        }
-        if (label == null) {
-            if (other.label != null) {
-                return false;
-            }
-        } else if (!label.equals(other.label)) {
-            return false;
-        }
-        if (sender == null) {
-            if (other.sender != null) {
-                return false;
-            }
-        } else if (!sender.equals(other.sender)) {
-            return false;
-        }
-        return true;
+        return EqualsBuilder.reflectionEquals(this, obj);
     }
 
     @Override
     public String toString() {
 
-        return getClass().getName() + " [sender=" + sender + ", globalLabel=" + globalLabel + ", label=" + label + ", arguments=" + Arrays.toString(arguments) + "]";
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
 }

@@ -22,6 +22,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -298,47 +302,19 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     @Override
     public int hashCode() {
 
-        int prime = 31;
-        int result = 1;
-        result = prime * result + (commandHandlers == null ? 0 : commandHandlers.hashCode());
-        result = prime * result + (plugin == null ? 0 : plugin.hashCode());
-        return result;
+        return HashCodeBuilder.reflectionHashCode(this);
     }
 
     @Override
     public boolean equals(Object obj) {
 
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        CommandExecutor other = (CommandExecutor) obj;
-        if (commandHandlers == null) {
-            if (other.commandHandlers != null) {
-                return false;
-            }
-        } else if (!commandHandlers.equals(other.commandHandlers)) {
-            return false;
-        }
-        if (plugin == null) {
-            if (other.plugin != null) {
-                return false;
-            }
-        } else if (!plugin.equals(other.plugin)) {
-            return false;
-        }
-        return true;
+        return EqualsBuilder.reflectionEquals(this, obj);
     }
 
     @Override
     public String toString() {
 
-        return getClass().getName() + " [plugin=" + plugin + ", commandHandlers=" + commandHandlers + "]";
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
 }

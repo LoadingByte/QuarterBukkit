@@ -20,6 +20,10 @@ package com.quartercode.quarterbukkit.api.shape;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
@@ -234,47 +238,19 @@ public class Cuboid implements Shape {
     @Override
     public int hashCode() {
 
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + (maxVector == null ? 0 : maxVector.hashCode());
-        result = prime * result + (minVector == null ? 0 : minVector.hashCode());
-        return result;
+        return HashCodeBuilder.reflectionHashCode(this);
     }
 
     @Override
     public boolean equals(Object obj) {
 
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Cuboid other = (Cuboid) obj;
-        if (maxVector == null) {
-            if (other.maxVector != null) {
-                return false;
-            }
-        } else if (!maxVector.equals(other.maxVector)) {
-            return false;
-        }
-        if (minVector == null) {
-            if (other.minVector != null) {
-                return false;
-            }
-        } else if (!minVector.equals(other.minVector)) {
-            return false;
-        }
-        return true;
+        return EqualsBuilder.reflectionEquals(this, obj);
     }
 
     @Override
     public String toString() {
 
-        return getClass().getName() + " [minVector=" + minVector + ", maxVector=" + maxVector + "]";
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
 }
