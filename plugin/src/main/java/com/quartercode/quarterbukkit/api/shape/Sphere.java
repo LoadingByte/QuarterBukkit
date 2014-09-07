@@ -36,7 +36,7 @@ import org.bukkit.util.Vector;
 public class Sphere implements Shape {
 
     private final Vector origin;
-    private final float  radius;
+    private final double radius;
 
     /**
      * Creates a new sphere shape with the given three origin {@link Vector} coordinates (the center of the sphere) and the given radius.
@@ -46,7 +46,7 @@ public class Sphere implements Shape {
      * @param originZ The z-coordinate of the origin vector of the represented sphere.
      * @param radius The radius of the represented sphere.
      */
-    public Sphere(double originX, double originY, double originZ, float radius) {
+    public Sphere(double originX, double originY, double originZ, double radius) {
 
         this(new Vector(originX, originY, originZ), radius);
     }
@@ -57,7 +57,7 @@ public class Sphere implements Shape {
      * @param origin The origin vector of the represented sphere.
      * @param radius The radius of the represented sphere.
      */
-    public Sphere(Vector origin, float radius) {
+    public Sphere(Vector origin, double radius) {
 
         this.origin = origin.clone();
         this.radius = radius;
@@ -69,7 +69,7 @@ public class Sphere implements Shape {
      * @param origin The origin location of the represented sphere.
      * @param radius The radius of the represented sphere.
      */
-    public Sphere(Location origin, float radius) {
+    public Sphere(Location origin, double radius) {
 
         this(origin.toVector(), radius);
     }
@@ -124,7 +124,7 @@ public class Sphere implements Shape {
      * 
      * @return The radius of the sphere.
      */
-    public float getRadius() {
+    public double getRadius() {
 
         return radius;
     }
@@ -135,7 +135,7 @@ public class Sphere implements Shape {
      * @param radius The new radius of the returned sphere copy.
      * @return The new sphere copy.
      */
-    public Sphere withRadius(float radius) {
+    public Sphere withRadius(double radius) {
 
         return new Sphere(origin, radius);
     }
@@ -159,7 +159,7 @@ public class Sphere implements Shape {
     }
 
     @Override
-    public Collection<Vector> getContent(float distance) {
+    public Collection<Vector> getContent(double distance) {
 
         Collection<Vector> vectors = new ArrayList<Vector>();
 

@@ -72,7 +72,7 @@ public interface Shape {
      * @param distance The distance between the returned vectors.
      * @return The vectors inside the shape separated by the given distance.
      */
-    public Collection<Vector> getContent(float distance);
+    public Collection<Vector> getContent(double distance);
 
     /**
      * Checks whether the given location is inside the shape.

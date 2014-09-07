@@ -38,9 +38,9 @@ public class Cylinder implements Shape {
 
     private final Vector topCircleOrigin;
     private final Vector bottomCircleOrigin;
-    private final float  radius;
+    private final double radius;
 
-    private final float  lengthSquared;
+    private final double lengthSquared;
 
     /**
      * Creates a new cylinder shape with the given two circle origin {@link Vector}s defined by six double coordinates (three ones for each vector) and the given radius.
@@ -54,7 +54,7 @@ public class Cylinder implements Shape {
      * @param circle2OriginZ The z-coordinate of the origin vector of the second circle that confines the represented cylinder.
      * @param radius The radius of the represented sphere.
      */
-    public Cylinder(double circle1OriginX, double circle1OriginY, double circle1OriginZ, double circle2OriginX, double circle2OriginY, double circle2OriginZ, float radius) {
+    public Cylinder(double circle1OriginX, double circle1OriginY, double circle1OriginZ, double circle2OriginX, double circle2OriginY, double circle2OriginZ, double radius) {
 
         this(new Vector(circle1OriginX, circle1OriginY, circle1OriginZ), new Vector(circle2OriginX, circle2OriginY, circle2OriginZ), radius);
     }
@@ -67,7 +67,7 @@ public class Cylinder implements Shape {
      * @param circle2Origin The origin vector (center) of the second circle that confines the represented cylinder.
      * @param radius The radius of the represented sphere.
      */
-    public Cylinder(Vector circle1Origin, Vector circle2Origin, float radius) {
+    public Cylinder(Vector circle1Origin, Vector circle2Origin, double radius) {
 
         boolean circle1HigherThan2 = circle1Origin.getY() > circle2Origin.getY();
         topCircleOrigin = (circle1HigherThan2 ? circle1Origin : circle2Origin).clone();
@@ -75,7 +75,7 @@ public class Cylinder implements Shape {
 
         this.radius = radius;
 
-        lengthSquared = (float) topCircleOrigin.distanceSquared(bottomCircleOrigin);
+        lengthSquared = topCircleOrigin.distanceSquared(bottomCircleOrigin);
     }
 
     /**
@@ -86,7 +86,7 @@ public class Cylinder implements Shape {
      * @param circle2Origin The origin location (center) of the second circle that confines the represented cylinder.
      * @param radius The radius of the represented sphere.
      */
-    public Cylinder(Location circle1Origin, Location circle2Origin, float radius) {
+    public Cylinder(Location circle1Origin, Location circle2Origin, double radius) {
 
         this(circle1Origin.toVector(), circle2Origin.toVector(), radius);
     }
@@ -160,7 +160,7 @@ public class Cylinder implements Shape {
      * 
      * @return The radius of the cylinder.
      */
-    public float getRadius() {
+    public double getRadius() {
 
         return radius;
     }
@@ -171,7 +171,7 @@ public class Cylinder implements Shape {
      * @param radius The new radius of the returned cylinder copy.
      * @return The new cylinder copy.
      */
-    public Cylinder withRadius(float radius) {
+    public Cylinder withRadius(double radius) {
 
         return new Cylinder(topCircleOrigin, bottomCircleOrigin, radius);
     }
@@ -181,7 +181,7 @@ public class Cylinder implements Shape {
      * 
      * @return The squared length of the cylinder.
      */
-    public float getLengthSquared() {
+    public double getLengthSquared() {
 
         return lengthSquared;
     }
@@ -218,7 +218,7 @@ public class Cylinder implements Shape {
     }
 
     @Override
-    public Collection<Vector> getContent(float distance) {
+    public Collection<Vector> getContent(double distance) {
 
         Collection<Vector> vectors = new ArrayList<Vector>();
 

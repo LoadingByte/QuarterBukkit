@@ -202,7 +202,7 @@ public class Cuboid implements Shape {
     }
 
     @Override
-    public Collection<Vector> getContent(float distance) {
+    public Collection<Vector> getContent(double distance) {
 
         Collection<Vector> vectors = new ArrayList<Vector>();
 
