@@ -18,7 +18,8 @@
 
 package com.quartercode.quarterbukkit.api;
 
-import org.bukkit.entity.Player;
+import java.util.Arrays;
+import java.util.Collections;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -52,18 +53,15 @@ public class InventoryUtil {
 
         int foundItems = 0;
 
+        // Count the items in the regular inventory
+        foundItems += Collections.frequency(Arrays.asList(inventory.getContents()), itemStack);
+
         if (inventory instanceof PlayerInventory) {
             PlayerInventory playerInventory = (PlayerInventory) inventory;
-            if (playerInventory.getHolder() instanceof Player && ((Player) playerInventory.getHolder()).getItemOnCursor() != null && ((Player) playerInventory.getHolder()).getItemOnCursor().equals(itemStack)) {
-                foundItems++;
-            }
-            if (playerInventory.getBoots() != null && playerInventory.getBoots().equals(itemStack) || playerInventory.getLeggings() != null && playerInventory.getLeggings().equals(itemStack) || playerInventory.getChestplate() != null && playerInventory.getChestplate().equals(itemStack) || playerInventory.getHelmet() != null && playerInventory.getHelmet().equals(itemStack)) {
-                foundItems++;
-            }
-        }
-
-        for (ItemStack itemStack2 : inventory.getContents()) {
-            if (itemStack2 != null && itemStack.equals(itemStack2)) {
+            // Count the items in the armor slots
+            foundItems += Collections.frequency(Arrays.asList(playerInventory.getArmorContents()), itemStack);
+            // Check whether the player holds the item on his cursor
+            if (itemStack.equals(playerInventory.getHolder().getItemOnCursor())) {
                 foundItems++;
             }
         }

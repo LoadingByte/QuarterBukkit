@@ -50,7 +50,7 @@ public class QuarterBukkit extends JavaPlugin {
     private MetricsLite metrics;
 
     /**
-     * The default constructor for Bukkit.
+     * The default constructor for bukkit.
      */
     public QuarterBukkit() {
 
@@ -61,19 +61,6 @@ public class QuarterBukkit extends JavaPlugin {
         }
     }
 
-    /**
-     * This method is called when the plugin loads. It will initalize the most important functions.
-     * The plugin will check for new versions and updates, if required.
-     */
-    @Override
-    public void onLoad() {
-
-    }
-
-    /**
-     * This method is called when the plugin gets enabled.
-     * It will initalize the main API functions.
-     */
     @Override
     public void onEnable() {
 
@@ -106,10 +93,6 @@ public class QuarterBukkit extends JavaPlugin {
         new CustomEventListener(this);
     }
 
-    /**
-     * This method is called when the plugin gets disabled.
-     * It will disable the enabled API functions and clear the space.
-     */
     @Override
     public void onDisable() {
 
