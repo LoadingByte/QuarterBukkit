@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
@@ -42,10 +41,25 @@ import com.quartercode.quarterbukkit.api.objectsystem.object.FireworkObject;
  */
 public class FireworkRenderer extends StatelessRenderer<FireworkObject> {
 
-    private static Method world_getHandle;
-    private static Method firework_getHandle;
-    private static Method nmsFirwork_setInvisible;
-    private static Method nmsWorld_broadcastEntityEffect;
+    private static final Method CRAFT_WORLD__GET_HANDLE;
+    private static final Method CRAFT_FIREWORK__GET_HANDLE;
+    private static final Method NMS_ENTITY__SET_INVISIVBLE;
+    private static final Method NMS_WORLD__BROADCAST_ENTITY_EFFECT;
+
+    static {
+
+        try {
+            CRAFT_WORLD__GET_HANDLE = Class.forName(ReflectionConstants.CB_PACKAGE + ".CraftWorld").getMethod("getHandle");
+            CRAFT_FIREWORK__GET_HANDLE = Class.forName(ReflectionConstants.CB_ENTITY_PACKAGE + ".CraftFirework").getMethod("getHandle");
+
+            Class<?> nmsEntityClass = Class.forName(ReflectionConstants.NMS_PACKAGE + ".Entity");
+            NMS_ENTITY__SET_INVISIVBLE = nmsEntityClass.getMethod("setInvisible", boolean.class);
+            NMS_WORLD__BROADCAST_ENTITY_EFFECT = Class.forName(ReflectionConstants.NMS_PACKAGE + ".World").getMethod("broadcastEntityEffect", nmsEntityClass, byte.class);
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot initialize firework renderer reflection handles", e);
+        }
+
+    }
 
     @Override
     public Class<FireworkObject> getObjectType() {
@@ -86,59 +100,34 @@ public class FireworkRenderer extends StatelessRenderer<FireworkObject> {
         Firework firework = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
 
         try {
-            updateMethodCache(firework.getWorld(), firework);
-            Object nmsWorld = world_getHandle.invoke(firework.getWorld());
-            Object nmsFirework = firework_getHandle.invoke(firework);
-            nmsFirwork_setInvisible.invoke(nmsFirework, true);
+            Object nmsWorld = CRAFT_WORLD__GET_HANDLE.invoke(firework.getWorld());
+            Object nmsFirework = CRAFT_FIREWORK__GET_HANDLE.invoke(firework);
+            NMS_ENTITY__SET_INVISIVBLE.invoke(nmsFirework, true);
 
             FireworkMeta meta = firework.getFireworkMeta();
-            meta.clearEffects();
-            for (FireworkEffectDefinition effect : spawnEffects) {
-                FireworkEffect.Builder builder = FireworkEffect.builder();
-                builder.with(effect.getType());
-                builder.flicker(effect.hasFlicker());
-                builder.trail(effect.hasTrail());
-                builder.withColor(effect.getColors());
-                builder.withFade(effect.getFadeColors());
-                meta.addEffect(builder.build());
-            }
+            applyEffects(meta, spawnEffects);
             meta.setPower(object.getPower());
             firework.setFireworkMeta(meta);
 
-            nmsWorld_broadcastEntityEffect.invoke(nmsWorld, nmsFirework, (byte) 17);
+            NMS_WORLD__BROADCAST_ENTITY_EFFECT.invoke(nmsWorld, nmsFirework, (byte) 17);
         } catch (Exception e) {
-            ExceptionHandler.exception(new InternalException(plugin, e, "Reflection read error"));
+            ExceptionHandler.exception(new InternalException(plugin, e, "Firework renderer reflection error"));
         }
 
         firework.remove();
     }
 
-    private void updateMethodCache(World world, Firework firework) throws Exception {
+    private void applyEffects(FireworkMeta meta, Collection<FireworkEffectDefinition> effects) {
 
-        if (world_getHandle == null) {
-            world_getHandle = world.getClass().getDeclaredMethod("getHandle");
-        }
-
-        if (firework_getHandle == null) {
-            firework_getHandle = firework.getClass().getDeclaredMethod("getHandle");
-        }
-
-        if (nmsFirwork_setInvisible == null) {
-            for (Method method : firework_getHandle.invoke(firework).getClass().getMethods()) {
-                if (method.getName().equals("setInvisible")) {
-                    nmsFirwork_setInvisible = method;
-                    break;
-                }
-            }
-        }
-
-        if (nmsWorld_broadcastEntityEffect == null) {
-            for (Method method : world_getHandle.invoke(world).getClass().getMethods()) {
-                if (method.getName().equals("broadcastEntityEffect")) {
-                    nmsWorld_broadcastEntityEffect = method;
-                    break;
-                }
-            }
+        meta.clearEffects();
+        for (FireworkEffectDefinition effect : effects) {
+            FireworkEffect.Builder builder = FireworkEffect.builder();
+            builder.with(effect.getType());
+            builder.flicker(effect.hasFlicker());
+            builder.trail(effect.hasTrail());
+            builder.withColor(effect.getColors());
+            builder.withFade(effect.getFadeColors());
+            meta.addEffect(builder.build());
         }
     }
 
