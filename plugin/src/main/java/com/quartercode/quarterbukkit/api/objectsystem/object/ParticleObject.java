@@ -18,6 +18,11 @@
 
 package com.quartercode.quarterbukkit.api.objectsystem.object;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import org.apache.commons.lang.Validate;
 import org.bukkit.util.Vector;
 import com.quartercode.quarterbukkit.api.objectsystem.ActiveObjectSystem;
 import com.quartercode.quarterbukkit.api.objectsystem.physics.StandalonePhysicsObject;
@@ -28,7 +33,8 @@ import com.quartercode.quarterbukkit.api.objectsystem.physics.StandalonePhysicsO
  */
 public class ParticleObject extends StandalonePhysicsObject {
 
-    private boolean speedBasedFrequency = true;
+    private final Collection<ParticleDefinition> particles           = new ArrayList<ParticleDefinition>();
+    private boolean                              speedBasedFrequency = true;
 
     /**
      * Creates a new particle object that never expires, is located at the origin of its {@link ActiveObjectSystem} and doesn't move initially.
@@ -94,7 +100,69 @@ public class ParticleObject extends StandalonePhysicsObject {
         super(expirationTime, position, velocity);
     }
 
-    // TODO: Write the particle api
+    /**
+     * Returns the {@link ParticleDefinition}s that define the particles that should be spawned.
+     * All particles will be spawned each time the particle object is spawned.
+     * 
+     * @return The particle definitions that are spawned to display the object.
+     */
+    public Collection<ParticleDefinition> getParticles() {
+
+        return Collections.unmodifiableCollection(particles);
+    }
+
+    /**
+     * Adds the given {@link ParticleDefinition}s that define some more particles that should be spawned.
+     * The new particles and the already existing ones particles will be spawned each time the particle object is spawned.
+     * 
+     * @param particles The particle definitions that should be added.
+     * @return This object.
+     */
+    public ParticleObject addParticles(ParticleDefinition... particles) {
+
+        addParticles(Arrays.asList(particles));
+        return this;
+    }
+
+    /**
+     * Adds the given {@link ParticleDefinition}s that define some more particles that should be spawned.
+     * The new particles and the already existing ones particles will be spawned each time the particle object is spawned.
+     * 
+     * @param particles The particle definitions that should be added.
+     * @return This object.
+     */
+    public ParticleObject addParticles(Collection<ParticleDefinition> particles) {
+
+        Validate.noNullElements(particles, "Cannot add null particle definitions to particle object");
+        this.particles.addAll(particles);
+        return this;
+    }
+
+    /**
+     * Removes the given {@link ParticleDefinition}s so they will no longer be spawned.
+     * The removed effects won't be spawned each time the particle object is spawned.
+     * 
+     * @param particles The particle definitions that should be removed.
+     * @return This object.
+     */
+    public ParticleObject removeParticles(ParticleDefinition... particles) {
+
+        removeParticles(Arrays.asList(particles));
+        return this;
+    }
+
+    /**
+     * Removes the given {@link ParticleDefinition}s so they will no longer be spawned.
+     * The removed effects won't be spawned each time the particle object is spawned.
+     * 
+     * @param particles The particle definitions that should be removed.
+     * @return This object.
+     */
+    public ParticleObject removeParticles(Collection<ParticleDefinition> particles) {
+
+        this.particles.removeAll(particles);
+        return this;
+    }
 
     /**
      * Returns whether the speed based frequency adjustment mode is enabled.
