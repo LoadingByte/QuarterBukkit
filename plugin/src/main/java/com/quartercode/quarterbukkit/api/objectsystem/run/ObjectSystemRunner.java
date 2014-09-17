@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -31,6 +32,7 @@ import com.quartercode.quarterbukkit.api.MathUtil;
 import com.quartercode.quarterbukkit.api.objectsystem.ActiveObjectSystem;
 import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
 import com.quartercode.quarterbukkit.api.objectsystem.ModificationRule;
+import com.quartercode.quarterbukkit.api.objectsystem.Source;
 import com.quartercode.quarterbukkit.api.objectsystem.run.Renderer.RenderingResult;
 import com.quartercode.quarterbukkit.api.scheduler.ScheduleTask;
 
@@ -62,6 +64,7 @@ public class ObjectSystemRunner {
     private final boolean                 stopWhenNoObjects;
 
     private ScheduleTask                  updateTask;
+    private final Random                  random = new Random();
 
     /**
      * Creates a new object system runner that simulates the given {@link ActiveObjectSystem} and uses the given {@link Plugin} as host.
@@ -170,6 +173,11 @@ public class ObjectSystemRunner {
             for (ModificationRule<?, ?> modificationRule : objectSystem.getDefinition().getModificationRules()) {
                 tryApplyModificationRule(modificationRule, object);
             }
+        }
+
+        // Spawn new objects
+        for (Source source : objectSystem.getDefinition().getSources()) {
+            source.update(plugin, objectSystem, random);
         }
 
         // Apply renderers
