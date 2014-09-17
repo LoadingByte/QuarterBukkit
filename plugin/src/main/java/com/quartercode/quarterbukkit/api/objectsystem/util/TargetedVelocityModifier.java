@@ -98,7 +98,7 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
 
     }
 
-    private static final Vector              ZERO_VECTOR = new Vector().zero();
+    private static final Vector              ZERO_VECTOR = new Vector();
 
     private TargetedVelocityModificationType type;
     private Vector                           target;

@@ -38,6 +38,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * @param <O> The type of object that can be modified by the rule. This must extend {@link BaseObject}.
  * @param <M> The type of the modification object that is returned by the modifier.
  *        For example, a velocity modifier would use a vector as modification object.
+ * @see ObjectSystemDefinition
  */
 public class ModificationRule<O extends BaseObject, M> {
 

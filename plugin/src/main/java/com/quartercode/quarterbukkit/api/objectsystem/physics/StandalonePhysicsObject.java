@@ -38,7 +38,7 @@ public class StandalonePhysicsObject extends DefaultBaseObject implements Physic
      */
     public StandalonePhysicsObject() {
 
-        this(new Vector().zero());
+        this(new Vector());
     }
 
     /**
@@ -48,7 +48,7 @@ public class StandalonePhysicsObject extends DefaultBaseObject implements Physic
      */
     public StandalonePhysicsObject(Vector position) {
 
-        this(position, new Vector().zero());
+        this(position, new Vector());
     }
 
     /**

@@ -44,7 +44,7 @@ public class FireworkEffectDefinition implements Cloneable {
     private final Collection<Color> fadeColors = new ArrayList<Color>();
 
     /**
-     * Returns the {@link Type} of the firework explosion effect.
+     * Returns the {@link Type} of the defined firework effect.
      * 
      * @return The firework effect type.
      * @see Type
@@ -55,7 +55,7 @@ public class FireworkEffectDefinition implements Cloneable {
     }
 
     /**
-     * Sets the {@link Type} of the firework explosion effect.
+     * Sets the {@link Type} of the defined firework effect.
      * 
      * @param type The new firework effect type.
      * @return This object.
@@ -147,7 +147,7 @@ public class FireworkEffectDefinition implements Cloneable {
      */
     public FireworkEffectDefinition addColors(Collection<Color> colors) {
 
-        Validate.noNullElements(colors, "Cannot add null colors to firework explosion object");
+        Validate.noNullElements(colors, "Cannot add null colors to firework effect definition");
         this.colors.addAll(colors);
         return this;
     }
@@ -210,7 +210,7 @@ public class FireworkEffectDefinition implements Cloneable {
      */
     public FireworkEffectDefinition addFadeColors(Collection<Color> fadeColors) {
 
-        Validate.noNullElements(fadeColors, "Cannot add null colors to firework explosion object");
+        Validate.noNullElements(fadeColors, "Cannot add null fade colors to firework effect definition");
         this.fadeColors.addAll(fadeColors);
         return this;
     }

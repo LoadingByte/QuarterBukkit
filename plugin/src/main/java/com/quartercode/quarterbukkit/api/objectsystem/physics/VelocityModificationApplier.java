@@ -33,7 +33,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.ModificationApplier;
  */
 public class VelocityModificationApplier<O extends PhysicsObject> implements ModificationApplier<O, Vector> {
 
-    private static final Vector ZERO_VECTOR = new Vector().zero();
+    private static final Vector ZERO_VECTOR = new Vector();
 
     @Override
     public void applyModification(PhysicsObject object, Vector modification) {

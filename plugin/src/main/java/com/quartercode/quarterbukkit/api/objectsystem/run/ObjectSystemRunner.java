@@ -162,12 +162,6 @@ public class ObjectSystemRunner {
 
     private void update() {
 
-        // Stop if "stopWhenNoObjects" is enabled and no objects are found
-        if (stopWhenNoObjects && objectSystem.getObjects().isEmpty()) {
-            setRunning(false);
-            return;
-        }
-
         // Apply modification rules
         for (BaseObject object : objectSystem.getObjects()) {
             for (ModificationRule<?, ?> modificationRule : objectSystem.getDefinition().getModificationRules()) {
@@ -178,6 +172,12 @@ public class ObjectSystemRunner {
         // Spawn new objects
         for (Source source : objectSystem.getDefinition().getSources()) {
             source.update(plugin, objectSystem, random);
+        }
+
+        // Stop if "stopWhenNoObjects" is enabled and no objects are found
+        if (stopWhenNoObjects && objectSystem.getObjects().isEmpty()) {
+            setRunning(false);
+            return;
         }
 
         // Apply renderers

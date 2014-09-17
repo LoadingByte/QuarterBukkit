@@ -142,7 +142,7 @@ public class FireworkObject extends StandalonePhysicsObject {
      * Adds the given {@link FireworkEffectDefinition}s that define how the spawned fireworks look like when they explode.
      * The new effects and the already existing ones will be applied to each spawned firework.
      * 
-     * @return The firework effect definitions that should be added.
+     * @param effects The firework effect definitions that should be added.
      * @return This object.
      */
     public FireworkObject addEffects(FireworkEffectDefinition... effects) {
@@ -155,12 +155,12 @@ public class FireworkObject extends StandalonePhysicsObject {
      * Adds the given {@link FireworkEffectDefinition}s that define how the spawned fireworks look like when they explode.
      * The new effects and the already existing ones will be applied to each spawned firework.
      * 
-     * @return The firework effect definitions that should be added.
+     * @param effects The firework effect definitions that should be added.
      * @return This object.
      */
     public FireworkObject addEffects(Collection<FireworkEffectDefinition> effects) {
 
-        Validate.noNullElements(effects, "Cannot add null colors to firework explosion object");
+        Validate.noNullElements(effects, "Cannot add null firework effect definitions to firework explosion object");
         this.effects.addAll(effects);
         return this;
     }
@@ -169,7 +169,7 @@ public class FireworkObject extends StandalonePhysicsObject {
      * Removes the given {@link FireworkEffectDefinition}s so they will no longer influence how the spawned fireworks look like when they explode.
      * The removed effects won't be applied to each spawned firework any longer.
      * 
-     * @return The firework effect definitions that should be removed.
+     * @param effects The firework effect definitions that should be removed.
      * @return This object.
      */
     public FireworkObject removeEffects(FireworkEffectDefinition... effects) {
@@ -182,7 +182,7 @@ public class FireworkObject extends StandalonePhysicsObject {
      * Removes the given {@link FireworkEffectDefinition}s so they will no longer influence how the spawned fireworks look like when they explode.
      * The removed effects won't be applied to each spawned firework any longer.
      * 
-     * @return The firework effect definitions that should be removed.
+     * @param effects The firework effect definitions that should be removed.
      * @return This object.
      */
     public FireworkObject removeEffects(Collection<FireworkEffectDefinition> effects) {
