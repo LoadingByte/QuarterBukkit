@@ -98,11 +98,14 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
 
     }
 
-    private static final Vector              ZERO_VECTOR = new Vector();
+    private static final Vector              ZERO_VECTOR        = new Vector();
 
     private TargetedVelocityModificationType type;
     private Vector                           target;
     private float                            factor;
+    private boolean[]                        ignoredComponenets = new boolean[3];
+
+    private Vector                           effectiveTarget;
 
     /**
      * Creates a new targeted velocity modifier that makes {@link PhysicsObject}s accelerate towards the given target {@link Vector}.
@@ -209,6 +212,7 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
 
         Validate.notNull(target, "Target of targeted velocity modifier cannot be null");
         this.target = target.clone();
+        updateEffectiveTarget();
         return this;
     }
 
@@ -240,10 +244,41 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
         return this;
     }
 
+    /**
+     * Returns which {@link Vector} components (x/y/z) aren't changed by the velocity modifier.
+     * For example, if the y component is ignored, the y component of any modification vector will be zero.
+     * That way, you can create objects that are dragged towards a specific line (1 ignored) or surface (2 ignored) instead of a point.
+     * 
+     * @return The vector components that are ignored.
+     *         The array has 3 elements.
+     *         The first element represents the x component, the second one the y component, and the last one the z component.
+     */
+    public boolean[] getIgnoredComponenets() {
+
+        return ignoredComponenets.clone();
+    }
+
+    /**
+     * Sets which {@link Vector} components (x/y/z) aren't changed by the velocity modifier.
+     * For example, if the y component is ignored, the y component of any modification vector will be zero.
+     * That way, you can create objects that are dragged towards a specific line (1 ignored) or surface (2 ignored) instead of a point.
+     * 
+     * @param ignoreX Whether the x vector component should be ignored.
+     * @param ignoreY Whether the y vector component should be ignored.
+     * @param ignoreZ Whether the z vector component should be ignored.
+     * @return This object.
+     */
+    public TargetedVelocityModifier<O> setIgnoredComponenets(boolean ignoreX, boolean ignoreY, boolean ignoreZ) {
+
+        ignoredComponenets = new boolean[] { ignoreX, ignoreY, ignoreZ };
+        updateEffectiveTarget();
+        return this;
+    }
+
     @Override
     public Vector getModification(O object) {
 
-        Vector relativePosition = object.getPosition().subtract(target);
+        Vector relativePosition = removeIgnoredComponents(object.getPosition()).subtract(effectiveTarget);
 
         if (!relativePosition.equals(ZERO_VECTOR)) {
             if (type == TargetedVelocityModificationType.NEGATIVE_POSITION_VECTOR) {
@@ -257,6 +292,25 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
         }
 
         return null;
+    }
+
+    private void updateEffectiveTarget() {
+
+        effectiveTarget = removeIgnoredComponents(target.clone());
+    }
+
+    private Vector removeIgnoredComponents(Vector vector) {
+
+        if (ignoredComponenets[0]) {
+            vector.setX(0);
+        }
+        if (ignoredComponenets[1]) {
+            vector.setY(0);
+        }
+        if (ignoredComponenets[2]) {
+            vector.setZ(0);
+        }
+        return vector;
     }
 
     @Override
