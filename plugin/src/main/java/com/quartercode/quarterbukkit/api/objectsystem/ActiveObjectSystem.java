@@ -47,6 +47,7 @@ public class ActiveObjectSystem {
 
     private final Location               origin;
     private final Collection<BaseObject> objects = new ArrayList<BaseObject>();
+    private int                          lifetime;
 
     /**
      * Creates a new active object system that runs the given {@link ObjectSystemDefinition} and is centered on the given origin {@link Location}.
@@ -144,6 +145,27 @@ public class ActiveObjectSystem {
     public void removeObjects(Collection<BaseObject> objects) {
 
         this.objects.removeAll(objects);
+    }
+
+    /**
+     * Returns the amount of ticks the active object system has been simulated for.
+     * Note that this is 0 the first time the active system is updated.
+     * After that, this value increases by 1 each time the active system is updated.
+     * 
+     * @return The current lifetime of the active system.
+     */
+    public int getLifetime() {
+
+        return lifetime;
+    }
+
+    /**
+     * Increments the current lifetime of the active object system.
+     * Note that this is an internal method and should not be used as an api function.
+     */
+    public void incrementLifetime() {
+
+        lifetime++;
     }
 
     @Override

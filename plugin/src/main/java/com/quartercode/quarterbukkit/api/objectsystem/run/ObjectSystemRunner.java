@@ -191,6 +191,9 @@ public class ObjectSystemRunner {
                 }
             }
         }
+
+        // Increment object system lifetime
+        objectSystem.incrementLifetime();
     }
 
     @SuppressWarnings ("unchecked")
