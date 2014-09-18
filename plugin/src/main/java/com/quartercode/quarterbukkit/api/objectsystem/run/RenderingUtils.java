@@ -51,7 +51,12 @@ public class RenderingUtils {
      */
     public static boolean checkSpeedBasedFrequency(int objectLifetime, double objectVelocity, float minRenderDistance) {
 
-        return objectVelocity >= minRenderDistance || objectLifetime % Math.round(minRenderDistance / objectVelocity) == 0;
+        if (objectVelocity >= minRenderDistance) {
+            return true;
+        }
+
+        double effectiveObjectVelocity = objectVelocity > minRenderDistance / 10 ? objectVelocity : minRenderDistance / 10;
+        return objectLifetime % Math.round(minRenderDistance / effectiveObjectVelocity) == 0;
     }
 
     private RenderingUtils() {
