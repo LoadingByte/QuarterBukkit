@@ -36,7 +36,7 @@ public interface BaseObject extends Cloneable {
     public int getLifetime();
 
     /**
-     * Increments the current lifetime of the method.
+     * Increments the current lifetime of the object.
      * Note that this is an internal method and should not be used as an api function.
      */
     public void incrementLifetime();
