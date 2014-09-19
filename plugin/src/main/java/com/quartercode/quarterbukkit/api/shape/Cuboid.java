@@ -226,7 +226,7 @@ public class Cuboid implements Shape {
     @Override
     public boolean intersects(Vector vector) {
 
-        return vector.isInAABB(maxVector, minVector);
+        return vector.isInAABB(minVector, maxVector);
     }
 
     @Override
