@@ -19,9 +19,12 @@
 package com.quartercode.quarterbukkit.api.scheduler;
 
 import java.util.Collection;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitTask;
 import com.quartercode.quarterbukkit.api.MathUtil;
 
 /**
@@ -30,11 +33,11 @@ import com.quartercode.quarterbukkit.api.MathUtil;
 public abstract class ScheduleTask implements Runnable {
 
     private final Plugin plugin;
-    private BukkitTask   bukkitTask;
+    private int          bukkitTaskId;
 
     /**
      * Creates a schedule task with a custom {@link Plugin}. This is recommended!
-     * 
+     *
      * @param plugin The custom plugin.
      */
     public ScheduleTask(Plugin plugin) {
@@ -45,17 +48,17 @@ public abstract class ScheduleTask implements Runnable {
     /**
      * Returns if the ScheduleTask is running.
      * Check this before run() or cancel()!
-     * 
+     *
      * @return If the ScheduleTask is running.
      */
     public boolean isRunning() {
 
-        return bukkitTask != null;
+        return bukkitTaskId > 0;
     }
 
     /**
      * Adds the schedule task to a {@link Collection} (this may be a {@link ScheduleGroup}).
-     * 
+     *
      * @param collection The {@link Collection} to add the task.
      * @return This schedule task.
      */
@@ -68,13 +71,13 @@ public abstract class ScheduleTask implements Runnable {
     private void checkRunning() {
 
         if (isRunning()) {
-            throw new IllegalStateException("ScheduleTask already running (id " + bukkitTask.getTaskId() + ")");
+            throw new IllegalStateException("ScheduleTask already running (id " + bukkitTaskId + ")");
         }
     }
 
     /**
      * Runs the scheduler once with a delay. You have to cancel it after running.
-     * 
+     *
      * @param sync Should the scheduler runs synced with the Bukkit-Main-{@link Thread}. Async tasks are deprecated!
      * @param delay The delay in ticks.
      * @return This schedule task.
@@ -84,9 +87,9 @@ public abstract class ScheduleTask implements Runnable {
         checkRunning();
 
         if (sync) {
-            bukkitTask = Bukkit.getScheduler().runTaskLater(plugin, this, MathUtil.getTicks(delay));
+            bukkitTaskId = Bukkit.getScheduler().runTaskLater(plugin, this, MathUtil.getTicks(delay)).getTaskId();
         } else {
-            bukkitTask = Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, this, MathUtil.getTicks(delay));
+            bukkitTaskId = Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, this, MathUtil.getTicks(delay)).getTaskId();
         }
 
         return this;
@@ -94,7 +97,7 @@ public abstract class ScheduleTask implements Runnable {
 
     /**
      * Runs the scheduler repeating with a delay until it's cancelled.
-     * 
+     *
      * @param sync Should the scheduler runs synced with the Bukkit-Main-{@link Thread}. Async tasks are deprecated!
      * @param delay The delay in ticks.
      * @param period The delay between two repeatings in ticks.
@@ -105,9 +108,9 @@ public abstract class ScheduleTask implements Runnable {
         checkRunning();
 
         if (sync) {
-            bukkitTask = Bukkit.getScheduler().runTaskTimer(plugin, this, MathUtil.getTicks(delay), MathUtil.getTicks(period));
+            bukkitTaskId = Bukkit.getScheduler().runTaskTimer(plugin, this, MathUtil.getTicks(delay), MathUtil.getTicks(period)).getTaskId();
         } else {
-            bukkitTask = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, this, MathUtil.getTicks(delay), MathUtil.getTicks(period));
+            bukkitTaskId = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, this, MathUtil.getTicks(delay), MathUtil.getTicks(period)).getTaskId();
         }
 
         return this;
@@ -115,7 +118,7 @@ public abstract class ScheduleTask implements Runnable {
 
     /**
      * Cancels this schedule task.
-     * 
+     *
      * @return This schedule task.
      */
     public ScheduleTask cancel() {
@@ -124,8 +127,8 @@ public abstract class ScheduleTask implements Runnable {
             throw new IllegalStateException("ScheduleTask isn't running");
         }
 
-        Bukkit.getScheduler().cancelTask(bukkitTask.getTaskId());
-        bukkitTask = null;
+        Bukkit.getScheduler().cancelTask(bukkitTaskId);
+        bukkitTaskId = -1;
 
         return this;
     }
@@ -133,43 +136,19 @@ public abstract class ScheduleTask implements Runnable {
     @Override
     public int hashCode() {
 
-        int prime = 31;
-        int result = 1;
-        result = prime * result + bukkitTask.getTaskId();
-        result = prime * result + (plugin == null ? 0 : plugin.hashCode());
-        return result;
+        return HashCodeBuilder.reflectionHashCode(this, new String[] { "plugin" });
     }
 
     @Override
     public boolean equals(Object obj) {
 
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        ScheduleTask other = (ScheduleTask) obj;
-        if (bukkitTask != other.bukkitTask) {
-            return false;
-        }
-        if (plugin == null) {
-            if (other.plugin != null) {
-                return false;
-            }
-        } else if (!plugin.equals(other.plugin)) {
-            return false;
-        }
-        return true;
+        return EqualsBuilder.reflectionEquals(this, obj, new String[] { "plugin" });
     }
 
     @Override
     public String toString() {
 
-        return getClass().getName() + " [plugin=" + plugin + ", id=" + bukkitTask.getTaskId() + "]";
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
 }

@@ -21,18 +21,16 @@ package com.quartercode.quarterbukkit;
 import java.io.File;
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.UnknownDependencyException;
 import com.quartercode.quarterbukkit.api.FileUtils;
 import com.quartercode.quarterbukkit.api.query.FilesQuery;
 import com.quartercode.quarterbukkit.api.query.FilesQuery.ProjectFile;
@@ -47,69 +45,64 @@ public class QuarterBukkitIntegration {
     private static final String PLUGIN_NAME = "QuarterBukkit-Plugin";
     private static final int    PROJECT_ID  = 47006;
 
-    // The plugins which called the integrate() method
-    private static Set<Plugin>  callers     = new HashSet<Plugin>();
-    // Determinates if the integration process was already invoked
-    private static boolean      invoked     = false;
-
     /**
      * Call this method in onEnable() for integrating QuarterBukkit into your plugin.
      * It creates a config where the user has to turn a value to "Yes" for the actual installation.
      * The class notfies him on the console and every time an op joins to the server.
-     * 
+     *
      * @param plugin The {@link Plugin} which tries to integrate QuarterBukkit.
      * @return True if QuarterBukkit can be used after the call, false if not.
      */
     public static boolean integrate(final Plugin plugin) {
 
-        // Register caller
-        callers.add(plugin);
+        File pluginDir = plugin.getDataFolder().getParentFile();
 
         if (!Bukkit.getPluginManager().isPluginEnabled(PLUGIN_NAME)) {
-            if (!invoked) {
-                // Block this part (it should only be called once)
-                invoked = true;
+            // This is the installation confirmation file
+            File autoinstallConfigFile = new File(pluginDir + "/" + PLUGIN_NAME + "/" + "autoinstall.yml");
 
-                // Read installation confirmation file
-                File installConfigFile = new File("plugins/" + PLUGIN_NAME, "install.yml");
+            try {
+                // If no installation confirmation file exists yet, create a new one
+                if (!autoinstallConfigFile.exists()) {
+                    autoinstallConfigFile.getParentFile().mkdirs();
+                    autoinstallConfigFile.createNewFile();
+                }
 
-                try {
-                    if (!installConfigFile.exists()) {
-                        // No installation confirmation file -> create a new one and wait until restart
-                        YamlConfiguration installConfig = new YamlConfiguration();
-                        installConfig.set("install-" + PLUGIN_NAME, true);
-                        installConfig.save(installConfigFile);
-                    } else {
-                        YamlConfiguration installConfig = YamlConfiguration.loadConfiguration(installConfigFile);
-                        if (installConfig.isBoolean("install-" + PLUGIN_NAME) && installConfig.getBoolean("install-" + PLUGIN_NAME)) {
-                            // Installation confirmed -> install
-                            installConfigFile.delete();
-                            install(new File("plugins", PLUGIN_NAME + ".jar"));
-                            return true;
-                        }
+                // Read the installation confirmation file
+                YamlConfiguration autoinstallConfig = YamlConfiguration.loadConfiguration(autoinstallConfigFile);
+                List<String> requiringPlugins = autoinstallConfig.getStringList(PLUGIN_NAME + "-requiring-plugins");
+
+                // If the plugin which is currently integrating is present in the file, it must have written its name into it last time this method was called
+                // Therefore, we can assume that the user restarted the server after reviewing the info message
+                // That means that we are free to install the main plugin
+                if (requiringPlugins.contains(plugin.getName())) {
+                    autoinstallConfigFile.delete();
+                    install(pluginDir);
+                    return true;
+                }
+                // Otherwise, this is the first time the user starts up the server with a QuarterBukkit-requiring plugin
+                // In that case, add the plugin's name to the file and wait for a restart
+                else {
+                    requiringPlugins.add(plugin.getName());
+                    autoinstallConfig.set(PLUGIN_NAME + "-requiring-plugins", requiringPlugins);
+                    autoinstallConfig.save(autoinstallConfigFile);
+                }
+
+                // Notify the user of the need to install QuarterBukkit and wait until restart
+                // Schedule with a non-bukkit timer because the integrating plugin might become disabled
+                new Timer().schedule(new TimerTask() {
+
+                    @Override
+                    public void run() {
+
+                        Bukkit.broadcastMessage(ChatColor.RED + "" + plugin.getName() + " requires " + PLUGIN_NAME + ". Please " + ChatColor.DARK_AQUA + "restart" + ChatColor.RED + " the server to automatically install it.");
                     }
 
-                    // Schedule with a time because the integrating plugin might get disabled
-                    new Timer().schedule(new TimerTask() {
-
-                        @Override
-                        public void run() {
-
-                            Bukkit.broadcastMessage(ChatColor.YELLOW + "===============[ " + PLUGIN_NAME + " Installation ]===============");
-                            String plugins = "";
-                            for (Plugin caller : callers) {
-                                plugins += ", " + caller.getName();
-                            }
-                            plugins = plugins.substring(2);
-                            Bukkit.broadcastMessage(ChatColor.RED + "For using " + plugins + " which requires " + PLUGIN_NAME + ", you need to " + ChatColor.DARK_AQUA + "restart" + ChatColor.RED + " the server!");
-                        }
-                    }, 100, 10 * 1000);
-                } catch (UnknownHostException e) {
-                    Bukkit.getLogger().warning("Can't connect to dev.bukkit.org for installing " + PLUGIN_NAME + "!");
-                } catch (Exception e) {
-                    Bukkit.getLogger().severe("An error occurred while installing " + PLUGIN_NAME + " (" + e + ")");
-                    e.printStackTrace();
-                }
+                }, 0, 5 * 1000);
+            } catch (UnknownHostException e) {
+                Bukkit.getLogger().warning("Can't connect to dev.bukkit.org for installing " + PLUGIN_NAME + "!");
+            } catch (Exception e) {
+                Bukkit.getLogger().log(Level.SEVERE, "An error occurred while installing " + PLUGIN_NAME, e);
             }
 
             return false;
@@ -118,7 +111,7 @@ public class QuarterBukkitIntegration {
         }
     }
 
-    private static void install(File target) throws QueryException, IOException, UnknownDependencyException, InvalidPluginException, InvalidDescriptionException {
+    private static void install(File pluginDir) throws QueryException, IOException, InvalidPluginException, InvalidDescriptionException {
 
         // ----- Get Latest Version -----
 
@@ -127,28 +120,26 @@ public class QuarterBukkitIntegration {
         Bukkit.getLogger().info("Querying server mods api ...");
 
         // Get latest version
-        List<ProjectFile> avaiableFiles = new FilesQuery(PROJECT_ID, new VersionParser() {
+        List<ProjectFile> availableFiles = new FilesQuery(PROJECT_ID, new VersionParser() {
 
             @Override
             public String parseVersion(ProjectFile file) {
 
                 return file.getName().replace("QuarterBukkit ", "");
             }
+
         }).execute();
-        if (avaiableFiles.size() == 0) {
-            // No file avaiable
+        if (availableFiles.isEmpty()) {
+            // No file available
             return;
         }
-        ProjectFile latestFile = avaiableFiles.get(avaiableFiles.size() - 1);
+        ProjectFile latestFile = availableFiles.get(availableFiles.size() - 1);
 
         Bukkit.getLogger().info("Found the latest version of " + PLUGIN_NAME + ": " + latestFile.getVersion());
 
         // ----- Download and Installation -----
 
         Bukkit.getLogger().info("Installing " + PLUGIN_NAME + " " + latestFile.getVersion());
-
-        // Variables
-        File pluginDir = callers.iterator().next().getDataFolder().getParentFile();
 
         // Download zip
         File zip = new File(pluginDir, latestFile.getFileName());
@@ -164,7 +155,6 @@ public class QuarterBukkitIntegration {
 
         // Overwrite current plugin jar
         File pluginJar = new File(pluginDir, PLUGIN_NAME + ".jar");
-        // FileUtils.delete(pluginJar);
         FileUtils.copy(new File(innerUnzipDir, pluginJar.getName()), pluginJar);
 
         // Delete temporary unzip dir
@@ -174,6 +164,10 @@ public class QuarterBukkitIntegration {
         Bukkit.getPluginManager().enablePlugin(Bukkit.getPluginManager().loadPlugin(pluginJar));
 
         Bukkit.getLogger().info("Successfully installed " + PLUGIN_NAME + " " + latestFile.getVersion() + "!");
+    }
+
+    private QuarterBukkitIntegration() {
+
     }
 
 }

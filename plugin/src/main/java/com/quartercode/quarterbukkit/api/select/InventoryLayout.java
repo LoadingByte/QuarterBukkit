@@ -43,7 +43,7 @@ public class InventoryLayout {
 
     /**
      * Returns the maximal amount of columns.
-     * 
+     *
      * @return The maximal amount of columns.
      */
     public int getMaxColumns() {
@@ -53,7 +53,7 @@ public class InventoryLayout {
 
     /**
      * Returns the {@link Selection} at the x- and y-layout-coordinates.
-     * 
+     *
      * @param x The x-layout-coordinate.
      * @param y The y-layout-coordinate.
      * @return The {@link Selection} at the x- and y-layout-coordinates.
@@ -73,7 +73,7 @@ public class InventoryLayout {
 
     /**
      * Sets the {@link Selection} at the x- and y-layout-coordinates.
-     * 
+     *
      * @param x The x-layout-coordinate.
      * @param y The y-layout-coordinate.
      * @param selection The new {@link Selection} at the x- and y-layout-coordinates.
@@ -95,7 +95,7 @@ public class InventoryLayout {
 
     /**
      * Returns the column at the x-layout-coordinate as a {@link List} filled with {@link Selection}s.
-     * 
+     *
      * @param x The x-layout-coordinate
      * @return The column at the x-layout-coordinate as a {@link List} filled with {@link Selection}s.
      */
@@ -110,7 +110,7 @@ public class InventoryLayout {
 
     /**
      * Sets the column at the x-layout-coordinate as a {@link List} filled with {@link Selection}s.
-     * 
+     *
      * @param x The x-layout-coordinate
      * @param column The new column as a {@link List} filled with {@link Selection}s.
      * @return If the new column was set successfully.
@@ -127,7 +127,7 @@ public class InventoryLayout {
 
     /**
      * Returns the row at the y-layout-coordinate as a {@link List} filled with {@link Selection}s.
-     * 
+     *
      * @param y The y-layout-coordinate
      * @return The row at the y-layout-coordinate as a {@link List} filled with {@link Selection}s.
      */
@@ -143,7 +143,7 @@ public class InventoryLayout {
 
     /**
      * Sets the row at the y-layout-coordinate as a {@link List} filled with {@link Selection}s.
-     * 
+     *
      * @param y The y-layout-coordinate
      * @param row The new row as a {@link List} filled with {@link Selection}s.
      * @return If the new row was set successfully.
@@ -159,7 +159,7 @@ public class InventoryLayout {
 
     /**
      * Returns the whole layout as a {@link List} filled with a {@link List} filled with {@link Selection}s.
-     * 
+     *
      * @return The whole layout as a {@link List} filled with a {@link List} filled with {@link Selection}s.
      */
     public List<List<Selection>> getLayout() {
@@ -169,7 +169,7 @@ public class InventoryLayout {
 
     /**
      * Sets the whole new layout as a {@link List} filled with a {@link List} filled with {@link Selection}s.
-     * 
+     *
      * @param layout The whole new layout as a {@link List} filled with a {@link List} filled with {@link Selection}s.
      */
     public void setLayout(List<List<Selection>> layout) {

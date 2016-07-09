@@ -21,9 +21,9 @@ package com.quartercode.quarterbukkit.api.select;
 /**
  * This enum defines four different click types.
  * Currently, there're four values: LEFT, RIGHT, LEFT_SHIFT, RIGHT_SHIFT.
- * 
+ *
  * Every type has three methods which can output the concrete boolean values:
- * 
+ *
  * public boolean isLeft()
  * public boolean isRight()
  * public boolean isShift()
@@ -71,7 +71,7 @@ public enum ClickType {
 
     /**
      * If the left mouse button was clicked.
-     * 
+     *
      * @return If the left mouse button was clicked.
      */
     public boolean isLeft() {
@@ -81,7 +81,7 @@ public enum ClickType {
 
     /**
      * If the right mouse button was clicked.
-     * 
+     *
      * @return If the right mouse button was clicked.
      */
     public boolean isRight() {
@@ -91,7 +91,7 @@ public enum ClickType {
 
     /**
      * If shift was holded while clicking.
-     * 
+     *
      * @return If shift was holded while clicking.
      */
     public boolean isShift() {

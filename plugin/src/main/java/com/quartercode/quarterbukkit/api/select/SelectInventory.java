@@ -55,21 +55,10 @@ public abstract class SelectInventory implements Listener {
     private final Map<Player, ViewMap> inventoryMap = new HashMap<Player, ViewMap>();
 
     /**
-     * Creates an empty select inventory without a title.
-     * 
+     * Creates an empty select inventory with the given title.
+     *
      * @param plugin The plugin to bind the internal methods on.
-     */
-    public SelectInventory(Plugin plugin) {
-
-        this.plugin = plugin;
-    }
-
-    /**
-     * Creates an empty select inventory with a title.
-     * You can also colorize the title with {@link ChatColor}s.
-     * 
-     * @param plugin The plugin to bind the internal methods on.
-     * @param title The visible title, maybe colored with {@link ChatColor}s.
+     * @param title The visible title of the inventory; it can be colored with {@link ChatColor}s.
      */
     public SelectInventory(Plugin plugin, String title) {
 
@@ -78,23 +67,10 @@ public abstract class SelectInventory implements Listener {
     }
 
     /**
-     * Creates an empty select inventory with an {@link InventoryLayouter}.
-     * 
+     * Creates an empty select inventory with the given title and an {@link InventoryLayouter}.
+     *
      * @param plugin The plugin to bind the internal methods on.
-     * @param layouter The {@link InventoryLayouter} for layouting the {@link Inventory}.
-     */
-    public SelectInventory(Plugin plugin, InventoryLayouter layouter) {
-
-        this.plugin = plugin;
-        this.layouter = layouter;
-    }
-
-    /**
-     * Creates an empty select inventory with a title and an {@link InventoryLayouter}.
-     * You can also colorize the title with {@link ChatColor}s.
-     * 
-     * @param plugin The plugin to bind the internal methods on.
-     * @param title The visible title, maybe colored with {@link ChatColor}s.
+     * @param title The visible title of the inventory; it can be colored with {@link ChatColor}s.
      * @param layouter The {@link InventoryLayouter} for layouting the {@link Inventory}.
      */
     public SelectInventory(Plugin plugin, String title, InventoryLayouter layouter) {
@@ -106,7 +82,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Returns the title of the {@link Inventory}.
-     * 
+     *
      * @return The title of the {@link Inventory}.
      */
     public String getTitle() {
@@ -116,7 +92,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Sets the title of the {@link Inventory}.
-     * 
+     *
      * @param title The new title of the {@link Inventory}.
      */
     public void setTitle(String title) {
@@ -126,7 +102,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Returns the {@link InventoryLayouter}.
-     * 
+     *
      * @return The {@link InventoryLayouter}.
      */
     public InventoryLayouter getLayouter() {
@@ -136,7 +112,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Sets the new {@link InventoryLayouter}.
-     * 
+     *
      * @param layouter The new {@link InventoryLayouter}.
      */
     public void setLayouter(InventoryLayouter layouter) {
@@ -146,7 +122,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Returns all existing selections.
-     * 
+     *
      * @return All existing selections.
      */
     public List<Selection> getSelections() {
@@ -156,7 +132,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Adds a new item option to the inventory and sets the {@link Material}.
-     * 
+     *
      * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @return This instance of SelectInventory.
@@ -169,7 +145,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Adds a new item option to the inventory and sets the {@link Material} and the amount.
-     * 
+     *
      * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @param amount The amount of items.
@@ -183,7 +159,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Adds a new item option to the inventory and sets the {@link Material} and the data/damage.
-     * 
+     *
      * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @param data The data for non-damageable items and damage for damageable ones.
@@ -197,7 +173,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Adds a new item option to the inventory and sets the {@link Material}, the amount and the data/damage.
-     * 
+     *
      * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @param amount The amount of items.
@@ -212,7 +188,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Adds a new item option to the inventory and sets the {@link ItemStack} directly.
-     * 
+     *
      * @param value The information for the option as {@link Object}.
      * @param itemStack The {@link ItemStack}.
      * @return This instance of SelectInventory.
@@ -226,7 +202,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Adds a new item option to the inventory and sets the {@link Material}, the name and the descriptions as {@link String}-array.
-     * 
+     *
      * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @param name The name of the item as {@link String}.
@@ -241,7 +217,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Adds a new item option to the inventory and sets the {@link Material}, the amount, the name and the descriptions as {@link String}-array.
-     * 
+     *
      * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @param amount The amount of items.
@@ -257,7 +233,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Adds a new item option to the inventory and sets the {@link Material}, the data/damage, the name and the descriptions as {@link String}-array.
-     * 
+     *
      * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @param data The data for non-damageable items and damage for damageable ones.
@@ -273,7 +249,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Adds a new item option to the inventory and sets the {@link Material}, the amount, the data/damage, the name and the descriptions as {@link String}-array.
-     * 
+     *
      * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @param amount The amount of items.
@@ -290,7 +266,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Adds a new item option to the inventory and sets the {@link ItemStack} directly. Furthemore, it sets the name and the descriptions as {@link String}-array.
-     * 
+     *
      * @param value The information for the option as {@link Object}.
      * @param itemStack The {@link ItemStack}.
      * @param name The name of the item as {@link String}.
@@ -307,7 +283,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Adds a new item option to the inventory and sets the {@link Material}, the name and the descriptions as {@link String}-{@link List}.
-     * 
+     *
      * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @param name The name of the item as {@link String}.
@@ -322,7 +298,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Adds a new item option to the inventory and sets the {@link Material}, the amount, the name and the descriptions as {@link String}-{@link List}.
-     * 
+     *
      * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @param amount The amount of items.
@@ -338,7 +314,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Adds a new item option to the inventory and sets the {@link Material}, the data/damage, the name and the descriptions as {@link String}-{@link List}.
-     * 
+     *
      * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @param data The data for non-damageable items and damage for damageable ones.
@@ -354,7 +330,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Adds a new item option to the inventory and sets the {@link Material}, the amount, the data/damage, the name and the descriptions as {@link String}-{@link List}.
-     * 
+     *
      * @param value The information for the option as {@link Object}.
      * @param material The {@link Material} for the item.
      * @param amount The amount of items.
@@ -371,7 +347,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Adds a new item option to the inventory and sets the {@link ItemStack} directly. Furthemore, it sets the name and the descriptions as {@link String}-{@link List}.
-     * 
+     *
      * @param value The information for the option as {@link Object}.
      * @param itemStack The {@link ItemStack}.
      * @param name The name of the item as {@link String}.
@@ -388,7 +364,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Removes an existing item option from the inventory.
-     * 
+     *
      * @param value The information of the option as {@link Object}.
      * @return This instance of SelectInventory.
      */
@@ -406,7 +382,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Clears all existing item options.
-     * 
+     *
      * @return This instance of SelectInventory.
      */
     public SelectInventory clear() {
@@ -418,7 +394,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Returns if the defined {@link Player} has an open {@link Inventory} of this SelectInventory.
-     * 
+     *
      * @param player The {@link Player} to check.
      * @return If the defined {@link Player} has an open {@link Inventory} of this SelectInventory.
      */
@@ -429,7 +405,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Opens an {@link Inventory} for a defined {@link Player}.
-     * 
+     *
      * @param player The {@link Player} which gets the {@link Inventory}.
      */
     public void open(Player player) {
@@ -484,7 +460,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Closes the {@link Inventory} for a defined {@link Player}.
-     * 
+     *
      * @param player The {@link Player} which inventory should get closed.
      */
     public void close(final Player player) {
@@ -522,6 +498,8 @@ public abstract class SelectInventory implements Listener {
     public void onInventoryClick(InventoryClickEvent event) {
 
         if (event.getWhoClicked() instanceof Player && isOpen((Player) event.getWhoClicked()) && event.getView().equals(inventoryMap.get(event.getWhoClicked()).getView())) {
+            event.setCancelled(true);
+
             Map<Integer, Selection> slotMap = inventoryMap.get(event.getWhoClicked()).getSlotMap();
             if (slotMap.containsKey(event.getRawSlot())) {
                 onClick(slotMap.get(event.getRawSlot()), ClickType.getClickType(event.isLeftClick(), event.isRightClick(), event.isShiftClick()), (Player) event.getWhoClicked());
@@ -532,7 +510,7 @@ public abstract class SelectInventory implements Listener {
 
     /**
      * Gets called if the holder clicks on a registered option.
-     * 
+     *
      * @param selection The selected {@link Selection} (with the informational value and the graphical {@link ItemStack}).
      * @param clickType The {@link ClickType} of the click.
      * @param player The {@link Player} who selected.
@@ -557,7 +535,7 @@ public abstract class SelectInventory implements Listener {
         }
     }
 
-    private class ViewMap {
+    private static class ViewMap {
 
         private final Inventory               inventory;
         private final InventoryView           view;

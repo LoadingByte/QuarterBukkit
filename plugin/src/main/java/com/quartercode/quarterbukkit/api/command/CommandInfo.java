@@ -18,7 +18,10 @@
 
 package com.quartercode.quarterbukkit.api.command;
 
-import java.util.Arrays;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
  * Class for storing some information about a {@link Command}.
@@ -34,7 +37,7 @@ public class CommandInfo {
     /**
      * Creates a new information-object and sets all the information.
      * This should only be called by {@link CommandHandler}s in their {@link CommandHandler#getInfo()}-method.
-     * 
+     *
      * @param ignoreCase Should the {@link CommandExecutor} ignore the case of the label.
      * @param parameterUsage How to use the parameters of the {@link Command} (null if you can't use parameters).
      * @param description A short description what the {@link Command} does.
@@ -53,7 +56,7 @@ public class CommandInfo {
 
     /**
      * Returns if the {@link CommandExecutor} should ignore the case of the label.
-     * 
+     *
      * @return If the {@link CommandExecutor} should ignore the case of the label.
      */
     public boolean isIgnoreCase() {
@@ -64,7 +67,7 @@ public class CommandInfo {
     /**
      * Returns how to use the parameters of the {@link Command} (returns null if there aren't parameters).
      * This is useful for help-functions.
-     * 
+     *
      * @return How to use the parameters of the {@link Command}.
      */
     public String getParameterUsage() {
@@ -74,7 +77,7 @@ public class CommandInfo {
 
     /**
      * Returns a short description what the {@link Command} does.
-     * 
+     *
      * @return A short description what the {@link Command} does.
      */
     public String getDescription() {
@@ -84,7 +87,7 @@ public class CommandInfo {
 
     /**
      * Returns the permission you need to execute the {@link Command}.
-     * 
+     *
      * @return The permission you need to execute the {@link Command}.
      */
     public String getPermission() {
@@ -94,74 +97,30 @@ public class CommandInfo {
 
     /**
      * Returns all labels a user can use for the {@link Command}. If you type in /command help, help will be the label (&lt;empty&gt; if the command can be executed without a label, e.g. /command).
-     * 
+     *
      * @return All labels for the {@link Command}.
      */
     public String[] getLabels() {
 
-        return labels;
+        return labels.clone();
     }
 
     @Override
     public int hashCode() {
 
-        int prime = 31;
-        int result = 1;
-        result = prime * result + (description == null ? 0 : description.hashCode());
-        result = prime * result + (ignoreCase ? 1231 : 1237);
-        result = prime * result + Arrays.hashCode(labels);
-        result = prime * result + (parameterUsage == null ? 0 : parameterUsage.hashCode());
-        result = prime * result + (permission == null ? 0 : permission.hashCode());
-        return result;
+        return HashCodeBuilder.reflectionHashCode(this);
     }
 
     @Override
     public boolean equals(Object obj) {
 
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        CommandInfo other = (CommandInfo) obj;
-        if (description == null) {
-            if (other.description != null) {
-                return false;
-            }
-        } else if (!description.equals(other.description)) {
-            return false;
-        }
-        if (ignoreCase != other.ignoreCase) {
-            return false;
-        }
-        if (!Arrays.equals(labels, other.labels)) {
-            return false;
-        }
-        if (parameterUsage == null) {
-            if (other.parameterUsage != null) {
-                return false;
-            }
-        } else if (!parameterUsage.equals(other.parameterUsage)) {
-            return false;
-        }
-        if (permission == null) {
-            if (other.permission != null) {
-                return false;
-            }
-        } else if (!permission.equals(other.permission)) {
-            return false;
-        }
-        return true;
+        return EqualsBuilder.reflectionEquals(this, obj);
     }
 
     @Override
     public String toString() {
 
-        return getClass().getName() + " [ignoreCase=" + ignoreCase + ", parameterUsage=" + parameterUsage + ", description=" + description + ", permission=" + permission + ", labels=" + Arrays.toString(labels) + "]";
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
 }

@@ -23,13 +23,17 @@ import org.bukkit.inventory.ItemStack;
 
 /**
  * Class for setting the equipment of {@link LivingEntity}s as {@link ItemStack}s.
+ *
+ * @deprecated This class is no longer required since the bukkit method {@link LivingEntity#getEquipment()} provides an alternative.
  */
+@Deprecated
 public class EquipmentUtil {
 
     /**
      * Returns the holding item of an {@link LivingEntity}.
-     * 
+     *
      * @param entity The {@link LivingEntity}.
+     * @return The holding {@link ItemStack}.
      */
     public static ItemStack getItem(LivingEntity entity) {
 
@@ -38,7 +42,7 @@ public class EquipmentUtil {
 
     /**
      * Sets the holding item of an {@link LivingEntity}.
-     * 
+     *
      * @param entity The {@link LivingEntity}.
      * @param itemStack The {@link ItemStack}.
      */
@@ -49,8 +53,9 @@ public class EquipmentUtil {
 
     /**
      * Returns the helmet of an {@link LivingEntity}.
-     * 
+     *
      * @param entity The {@link LivingEntity}.
+     * @return The helmet {@link ItemStack}.
      */
     public static ItemStack getHelmet(LivingEntity entity) {
 
@@ -59,7 +64,7 @@ public class EquipmentUtil {
 
     /**
      * Sets the helmet of an {@link LivingEntity}.
-     * 
+     *
      * @param entity The {@link LivingEntity}.
      * @param itemStack The {@link ItemStack}.
      */
@@ -70,8 +75,9 @@ public class EquipmentUtil {
 
     /**
      * Returns the chestplate of an {@link LivingEntity}.
-     * 
+     *
      * @param entity The {@link LivingEntity}.
+     * @return The chestplate {@link ItemStack}.
      */
     public static ItemStack getChestplate(LivingEntity entity) {
 
@@ -80,7 +86,7 @@ public class EquipmentUtil {
 
     /**
      * Sets the chestplate of an {@link LivingEntity}.
-     * 
+     *
      * @param entity The {@link LivingEntity}.
      * @param itemStack The {@link ItemStack}.
      */
@@ -91,8 +97,9 @@ public class EquipmentUtil {
 
     /**
      * Returns the pants of an {@link LivingEntity}.
-     * 
+     *
      * @param entity The {@link LivingEntity}.
+     * @return The pants {@link ItemStack}.
      */
     public static ItemStack getLeggins(LivingEntity entity) {
 
@@ -101,7 +108,7 @@ public class EquipmentUtil {
 
     /**
      * Sets the pants of an {@link LivingEntity}.
-     * 
+     *
      * @param entity The {@link LivingEntity}.
      * @param itemStack The {@link ItemStack}.
      */
@@ -112,8 +119,9 @@ public class EquipmentUtil {
 
     /**
      * Returns the boots of an {@link LivingEntity}.
-     * 
+     *
      * @param entity The {@link LivingEntity}.
+     * @return The boots {@link ItemStack}.
      */
     public static ItemStack getBoots(LivingEntity entity) {
 
@@ -122,7 +130,7 @@ public class EquipmentUtil {
 
     /**
      * Sets the boots of an {@link LivingEntity}.
-     * 
+     *
      * @param entity The {@link LivingEntity}.
      * @param itemStack The {@link ItemStack}.
      */

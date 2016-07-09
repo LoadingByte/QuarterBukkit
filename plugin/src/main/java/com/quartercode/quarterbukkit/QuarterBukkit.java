@@ -22,9 +22,9 @@ import java.io.File;
 import java.io.IOException;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mcstats.MetricsLite;
 import com.quartercode.quarterbukkit.util.Config;
 import com.quartercode.quarterbukkit.util.CustomEventListener;
-import com.quartercode.quarterbukkit.util.Metrics;
 import com.quartercode.quarterbukkit.util.QuarterBukkitExceptionListener;
 import com.quartercode.quarterbukkit.util.QuarterBukkitUpdater;
 
@@ -38,7 +38,7 @@ public class QuarterBukkit extends JavaPlugin {
 
     /**
      * Returns the current QuarterBukkit {@link Plugin} instance.
-     * 
+     *
      * @return The current QuarterBukkit instance.
      */
     public static QuarterBukkit getPlugin() {
@@ -46,11 +46,11 @@ public class QuarterBukkit extends JavaPlugin {
         return plugin;
     }
 
-    private Config  config;
-    private Metrics metrics;
+    private Config      config;
+    private MetricsLite metrics;
 
     /**
-     * The default constructor for Bukkit.
+     * The default constructor for bukkit.
      */
     public QuarterBukkit() {
 
@@ -61,24 +61,11 @@ public class QuarterBukkit extends JavaPlugin {
         }
     }
 
-    /**
-     * This method is called when the plugin loads. It will initalize the most important functions.
-     * The plugin will check for new versions and updates, if required.
-     */
-    @Override
-    public void onLoad() {
-
-    }
-
-    /**
-     * This method is called when the plugin gets enabled.
-     * It will initalize the main API functions.
-     */
     @Override
     public void onEnable() {
 
         // Internal Exceptions
-        new QuarterBukkitExceptionListener(plugin);
+        new QuarterBukkitExceptionListener(this);
 
         // Config
         config = new Config(this, new File(getDataFolder(), "config.yml"));
@@ -93,30 +80,34 @@ public class QuarterBukkit extends JavaPlugin {
             }
         }
 
-        // Metrics
+        // Enable MetricsLite
+        getLogger().info("Enabling MetricsLite ...");
         try {
-            metrics = new Metrics(this);
-            metrics.start();
+            metrics = new MetricsLite(this);
+            metrics.enable();
         } catch (IOException e) {
-            getLogger().severe("An error occurred while enabling Metrics (" + e + ")");
+            getLogger().severe("An error occurred while enabling MetricsLite (" + e + ")");
         }
 
-        // Custom Events
-        new CustomEventListener(plugin);
+        // Custom events
+        new CustomEventListener(this);
     }
 
-    /**
-     * This method is called when the plugin gets disabled.
-     * It will disable the enabled API functions and clear the space.
-     */
     @Override
     public void onDisable() {
 
+        // Disable MetricsLite
+        getLogger().info("Disabling MetricsLite ...");
+        try {
+            metrics.disable();
+        } catch (IOException e) {
+            getLogger().severe("An error occurred while disabling MetricsLite (" + e + ")");
+        }
     }
 
     /**
      * Returns the internal config of QuarterBukkit.
-     * 
+     *
      * @return The {@link Config} object QuarterBukkit uses for its configuration.
      */
     @Override

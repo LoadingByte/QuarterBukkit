@@ -36,7 +36,11 @@ import com.quartercode.quarterbukkit.api.exception.InternalException;
 /**
  * This is a default {@link ParticleSpawner} which executes the particle effects using fireworks.
  * The method spawns a new {@link Firework}, let it explode directly after that using reflection and then removes the {@link Entity}.
+ *
+ * @deprecated The particle api was replaced by the more flexible object system api.
+ *             See the wiki for more information on that new api.
  */
+@Deprecated
 public class DefaultParticleSpawner implements ParticleSpawner {
 
     private static Method world_getHandle                = null;

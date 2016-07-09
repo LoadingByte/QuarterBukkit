@@ -18,14 +18,13 @@
 
 package com.quartercode.quarterbukkit.api.query;
 
-import java.io.InputStream;
 import java.net.URL;
 import org.json.simple.JSONArray;
 
 /**
  * The query exception is thrown by a {@link ServerModsAPIQuery} if something goes wrong there.
  * It stores the type of error that occurred, along with the catched {@link Throwable} object.
- * 
+ *
  * @see ServerModsAPIQuery
  * @see QueryExceptionType
  */
@@ -35,7 +34,7 @@ public class QueryException extends Exception {
 
     /**
      * The types of exceptions that can be described using a query exception.
-     * 
+     *
      * @see QueryException
      */
     public static enum QueryExceptionType {
@@ -57,10 +56,6 @@ public class QueryException extends Exception {
          */
         INVALID_API_KEY,
         /**
-         * Can't close the {@link InputStream} which was opened in order to read the server mods api's response.
-         */
-        CANNOT_CLOSE_RESPONSE_STREAM,
-        /**
          * The response of the server mods api isn't a valid {@link JSONArray}.
          */
         INVALID_RESPONSE;
@@ -73,7 +68,7 @@ public class QueryException extends Exception {
 
     /**
      * Creates a new query exception with the given type, the {@link ServerModsAPIQuery} which caused the exception and the request url which was used.
-     * 
+     *
      * @param type The type of error which occurred.
      * @param query The {@link ServerModsAPIQuery} instance which caused the exception on execution.
      * @param requestUrl The url which was used to send a GET request to the server mods api.
@@ -87,7 +82,7 @@ public class QueryException extends Exception {
 
     /**
      * Creates a new query exception with the given type, the {@link ServerModsAPIQuery}, the request url which was used and a wrapped {@link Throwable}.
-     * 
+     *
      * @param type The type of error which occurred.
      * @param query The {@link ServerModsAPIQuery} instance which caused the exception on execution.
      * @param requestUrl The url which was used to send a GET request to the server mods api.
@@ -104,7 +99,7 @@ public class QueryException extends Exception {
 
     /**
      * Returns the type of error which occurred as a {@link QueryExceptionType}.
-     * 
+     *
      * @return The type of error which occurred.
      */
     public QueryExceptionType getType() {
@@ -114,7 +109,7 @@ public class QueryException extends Exception {
 
     /**
      * Returns the {@link ServerModsAPIQuery} instance which caused the exception on execution.
-     * 
+     *
      * @return The query object which was executed and caused the exception.
      */
     public ServerModsAPIQuery getQuery() {
@@ -124,7 +119,7 @@ public class QueryException extends Exception {
 
     /**
      * Returns the url which was used to send a GET request to the server mods api.
-     * 
+     *
      * @return The request url which was used by the given {@link ServerModsAPIQuery}.
      */
     public String getRequestUrl() {

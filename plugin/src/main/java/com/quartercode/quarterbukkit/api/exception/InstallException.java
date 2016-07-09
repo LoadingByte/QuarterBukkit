@@ -31,7 +31,7 @@ public class InstallException extends GameException {
 
     /**
      * Creates an InstallException filled with the cause for the error that occurred.
-     * 
+     *
      * @param plugin The causing {@link Plugin}.
      * @param cause The cause for the error.
      */
@@ -45,7 +45,7 @@ public class InstallException extends GameException {
 
     /**
      * Creates an InstallException filled with the cause for the error that occurred and the {@link CommandSender} which invoked the update.
-     * 
+     *
      * @param plugin The causing {@link Plugin}.
      * @param cause The cause for the error.
      * @param causer The {@link CommandSender} which invoked the update.
@@ -60,7 +60,7 @@ public class InstallException extends GameException {
 
     /**
      * Creates an InstallException filled with the cause for the error that occurred and an informational message.
-     * 
+     *
      * @param plugin The causing {@link Plugin}.
      * @param cause The cause for the error.
      * @param message The informational message.
@@ -74,7 +74,7 @@ public class InstallException extends GameException {
 
     /**
      * Creates an InstallException filled with the cause for the error that occurred, the {@link CommandSender} which invoked the update an an informational message.
-     * 
+     *
      * @param plugin The causing {@link Plugin}.
      * @param cause The cause for the error.
      * @param causer The {@link CommandSender} which invoked the update.
@@ -89,7 +89,7 @@ public class InstallException extends GameException {
 
     /**
      * Returns the cause for the error that occurred.
-     * 
+     *
      * @return The cause for the error.
      */
     public Throwable getCause() {
@@ -99,7 +99,7 @@ public class InstallException extends GameException {
 
     /**
      * Returns the {@link CommandSender} which invoked the updater and indirectly caused the exception.
-     * 
+     *
      * @return The causer which invoked the updater.
      */
     public CommandSender getCauser() {

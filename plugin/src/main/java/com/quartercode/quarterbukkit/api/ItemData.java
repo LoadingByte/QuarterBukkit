@@ -29,7 +29,7 @@ public class ItemData {
 
     /**
      * Checks if two {@link ItemStack}s are the same.
-     * 
+     *
      * @param itemStack1 The first {@link ItemStack}.
      * @param itemStack2 The second {@link ItemStack}.
      * @return If both {@link ItemStack}s are the same.
@@ -41,7 +41,7 @@ public class ItemData {
 
     /**
      * Checks if two {@link Block}s are the same.
-     * 
+     *
      * @param block1 The first {@link Block}.
      * @param block2 The second {@link Block}.
      * @return If both {@link Block}s are the same.
@@ -53,7 +53,7 @@ public class ItemData {
 
     /**
      * Checks if the datas of an {@link ItemStack} and a {@link Block} are the same.
-     * 
+     *
      * @param itemStack1 The first {@link ItemStack}.
      * @param block2 The second {@link Block}.
      * @return If the datas of the {@link ItemStack} and the {@link Block} are the same.
@@ -76,7 +76,7 @@ public class ItemData {
 
     /**
      * Creates a new item data object and fills it with a {@link Material}.
-     * 
+     *
      * @param material The {@link Material}.
      */
     public ItemData(Material material) {
@@ -87,7 +87,7 @@ public class ItemData {
 
     /**
      * Creates a new item data object and fills it with a {@link Material} and a data value.
-     * 
+     *
      * @param material The {@link Material}.
      * @param data The data value.
      */
@@ -99,7 +99,7 @@ public class ItemData {
 
     /**
      * Creates a new item data object and fills it with the data of an {@link ItemStack}.
-     * 
+     *
      * @param itemStack The {@link ItemStack} to read the data from.
      */
     @SuppressWarnings ("deprecation")
@@ -111,7 +111,7 @@ public class ItemData {
 
     /**
      * Creates a new item data object and fills it with the data of a {@link Block}.
-     * 
+     *
      * @param block The {@link Block} to read the data from.
      */
     @SuppressWarnings ("deprecation")
@@ -123,7 +123,7 @@ public class ItemData {
 
     /**
      * Returns the {@link Material} of the item data object.
-     * 
+     *
      * @return The {@link Material} of the item data object.
      */
     public Material getMaterial() {
@@ -133,7 +133,7 @@ public class ItemData {
 
     /**
      * Sets the {@link Material} of the item data object.
-     * 
+     *
      * @param material The new {@link Material} of the item data object.
      */
     public void setMaterial(Material material) {
@@ -143,7 +143,7 @@ public class ItemData {
 
     /**
      * Returns the data value of the item data object.
-     * 
+     *
      * @return The data value of the item data object.
      */
     public byte getData() {
@@ -153,7 +153,7 @@ public class ItemData {
 
     /**
      * Sets the data value of the item data object.
-     * 
+     *
      * @param data The new data value of the item data object.
      */
     public void setData(byte data) {
@@ -163,7 +163,7 @@ public class ItemData {
 
     /**
      * Returns if this item data object equals another.
-     * 
+     *
      * @param itemData The item data object to compare with.
      * @return If this item data object equals the other one.
      */
@@ -174,7 +174,7 @@ public class ItemData {
 
     /**
      * Returns if the data of this item data object equals the data from an {@link ItemStack}.
-     * 
+     *
      * @param itemStack The {@link ItemStack} to compare with.
      * @return If the data of this item data object equals the data from the {@link ItemStack}.
      */
@@ -186,7 +186,7 @@ public class ItemData {
 
     /**
      * Returns if the data of this item data object equals the data from an {@link Block}.
-     * 
+     *
      * @param block The {@link Block} to compare with.
      * @return If the data of this item data object equals the data from the {@link Block}.
      */
@@ -198,7 +198,7 @@ public class ItemData {
 
     /**
      * Returns if the given {@link Inventory} contains at least one {@link ItemStack} with the data of this item data object.
-     * 
+     *
      * @param inventory The {@link Inventory} to check.
      * @return If the given {@link Inventory} contains at least one {@link ItemStack} with the data of this item data object.
      */
@@ -209,7 +209,7 @@ public class ItemData {
 
     /**
      * Returns if the given {@link Inventory} contains at least the given amount of {@link ItemStack}s with the data of this item data object.
-     * 
+     *
      * @param inventory The {@link Inventory} to check.
      * @param minimumAmount The minimum count of item stacks.
      * @return If the given {@link Inventory} contains at least the given amount of {@link ItemStack}s with the data of this item data object.
@@ -236,7 +236,7 @@ public class ItemData {
 
     /**
      * Applys the data of this item data object to an {@link ItemStack}.
-     * 
+     *
      * @param itemStack The {@link ItemStack} to apply the data.
      */
     @SuppressWarnings ("deprecation")
@@ -250,7 +250,7 @@ public class ItemData {
 
     /**
      * Applys the data of this item data object to an {@link Block}.
-     * 
+     *
      * @param block The {@link Block} to apply the data.
      */
     @SuppressWarnings ("deprecation")
@@ -263,7 +263,7 @@ public class ItemData {
     @Override
     public boolean equals(Object object) {
 
-        if (object == null || ! (object instanceof ItemData)) {
+        if (! (object instanceof ItemData)) {
             return false;
         } else {
             ItemData itemData = (ItemData) object;

@@ -1,3 +1,26 @@
+0.3.0
+-----
+
+### Additions
+* The expandable Shape API allows to work with a lot of different shapes in 3D space and does the math for the user.
+* The flexible Object System API allows to create complex systems of different objects with physics and visual effects.
+
+### Removals
+* Removed the CANNOT_CLOSE_RESPONSE_STREAM query api exception type because it was trashing other more important exceptions.
+* Removed the constructors which do not require an inventory title from SelectInventory because minecraft no longer supports that.
+
+### Fixes
+* The FileUtils class now logs exceptions that occur during closing resources.
+* The CommandExecutor class now provides a DEFAULT_COMMAND_LABEL constant. It should be used instead of the plain "\<empty\>".
+* The SelectInventory now cancels the event when the player clicks on an item so the player can no longer take the item.
+* The integrated MetricsLite client now properly shuts down when the plugin is disabled.
+* The QuarterBukkitIntegration mechanism no longer relies on classloader specifics and uses temporary files instead. It should now work on literally every machine.
+* Fixed JavaDoc errors which caused generation warnings.
+* Fixed some other very minor issues.
+
+### Notes
+* Maven will publish the sources and JavaDocs from this version onwards.
+
 0.2.1
 -----
 
@@ -8,7 +31,7 @@
 -----
 
 ### Additions
-* ServerMods Query API for querying the official ServerMods API which is avaiable under https://api.curseforge.com/servermods.
+* ServerMods Query API for querying the official ServerMods API which is available under https://api.curseforge.com/servermods.
 * The QuarterBukkitUpdater and QuarterBukkitIntegration classes now use the ServerMods Query API.
 
 ### Removals
@@ -23,7 +46,7 @@
 -----
 
 ### Additions
-* Utility events which extend the currently avaiable bukkit events.
+* Utility events which extend the currently available bukkit events.
 * RedstoneToggleEvent which is fired whenever the power status of any block changes.
 * The integration method can now handle multiple caller plugins.
 

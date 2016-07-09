@@ -31,7 +31,7 @@ public class MetaUtil {
 
     /**
      * Returns the name of an {@link ItemStack}.
-     * 
+     *
      * @param itemStack The {@link ItemStack}.
      * @return The name of the {@link ItemStack}.
      */
@@ -43,7 +43,7 @@ public class MetaUtil {
     /**
      * Sets the name of an {@link ItemStack}.
      * You can use every chat code.
-     * 
+     *
      * @param itemStack The {@link ItemStack} to modify.
      * @param name The name to set.
      */
@@ -61,7 +61,7 @@ public class MetaUtil {
     /**
      * Returns the description lines of an {@link ItemStack}.
      * They equals to the "Lore".
-     * 
+     *
      * @param itemStack The {@link ItemStack}.
      * @return The description lines of the {@link ItemStack} as an {@link String}-{@link List}.
      */
@@ -73,7 +73,7 @@ public class MetaUtil {
     /**
      * Sets the description lines of an {@link ItemStack}.
      * They equals to the "Lore". You can use every chat code.
-     * 
+     *
      * @param itemStack The {@link ItemStack} to modify.
      * @param descriptions The description lines to set as an {@link String}-{@link List}.
      */
@@ -91,7 +91,7 @@ public class MetaUtil {
     /**
      * Sets the description lines of an {@link ItemStack}.
      * They equals to the "Lore". You can use every chat code.
-     * 
+     *
      * @param itemStack The {@link ItemStack} to modify.
      * @param descriptions The description lines to set as an {@link String}-array.
      */

@@ -22,6 +22,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -38,13 +42,18 @@ import com.quartercode.quarterbukkit.api.exception.NoDefaultCommandFoundExceptio
  */
 public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabCompleter {
 
+    /**
+     * Command executors that use this label are marked as default executors and executed when no label is provided (e.g. just /command).
+     */
+    public static final String         DEFAULT_COMMAND_LABEL = "<empty>";
+
     private final Plugin               plugin;
-    private final List<CommandHandler> commandHandlers = new ArrayList<CommandHandler>();
+    private final List<CommandHandler> commandHandlers       = new ArrayList<CommandHandler>();
 
     /**
      * Creates a new CommandExecutor which can be used as Bukkit-{@link CommandExecutor}.
      * It binds the defined commands automatically to this executor.
-     * 
+     *
      * @param plugin The plugin for the CommandExecutor.
      * @param commands The commands this executor bind to.
      */
@@ -61,7 +70,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     /**
      * The main method called by the Bukkit-Command-System.
      * This is only for the Bukkit-System, don't call it manually!
-     * 
+     *
      * @param sender The {@link CommandSender} who executed the command.
      * @param command The Bukkit-Command.
      * @param label The first command label.
@@ -76,7 +85,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
                 CommandInfo info = commandHandler.getInfo();
 
                 for (String commandLabel : info.getLabels()) {
-                    if (!commandLabel.equalsIgnoreCase("<empty>")) {
+                    if (!commandLabel.equalsIgnoreCase(DEFAULT_COMMAND_LABEL)) {
                         if (info.isIgnoreCase()) {
                             if (commandLabel.equalsIgnoreCase(arguments[0])) {
                                 executeCommand(sender, commandHandler, label, arguments);
@@ -96,7 +105,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
                 CommandInfo info = commandHandler.getInfo();
 
                 for (String commandLabel : info.getLabels()) {
-                    if (commandLabel.equalsIgnoreCase("<empty>")) {
+                    if (commandLabel.equalsIgnoreCase(DEFAULT_COMMAND_LABEL)) {
                         executeCommand(sender, commandHandler, label, new String[0]);
                         return true;
                     }
@@ -145,7 +154,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     /**
      * The tab completition method called by the Bukkit-Command-System.
      * This is only for the Bukkit-System, don't call it manually!
-     * 
+     *
      * @param sender The {@link CommandSender} who executed the command.
      * @param command The Bukkit-Command.
      * @param alias The first command label.
@@ -161,7 +170,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
             for (CommandHandler commandHandler : commandHandlers) {
                 for (String label : commandHandler.getInfo().getLabels()) {
                     for (String argument : arguments) {
-                        if (!label.equalsIgnoreCase("<empty>") && label.toLowerCase().startsWith(argument.toLowerCase())) {
+                        if (!label.equalsIgnoreCase(DEFAULT_COMMAND_LABEL) && label.toLowerCase().startsWith(argument.toLowerCase())) {
                             if (commandHandler.getInfo().getPermission() == null || commandHandler.getInfo().getPermission().isEmpty() || sender.hasPermission(commandHandler.getInfo().getPermission())) {
                                 proposals.add(label);
                             }
@@ -184,7 +193,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
 
     /**
      * Returns all registered command handlers as an unmodifiable {@link List}.
-     * 
+     *
      * @return The registered command handlers.
      */
     public List<CommandHandler> getCommandHandlers() {
@@ -195,7 +204,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     /**
      * Returns the {@link CommandHandler} which contains a defined label.
      * Throws an {@link IllegalStateException} if no {@link CommandHandler} with the label is registered.
-     * 
+     *
      * @param label The command label.
      * @return The {@link CommandHandler}.
      */
@@ -218,7 +227,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     /**
      * Returns if a {@link CommandHandler} is registered.
      * Use this for checking before other {@link CommandHandler}-functions in this class, like get, register, unregister.
-     * 
+     *
      * @param commandHandler The {@link CommandHandler} to check.
      * @return If the {@link CommandHandler} is registered.
      */
@@ -230,7 +239,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     /**
      * Returns if a {@link CommandHandler} with a defined label is registered.
      * Use this for checking before other {@link CommandHandler}-functions in this class, like get, register, unregister.
-     * 
+     *
      * @param label The label to check.
      * @return If a {@link CommandHandler} with the label is registered.
      */
@@ -247,7 +256,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     /**
      * Registers a {@link CommandHandler}.
      * Throws an {@link IllegalStateException} if the {@link CommandHandler} is already registered or there's already a {@link CommandHandler} with a label of the one to register.
-     * 
+     *
      * @param commandHandler The {@link CommandHandler} to register.
      */
     public void addCommandHandler(CommandHandler commandHandler) {
@@ -267,7 +276,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     /**
      * Unregisters a {@link CommandHandler}.
      * Throws an {@link IllegalStateException} if the {@link CommandHandler} isn't registered.
-     * 
+     *
      * @param commandHandler The {@link CommandHandler} to unregister.
      */
     public void removeCommandHandler(CommandHandler commandHandler) {
@@ -282,7 +291,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     /**
      * Unregisters a {@link CommandHandler} which has this label.
      * Throws an {@link IllegalStateException} if no {@link CommandHandler} with the label is registered.
-     * 
+     *
      * @param label The {@link CommandHandler} with this label to unregister.
      */
     public void removeCommandHandler(String label) {
@@ -293,47 +302,19 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     @Override
     public int hashCode() {
 
-        int prime = 31;
-        int result = 1;
-        result = prime * result + (commandHandlers == null ? 0 : commandHandlers.hashCode());
-        result = prime * result + (plugin == null ? 0 : plugin.hashCode());
-        return result;
+        return HashCodeBuilder.reflectionHashCode(this);
     }
 
     @Override
     public boolean equals(Object obj) {
 
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        CommandExecutor other = (CommandExecutor) obj;
-        if (commandHandlers == null) {
-            if (other.commandHandlers != null) {
-                return false;
-            }
-        } else if (!commandHandlers.equals(other.commandHandlers)) {
-            return false;
-        }
-        if (plugin == null) {
-            if (other.plugin != null) {
-                return false;
-            }
-        } else if (!plugin.equals(other.plugin)) {
-            return false;
-        }
-        return true;
+        return EqualsBuilder.reflectionEquals(this, obj);
     }
 
     @Override
     public String toString() {
 
-        return getClass().getName() + " [plugin=" + plugin + ", commandHandlers=" + commandHandlers + "]";
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
 }

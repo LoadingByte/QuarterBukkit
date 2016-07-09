@@ -33,7 +33,7 @@ public class ExceptionHandler {
 
     /**
      * Handles a {@link GameException} and returns if the process should continue (if the exception is an instance of {@link Cancellable}, else true).
-     * 
+     *
      * @param exception The {@link GameException} to handle.
      * @return If the process should continue (if the exception is an instance of {@link Cancellable}, else true).
      */

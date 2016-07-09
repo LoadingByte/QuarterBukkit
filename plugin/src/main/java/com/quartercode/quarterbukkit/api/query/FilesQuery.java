@@ -27,9 +27,9 @@ import org.json.simple.JSONObject;
 import com.quartercode.quarterbukkit.api.query.FilesQuery.ProjectFile.ReleaseType;
 
 /**
- * The files query can be used to retrieve all files of a project which are currently avaiable on BukkitDev.
+ * The files query can be used to retrieve all files of a project which are currently available on BukkitDev.
  * The class internally uses the {@link ServerModsAPIQuery}.
- * 
+ *
  * @see ServerModsAPIQuery
  */
 public class FilesQuery {
@@ -41,8 +41,8 @@ public class FilesQuery {
      * Creates a new files query which may retrieve all files of the project with the given project id <b>without their versions</b>.
      * If you want to use a {@link VersionParser} for retrieving the files' versions, you can use the constructor {@link #FilesQuery(int, VersionParser)}.
      * The files are ordered by the date of upload. The file which was uploaded first comes first.
-     * 
-     * @param projectId The project id of the project whose avaiable files should be retrieved.
+     *
+     * @param projectId The project id of the project whose available files should be retrieved.
      */
     public FilesQuery(int projectId) {
 
@@ -53,8 +53,8 @@ public class FilesQuery {
      * Creates a new files query which may retrieve all files of the project with the given project id.
      * Every file's version is parsed by the given {@link VersionParser}, so you can retrieve the version of a file using {@link ProjectFile#getVersion()}.
      * The files are ordered by the date of upload. The file which was uploaded first comes first.
-     * 
-     * @param projectId The project id of the project whose avaiable files should be retrieved.
+     *
+     * @param projectId The project id of the project whose available files should be retrieved.
      * @param versionParser The {@link VersionParser} for parsing the version of every resulting {@link ProjectFile}.
      */
     public FilesQuery(int projectId, VersionParser versionParser) {
@@ -64,8 +64,8 @@ public class FilesQuery {
     }
 
     /**
-     * Returns the project id of the project whose avaiable files should be retrieved.
-     * 
+     * Returns the project id of the project whose available files should be retrieved.
+     *
      * @return The project id for retrieval.
      */
     public int getProjectId() {
@@ -77,7 +77,7 @@ public class FilesQuery {
      * Returns the {@link VersionParser} for parsing the version of every resulting {@link ProjectFile}.
      * It is called on every {@link ProjectFile} discovered by the {@link #execute()} method.
      * That way you can retrieve the version of a resulting file using {@link ProjectFile#getVersion()}.
-     * 
+     *
      * @return The {@link VersionParser} used by the files query.
      */
     public VersionParser getVersionParser() {
@@ -86,9 +86,9 @@ public class FilesQuery {
     }
 
     /**
-     * Retrieves the avaiable files of the project with the set project id ({@link #getProjectId()}) from BukkitDev.
+     * Retrieves the available files of the project with the set project id ({@link #getProjectId()}) from BukkitDev.
      * If a {@link VersionParser} is set, it will be called in order to add versions to all {@link ProjectFile}s.
-     * 
+     *
      * @return The {@link ProjectFile}s the files query found.
      * @throws QueryException Something goes wrong while querying the server mods api.
      */
@@ -133,7 +133,7 @@ public class FilesQuery {
         /**
          * Parses and returns the version of the given {@link ProjectFile}.
          * This should be implemented by subclasses to suit the project's naming conventions.
-         * 
+         *
          * @param file The file which was retrieved without the version attribute.
          * @return The version of the given {@link ProjectFile}.
          */
@@ -175,7 +175,7 @@ public class FilesQuery {
 
         /**
          * Creates a new project file describing a file of a project hosted on BukkitDev.
-         * 
+         *
          * @param name The title of the file (e.g. {@code QuarterBukkit 1.1.2}).
          * @param version The version of the file (e.g. {@code 1.1.2}).
          * @param releaseType The {@link ReleaseType} of the file (e.g. {@link ReleaseType#RELEASE}).
@@ -193,7 +193,7 @@ public class FilesQuery {
 
         /**
          * Returns the title of the file (e.g. {@code QuarterBukkit 1.1.2}).
-         * 
+         *
          * @return The title of the file.
          */
         public String getName() {
@@ -203,7 +203,7 @@ public class FilesQuery {
 
         /**
          * Returns the version of the file (e.g. {@code 1.1.2}).
-         * 
+         *
          * @return The version of the file.
          */
         public String getVersion() {
@@ -213,7 +213,7 @@ public class FilesQuery {
 
         /**
          * Returns the {@link ReleaseType} of the file (e.g. {@link ReleaseType#RELEASE}).
-         * 
+         *
          * @return The {@link ReleaseType} of the file.
          */
         public ReleaseType getReleaseType() {
@@ -223,7 +223,7 @@ public class FilesQuery {
 
         /**
          * Returns the location where the file described by the data object can be found under.
-         * 
+         *
          * @return The location where the file can be found under.
          */
         public URI getLocation() {
@@ -232,8 +232,8 @@ public class FilesQuery {
         }
 
         /**
-         * Returns the name of the actual file which can be found under the set file location ({@link #getFile()}).
-         * 
+         * Returns the name of the actual file which can be found under the set file location ({@link #getLocation()}).
+         *
          * @return The name of the actual file.
          */
         public String getFileName() {

@@ -18,6 +18,7 @@
 
 package com.quartercode.quarterbukkit.api;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -26,8 +27,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.Collections;
+import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import com.quartercode.quarterbukkit.QuarterBukkit;
 
 /**
  * This class provides some simple utility methods for advanced file operations.
@@ -35,8 +38,8 @@ import java.util.zip.ZipFile;
 public class FileUtils {
 
     /**
-     * Downloads the file which is avaiable under the given source {@link URL} to the given destination {@link File}.
-     * 
+     * Downloads the file which is available under the given source {@link URL} to the given destination {@link File}.
+     *
      * @param source The source {@link URL} where you can find the file which should be downloaded.
      * @param destination The destination {@link File} where the downloaded file should be stored.
      * @throws IOException Something goes wrong while opening a connection, reading the stream or executing some file operations.
@@ -56,30 +59,15 @@ public class FileUtils {
                 outputStream.write(tempBuffer, 0, counter);
                 outputStream.flush();
             }
-        } catch (IOException e) {
-            throw e;
         } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    // Ignore
-                }
-            }
-            if (outputStream != null) {
-                try {
-                    outputStream.close();
-                } catch (IOException e) {
-                    // Ignore
-                }
-            }
+            closeResources(inputStream, outputStream);
         }
     }
 
     /**
      * Copies the given source {@link File} or directory to the given destination {@link File} or directory.
      * If the source is a directory, this will copy it recursively.
-     * 
+     *
      * @param source The source {@link File} or directory to copy to the given destination {@link File} or directory.
      * @param destination The destination {@link File} or directory where to copy the given source.
      * @throws IOException Something goes wrong while executing some file operations.
@@ -104,30 +92,15 @@ public class FileUtils {
                 while ( (numberOfBytes = inputStream.read(buffer)) > 0) {
                     outputStream.write(buffer, 0, numberOfBytes);
                 }
-            } catch (IOException e) {
-                throw e;
             } finally {
-                if (inputStream != null) {
-                    try {
-                        inputStream.close();
-                    } catch (IOException e) {
-                        // Ignore
-                    }
-                }
-                if (outputStream != null) {
-                    try {
-                        outputStream.close();
-                    } catch (IOException e) {
-                        // Ignore
-                    }
-                }
+                closeResources(inputStream, outputStream);
             }
         }
     }
 
     /**
      * Deletes the given {@link File} or directory and doesn't care if the directory is empty.
-     * 
+     *
      * @param file The {@link File} or directory to delete completely.
      * @throws IOException Something goes wrong while deleting a {@link File}.
      */
@@ -146,7 +119,7 @@ public class FileUtils {
 
     /**
      * Unzips the given zip {@link File} into a new directory called destination.
-     * 
+     *
      * @param zip The zip {@link File} to unzip.
      * @param destination The directory where to put the contents of the zip {@link File}. It may be created if it doesn't exist.
      * @throws IOException Something goes wrong while executing some file operations.
@@ -176,34 +149,32 @@ public class FileUtils {
                         for (int lenght; (lenght = inputStream.read(buffer)) != -1;) {
                             outputStream.write(buffer, 0, lenght);
                         }
-                    } catch (IOException e) {
-                        throw e;
                     } finally {
-                        if (outputStream != null) {
-                            try {
-                                outputStream.close();
-                            } catch (IOException e) {
-                                // Ignore
-                            }
-                        }
-                        if (inputStream != null) {
-                            try {
-                                inputStream.close();
-                            } catch (IOException e) {
-                                // Ignore
-                            }
-                        }
+                        closeResources(inputStream, outputStream);
                     }
                 }
             }
-        } catch (IOException e) {
-            throw e;
         } finally {
-            if (zipFile != null) {
+            final ZipFile finalZipFile = zipFile;
+            closeResources(new Closeable() {
+
+                @Override
+                public void close() throws IOException {
+
+                    finalZipFile.close();
+                }
+            });
+        }
+    }
+
+    private static void closeResources(Closeable... closeables) {
+
+        for (Closeable closeable : closeables) {
+            if (closeable != null) {
                 try {
-                    zipFile.close();
+                    closeable.close();
                 } catch (IOException e) {
-                    // Ignore
+                    QuarterBukkit.getPlugin().getLogger().log(Level.SEVERE, "Unexpected exception while closing resource", e);
                 }
             }
         }

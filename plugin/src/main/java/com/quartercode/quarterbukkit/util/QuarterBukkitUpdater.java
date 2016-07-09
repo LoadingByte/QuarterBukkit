@@ -47,7 +47,7 @@ public class QuarterBukkitUpdater {
 
     /**
      * Checks for a new version of QuarterBukkit and executes the update if necessary.
-     * 
+     *
      * @return True if an update was executed successfully.
      */
     public boolean checkAndUpdate() {
@@ -60,20 +60,21 @@ public class QuarterBukkitUpdater {
             plugin.getLogger().info("Querying server mods api ...");
 
             // Get latest version
-            List<ProjectFile> avaiableFiles = new FilesQuery(PROJECT_ID, new VersionParser() {
+            List<ProjectFile> availableFiles = new FilesQuery(PROJECT_ID, new VersionParser() {
 
                 @Override
                 public String parseVersion(ProjectFile file) {
 
                     return file.getName().replace("QuarterBukkit ", "");
                 }
+
             }).execute();
-            if (avaiableFiles.size() == 0) {
-                // No file avaiable
+            if (availableFiles.isEmpty()) {
+                // No file available
                 return false;
             }
 
-            ProjectFile latestFile = avaiableFiles.get(avaiableFiles.size() - 1);
+            ProjectFile latestFile = availableFiles.get(availableFiles.size() - 1);
             if (latestFile.getVersion().equals(plugin.getDescription().getVersion())) {
                 // No update required (latest version already installed)
                 return false;

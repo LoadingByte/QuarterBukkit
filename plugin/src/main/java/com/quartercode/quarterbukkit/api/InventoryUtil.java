@@ -18,7 +18,8 @@
 
 package com.quartercode.quarterbukkit.api;
 
-import org.bukkit.entity.Player;
+import java.util.Arrays;
+import java.util.Collections;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -30,7 +31,7 @@ public class InventoryUtil {
 
     /**
      * Returns if the given {@link Inventory} contains at least one {@link ItemStack} which equals the given {@link ItemStack}.
-     * 
+     *
      * @param inventory The {@link Inventory} to check.
      * @param itemStack The {@link ItemStack} to check.
      * @return If the given {@link Inventory} contains at least one {@link ItemStack} which equals the given {@link ItemStack}.
@@ -42,27 +43,25 @@ public class InventoryUtil {
 
     /**
      * Returns if the given {@link Inventory} contains at least the given amount of {@link ItemStack}s which equal the given {@link ItemStack}.
-     * 
+     *
      * @param inventory The {@link Inventory} to check.
      * @param itemStack The {@link ItemStack} to check.
+     * @param minimumAmount The least amount of items for a positive result.
      * @return If the given {@link Inventory} contains at least the given amount of {@link ItemStack}s which equal the given {@link ItemStack}.
      */
     public static boolean containsAtLeast(Inventory inventory, ItemStack itemStack, int minimumAmount) {
 
         int foundItems = 0;
 
+        // Count the items in the regular inventory
+        foundItems += Collections.frequency(Arrays.asList(inventory.getContents()), itemStack);
+
         if (inventory instanceof PlayerInventory) {
             PlayerInventory playerInventory = (PlayerInventory) inventory;
-            if (playerInventory.getHolder() instanceof Player && ((Player) playerInventory.getHolder()).getItemOnCursor() != null && ((Player) playerInventory.getHolder()).getItemOnCursor().equals(itemStack)) {
-                foundItems++;
-            }
-            if (playerInventory.getBoots() != null && playerInventory.getBoots().equals(itemStack) || playerInventory.getLeggings() != null && playerInventory.getLeggings().equals(itemStack) || playerInventory.getChestplate() != null && playerInventory.getChestplate().equals(itemStack) || playerInventory.getHelmet() != null && playerInventory.getHelmet().equals(itemStack)) {
-                foundItems++;
-            }
-        }
-
-        for (ItemStack itemStack2 : inventory.getContents()) {
-            if (itemStack2 != null && itemStack.equals(itemStack2)) {
+            // Count the items in the armor slots
+            foundItems += Collections.frequency(Arrays.asList(playerInventory.getArmorContents()), itemStack);
+            // Check whether the player holds the item on his cursor
+            if (itemStack.equals(playerInventory.getHolder().getItemOnCursor())) {
                 foundItems++;
             }
         }

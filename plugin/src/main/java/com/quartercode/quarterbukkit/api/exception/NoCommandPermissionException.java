@@ -31,7 +31,7 @@ public class NoCommandPermissionException extends NoPermissionException {
 
     /**
      * Creates an NoCommandPermissionException filled with a {@link CommandSender} causer, the permission and the tried command.
-     * 
+     *
      * @param plugin The causing {@link Plugin}.
      * @param permission The permission which the causer doesn't have.
      * @param causer The {@link CommandSender} who has't enough permissions.
@@ -45,7 +45,7 @@ public class NoCommandPermissionException extends NoPermissionException {
 
     /**
      * Creates an NoCommandPermissionException filled with a {@link CommandSender} causer, the permission, the tried command and an informational message.
-     * 
+     *
      * @param plugin The causing {@link Plugin}.
      * @param permission The permission which the causer doesn't have.
      * @param causer The {@link CommandSender} who has't enough permissions.
@@ -60,7 +60,7 @@ public class NoCommandPermissionException extends NoPermissionException {
 
     /**
      * Returns the tried {@link Command}.
-     * 
+     *
      * @return The {@link Command} which the {@link CommandSender} tried to execute.
      */
     public Command getCommand() {

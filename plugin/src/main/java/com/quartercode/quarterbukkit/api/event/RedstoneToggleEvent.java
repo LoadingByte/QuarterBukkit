@@ -38,7 +38,7 @@ public class RedstoneToggleEvent extends BlockEvent {
 
     /**
      * Creates a new redstone toggle event which describes that the power on the given {@link Block} has been toggled on or off.
-     * 
+     *
      * @param block The {@link Block} which got powered or unpowered.
      * @param powered True if the given {@link Block} got powered, false if it got unpowered.
      */
@@ -51,7 +51,7 @@ public class RedstoneToggleEvent extends BlockEvent {
 
     /**
      * Returns true if the set {@link Block} got powered or false if it got unpowered.
-     * 
+     *
      * @return If the set {@link Block} you can retrieve with {@link #getBlock()} is powered.
      */
     public boolean isPowered() {

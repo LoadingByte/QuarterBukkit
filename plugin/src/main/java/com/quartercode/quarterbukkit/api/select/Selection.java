@@ -18,6 +18,10 @@
 
 package com.quartercode.quarterbukkit.api.select;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -30,7 +34,7 @@ public class Selection {
 
     /**
      * Creates a new selection and sets the value as an {@link Object} and the graphical {@link ItemStack}.
-     * 
+     *
      * @param value The value as an {@link Object}.
      * @param itemStack The graphical {@link ItemStack}.
      */
@@ -42,7 +46,7 @@ public class Selection {
 
     /**
      * Returns the value as an {@link Object}.
-     * 
+     *
      * @return The value as an {@link Object}.
      */
     public Object getValue() {
@@ -52,7 +56,7 @@ public class Selection {
 
     /**
      * Returns the graphical {@link ItemStack}.
-     * 
+     *
      * @return The graphical {@link ItemStack}.
      */
     public ItemStack getItemStack() {
@@ -63,39 +67,19 @@ public class Selection {
     @Override
     public int hashCode() {
 
-        int prime = 31;
-        int result = 1;
-        result = prime * result + (value == null ? 0 : value.hashCode());
-        return result;
+        return HashCodeBuilder.reflectionHashCode(this, new String[] { "itemStack" });
     }
 
     @Override
     public boolean equals(Object obj) {
 
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Selection other = (Selection) obj;
-        if (value == null) {
-            if (other.value != null) {
-                return false;
-            }
-        } else if (!value.equals(other.value)) {
-            return false;
-        }
-        return true;
+        return EqualsBuilder.reflectionEquals(this, obj, new String[] { "itemStack" });
     }
 
     @Override
     public String toString() {
 
-        return "Selection [value=" + value + ", itemStack=" + itemStack + "]";
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
 }

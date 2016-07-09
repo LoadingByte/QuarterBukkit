@@ -18,7 +18,10 @@
 
 package com.quartercode.quarterbukkit.api.command;
 
-import java.util.Arrays;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -33,7 +36,7 @@ public class Command {
 
     /**
      * Creates a new command representing object.
-     * 
+     *
      * @param sender The {@link CommandSender} of the command.
      * @param globalLabel The global label of the command.
      * @param label The secondary label of the command.
@@ -49,7 +52,7 @@ public class Command {
 
     /**
      * Returns the {@link CommandSender} of the command.
-     * 
+     *
      * @return The {@link CommandSender}.
      */
     public CommandSender getSender() {
@@ -60,7 +63,7 @@ public class Command {
     /**
      * Returns the global label of the command.
      * If you type in /command help, command will be the global label.
-     * 
+     *
      * @return The global label of the command.
      */
     public String getGlobalLabel() {
@@ -71,7 +74,7 @@ public class Command {
     /**
      * Returns the secondary label of the command.
      * If you type in /command help, help will be the secondary label.
-     * 
+     *
      * @return The secondary label of the command.
      */
     public String getLabel() {
@@ -82,70 +85,30 @@ public class Command {
     /**
      * Returns the parsed arguments of the command as a {@link String}-array.
      * If you type in /command help 2, the array will only contains [2].
-     * 
+     *
      * @return The parsed arguments of the command.
      */
     public String[] getArguments() {
 
-        return arguments;
+        return arguments.clone();
     }
 
     @Override
     public int hashCode() {
 
-        int prime = 31;
-        int result = 1;
-        result = prime * result + Arrays.hashCode(arguments);
-        result = prime * result + (globalLabel == null ? 0 : globalLabel.hashCode());
-        result = prime * result + (label == null ? 0 : label.hashCode());
-        result = prime * result + (sender == null ? 0 : sender.hashCode());
-        return result;
+        return HashCodeBuilder.reflectionHashCode(this);
     }
 
     @Override
     public boolean equals(Object obj) {
 
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Command other = (Command) obj;
-        if (!Arrays.equals(arguments, other.arguments)) {
-            return false;
-        }
-        if (globalLabel == null) {
-            if (other.globalLabel != null) {
-                return false;
-            }
-        } else if (!globalLabel.equals(other.globalLabel)) {
-            return false;
-        }
-        if (label == null) {
-            if (other.label != null) {
-                return false;
-            }
-        } else if (!label.equals(other.label)) {
-            return false;
-        }
-        if (sender == null) {
-            if (other.sender != null) {
-                return false;
-            }
-        } else if (!sender.equals(other.sender)) {
-            return false;
-        }
-        return true;
+        return EqualsBuilder.reflectionEquals(this, obj);
     }
 
     @Override
     public String toString() {
 
-        return getClass().getName() + " [sender=" + sender + ", globalLabel=" + globalLabel + ", label=" + label + ", arguments=" + Arrays.toString(arguments) + "]";
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
 }

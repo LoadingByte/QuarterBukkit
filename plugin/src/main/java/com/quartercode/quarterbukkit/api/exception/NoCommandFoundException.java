@@ -32,7 +32,7 @@ public class NoCommandFoundException extends GameException {
 
     /**
      * Creates a NoCommandFoundException filled with a {@link Command} and a {@link CommandExecutor}.
-     * 
+     *
      * @param plugin The causing {@link Plugin}.
      * @param command The not registered {@link Command}.
      * @param commandExecutor The {@link CommandExecutor} which should execute the {@link Command}.
@@ -46,7 +46,7 @@ public class NoCommandFoundException extends GameException {
 
     /**
      * Creates a NoCommandFoundException filled with a {@link Command}, a {@link CommandExecutor} and an informational message.
-     * 
+     *
      * @param plugin The causing {@link Plugin}.
      * @param command The not registered {@link Command}.
      * @param commandExecutor The {@link CommandExecutor} which should execute the {@link Command}.
@@ -61,7 +61,7 @@ public class NoCommandFoundException extends GameException {
 
     /**
      * Returns the not registered {@link Command}.
-     * 
+     *
      * @return The not existing {@link Command}.
      */
     public Command getCommand() {
@@ -71,7 +71,7 @@ public class NoCommandFoundException extends GameException {
 
     /**
      * Returns the {@link CommandExecutor} which should execute the {@link Command}.
-     * 
+     *
      * @return The {@link CommandExecutor}.
      */
     public CommandExecutor getCommandExecutor() {

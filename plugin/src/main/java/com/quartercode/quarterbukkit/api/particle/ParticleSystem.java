@@ -31,9 +31,13 @@ import com.quartercode.quarterbukkit.api.scheduler.ScheduleTask;
 
 /**
  * This class represents a complex particle system using firework particles.
- * The system can also get customized with sutom renderers and spawners.
+ * The system can also get customized with custom renderers and spawners.
  * All parameters can be changed in real time between to runs.
+ *
+ * @deprecated The particle api was replaced by the more flexible object system api.
+ *             See the wiki for more information on that new api.
  */
+@Deprecated
 public class ParticleSystem {
 
     private List<ParticleDescription> descriptions = new ArrayList<ParticleDescription>();
@@ -54,7 +58,7 @@ public class ParticleSystem {
 
     /**
      * Creates a new particle system and sets the start {@link Location}.
-     * 
+     *
      * @param location The start {@link Location}.
      */
     public ParticleSystem(Location location) {
@@ -64,7 +68,7 @@ public class ParticleSystem {
 
     /**
      * Creates a new particle system and sets the {@link ParticleDescription}s as an array/vararg.
-     * 
+     *
      * @param descriptions The {@link ParticleDescription}s as an array/vararg.
      */
     public ParticleSystem(ParticleDescription... descriptions) {
@@ -74,7 +78,7 @@ public class ParticleSystem {
 
     /**
      * Creates a new particle system and sets the {@link ParticleDescription}s as a {@link List}.
-     * 
+     *
      * @param descriptions The {@link ParticleDescription}s as a {@link List}.
      */
     public ParticleSystem(List<ParticleDescription> descriptions) {
@@ -84,7 +88,7 @@ public class ParticleSystem {
 
     /**
      * Creates a new particle system and sets the start {@link Location} and the {@link ParticleDescription}s as an array/vararg.
-     * 
+     *
      * @param location The start {@link Location}.
      * @param descriptions The {@link ParticleDescription}s as an array/vararg.
      */
@@ -96,7 +100,7 @@ public class ParticleSystem {
 
     /**
      * Creates a new particle system and sets the start {@link Location} and the {@link ParticleDescription}s as a {@link List}.
-     * 
+     *
      * @param location The start {@link Location}.
      * @param descriptions The {@link ParticleDescription}s as a {@link List}.
      */
@@ -108,7 +112,7 @@ public class ParticleSystem {
 
     /**
      * Returns the {@link ParticleDescription}s.
-     * 
+     *
      * @return The {@link ParticleDescription}s.
      */
     public List<ParticleDescription> getDescriptions() {
@@ -118,7 +122,7 @@ public class ParticleSystem {
 
     /**
      * Sets the {@link ParticleDescription}s as an array/vararg.
-     * 
+     *
      * @param descriptions The {@link ParticleDescription}s as an array/vararg.
      * @return This particle system.
      */
@@ -130,7 +134,7 @@ public class ParticleSystem {
 
     /**
      * Sets the {@link ParticleDescription}s as a {@link List}.
-     * 
+     *
      * @param descriptions The {@link ParticleDescription}s as a {@link List}.
      * @return This particle system.
      */
@@ -142,7 +146,7 @@ public class ParticleSystem {
 
     /**
      * Adds a {@link ParticleDescription}.
-     * 
+     *
      * @param description The {@link ParticleDescription} to add.
      * @return This particle system.
      */
@@ -154,7 +158,7 @@ public class ParticleSystem {
 
     /**
      * Removes a {@link ParticleDescription}.
-     * 
+     *
      * @param description The {@link ParticleDescription} to remove.
      * @return This particle system.
      */
@@ -166,7 +170,7 @@ public class ParticleSystem {
 
     /**
      * Returns the start {@link Location}.
-     * 
+     *
      * @return The start {@link Location}.
      */
     public Location getLocation() {
@@ -176,7 +180,7 @@ public class ParticleSystem {
 
     /**
      * Sets the start {@link Location}.
-     * 
+     *
      * @param location The start {@link Location}.
      * @return This particle system.
      */
@@ -188,7 +192,7 @@ public class ParticleSystem {
 
     /**
      * Returns the count of runs the particle system should emit particles.
-     * 
+     *
      * @return The count of runs the particle system should emit particles.
      */
     public int getRuns() {
@@ -198,7 +202,7 @@ public class ParticleSystem {
 
     /**
      * Sets the count of runs the particle system should emit particles. Set to -1 for endless runs.
-     * 
+     *
      * @param runs The count of runs the particle system should emit particles. Set to -1 for endless runs.
      * @return This particle system.
      */
@@ -210,7 +214,7 @@ public class ParticleSystem {
 
     /**
      * Returns the delay between two runs.
-     * 
+     *
      * @return The delay between two runs.
      */
     public int getRate() {
@@ -220,7 +224,7 @@ public class ParticleSystem {
 
     /**
      * Sets the delay between two runs.
-     * 
+     *
      * @param rate The delay between two runs.
      * @return This particle system.
      */
@@ -232,7 +236,7 @@ public class ParticleSystem {
 
     /**
      * Returns the movement direction of the spawner as a {@link Vector}.
-     * 
+     *
      * @return The movement direction of the spawner as a {@link Vector}.
      */
     public Vector getAnimation() {
@@ -242,7 +246,7 @@ public class ParticleSystem {
 
     /**
      * Sets the movement direction of the spawner as a {@link Vector}.
-     * 
+     *
      * @param animation The movement direction of the spawner as a {@link Vector}.
      * @return This particle system.
      */
@@ -254,7 +258,7 @@ public class ParticleSystem {
 
     /**
      * Returns the {@link ParticleSpawner} (default {@link DefaultParticleSpawner}).
-     * 
+     *
      * @return The {@link ParticleSpawner}.
      */
     public ParticleSpawner getSpawner() {
@@ -264,7 +268,7 @@ public class ParticleSystem {
 
     /**
      * Sets the {@link ParticleSpawner}.
-     * 
+     *
      * @param spawner The {@link ParticleSpawner}.
      * @return This particle system.
      */
@@ -276,7 +280,7 @@ public class ParticleSystem {
 
     /**
      * Returns if the particle system is running.
-     * 
+     *
      * @return If the particle system is running.
      */
     public boolean isRunning() {
@@ -286,7 +290,7 @@ public class ParticleSystem {
 
     /**
      * Starts the animation and stops the current one if there's already one running.
-     * 
+     *
      * @param plugin The {@link Plugin} to bind the {@link ScheduleTask} and exception-handling on.
      * @return This particle system.
      */
@@ -321,7 +325,7 @@ public class ParticleSystem {
 
     /**
      * Stops the animation if it's running.
-     * 
+     *
      * @return This particle system.
      */
     public ParticleSystem stop() {
@@ -335,8 +339,9 @@ public class ParticleSystem {
     }
 
     /**
-     * Executes the particle animation; may override in subclass for more customization.
-     * 
+     * Executes the particle animation.
+     * This method can be overriden in subclasses for more customization.
+     *
      * @param plugin The {@link Plugin} to bind the {@link ScheduleTask} and exception-handling on.
      * @param location The current particle source.
      */
@@ -346,8 +351,8 @@ public class ParticleSystem {
     }
 
     /**
-     * Gets called when the animation ends.
-     * 
+     * Is called when the animation ends.
+     *
      * @param plugin The {@link Plugin} to bind the {@link ScheduleTask} and exception-handling on.
      * @param location The current particle source.
      */

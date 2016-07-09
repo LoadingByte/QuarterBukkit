@@ -34,7 +34,7 @@ public class NoPermissionException extends GameException implements Cancellable 
 
     /**
      * Creates an NoPermissionException filled with a {@link CommandSender} causer and the permission.
-     * 
+     *
      * @param plugin The causing {@link Plugin}.
      * @param permission The permission which the causer doesn't have.
      * @param causer The {@link CommandSender} who has't enough permissions.
@@ -48,7 +48,7 @@ public class NoPermissionException extends GameException implements Cancellable 
 
     /**
      * Creates an NoPermissionException filled with a {@link CommandSender} causer, the permission and an informational message.
-     * 
+     *
      * @param plugin The causing {@link Plugin}.
      * @param permission The permission which the causer doesn't have.
      * @param causer The {@link CommandSender} who has't enough permissions.
@@ -75,7 +75,7 @@ public class NoPermissionException extends GameException implements Cancellable 
 
     /**
      * Returns the permission which the causer doesn't have.
-     * 
+     *
      * @return The permission.
      */
     public String getPermission() {
@@ -85,7 +85,7 @@ public class NoPermissionException extends GameException implements Cancellable 
 
     /**
      * Returns the {@link CommandSender} causer.
-     * 
+     *
      * @return The causer who hasn't enough permissions.
      */
     public CommandSender getCauser() {

@@ -27,25 +27,28 @@ import org.bukkit.util.Vector;
  * <p>
  * This class represents a cuboid between to different locations saved as {@link Vector}s.
  * </p>
- * 
+ *
  * <p>
  * The cuboid can't get modified after construction, so it's final. You can only read values in different ways.
  * </p>
- * 
+ *
  * <p>
  * All constructors delivers their cooridnates to {@link #Cuboid(double, double, double, double, double, double)} which sorts them to a larger and a smaller {@link Vector}. This will lose the original
  * locations, but you can work better with the data later on.
  * </p>
- * 
+ *
  * <p>
  * {@link #getVector1()} returns the larger one, {@link #getVector2()} the smaller one. You can also read those values by using the {@code getXXX1()} and {@code getXXX2()} methods.
  * </p>
- * 
+ *
  * <p>
  * Here's an example how the sorting works: We have two locations with the coordinates {@code 5, 10, 7} and {@code 12, 6, 18}, the {@link Vector}s will be the larger one {@code 12, 10, 18} and the
  * smaller one {@code 5, 6, 7}.
  * </p>
+ *
+ * @deprecated This class was replaced by the new {@link com.quartercode.quarterbukkit.api.shape.Cuboid} class inside the shape package.
  */
+@Deprecated
 public class Cuboid {
 
     private final Vector vector1;
@@ -55,17 +58,17 @@ public class Cuboid {
      * <p>
      * Creates a new cuboid out of two locations given by six doubles, three for each location.
      * </p>
-     * 
+     *
      * <p>
      * This constructor sorts the coordinates to a larger and a smaller {@link Vector}. The larger one contains all the larger values, the smaller one contains all coordinates with the smaller values.
      * This will lose the original locations, but you can work better with the data later on.
      * </p>
-     * 
+     *
      * <p>
      * Here's an example how the sorting works: We have two locations with the coordinates {@code 5, 10, 7} and {@code 12, 6, 18}, the {@link Vector}s will be the larger one {@code 12, 10, 18} and the
      * smaller one {@code 5, 6, 7}.
      * </p>
-     * 
+     *
      * @param x1 The x-coordinate for the first location.
      * @param y1 The y-coordinate for the first location.
      * @param z1 The z-coordinate for the first location.
@@ -107,17 +110,17 @@ public class Cuboid {
      * <p>
      * Creates a new cuboid out of two locations given by two {@link Vector}s.
      * </p>
-     * 
+     *
      * <p>
      * This constructor sorts the coordinates to a larger and a smaller {@link Vector}. The larger one contains all the larger values, the smaller one contains all coordinates with the smaller values.
      * This will lose the original locations, but you can work better with the data later on.
      * </p>
-     * 
+     *
      * <p>
      * Here's an example how the sorting works: We have two locations with the coordinates {@code 5, 10, 7} and {@code 12, 6, 18}, the {@link Vector}s will be the larger one {@code 12, 10, 18} and the
      * smaller one {@code 5, 6, 7}.
      * </p>
-     * 
+     *
      * @param vector1 The {@link Vector} for the first location.
      * @param vector2 The {@link Vector} for the second location.
      */
@@ -130,17 +133,17 @@ public class Cuboid {
      * <p>
      * Creates a new cuboid out of two locations given by two {@link Location}s.
      * </p>
-     * 
+     *
      * <p>
      * This constructor sorts the coordinates to a larger and a smaller {@link Vector}. The larger one contains all the larger values, the smaller one contains all coordinates with the smaller values.
      * This will lose the original locations, but you can work better with the data later on.
      * </p>
-     * 
+     *
      * <p>
      * Here's an example how the sorting works: We have two locations with the coordinates {@code 5, 10, 7} and {@code 12, 6, 18}, the {@link Vector}s will be the larger one {@code 12, 10, 18} and the
      * smaller one {@code 5, 6, 7}.
      * </p>
-     * 
+     *
      * @param location1 The {@link Location} for the first location.
      * @param location2 The {@link Location} for the second location.
      */
@@ -153,12 +156,12 @@ public class Cuboid {
      * <p>
      * This method returns the first cuboid {@link Vector} with the larger coordinates.
      * </p>
-     * 
+     *
      * <p>
      * The save {@link Vector}s aren't the input locations, the coordinates of both locations are sorted into one with the larger and one with the smaller ones. This will returns the one with the
      * larger values.
      * </p>
-     * 
+     *
      * @return The first cuboid {@link Vector} with the larger coordinates.
      */
     public Vector getVector1() {
@@ -170,12 +173,12 @@ public class Cuboid {
      * <p>
      * This method returns the second cuboid {@link Vector} with the smaller coordinates.
      * </p>
-     * 
+     *
      * <p>
      * The save {@link Vector}s aren't the input locations, the coordinates of both locations are sorted into one with the larger and one with the smaller ones. This will returns the one with the
      * smaller values.
      * </p>
-     * 
+     *
      * @return The second cuboid {@link Vector} with the smaller coordinates.
      */
     public Vector getVector2() {
@@ -187,12 +190,12 @@ public class Cuboid {
      * <p>
      * This method returns the larger x-coordinate of both locations. You could also use the {@link Vector#getX()}-method of the {@link Vector} you're getting by {@link #getVector1()}.
      * </p>
-     * 
+     *
      * <p>
      * The save {@link Vector}s aren't the input locations, the coordinates of both locations are sorted into one with the larger and one with the smaller ones. This will returns the x-coordinate of
      * the one with the larger values.
      * </p>
-     * 
+     *
      * @return The larger x-coordinate of both locations.
      */
     public double getX1() {
@@ -205,12 +208,12 @@ public class Cuboid {
      * This method returns the larger x-coordinate of both locations as a block location. You could also use the {@link Vector#getBlockX()}-method of the {@link Vector} you're getting by
      * {@link #getVector1()}.
      * </p>
-     * 
+     *
      * <p>
      * The save {@link Vector}s aren't the input locations, the coordinates of both locations are sorted into one with the larger and one with the smaller ones. This will returns the x-coordinate of
      * the one with the larger values as a block location.
      * </p>
-     * 
+     *
      * @return The larger x-coordinate of both locations as a block location.
      */
     public int getBlockX1() {
@@ -222,12 +225,12 @@ public class Cuboid {
      * <p>
      * This method returns the larger y-coordinate of both locations. You could also use the {@link Vector#getY()}-method of the {@link Vector} you're getting by {@link #getVector1()}.
      * </p>
-     * 
+     *
      * <p>
      * The save {@link Vector}s aren't the input locations, the coordinates of both locations are sorted into one with the larger and one with the smaller ones. This will returns the y-coordinate of
      * the one with the larger values.
      * </p>
-     * 
+     *
      * @return The larger y-coordinate of both locations.
      */
     public double getY1() {
@@ -240,12 +243,12 @@ public class Cuboid {
      * This method returns the larger y-coordinate of both locations as a block location. You could also use the {@link Vector#getBlockY()}-method of the {@link Vector} you're getting by
      * {@link #getVector1()}.
      * </p>
-     * 
+     *
      * <p>
      * The save {@link Vector}s aren't the input locations, the coordinates of both locations are sorted into one with the larger and one with the smaller ones. This will returns the y-coordinate of
      * the one with the larger values as a block location.
      * </p>
-     * 
+     *
      * @return The larger y-coordinate of both locations as a block location.
      */
     public int getBlockY1() {
@@ -257,12 +260,12 @@ public class Cuboid {
      * <p>
      * This method returns the larger z-coordinate of both locations. You could also use the {@link Vector#getZ()}-method of the {@link Vector} you're getting by {@link #getVector1()}.
      * </p>
-     * 
+     *
      * <p>
      * The save {@link Vector}s aren't the input locations, the coordinates of both locations are sorted into one with the larger and one with the smaller ones. This will returns the z-coordinate of
      * the one with the larger values.
      * </p>
-     * 
+     *
      * @return The larger z-coordinate of both locations.
      */
     public double getZ1() {
@@ -275,12 +278,12 @@ public class Cuboid {
      * This method returns the larger z-coordinate of both locations as a block location. You could also use the {@link Vector#getBlockZ()}-method of the {@link Vector} you get by
      * {@link #getVector1()}.
      * </p>
-     * 
+     *
      * <p>
      * The save {@link Vector}s aren't the input locations, the coordinates of both locations are sorted into one with the larger and one with the smaller ones. This will returns the z-coordinate of
      * the one with the larger values as a block location.
      * </p>
-     * 
+     *
      * @return The larger z-coordinate of both locations as a block location.
      */
     public int getBlockZ1() {
@@ -292,12 +295,12 @@ public class Cuboid {
      * <p>
      * This method returns the smaller x-coordinate of both locations. You could also use the {@link Vector#getX()}-method of the {@link Vector} you're getting by {@link #getVector2()}.
      * </p>
-     * 
+     *
      * <p>
      * The save {@link Vector}s aren't the input locations, the coordinates of both locations are sorted into one with the larger and one with the smaller ones. This will returns the x-coordinate of
      * the one with the smaller values.
      * </p>
-     * 
+     *
      * @return The smaller x-coordinate of both locations.
      */
     public double getX2() {
@@ -310,12 +313,12 @@ public class Cuboid {
      * This method returns the smaller x-coordinate of both locations as a block location. You could also use the {@link Vector#getBlockX()}-method of the {@link Vector} you get by
      * {@link #getVector2()}.
      * </p>
-     * 
+     *
      * <p>
      * The save {@link Vector}s aren't the input locations, the coordinates of both locations are sorted into one with the larger and one with the smaller ones. This will returns the x-coordinate of
      * the one with the smaller values as a block location.
      * </p>
-     * 
+     *
      * @return The smaller x-coordinate of both locations as a block location.
      */
     public int getBlockX2() {
@@ -327,12 +330,12 @@ public class Cuboid {
      * <p>
      * This method returns the smaller y-coordinate of both locations. You could also use the {@link Vector#getY()}-method of the {@link Vector} you're getting by {@link #getVector2()}.
      * </p>
-     * 
+     *
      * <p>
      * The save {@link Vector}s aren't the input locations, the coordinates of both locations are sorted into one with the larger and one with the smaller ones. This will returns the y-coordinate of
      * the one with the smaller values.
      * </p>
-     * 
+     *
      * @return The smaller y-coordinate of both locations.
      */
     public double getY2() {
@@ -345,12 +348,12 @@ public class Cuboid {
      * This method returns the smaller y-coordinate of both locations as a block location. You could also use the {@link Vector#getBlockY()}-method of the {@link Vector} you get by
      * {@link #getVector2()}.
      * </p>
-     * 
+     *
      * <p>
      * The save {@link Vector}s aren't the input locations, the coordinates of both locations are sorted into one with the larger and one with the smaller ones. This will returns the y-coordinate of
      * the one with the smaller values as a block location.
      * </p>
-     * 
+     *
      * @return The smaller y-coordinate of both locations as a block location.
      */
     public int getBlockY2() {
@@ -362,12 +365,12 @@ public class Cuboid {
      * <p>
      * This method returns the smaller z-coordinate of both locations. You could also use the {@link Vector#getZ()}-method of the {@link Vector} you're getting by {@link #getVector2()}.
      * </p>
-     * 
+     *
      * <p>
      * The save {@link Vector}s aren't the input locations, the coordinates of both locations are sorted into one with the larger and one with the smaller ones. This will returns the z-coordinate of
      * the one with the smaller values.
      * </p>
-     * 
+     *
      * @return The smaller z-coordinate of both locations.
      */
     public double getZ2() {
@@ -380,12 +383,12 @@ public class Cuboid {
      * This method returns the smaller z-coordinate of both locations as a block location. You could also use the {@link Vector#getBlockX()}-method of the {@link Vector} you get by
      * {@link #getVector2()}.
      * </p>
-     * 
+     *
      * <p>
      * The save {@link Vector}s aren't the input locations, the coordinates of both locations are sorted into one with the larger and one with the smaller ones. This will returns the z-coordinate of
      * the one with the smaller values as a block location.
      * </p>
-     * 
+     *
      * @return The smaller z-coordinate of both locations as a block location.
      */
     public int getBlockZ2() {
@@ -398,7 +401,7 @@ public class Cuboid {
      * This method returns the distance between the two x-coordinates (you can use this to get the distance between the two x-walls) by subtracting the smaller from the larger one. This will always
      * return a positive distance.
      * </p>
-     * 
+     *
      * @return The distance between the two x-coordinates (you can use this to get the distance between the two x-walls).
      */
     public double getXDistance() {
@@ -411,7 +414,7 @@ public class Cuboid {
      * This method returns the distance between the two x-block-coordinates (you can use this to get the distance between the two x-walls as a block-value) by subtracting the smaller from the larger
      * one and round. This will always return a positive distance.
      * </p>
-     * 
+     *
      * @return The distance between the two x-block-coordinates (you can use this to get the distance between the two x-walls as a block-value).
      */
     public double getBlockXDistance() {
@@ -424,7 +427,7 @@ public class Cuboid {
      * This method returns the distance between the two y-coordinates (you can use this to get the distance between the two y-walls) by subtracting the smaller from the larger one. This will always
      * return a positive distance.
      * </p>
-     * 
+     *
      * @return The distance between the two y-coordinates (you can use this to get the distance between the two y-walls).
      */
     public double getYDistance() {
@@ -437,7 +440,7 @@ public class Cuboid {
      * This method returns the distance between the two y-block-coordinates (you can use this to get the distance between the two y-walls as a block-value) by subtracting the smaller from the larger
      * one and round. This will always return a positive distance.
      * </p>
-     * 
+     *
      * @return The distance between the two y-block-coordinates (you can use this to get the distance between the two y-walls as a block-value).
      */
     public double getBlockYDistance() {
@@ -450,7 +453,7 @@ public class Cuboid {
      * This method returns the distance between the two z-coordinates (you can use this to get the distance between the two z-walls) by subtracting the smaller from the larger one. This will always
      * return a positive distance.
      * </p>
-     * 
+     *
      * @return The distance between the two z-coordinates (you can use this to get the distance between the two z-walls).
      */
     public double getZDistance() {
@@ -463,7 +466,7 @@ public class Cuboid {
      * This method returns the distance between the two z-block-coordinates (you can use this to get the distance between the two z-walls as a block-value) by subtracting the smaller from the larger
      * one and round. This will always return a positive distance.
      * </p>
-     * 
+     *
      * @return The distance between the two z-block-coordinates (you can use this to get the distance between the two z-walls as a block-value).
      */
     public double getBlockZDistance() {
@@ -475,7 +478,7 @@ public class Cuboid {
      * <p>
      * This method returns the center position of the cuboid by subtracting the half of every distance from every larger coordinate. You can use this to get the center of gravity of the cuboid.
      * </p>
-     * 
+     *
      * @return The center position of the cuboid.
      */
     public Vector getCenter() {
@@ -488,7 +491,7 @@ public class Cuboid {
      * This method returns the center position of the cuboid as a block location by subtracting the half of every distance from every larger coordinate and calculating the block location of every
      * result coordinate. You can use this to get the center of gravity of the cuboid as a block location.
      * </p>
-     * 
+     *
      * @return The center position of the cuboid as a block location.
      */
     public Vector getBlockCenter() {
@@ -501,11 +504,11 @@ public class Cuboid {
      * This method checks if an other location actually intersects with the cuboid. The location is given by three doubles representing the x-, y- and z-coordinate and returning the result as a
      * boolean.
      * </p>
-     * 
+     *
      * <p>
      * There will only be a positive result if all coordinates are intersecting the cuboid.
      * </p>
-     * 
+     *
      * @param x The x-coordinate for checking if it's intersecting the cuboid.
      * @param y The y-coordinate for checking if it's intersecting the cuboid.
      * @param z The z-coordinate for checking if it's intersecting the cuboid.
@@ -520,11 +523,11 @@ public class Cuboid {
      * <p>
      * This method checks if an other location actually intersects with the cuboid. The location is given by a {@link Vector} and returning the result as a boolean.
      * </p>
-     * 
+     *
      * <p>
      * There will only be a positive result if all coordinates of the {@link Vector} are intersecting the cuboid.
      * </p>
-     * 
+     *
      * @param vector The {@link Vector} for checking if it's intersecting the cuboid.
      * @return If the other location actually intersects with the cuboid.
      */
@@ -537,11 +540,11 @@ public class Cuboid {
      * <p>
      * This method checks if an other location actually intersects with the cuboid. The location is given by a {@link Location} and returning the result as a boolean.
      * </p>
-     * 
+     *
      * <p>
      * There will only be a positive result if all coordinates of the {@link Location} are intersecting the cuboid.
      * </p>
-     * 
+     *
      * @param location The {@link Location} for checking if it's intersecting the cuboid.
      * @return If the other location actually intersects with the cuboid.
      */
@@ -554,18 +557,17 @@ public class Cuboid {
      * <p>
      * This method returns a list of all blocks which are located in the cuboid as a list of {@link Vector}s.
      * </p>
-     * 
+     *
      * <p>
      * You can iterate over the list and doing anything you want with the blocks like this:
-     * 
+     * </p>
+     *
      * <pre>
      * for (Vector vector : getBlocks()) {
      *     vector.toLocation(world).getBlock()...
      * }
      * </pre>
-     * 
-     * </p>
-     * 
+     *
      * @return A list of all blocks which are located in the cuboid as a list of {@link Vector}s.
      */
     public List<Vector> getBlocks() {
