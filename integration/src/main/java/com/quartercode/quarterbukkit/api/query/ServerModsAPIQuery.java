@@ -33,7 +33,7 @@ import com.quartercode.quarterbukkit.api.query.QueryException.QueryExceptionType
 /**
  * A server mods api query can be used to query the official server mods api (https://api.curseforge.com/servermods).
  * For example, you can create updaters or version checkers with this query.
- * 
+ *
  * @see FilesQuery
  */
 public class ServerModsAPIQuery {
@@ -46,7 +46,7 @@ public class ServerModsAPIQuery {
 
     /**
      * Creates a new query whose GET request {@link URL} is made out of the given query string attached to {@code https://api.curseforge.com/servermods/}.
-     * 
+     *
      * @param query The query string for the server mods api to process.
      */
     public ServerModsAPIQuery(String query) {
@@ -56,7 +56,7 @@ public class ServerModsAPIQuery {
 
     /**
      * Returns the query string which is used by the {@link #execute()} method to build the request {@link URL}.
-     * 
+     *
      * @return The query string for the server mods api to process.
      */
     public String getQuery() {
@@ -68,7 +68,7 @@ public class ServerModsAPIQuery {
      * Executes the stored query and returns the result as a {@link JSONArray}.
      * The query string ({@link #getQuery()}) is attached to {@code https://api.curseforge.com/servermods/}.
      * The GET response of that {@link URL} is then parsed to a {@link JSONArray}.
-     * 
+     *
      * @return The response of the server mods api.
      * @throws QueryException Something goes wrong while querying the server mods api.
      */

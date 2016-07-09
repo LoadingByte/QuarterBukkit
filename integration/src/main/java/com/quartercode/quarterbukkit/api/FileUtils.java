@@ -41,7 +41,7 @@ public class FileUtils {
 
     /**
      * Downloads the file which is available under the given source {@link URL} to the given destination {@link File}.
-     * 
+     *
      * @param source The source {@link URL} where you can find the file which should be downloaded.
      * @param destination The destination {@link File} where the downloaded file should be stored.
      * @throws IOException Something goes wrong while opening a connection, reading the stream or executing some file operations.
@@ -69,7 +69,7 @@ public class FileUtils {
     /**
      * Copies the given source {@link File} or directory to the given destination {@link File} or directory.
      * If the source is a directory, this will copy it recursively.
-     * 
+     *
      * @param source The source {@link File} or directory to copy to the given destination {@link File} or directory.
      * @param destination The destination {@link File} or directory where to copy the given source.
      * @throws IOException Something goes wrong while executing some file operations.
@@ -102,7 +102,7 @@ public class FileUtils {
 
     /**
      * Deletes the given {@link File} or directory and doesn't care if the directory is empty.
-     * 
+     *
      * @param file The {@link File} or directory to delete completely.
      * @throws IOException Something goes wrong while deleting a {@link File}.
      */
@@ -121,7 +121,7 @@ public class FileUtils {
 
     /**
      * Unzips the given zip {@link File} into a new directory called destination.
-     * 
+     *
      * @param zip The zip {@link File} to unzip.
      * @param destination The directory where to put the contents of the zip {@link File}. It may be created if it doesn't exist.
      * @throws IOException Something goes wrong while executing some file operations.
