@@ -84,7 +84,7 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.7.9-R0.2</version>
+            <version>1.10.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -92,9 +92,9 @@
     <repositories>
         <!-- Bukkit -->
         <repository>
-            <id>bukkit-repository</id>
-            <name>Bukkit Repository</name>
-            <url>http://repo.bukkit.org/content/groups/public</url>
+            <id>spigot-repository</id>
+            <name>Spigot Repository</name>
+            <url>https://hub.spigotmc.org/nexus/content/groups/public</url>
         </repository>
     </repositories>
 
