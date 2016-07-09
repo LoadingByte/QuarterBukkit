@@ -14,6 +14,7 @@
 * The CommandExecutor class now provides a DEFAULT_COMMAND_LABEL constant. It should be used instead of the plain "\<empty\>".
 * The SelectInventory now cancels the event when the player clicks on an item so the player can no longer take the item.
 * The integrated MetricsLite client now properly shuts down when the plugin is disabled.
+* The QuarterBukkitIntegration mechanism no longer relies on classloader specifics and uses temporary files instead. It should now work on literally every machine.
 * Fixed JavaDoc errors which caused generation warnings.
 * Fixed some other very minor issues.
 
