@@ -80,7 +80,7 @@ public class FireworkEffectDefinition implements Cloneable {
     /**
      * Sets whether the particles spawned by this effect during the firework explosion flicker.
      *
-     * @return Whether the firework effect particles should flicker.
+     * @param flicker Whether the firework effect particles should flicker.
      * @return This object.
      */
     public FireworkEffectDefinition setFlicker(boolean flicker) {
