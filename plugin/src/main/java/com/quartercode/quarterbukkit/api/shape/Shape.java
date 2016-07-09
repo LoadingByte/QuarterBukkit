@@ -33,7 +33,7 @@ public interface Shape {
     /**
      * Returns the center position of the shape.
      * You can use this to get the center of gravity.
-     * 
+     *
      * @return The center of the shape.
      */
     public Vector getCenter();
@@ -41,7 +41,7 @@ public interface Shape {
     /**
      * Returns the rounded block center position of the shape.
      * You can use this to get the center of gravity as a block location.
-     * 
+     *
      * @return The center position of the shape as a rounded block location.
      */
     public Vector getBlockCenter();
@@ -49,7 +49,7 @@ public interface Shape {
     /**
      * Returns a new cuboid shape the current shape exactly fits into.
      * Note that no spare space is allowed to be left on any side.
-     * 
+     *
      * @return A cuboid that surrounds the current shape.
      */
     public Shape getAxisAlignedBoundingBox();
@@ -61,14 +61,14 @@ public interface Shape {
      * Note that inserting the distance 1 will return one vector for each block inside the shape.<br>
      * <br>
      * For example, you could retrieve the blocks inside the shape as follows:
-     * 
+     *
      * <pre>
-     * for (Vector vector : <i>shape</i>.getBlocks()) {
+     * for (Vector vector : <i>shape</i>.getContent(1)) {
      *     Block block = vector.toLocation(<i>world</i>).getBlock();
      *     ...
      * }
      * </pre>
-     * 
+     *
      * @param distance The distance between the returned vectors.
      * @return The vectors inside the shape separated by the given distance.
      */
@@ -78,7 +78,7 @@ public interface Shape {
      * Checks whether the given location is inside the shape.
      * The location is represented by three doubles representing the three coordinates.
      * There will only be a positive result if all three coordinates are intersecting the shape.
-     * 
+     *
      * @param x The x-coordinate of the location that should be checked for intersection.
      * @param y The y-coordinate of the location that should be checked for intersection.
      * @param z The z-coordinate of the location that should be checked for intersection.
@@ -89,7 +89,7 @@ public interface Shape {
     /**
      * Checks whether the given {@link Vector} is inside the shape.
      * There will only be a positive result if all three coordinates of the vector are intersecting the shape.
-     * 
+     *
      * @param vector The vector that should be checked for intersection.
      * @return Whether the provided vector intersects the shape.
      */
@@ -98,7 +98,7 @@ public interface Shape {
     /**
      * Checks whether the given {@link Location} is inside the shape.
      * There will only be a positive result if all three coordinates of the location are intersecting the shape.
-     * 
+     *
      * @param location The location that should be checked for intersection.
      * @return Whether the provided location intersects the shape.
      */

@@ -32,7 +32,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 /**
  * This class describes an object system and allows to create new equivalent {@link ActiveObjectSystem}s using it.
  * It basically contains some {@link Source}s, which spawn new objects, and some {@link ModificationRule}s, which define the behavior of these objects.
- * 
+ *
  * @see Source
  * @see ModificationRule
  * @see ActiveObjectSystem
@@ -44,7 +44,7 @@ public class ObjectSystemDefinition {
 
     /**
      * Returns the object {@link Source}s, which are responsible for spawning new objects.
-     * 
+     *
      * @return The sources of the defined object system.
      */
     public Collection<Source> getSources() {
@@ -54,7 +54,7 @@ public class ObjectSystemDefinition {
 
     /**
      * Adds the given object {@link Source}s, which are responsible for spawning new objects, to the defined object system.
-     * 
+     *
      * @param sources The sources that should be added to the object system.
      */
     public void addSources(Source... sources) {
@@ -64,7 +64,7 @@ public class ObjectSystemDefinition {
 
     /**
      * Adds the given object {@link Source}s, which are responsible for spawning new objects, to the defined object system.
-     * 
+     *
      * @param sources The sources that should be added to the object system.
      */
     public void addSources(List<Source> sources) {
@@ -75,7 +75,7 @@ public class ObjectSystemDefinition {
 
     /**
      * Removes the given object {@link Source}s, which are responsible for spawning new objects, from the defined object system.
-     * 
+     *
      * @param sources The sources that should be removed from the object system.
      */
     public void removeSources(Source... sources) {
@@ -85,7 +85,7 @@ public class ObjectSystemDefinition {
 
     /**
      * Removes the given object {@link Source}s, which are responsible for spawning new objects, from the defined object system.
-     * 
+     *
      * @param sources The sources that should be removed from the object system.
      */
     public void removeSources(Collection<Source> sources) {
@@ -95,7 +95,7 @@ public class ObjectSystemDefinition {
 
     /**
      * Returns the object {@link ModificationRule}s, which are responsible for controlling the behavior of existing objects.
-     * 
+     *
      * @return The modification rules of the defined object system.
      */
     public Collection<ModificationRule<?, ?>> getModificationRules() {
@@ -105,7 +105,7 @@ public class ObjectSystemDefinition {
 
     /**
      * Adds the given object {@link ModificationRule}s, which are responsible for controlling the behavior of existing objects, to the defined object system.
-     * 
+     *
      * @param modificationRules The modification rules that should be added to the object system.
      */
     public void addModificationRules(ModificationRule<?, ?>... modificationRules) {
@@ -115,7 +115,7 @@ public class ObjectSystemDefinition {
 
     /**
      * Adds the given object {@link ModificationRule}s, which are responsible for controlling the behavior of existing objects, to the defined object system.
-     * 
+     *
      * @param modificationRules The modification rules that should be added to the object system.
      */
     public void addModificationRules(List<ModificationRule<?, ?>> modificationRules) {
@@ -126,7 +126,7 @@ public class ObjectSystemDefinition {
 
     /**
      * Removes the given object {@link ModificationRule}s, which are responsible for controlling the behavior of existing objects, from the defined object system.
-     * 
+     *
      * @param modificationRules The modification rules that should be removed from the object system.
      */
     public void removeModificationRules(ModificationRule<?, ?>... modificationRules) {
@@ -136,7 +136,7 @@ public class ObjectSystemDefinition {
 
     /**
      * Removes the given object {@link ModificationRule}s, which are responsible for controlling the behavior of existing objects, from the defined object system.
-     * 
+     *
      * @param modificationRules The modification rules that should be removed from the object system.
      */
     public void removeModificationRules(Collection<ModificationRule<?, ?>> modificationRules) {

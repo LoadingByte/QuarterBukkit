@@ -26,7 +26,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
  * A renderer takes an object, which must extend {@link BaseObject}, and performs some action using it.
  * For example, it could display a simple particle. However, it might also modify the object itself.
  * Note that all renderers are called after the modifications were performed on each object.
- * 
+ *
  * @param <O> The type of object the renderer can use to perform some action. This must extend {@link BaseObject}.
  */
 public interface Renderer<O extends BaseObject> {
@@ -52,7 +52,7 @@ public interface Renderer<O extends BaseObject> {
     /**
      * Returns the generic {@code O} parameter, which specifies the type of object the renderer accepts, as a {@link Class} object.
      * This is used to determine whether the renderer is able to handle the object.
-     * 
+     *
      * @return The generic {@code O} parameter as a class object.
      */
     public Class<O> getObjectType();
@@ -61,7 +61,7 @@ public interface Renderer<O extends BaseObject> {
      * Performs some rendering actions using the given object which is located inside the given {@link ActiveObjectSystem}.
      * For example, this method could display a simple particle. However, it might also modify the object itself.
      * Note that this method is called on all renderers after the modifications were performed on each object.
-     * 
+     *
      * @param plugin The {@link Plugin} that started a runner which now simulates the active system and called the renderer.
      * @param objectSystem The active system the object is used in.
      * @param object The actual object that should be rendered.

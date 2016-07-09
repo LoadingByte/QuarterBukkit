@@ -29,7 +29,7 @@ public class RenderingUtils {
     /**
      * Returns whether the given {@link PhysicsObject} should be rendered based on the "speed based frequency mode".
      * It basically means that the object is only rendered if the last rendering happened the given distance away based on the current object velocity.
-     * 
+     *
      * @param object The physics object that should be checked.
      * @param minRenderDistance The minimum distance from the current position of the object its last rendering must have happened.
      * @return Whether the object should be rendered.
@@ -41,7 +41,7 @@ public class RenderingUtils {
 
     /**
      * Does the same as {@link #checkSpeedBasedFrequency(PhysicsObject, float)} using raw values.
-     * 
+     *
      * @param objectLifetime The lifetime of the object.
      *        It can be determined with {@link PhysicsObject#getLifetime()}.
      * @param objectVelocity The current velocity value of the object.

@@ -22,7 +22,7 @@ import org.bukkit.FireworkEffect.Type;
 
 /**
  * A enumeration of all available particle shapes.
- * 
+ *
  * @deprecated The particle api was replaced by the more flexible object system api.
  *             See the wiki for more information on that new api.
  */
@@ -52,7 +52,7 @@ public enum ParticleShape {
 
     /**
      * Returns a particle shape from a firework {@link Type}.
-     * 
+     *
      * @param fireworkType The firework {@link Type}.
      * @return The particle shape.
      */
@@ -76,7 +76,7 @@ public enum ParticleShape {
 
     /**
      * Returns the firework {@link Type} represented by the particle shape.
-     * 
+     *
      * @return The firework {@link Type} represented by the particle shape.
      */
     public Type getFireworkType() {

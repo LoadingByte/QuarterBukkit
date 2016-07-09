@@ -38,7 +38,7 @@ public class QuarterBukkit extends JavaPlugin {
 
     /**
      * Returns the current QuarterBukkit {@link Plugin} instance.
-     * 
+     *
      * @return The current QuarterBukkit instance.
      */
     public static QuarterBukkit getPlugin() {
@@ -107,7 +107,7 @@ public class QuarterBukkit extends JavaPlugin {
 
     /**
      * Returns the internal config of QuarterBukkit.
-     * 
+     *
      * @return The {@link Config} object QuarterBukkit uses for its configuration.
      */
     @Override

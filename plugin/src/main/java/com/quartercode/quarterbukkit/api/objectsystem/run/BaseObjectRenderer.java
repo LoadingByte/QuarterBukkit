@@ -24,7 +24,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
 
 /**
  * A {@link Renderer} that updates the lifetime of all {@link BaseObject}s and removes them if they expired.
- * 
+ *
  * @see BaseObject
  * @see Renderer
  */

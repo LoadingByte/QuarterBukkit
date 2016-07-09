@@ -35,7 +35,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.object.FireworkObject;
 
 /**
  * A {@link Renderer} that displays all {@link FireworkObject}s by spawning fireworks.
- * 
+ *
  * @see FireworkObject
  * @see Renderer
  */

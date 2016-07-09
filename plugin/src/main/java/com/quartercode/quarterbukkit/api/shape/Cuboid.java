@@ -37,7 +37,7 @@ import org.bukkit.util.Vector;
  * Here's an example on how the sorting works:
  * There are two vectors with the coordinates {@code 5, 10, 7} and {@code 12, 6, 18}.
  * After the sorting, the two {@link Vector}s will be {@code 5, 6, 7} (the small one) and {@code 12, 10, 18} (the large one).
- * 
+ *
  * @see Shape
  */
 public class Cuboid implements Shape {
@@ -48,7 +48,7 @@ public class Cuboid implements Shape {
     /**
      * Creates a new cuboid shape that is defined by two {@link Vector}s provided by six doubles (three ones for each vector).
      * Note that the original vectors are not preserved. See {@link Cuboid} for more information on that.
-     * 
+     *
      * @param x1 The x-coordinate of the first vector.
      * @param y1 The y-coordinate of the first vector.
      * @param z1 The z-coordinate of the first vector.
@@ -64,7 +64,7 @@ public class Cuboid implements Shape {
     /**
      * Creates a new cuboid shape that is defined by the two given {@link Vector}s.
      * Note that the original vectors are not preserved. See {@link Cuboid} for more information on that.
-     * 
+     *
      * @param vector1 The first vector.
      * @param vector2 The second vector.
      */
@@ -77,7 +77,7 @@ public class Cuboid implements Shape {
     /**
      * Creates a new cuboid shape that is defined by the two given {@link Location}s.
      * Note that the original vectors are not preserved. See {@link Cuboid} for more information on that.
-     * 
+     *
      * @param location1 The location that represents the first {@link Vector}.
      * @param location2 The location that represents the second vector.
      */
@@ -90,7 +90,7 @@ public class Cuboid implements Shape {
      * Returns the minimum cuboid {@link Vector} with coordinates that are smaller than the ones provided by the maximum vector.
      * Note the modifications on the returned vector are not transfered into the cuboid object.
      * Also note that the original vectors were not preserved on construction. See {@link Cuboid} for more information on that.
-     * 
+     *
      * @return The minimum cuboid vector with the small coordinates.
      */
     public Vector getMinVector() {
@@ -102,7 +102,7 @@ public class Cuboid implements Shape {
      * Returns the maximum cuboid {@link Vector} with coordinates that are larger than the ones provided by the minimum vector.
      * Note the modifications on the returned vector are not transfered into the cuboid object.
      * Also note that the original vectors were not preserved on construction. See {@link Cuboid} for more information on that.
-     * 
+     *
      * @return The maximum cuboid vector with the large coordinates.
      */
     public Vector getMaxVector() {
@@ -114,7 +114,7 @@ public class Cuboid implements Shape {
      * Returns the distance between the two x-coordinates by subtracting the smaller from the larger one.
      * This method will always return a positive distance.
      * You could use the result to retrieve the distance between the two edges of the cuboid on the x-axis.
-     * 
+     *
      * @return The distance between the two x-coordinates.
      */
     public double getXDistance() {
@@ -126,7 +126,7 @@ public class Cuboid implements Shape {
      * Returns the distance between the two rounded block x-coordinates by subtracting the smaller from the larger one.
      * This method will always return a positive distance.
      * You could use the result to retrieve the distance between the two rounded block edges of the cuboid on the x-axis.
-     * 
+     *
      * @return The distance between the two rounded block x-coordinates.
      */
     public double getBlockXDistance() {
@@ -138,7 +138,7 @@ public class Cuboid implements Shape {
      * Returns the distance between the two y-coordinates by subtracting the smaller from the larger one.
      * This method will always return a positive distance.
      * You could use the result to retrieve the distance between the two edges of the cuboid on the y-axis.
-     * 
+     *
      * @return The distance between the two y-coordinates.
      */
     public double getYDistance() {
@@ -150,7 +150,7 @@ public class Cuboid implements Shape {
      * Returns the distance between the two rounded block y-coordinates by subtracting the smaller from the larger one.
      * This method will always return a positive distance.
      * You could use the result to retrieve the distance between the two rounded block edges of the cuboid on the y-axis.
-     * 
+     *
      * @return The distance between the two rounded block y-coordinates.
      */
     public double getBlockYDistance() {
@@ -162,7 +162,7 @@ public class Cuboid implements Shape {
      * Returns the distance between the two z-coordinates by subtracting the smaller from the larger one.
      * This method will always return a positive distance.
      * You could use the result to retrieve the distance between the two edges of the cuboid on the z-axis.
-     * 
+     *
      * @return The distance between the two z-coordinates.
      */
     public double getZDistance() {
@@ -174,7 +174,7 @@ public class Cuboid implements Shape {
      * Returns the distance between the two rounded block z-coordinates by subtracting the smaller from the larger one.
      * This method will always return a positive distance.
      * You could use the result to retrieve the distance between the two rounded block edges of the cuboid on the z-axis.
-     * 
+     *
      * @return The distance between the two rounded block z-coordinates.
      */
     public double getBlockZDistance() {

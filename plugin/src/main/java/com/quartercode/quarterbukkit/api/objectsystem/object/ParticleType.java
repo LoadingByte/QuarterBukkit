@@ -26,23 +26,23 @@ package com.quartercode.quarterbukkit.api.objectsystem.object;
  * This class is derived from DarkBlade12's ParticleEffect Library.
  * All credit to the enumeration part of his library goes to him.
  * The original disclaimer of the class is shown below:
- * 
+ *
  * <pre>
  * <b>ParticleEffect Library</b>
- * 
+ *
  * This library was created by DarkBlade12 based on content related to particles of microgeek (names and packet parameters),
  * it allows you to display all Minecraft particle effects on a Bukkit server
  * You are welcome to use it, modify it and redistribute it under the following conditions:
- * 
+ *
  * - Don't claim this class as your own
  * - Don't remove this disclaimer
- * 
+ *
  * <i>It would be nice if you provide credit to me if you use this class in a published project</i>
- * 
+ *
  * Author: DarkBlade12
  * Version: 1.5
  * </pre>
- * 
+ *
  * @see ParticleDefinition
  */
 public enum ParticleType {
@@ -258,7 +258,7 @@ public enum ParticleType {
     /**
      * Returns the name of the particle type.
      * It is internally used by the minecraft client to select and render the particle.
-     * 
+     *
      * @return The particle name.
      */
     public String getName() {
@@ -269,7 +269,7 @@ public enum ParticleType {
     /**
      * Returns whether the particle types allows a parameter to be sent.
      * The parameter changes the look or the behavior of the particle on the minecraft client.
-     * 
+     *
      * @return Whether a particle parameter is allowed.
      */
     public boolean hasParameter() {

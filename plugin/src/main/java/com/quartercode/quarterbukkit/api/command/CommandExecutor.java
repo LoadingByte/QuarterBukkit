@@ -53,7 +53,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     /**
      * Creates a new CommandExecutor which can be used as Bukkit-{@link CommandExecutor}.
      * It binds the defined commands automatically to this executor.
-     * 
+     *
      * @param plugin The plugin for the CommandExecutor.
      * @param commands The commands this executor bind to.
      */
@@ -70,7 +70,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     /**
      * The main method called by the Bukkit-Command-System.
      * This is only for the Bukkit-System, don't call it manually!
-     * 
+     *
      * @param sender The {@link CommandSender} who executed the command.
      * @param command The Bukkit-Command.
      * @param label The first command label.
@@ -154,7 +154,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     /**
      * The tab completition method called by the Bukkit-Command-System.
      * This is only for the Bukkit-System, don't call it manually!
-     * 
+     *
      * @param sender The {@link CommandSender} who executed the command.
      * @param command The Bukkit-Command.
      * @param alias The first command label.
@@ -193,7 +193,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
 
     /**
      * Returns all registered command handlers as an unmodifiable {@link List}.
-     * 
+     *
      * @return The registered command handlers.
      */
     public List<CommandHandler> getCommandHandlers() {
@@ -204,7 +204,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     /**
      * Returns the {@link CommandHandler} which contains a defined label.
      * Throws an {@link IllegalStateException} if no {@link CommandHandler} with the label is registered.
-     * 
+     *
      * @param label The command label.
      * @return The {@link CommandHandler}.
      */
@@ -227,7 +227,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     /**
      * Returns if a {@link CommandHandler} is registered.
      * Use this for checking before other {@link CommandHandler}-functions in this class, like get, register, unregister.
-     * 
+     *
      * @param commandHandler The {@link CommandHandler} to check.
      * @return If the {@link CommandHandler} is registered.
      */
@@ -239,7 +239,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     /**
      * Returns if a {@link CommandHandler} with a defined label is registered.
      * Use this for checking before other {@link CommandHandler}-functions in this class, like get, register, unregister.
-     * 
+     *
      * @param label The label to check.
      * @return If a {@link CommandHandler} with the label is registered.
      */
@@ -256,7 +256,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     /**
      * Registers a {@link CommandHandler}.
      * Throws an {@link IllegalStateException} if the {@link CommandHandler} is already registered or there's already a {@link CommandHandler} with a label of the one to register.
-     * 
+     *
      * @param commandHandler The {@link CommandHandler} to register.
      */
     public void addCommandHandler(CommandHandler commandHandler) {
@@ -276,7 +276,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     /**
      * Unregisters a {@link CommandHandler}.
      * Throws an {@link IllegalStateException} if the {@link CommandHandler} isn't registered.
-     * 
+     *
      * @param commandHandler The {@link CommandHandler} to unregister.
      */
     public void removeCommandHandler(CommandHandler commandHandler) {
@@ -291,7 +291,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     /**
      * Unregisters a {@link CommandHandler} which has this label.
      * Throws an {@link IllegalStateException} if no {@link CommandHandler} with the label is registered.
-     * 
+     *
      * @param label The {@link CommandHandler} with this label to unregister.
      */
     public void removeCommandHandler(String label) {

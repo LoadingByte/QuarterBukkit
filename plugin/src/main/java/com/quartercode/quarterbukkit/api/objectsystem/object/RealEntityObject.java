@@ -29,7 +29,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.physics.PhysicsObject;
 /**
  * An object that represents a regular bukkit {@link Entity} and makes it controllable for an {@link ActiveObjectSystem}.
  * All calls to {@link PhysicsObject} methods are forwarded to the equivalent methods of the entity object.
- * 
+ *
  * @see Entity
  */
 public class RealEntityObject extends DefaultBaseObject implements PhysicsObject {
@@ -40,7 +40,7 @@ public class RealEntityObject extends DefaultBaseObject implements PhysicsObject
     /**
      * Creates a new real entity object that never expires for the given {@link Entity}.
      * Note that a reference to the object's {@link ActiveObjectSystem} must be provided for position vector calculations.
-     * 
+     *
      * @param referenceSystem The active system the new object is used in.
      * @param entity The entity that should be made controllable for the active system.
      */
@@ -55,7 +55,7 @@ public class RealEntityObject extends DefaultBaseObject implements PhysicsObject
     /**
      * Creates a new real entity object that expires and is removed after the given amount of updates for the given {@link Entity}.
      * Note that a reference to the object's {@link ActiveObjectSystem} must be provided for position vector calculations.
-     * 
+     *
      * @param referenceSystem The active system the new object is used in.
      * @param entity The entity that should be made controllable for the active system.
      * @param expirationTime The amount of updates after which the object expires and is removed.
@@ -70,7 +70,7 @@ public class RealEntityObject extends DefaultBaseObject implements PhysicsObject
     /**
      * Returns the {@link ActiveObjectSystem} that uses the real entity object.
      * This reference is required because the position vector must be transformed to be relative to the system's origin vector.
-     * 
+     *
      * @return The active system the object is used in.
      */
     public ActiveObjectSystem getReferenceSystem() {
@@ -81,7 +81,7 @@ public class RealEntityObject extends DefaultBaseObject implements PhysicsObject
     /**
      * Returns the bukkit {@link Entity} that made controllable by the object.
      * All calls to the physics methods are forwarded to that entity.
-     * 
+     *
      * @return The bukkit entity that is represented by the object.
      */
     public Entity getEntity() {

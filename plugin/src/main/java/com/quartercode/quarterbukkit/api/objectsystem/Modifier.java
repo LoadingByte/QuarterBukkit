@@ -23,7 +23,7 @@ package com.quartercode.quarterbukkit.api.objectsystem;
  * For example, a velocity modifier would return a modification vector that adjusts the velocity vector of the object.
  * See {@link ModificationRule} for more information on the role of modifiers.
  * Note that modifiers can be chained together using the {@link ModifierWrapper} class.
- * 
+ *
  * @param <O> The type of object the modifier can use to calculate a modification object. This must extend {@link BaseObject}.
  * @param <M> The type of the modification object that is returned by the modifier.
  *        For example, a velocity modifier would use a vector as modification object.
@@ -34,7 +34,7 @@ public interface Modifier<O extends BaseObject, M> {
     /**
      * Calculates the modification object for the given object inside an object system.
      * For example, a velocity modifier would return a modification vector that adjusts the velocity vector of the object here.
-     * 
+     *
      * @param object The object the modifier should calculate a modification object for.
      * @return The calculated modification object.
      */

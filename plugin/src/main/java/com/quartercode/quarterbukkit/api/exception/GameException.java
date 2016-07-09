@@ -39,7 +39,7 @@ public class GameException extends Event {
 
     /**
      * Creates a new empty {@link GameException} with a {@link Plugin}.
-     * 
+     *
      * @param plugin The causing {@link Plugin}.
      */
     public GameException(Plugin plugin) {
@@ -50,7 +50,7 @@ public class GameException extends Event {
 
     /**
      * Creates a new {@link GameException} with a {@link Plugin} and an informational message.
-     * 
+     *
      * @param plugin The causing {@link Plugin}.
      * @param message The information as a human-readable message.
      */
@@ -62,7 +62,7 @@ public class GameException extends Event {
 
     /**
      * Returns the causing {@link Plugin};
-     * 
+     *
      * @return The causing {@link Plugin};
      */
     public Plugin getPlugin() {
@@ -72,7 +72,7 @@ public class GameException extends Event {
 
     /**
      * Returns the informational message.
-     * 
+     *
      * @return The informational message.
      */
     public String getMessage() {

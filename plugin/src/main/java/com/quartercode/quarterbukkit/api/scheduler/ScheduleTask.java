@@ -37,7 +37,7 @@ public abstract class ScheduleTask implements Runnable {
 
     /**
      * Creates a schedule task with a custom {@link Plugin}. This is recommended!
-     * 
+     *
      * @param plugin The custom plugin.
      */
     public ScheduleTask(Plugin plugin) {
@@ -48,7 +48,7 @@ public abstract class ScheduleTask implements Runnable {
     /**
      * Returns if the ScheduleTask is running.
      * Check this before run() or cancel()!
-     * 
+     *
      * @return If the ScheduleTask is running.
      */
     public boolean isRunning() {
@@ -58,7 +58,7 @@ public abstract class ScheduleTask implements Runnable {
 
     /**
      * Adds the schedule task to a {@link Collection} (this may be a {@link ScheduleGroup}).
-     * 
+     *
      * @param collection The {@link Collection} to add the task.
      * @return This schedule task.
      */
@@ -77,7 +77,7 @@ public abstract class ScheduleTask implements Runnable {
 
     /**
      * Runs the scheduler once with a delay. You have to cancel it after running.
-     * 
+     *
      * @param sync Should the scheduler runs synced with the Bukkit-Main-{@link Thread}. Async tasks are deprecated!
      * @param delay The delay in ticks.
      * @return This schedule task.
@@ -97,7 +97,7 @@ public abstract class ScheduleTask implements Runnable {
 
     /**
      * Runs the scheduler repeating with a delay until it's cancelled.
-     * 
+     *
      * @param sync Should the scheduler runs synced with the Bukkit-Main-{@link Thread}. Async tasks are deprecated!
      * @param delay The delay in ticks.
      * @param period The delay between two repeatings in ticks.
@@ -118,7 +118,7 @@ public abstract class ScheduleTask implements Runnable {
 
     /**
      * Cancels this schedule task.
-     * 
+     *
      * @return This schedule task.
      */
     public ScheduleTask cancel() {

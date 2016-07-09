@@ -26,7 +26,7 @@ public class MathUtil {
 
     /**
      * Convert milliseconds to minecraft ticks.
-     * 
+     *
      * @param millis The milliseconds.
      * @return The minecraft ticks.
      */
@@ -37,7 +37,7 @@ public class MathUtil {
 
     /**
      * Convert minecraft ticks to milliseconds.
-     * 
+     *
      * @param ticks The minecraft ticks.
      * @return The milliseconds.
      */

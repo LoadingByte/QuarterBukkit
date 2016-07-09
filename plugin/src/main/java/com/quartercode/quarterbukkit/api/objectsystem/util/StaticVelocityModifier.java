@@ -31,7 +31,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.physics.VelocityModifier;
  * A {@link VelocityModifier} that always returns the same velocity modification {@link Vector} for any {@link PhysicsObject}.
  * It can be compared with a static force that pulls every object into the same direction.
  * Note that you can limit the velocity modification to a specific area using the {@link ShapedModifier} wrapper.
- * 
+ *
  * @param <O> The type of object the static velocity modifier accepts. This must extend {@link PhysicsObject}.
  * @see PhysicsObject
  * @see ShapedModifier
@@ -42,7 +42,7 @@ public class StaticVelocityModifier<O extends PhysicsObject> implements Velocity
 
     /**
      * Creates a new static velocity modifier that always returns the given velocity modification {@link Vector} for any {@link PhysicsObject}.
-     * 
+     *
      * @param modification The static velocity modification vector that is returned for every object.
      */
     public StaticVelocityModifier(Vector modification) {
@@ -52,7 +52,7 @@ public class StaticVelocityModifier<O extends PhysicsObject> implements Velocity
 
     /**
      * Returns the velocity modification {@link Vector} that is returned for any {@link PhysicsObject}.
-     * 
+     *
      * @return The static velocity modification vector.
      */
     public Vector getModification() {
@@ -62,7 +62,7 @@ public class StaticVelocityModifier<O extends PhysicsObject> implements Velocity
 
     /**
      * Returns the velocity modification {@link Vector} that is returned for any {@link PhysicsObject}.
-     * 
+     *
      * @param modification The static velocity modification vector.
      * @return This object.
      */

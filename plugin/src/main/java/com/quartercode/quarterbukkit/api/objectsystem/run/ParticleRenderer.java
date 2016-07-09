@@ -35,7 +35,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.object.ParticleObject;
 
 /**
  * A {@link Renderer} that displays all {@link ParticleObject}s by spawning minecraft particles.
- * 
+ *
  * @see ParticleObject
  * @see Renderer
  */

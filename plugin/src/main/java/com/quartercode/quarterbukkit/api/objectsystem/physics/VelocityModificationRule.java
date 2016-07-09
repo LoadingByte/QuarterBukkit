@@ -27,7 +27,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.Modifier;
  * This class just sets the {@link VelocityModificationApplier} as modification applier and removes the need for some manual generic arguments.
  * Note that the {@link VelocityModifier} interface can be used as a shortcut for velocity vector modifiers added to this rule.
  * See {@link ModificationRule} for more information on modification rules.
- * 
+ *
  * @param <O> The type of object the velocity modification rule can modify. This must extend {@link PhysicsObject}.
  * @see ModificationRule
  * @see VelocityModificationApplier
@@ -37,7 +37,7 @@ public class VelocityModificationRule<O extends PhysicsObject> extends Modificat
 
     /**
      * Creates a new velocity modification rule that modifies the velocity {@link Vector} of {@link PhysicsObject}s of the given type.
-     * 
+     *
      * @param objectType The type of physics object that can be modified by the rule. This must extend {@link PhysicsObject}.
      */
     public VelocityModificationRule(Class<O> objectType) {
@@ -49,7 +49,7 @@ public class VelocityModificationRule<O extends PhysicsObject> extends Modificat
      * Creates a new velocity modification rule that modifies the velocity {@link Vector} of {@link PhysicsObject}s of the given type using
      * the given velocity vector {@link Modifier}.
      * Note that the {@link VelocityModifier} interface can be used as a shortcut for the velocity vector modifier.
-     * 
+     *
      * @param objectType The type of physics object that can be modified by the rule. This must extend {@link PhysicsObject}.
      * @param modifier The modifier which is responsible for calculating the changes to the object's velocity vector.
      */

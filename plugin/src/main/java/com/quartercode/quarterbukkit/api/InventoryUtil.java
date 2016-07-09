@@ -31,7 +31,7 @@ public class InventoryUtil {
 
     /**
      * Returns if the given {@link Inventory} contains at least one {@link ItemStack} which equals the given {@link ItemStack}.
-     * 
+     *
      * @param inventory The {@link Inventory} to check.
      * @param itemStack The {@link ItemStack} to check.
      * @return If the given {@link Inventory} contains at least one {@link ItemStack} which equals the given {@link ItemStack}.
@@ -43,7 +43,7 @@ public class InventoryUtil {
 
     /**
      * Returns if the given {@link Inventory} contains at least the given amount of {@link ItemStack}s which equal the given {@link ItemStack}.
-     * 
+     *
      * @param inventory The {@link Inventory} to check.
      * @param itemStack The {@link ItemStack} to check.
      * @param minimumAmount The least amount of items for a positive result.

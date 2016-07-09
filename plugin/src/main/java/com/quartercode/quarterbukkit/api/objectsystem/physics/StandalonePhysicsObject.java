@@ -25,7 +25,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.DefaultBaseObject;
 /**
  * A standalone implementation of {@link PhysicsObject} that just stores the data in member variables and applies the velocity every tick.
  * It extends the {@link DefaultBaseObject} class for inheriting the basic object functionality.
- * 
+ *
  * @see PhysicsObject
  */
 public class StandalonePhysicsObject extends DefaultBaseObject implements PhysicsObject {
@@ -43,7 +43,7 @@ public class StandalonePhysicsObject extends DefaultBaseObject implements Physic
 
     /**
      * Creates a new standalone physics object that never expires, is located at the given position and doesn't move initially.
-     * 
+     *
      * @param position The initial position {@link Vector}, which is relative to the origin of the object's {@link ActiveObjectSystem}, of the new object.
      */
     public StandalonePhysicsObject(Vector position) {
@@ -53,7 +53,7 @@ public class StandalonePhysicsObject extends DefaultBaseObject implements Physic
 
     /**
      * Creates a new standalone physics object that never expires, is located at the given position and initially moves with the given velocity.
-     * 
+     *
      * @param position The initial position {@link Vector}, which is relative to the origin of the object's {@link ActiveObjectSystem}, of the new object.
      * @param velocity The initial velocity {@link Vector}, which defines the initial movement, of the new object.
      */
@@ -66,7 +66,7 @@ public class StandalonePhysicsObject extends DefaultBaseObject implements Physic
     /**
      * Creates a new standalone physics object that is removed after the given amount of updates, is located at the origin of its {@link ActiveObjectSystem} and
      * doesn't move initially.
-     * 
+     *
      * @param expirationTime The amount of updates after which the object expires and is removed.
      */
     public StandalonePhysicsObject(int expirationTime) {
@@ -78,7 +78,7 @@ public class StandalonePhysicsObject extends DefaultBaseObject implements Physic
 
     /**
      * Creates a new standalone physics object that is removed after the given amount of updates, is located at the given position and doesn't move initially.
-     * 
+     *
      * @param expirationTime The amount of updates after which the object expires and is removed.
      * @param position The initial position {@link Vector}, which is relative to the origin of the object's {@link ActiveObjectSystem}, of the new object.
      */
@@ -92,7 +92,7 @@ public class StandalonePhysicsObject extends DefaultBaseObject implements Physic
     /**
      * Creates a new standalone physics object that is removed after the given amount of updates, is located at the given position and initially moves
      * with the given velocity.
-     * 
+     *
      * @param expirationTime The amount of updates after which the object expires and is removed.
      * @param position The initial position {@link Vector}, which is relative to the origin of the object's {@link ActiveObjectSystem}, of the new object.
      * @param velocity The initial velocity {@link Vector}, which defines the initial movement, of the new object.

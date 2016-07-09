@@ -30,7 +30,7 @@ import org.bukkit.util.Vector;
 /**
  * This class represents a sphere shape that has an origin {@link Vector} and a radius.
  * The sphere is immutable and cannot be modified after construction.
- * 
+ *
  * @see Shape
  */
 public class Sphere implements Shape {
@@ -40,7 +40,7 @@ public class Sphere implements Shape {
 
     /**
      * Creates a new sphere shape with the given three origin {@link Vector} coordinates (the center of the sphere) and the given radius.
-     * 
+     *
      * @param originX The x-coordinate of the origin vector of the represented sphere.
      * @param originY The y-coordinate of the origin vector of the represented sphere.
      * @param originZ The z-coordinate of the origin vector of the represented sphere.
@@ -53,7 +53,7 @@ public class Sphere implements Shape {
 
     /**
      * Creates a new sphere shape with the given origin {@link Vector} (the center of the sphere) and the given radius.
-     * 
+     *
      * @param origin The origin vector of the represented sphere.
      * @param radius The radius of the represented sphere.
      */
@@ -65,7 +65,7 @@ public class Sphere implements Shape {
 
     /**
      * Creates a new sphere shape with the given origin {@link Location} (the center of the sphere) and the given radius.
-     * 
+     *
      * @param origin The origin location of the represented sphere.
      * @param radius The radius of the represented sphere.
      */
@@ -76,7 +76,7 @@ public class Sphere implements Shape {
 
     /**
      * Returns the origin {@link Vector} (the center) of the sphere.
-     * 
+     *
      * @return The origin of the sphere.
      */
     public Vector getOrigin() {
@@ -86,7 +86,7 @@ public class Sphere implements Shape {
 
     /**
      * Returns a new sphere shape with the given three origin {@link Vector} coordinates (the center of the sphere) and the same radius as the current sphere.
-     * 
+     *
      * @param originX The x-coordinate of the new origin vector of the returned sphere copy.
      * @param originY The y-coordinate of the new origin vector of the returned sphere copy.
      * @param originZ The z-coordinate of the new origin vector of the returned sphere copy.
@@ -99,7 +99,7 @@ public class Sphere implements Shape {
 
     /**
      * Returns a new sphere shape with the given origin {@link Vector} (the center of the sphere) and the same radius as the current sphere.
-     * 
+     *
      * @param origin The new origin vector of the returned sphere copy.
      * @return The new sphere copy.
      */
@@ -110,7 +110,7 @@ public class Sphere implements Shape {
 
     /**
      * Returns a new sphere shape with the given origin {@link Location} (the center of the sphere) and the same radius as the current sphere.
-     * 
+     *
      * @param origin The new origin location of the returned sphere copy.
      * @return The new sphere copy.
      */
@@ -121,7 +121,7 @@ public class Sphere implements Shape {
 
     /**
      * Returns the radius of the sphere.
-     * 
+     *
      * @return The radius of the sphere.
      */
     public double getRadius() {
@@ -131,7 +131,7 @@ public class Sphere implements Shape {
 
     /**
      * Returns a new sphere shape with the given radius and the same origin vector as the current sphere.
-     * 
+     *
      * @param radius The new radius of the returned sphere copy.
      * @return The new sphere copy.
      */

@@ -31,7 +31,7 @@ public class InternalException extends GameException {
 
     /**
      * Creates an InternalException filled with the cause as a {@link Throwable} for the error.
-     * 
+     *
      * @param plugin The causing {@link Plugin}.
      * @param cause The cause for the error.
      */
@@ -44,7 +44,7 @@ public class InternalException extends GameException {
 
     /**
      * Creates a InternalException filled with the cause as a {@link Throwable} for the error and the {@link CommandSender} who may caused the error.
-     * 
+     *
      * @param plugin The causing {@link Plugin}.
      * @param cause The cause for the error.
      * @param causer The {@link CommandSender} who caused the error.
@@ -58,7 +58,7 @@ public class InternalException extends GameException {
 
     /**
      * Creates a InternalException filled with the cause as an {@link Throwable} for the error and an informational message.
-     * 
+     *
      * @param plugin The causing {@link Plugin}.
      * @param cause The cause for the error.
      * @param message The informational message.
@@ -72,7 +72,7 @@ public class InternalException extends GameException {
 
     /**
      * Creates a InternalException filled with the cause as a {@link Throwable} for the error and the {@link CommandSender} who may caused the error an an informational message.
-     * 
+     *
      * @param plugin The causing {@link Plugin}.
      * @param cause The cause for the error.
      * @param causer The {@link CommandSender} who caused the error.
@@ -87,7 +87,7 @@ public class InternalException extends GameException {
 
     /**
      * Returns the cause for the error.
-     * 
+     *
      * @return The cause for the error as an {@link Throwable}.
      */
     public Throwable getCause() {
@@ -97,7 +97,7 @@ public class InternalException extends GameException {
 
     /**
      * Returns the {@link CommandSender} causer.
-     * 
+     *
      * @return The causer who hasn't enough permissions.
      */
     public CommandSender getCauser() {

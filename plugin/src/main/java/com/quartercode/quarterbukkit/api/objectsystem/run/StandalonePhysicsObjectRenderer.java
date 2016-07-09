@@ -25,7 +25,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.physics.StandalonePhysicsO
 /**
  * A {@link Renderer} that simulates the physics of all {@link StandalonePhysicsObject}s.
  * For doing that, it applies the objects' current velocity vectors the the position vectors.
- * 
+ *
  * @see StandalonePhysicsObject
  * @see Renderer
  */

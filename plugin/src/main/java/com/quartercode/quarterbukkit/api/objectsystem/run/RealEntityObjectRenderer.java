@@ -25,7 +25,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.object.RealEntityObject;
 /**
  * A {@link Renderer} that updates all {@link RealEntityObject}s.
  * Currently, it just removes them if the underlying entities vanished by dying or logging out.
- * 
+ *
  * @see RealEntityObject
  * @see Renderer
  */

@@ -22,7 +22,7 @@ package com.quartercode.quarterbukkit.api.objectsystem;
  * A modification applier is responsible for applying a modification object calculated by a {@link Modifier} to a property of an object inside an object system.
  * For example, a velocity modification applier would add the velocity modification vector calculated by a modifier to the current velocity vector of the object.
  * See {@link ModificationRule} for more information on the role of modification appliers.
- * 
+ *
  * @param <O> The type of object the modification applier can apply modifications to. This must extend {@link BaseObject}.
  * @param <M> The type of the modification object that is applied to objects by the modification applier.
  *        For example, a velocity modification applier would consume a vector as modification object.
@@ -33,7 +33,7 @@ public interface ModificationApplier<O extends BaseObject, M> {
     /**
      * Applies the given modification object to the given system object.
      * For example, a velocity modification applier would add a given velocity modification vector to the current velocity vector of the object.
-     * 
+     *
      * @param object The object the modification should be applied to.
      * @param modification The modification that should be applied to the given object.
      */

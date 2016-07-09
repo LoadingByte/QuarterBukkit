@@ -37,7 +37,7 @@ import org.bukkit.Location;
  * Furthermore, object {@link Source}s defined by the object system definition constantly spawn new objects,
  * and old object have the possibility to expire and be removed from the system.
  * Note that the {@link Location}s of the objects are relative to a reference origin location.
- * 
+ *
  * @see ObjectSystemDefinition
  * @see BaseObject
  */
@@ -51,7 +51,7 @@ public class ActiveObjectSystem {
 
     /**
      * Creates a new active object system that runs the given {@link ObjectSystemDefinition} and is centered on the given origin {@link Location}.
-     * 
+     *
      * @param definition The object system definition which defines the spawning of new objects and the behavior of existing ones.
      * @param origin The origin location the new active system is centered on.
      *        All object locations are relative to this origin.
@@ -64,7 +64,7 @@ public class ActiveObjectSystem {
 
     /**
      * Returns the {@link ObjectSystemDefinition} which defines the spawning of new objects and the behavior of existing ones.
-     * 
+     *
      * @return The object system definition of the active system.
      */
     public ObjectSystemDefinition getDefinition() {
@@ -75,7 +75,7 @@ public class ActiveObjectSystem {
     /**
      * Returns the origin {@link Location} the active system is centered on.
      * All object locations are relative to this origin.
-     * 
+     *
      * @return The origin location of the active system.
      */
     public Location getOrigin() {
@@ -86,7 +86,7 @@ public class ActiveObjectSystem {
     /**
      * Returns the objects, which must implement {@link BaseObject}, that are simulated by the active system.
      * Their behavior is defined by the system's {@link ObjectSystemDefinition}.
-     * 
+     *
      * @return The objects that are simulated by the active system.
      */
     public Collection<BaseObject> getObjects() {
@@ -96,7 +96,7 @@ public class ActiveObjectSystem {
 
     /**
      * Returns a modifiable {@link Iterator} that allows to iterate over and modify the object list (see {@link #getObjects()}).
-     * 
+     *
      * @return A modifiable iterator for the object list.
      */
     public Iterator<BaseObject> getModifiableObjectsIterator() {
@@ -107,7 +107,7 @@ public class ActiveObjectSystem {
     /**
      * Adds the given objects, which must implement {@link BaseObject}, to the active system that should simulate them.
      * Their behavior is defined by the system's {@link ObjectSystemDefinition}.
-     * 
+     *
      * @param objects The objects that should be added to the active system.
      */
     public void addObjects(BaseObject... objects) {
@@ -118,7 +118,7 @@ public class ActiveObjectSystem {
     /**
      * Adds the given objects, which must implement {@link BaseObject}, to the active system that should simulate them.
      * Their behavior is defined by the system's {@link ObjectSystemDefinition}.
-     * 
+     *
      * @param objects The objects that should be added to the active system.
      */
     public void addObjects(Collection<BaseObject> objects) {
@@ -129,7 +129,7 @@ public class ActiveObjectSystem {
 
     /**
      * Removes the given objects, which must implement {@link BaseObject}, from the active system in order to stop them from being simulated.
-     * 
+     *
      * @param objects The objects that should be removed from the active system.
      */
     public void removeObjects(BaseObject... objects) {
@@ -139,7 +139,7 @@ public class ActiveObjectSystem {
 
     /**
      * Removes the given objects, which must implement {@link BaseObject}, from the active system in order to stop them from being simulated.
-     * 
+     *
      * @param objects The objects that should be removed from the active system.
      */
     public void removeObjects(Collection<BaseObject> objects) {
@@ -151,7 +151,7 @@ public class ActiveObjectSystem {
      * Returns the amount of ticks the active object system has been simulated for.
      * Note that this is 0 the first time the active system is updated.
      * After that, this value increases by 1 each time the active system is updated.
-     * 
+     *
      * @return The current lifetime of the active system.
      */
     public int getLifetime() {

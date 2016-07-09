@@ -34,7 +34,7 @@ public class Selection {
 
     /**
      * Creates a new selection and sets the value as an {@link Object} and the graphical {@link ItemStack}.
-     * 
+     *
      * @param value The value as an {@link Object}.
      * @param itemStack The graphical {@link ItemStack}.
      */
@@ -46,7 +46,7 @@ public class Selection {
 
     /**
      * Returns the value as an {@link Object}.
-     * 
+     *
      * @return The value as an {@link Object}.
      */
     public Object getValue() {
@@ -56,7 +56,7 @@ public class Selection {
 
     /**
      * Returns the graphical {@link ItemStack}.
-     * 
+     *
      * @return The graphical {@link ItemStack}.
      */
     public ItemStack getItemStack() {

@@ -31,7 +31,7 @@ import org.bukkit.util.Vector;
  * This class represents a cylinder shape that has two confining {@link Vector}s the cylinder is located between and a radius.
  * The two vectors define the origins of the top and bottom circles of the cylinder.
  * The cylinder is immutable and cannot be modified after construction.
- * 
+ *
  * @see Shape
  */
 public class Cylinder implements Shape {
@@ -45,7 +45,7 @@ public class Cylinder implements Shape {
     /**
      * Creates a new cylinder shape with the given two circle origin {@link Vector}s defined by six double coordinates (three ones for each vector) and the given radius.
      * The two vectors define the origins of the top and bottom circles of the cylinder.
-     * 
+     *
      * @param circle1OriginX The x-coordinate of the origin vector of the first circle that confines the represented cylinder.
      * @param circle1OriginY The y-coordinate of the origin vector of the first circle that confines the represented cylinder.
      * @param circle1OriginZ The z-coordinate of the origin vector of the first circle that confines the represented cylinder.
@@ -62,7 +62,7 @@ public class Cylinder implements Shape {
     /**
      * Creates a new cylinder shape with the given two circle origin {@link Vector}s and the given radius.
      * The two vectors define the origins of the top and bottom circles of the cylinder.
-     * 
+     *
      * @param circle1Origin The origin vector (center) of the first circle that confines the represented cylinder.
      * @param circle2Origin The origin vector (center) of the second circle that confines the represented cylinder.
      * @param radius The radius of the represented sphere.
@@ -81,7 +81,7 @@ public class Cylinder implements Shape {
     /**
      * Creates a new cylinder shape with the given two circle origin {@link Location}s and the given radius.
      * The two locations define the origins of the top and bottom circles of the cylinder.
-     * 
+     *
      * @param circle1Origin The origin location (center) of the first circle that confines the represented cylinder.
      * @param circle2Origin The origin location (center) of the second circle that confines the represented cylinder.
      * @param radius The radius of the represented sphere.
@@ -93,7 +93,7 @@ public class Cylinder implements Shape {
 
     /**
      * Returns the origin {@link Vector} of the upper circle that confines the cylinder on its top.
-     * 
+     *
      * @return The origin vector of the top circle.
      */
     public Vector getTopCircleOrigin() {
@@ -103,7 +103,7 @@ public class Cylinder implements Shape {
 
     /**
      * Returns the origin {@link Vector} of the lower circle that confines the cylinder on its bottom.
-     * 
+     *
      * @return The origin vector of the bottom circle.
      */
     public Vector getBottomCircleOrigin() {
@@ -114,14 +114,14 @@ public class Cylinder implements Shape {
     /**
      * Returns a new cylinder shape with the given two circle origin {@link Vector}s defined by six double coordinates (three ones for each vector) and the same radius as the current cylinder.
      * The two vectors define the origins of the top and bottom circles of the cylinder.
-     * 
+     *
      * @param circle1OriginX The x-coordinate of the new origin vector of the first circle that confines the returned cylinder copy.
      * @param circle1OriginY The y-coordinate of the new origin vector of the first circle that confines the returned cylinder copy.
      * @param circle1OriginZ The z-coordinate of the new origin vector of the first circle that confines the returned cylinder copy.
      * @param circle2OriginX The x-coordinate of the new origin vector of the second circle that confines the returned cylinder copy.
      * @param circle2OriginY The y-coordinate of the new origin vector of the second circle that confines the returned cylinder copy.
      * @param circle2OriginZ The z-coordinate of the new origin vector of the second circle that confines the returned cylinder copy.
-     * 
+     *
      * @return The new cylinder copy.
      */
     public Cylinder withCircleOrigins(double circle1OriginX, double circle1OriginY, double circle1OriginZ, double circle2OriginX, double circle2OriginY, double circle2OriginZ) {
@@ -132,7 +132,7 @@ public class Cylinder implements Shape {
     /**
      * Returns a new cylinder shape with the given two circle origin {@link Vector}s and the same radius as the current cylinder.
      * The two vectors define the origins of the top and bottom circles of the cylinder.
-     * 
+     *
      * @param circle1Origin The new origin vector (center) of the first circle that confines the returned cylinder copy.
      * @param circle2Origin The new origin vector (center) of the second circle that confines the returned cylinder copy.
      * @return The new cylinder copy.
@@ -145,7 +145,7 @@ public class Cylinder implements Shape {
     /**
      * Returns a new cylinder shape with the given two circle origin {@link Location}s and the same radius as the current cylinder.
      * The two locations define the origins of the top and bottom circles of the cylinder.
-     * 
+     *
      * @param circle1Origin The new origin location (center) of the first circle that confines the returned cylinder copy.
      * @param circle2Origin The new origin location (center) of the second circle that confines the returned cylinder copy.
      * @return The new cylinder copy.
@@ -157,7 +157,7 @@ public class Cylinder implements Shape {
 
     /**
      * Returns the radius of the cylinder.
-     * 
+     *
      * @return The radius of the cylinder.
      */
     public double getRadius() {
@@ -167,7 +167,7 @@ public class Cylinder implements Shape {
 
     /**
      * Returns a new cylinder shape with the given radius and the same circle origin vectors as the current cylinder.
-     * 
+     *
      * @param radius The new radius of the returned cylinder copy.
      * @return The new cylinder copy.
      */
@@ -179,7 +179,7 @@ public class Cylinder implements Shape {
     /**
      * Returns the length of the cylinder, which is basically the distance between the two confining circle origins.
      * Note that this value is not cached and the operation might be expensive because a square root needs to be calculated.
-     * 
+     *
      * @return The length of the cylinder.
      */
     public double getLength() {
@@ -190,7 +190,7 @@ public class Cylinder implements Shape {
     /**
      * Returns the length of the cylinder, which is basically the distance between the two confining circle origins, squared.
      * Note that this value is cached (primarily for internal use).
-     * 
+     *
      * @return The squared length of the cylinder.
      */
     public double getLengthSquared() {
@@ -267,7 +267,7 @@ public class Cylinder implements Shape {
      * The vector is represented by three doubles representing the three coordinates.
      * If the vector is above the top or below the bottom of the cylinder and therefore cannot be reached by drawing a line segment which is perpendicular
      * to the center axis from the vector to that center axis, -1 is returned.
-     * 
+     *
      * @param x The x-coordinate of the vector whose distance to the center axis should be caclulated.
      * @param y The y-coordinate of the vector whose distance to the center axis should be caclulated.
      * @param z The z-coordinate of the vector whose distance to the center axis should be caclulated.
@@ -282,7 +282,7 @@ public class Cylinder implements Shape {
      * Returns the shortest distance from the given {@link Vector} to the center axis of the cylinder.
      * If the vector is above the top or below the bottom of the cylinder and therefore cannot be reached by drawing a line segment which is perpendicular
      * to the center axis from the vector to that center axis, -1 is returned.
-     * 
+     *
      * @param vector The vector whose distance to the center axis should be caclulated.
      * @return The shortest distance from the given vector to the center axis.
      */
@@ -310,7 +310,7 @@ public class Cylinder implements Shape {
      * Returns the shortest distance from the given {@link Location} to the center axis of the cylinder.
      * If the vector is above the top or below the bottom of the cylinder and therefore cannot be reached by drawing a line segment which is perpendicular
      * to the center axis from the vector to that center axis, -1 is returned.
-     * 
+     *
      * @param location The location whose distance to the center axis should be caclulated.
      * @return The shortest distance from the given location to the center axis.
      */

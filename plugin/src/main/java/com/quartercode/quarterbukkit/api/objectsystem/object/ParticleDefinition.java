@@ -24,7 +24,7 @@ import org.bukkit.util.Vector;
 /**
  * This class represents a single particle that is spawned at the location of its parent {@link ParticleObject}.
  * Almost all particle effects provided by minecraft are supported using this class.
- * 
+ *
  * @see ParticleObject
  */
 public class ParticleDefinition {
@@ -36,7 +36,7 @@ public class ParticleDefinition {
 
     /**
      * Returns the {@link ParticleType} that defines which particle should be spawned.
-     * 
+     *
      * @return The particle type.
      * @see ParticleType
      */
@@ -47,7 +47,7 @@ public class ParticleDefinition {
 
     /**
      * Sets the {@link ParticleType} that defines which particle should be spawned.
-     * 
+     *
      * @param type The new particle type.
      * @return This object.
      * @see ParticleType
@@ -61,7 +61,7 @@ public class ParticleDefinition {
     /**
      * Returns the amount of spawned particles.
      * This is useful in combination with the spread vector (see {@link #getSpread()}).
-     * 
+     *
      * @return The particle amount.
      */
     public int getAmount() {
@@ -72,7 +72,7 @@ public class ParticleDefinition {
     /**
      * Returns the amount of spawned particles.
      * This is useful in combination with the spread vector (see {@link #setSpread(Vector)}).
-     * 
+     *
      * @param amount The new particle amount.
      * @return This object.
      */
@@ -87,7 +87,7 @@ public class ParticleDefinition {
      * Returns the {@link Vector} that defines how far away from the {@link ParticleObject} position particles can spawn.
      * For example, if the x component of the vector is 2, the particle can spawn up to 2 blocks above or below the position of the object.
      * The amount property is useful in combination with the spread vector (see {@link #getAmount()}).
-     * 
+     *
      * @return The spread vector.
      */
     public Vector getSpread() {
@@ -99,7 +99,7 @@ public class ParticleDefinition {
      * Sets the {@link Vector} that defines how far away from the {@link ParticleObject} position particles can spawn.
      * For example, if the x component of the vector is 2, the particle can spawn up to 2 blocks above or below the position of the object.
      * The amount property is useful in combination with the spread vector (see {@link #setAmount(int)}).
-     * 
+     *
      * @param spread The new spread vector.
      * @return This object.
      */
@@ -115,7 +115,7 @@ public class ParticleDefinition {
      * The effect of the parameter is different for each {@link ParticleType}.
      * See the description of the different types for more information.
      * Note that some types do not support a parameter. The {@link ParticleType#hasParameter()} returns {@code false} for those types.
-     * 
+     *
      * @return The customization parameter.
      */
     public float getParameter() {
@@ -129,7 +129,7 @@ public class ParticleDefinition {
      * See the description of the different types for more information.
      * Note that some types do not support a parameter. The {@link ParticleType#hasParameter()} returns {@code false} for those types.
      * If such a type is currently set for the definition, this throws an exception.
-     * 
+     *
      * @param parameter The customization parameter.
      * @return This object.
      */

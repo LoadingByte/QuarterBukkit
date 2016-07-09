@@ -37,7 +37,7 @@ public class CommandInfo {
     /**
      * Creates a new information-object and sets all the information.
      * This should only be called by {@link CommandHandler}s in their {@link CommandHandler#getInfo()}-method.
-     * 
+     *
      * @param ignoreCase Should the {@link CommandExecutor} ignore the case of the label.
      * @param parameterUsage How to use the parameters of the {@link Command} (null if you can't use parameters).
      * @param description A short description what the {@link Command} does.
@@ -56,7 +56,7 @@ public class CommandInfo {
 
     /**
      * Returns if the {@link CommandExecutor} should ignore the case of the label.
-     * 
+     *
      * @return If the {@link CommandExecutor} should ignore the case of the label.
      */
     public boolean isIgnoreCase() {
@@ -67,7 +67,7 @@ public class CommandInfo {
     /**
      * Returns how to use the parameters of the {@link Command} (returns null if there aren't parameters).
      * This is useful for help-functions.
-     * 
+     *
      * @return How to use the parameters of the {@link Command}.
      */
     public String getParameterUsage() {
@@ -77,7 +77,7 @@ public class CommandInfo {
 
     /**
      * Returns a short description what the {@link Command} does.
-     * 
+     *
      * @return A short description what the {@link Command} does.
      */
     public String getDescription() {
@@ -87,7 +87,7 @@ public class CommandInfo {
 
     /**
      * Returns the permission you need to execute the {@link Command}.
-     * 
+     *
      * @return The permission you need to execute the {@link Command}.
      */
     public String getPermission() {
@@ -97,7 +97,7 @@ public class CommandInfo {
 
     /**
      * Returns all labels a user can use for the {@link Command}. If you type in /command help, help will be the label (&lt;empty&gt; if the command can be executed without a label, e.g. /command).
-     * 
+     *
      * @return All labels for the {@link Command}.
      */
     public String[] getLabels() {

@@ -27,7 +27,7 @@ import com.quartercode.quarterbukkit.api.query.SearchQuery.Project.ProjectStage;
 /**
  * The search query can be used to search the server mods api for projects which contain a given character sequence.
  * The class internally uses the {@link ServerModsAPIQuery}.
- * 
+ *
  * @see ServerModsAPIQuery
  */
 public class SearchQuery {
@@ -36,7 +36,7 @@ public class SearchQuery {
 
     /**
      * Creates a new search query which may search for the given character sequence.
-     * 
+     *
      * @param search The character sequence the search query may search for.
      */
     public SearchQuery(String search) {
@@ -46,7 +46,7 @@ public class SearchQuery {
 
     /**
      * Returns the character sequence the search query may search for.
-     * 
+     *
      * @return The search string to search for.
      */
     public String getSearch() {
@@ -56,7 +56,7 @@ public class SearchQuery {
 
     /**
      * Searches for the set character sequence ({@link #getSearch()}) and returns the found {@link Project}s.
-     * 
+     *
      * @return The {@link Project}s the search query found.
      * @throws QueryException Something goes wrong while querying the server mods api.
      */
@@ -126,7 +126,7 @@ public class SearchQuery {
 
         /**
          * Creates a new project with the given information.
-         * 
+         *
          * @param id The id the project has on BukkitDev.
          * @param name The name of the project.
          * @param slug The slug which can be used to view the project using the url {@code http://dev.bukkit.org/server-mods/<slug>}.
@@ -142,7 +142,7 @@ public class SearchQuery {
 
         /**
          * Returns the id the project has on BukkitDev.
-         * 
+         *
          * @return The id of the project.
          */
         public int getId() {
@@ -152,7 +152,7 @@ public class SearchQuery {
 
         /**
          * Returns the name of the project.
-         * 
+         *
          * @return The name of the project.
          */
         public String getName() {
@@ -162,7 +162,7 @@ public class SearchQuery {
 
         /**
          * Returns the slug which can be used to view the project using the url {@code http://dev.bukkit.org/server-mods/<slug>}.
-         * 
+         *
          * @return The slug of the project.
          */
         public String getSlug() {
@@ -172,7 +172,7 @@ public class SearchQuery {
 
         /**
          * Returns the current stage of the project (see {@link ProjectStage}).
-         * 
+         *
          * @return The current stage of the project.
          */
         public ProjectStage getStage() {

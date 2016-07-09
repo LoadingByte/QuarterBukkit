@@ -31,7 +31,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.physics.StandalonePhysicsO
  * A {@link StandalonePhysicsObject} that represents a firework which is spawned at the different positions of the object.
  * By using the default power value 0, the firework immediately explodes creating a firework effect at the current object position.
  * The effects can be freely configured and support every feature of fireworks.
- * 
+ *
  * @see FireworkEffectDefinition
  */
 public class FireworkObject extends StandalonePhysicsObject {
@@ -50,7 +50,7 @@ public class FireworkObject extends StandalonePhysicsObject {
 
     /**
      * Creates a new firework object that never expires, is located at the given position and doesn't move initially.
-     * 
+     *
      * @param position The initial position {@link Vector}, which is relative to the origin of the object's {@link ActiveObjectSystem}, of the new object.
      */
     public FireworkObject(Vector position) {
@@ -60,7 +60,7 @@ public class FireworkObject extends StandalonePhysicsObject {
 
     /**
      * Creates a new firework object that never expires, is located at the given position and initially moves with the given velocity.
-     * 
+     *
      * @param position The initial position {@link Vector}, which is relative to the origin of the object's {@link ActiveObjectSystem}, of the new object.
      * @param velocity The initial velocity {@link Vector}, which defines the initial movement, of the new object.
      */
@@ -71,7 +71,7 @@ public class FireworkObject extends StandalonePhysicsObject {
 
     /**
      * Creates a new firework object that is removed after the given amount of updates, is located at the origin of its {@link ActiveObjectSystem} and doesn't move initially.
-     * 
+     *
      * @param expirationTime The amount of updates after which the object expires and is removed.
      */
     public FireworkObject(int expirationTime) {
@@ -81,7 +81,7 @@ public class FireworkObject extends StandalonePhysicsObject {
 
     /**
      * Creates a new firework object that is removed after the given amount of updates, is located at the given position and doesn't move initially.
-     * 
+     *
      * @param expirationTime The amount of updates after which the object expires and is removed.
      * @param position The initial position {@link Vector}, which is relative to the origin of the object's {@link ActiveObjectSystem}, of the new object.
      */
@@ -92,7 +92,7 @@ public class FireworkObject extends StandalonePhysicsObject {
 
     /**
      * Creates a new firework object that is removed after the given amount of updates, is located at the given position and initially moves with the given velocity.
-     * 
+     *
      * @param expirationTime The amount of updates after which the object expires and is removed.
      * @param position The initial position {@link Vector}, which is relative to the origin of the object's {@link ActiveObjectSystem}, of the new object.
      * @param velocity The initial velocity {@link Vector}, which defines the initial movement, of the new object.
@@ -104,7 +104,7 @@ public class FireworkObject extends StandalonePhysicsObject {
 
     /**
      * Returns the approximate height all spawned fireworks will fly.
-     * 
+     *
      * @return The approximate flight height.
      */
     public int getPower() {
@@ -115,7 +115,7 @@ public class FireworkObject extends StandalonePhysicsObject {
     /**
      * Sets the approximate flight height of all spawned fireworks.
      * Each level of power is half a second of flight time.
-     * 
+     *
      * @param power The new approximate flight height of all spawned fireworks.
      *        Must be between 0 and 128.
      * @return This object.
@@ -130,7 +130,7 @@ public class FireworkObject extends StandalonePhysicsObject {
     /**
      * Returns the {@link FireworkEffectDefinition}s that define how the spawned fireworks look like when they explode.
      * All effects will be applied to each spawned firework.
-     * 
+     *
      * @return The firework effect definitions that define the look of the fireworks.
      */
     public Collection<FireworkEffectDefinition> getEffects() {
@@ -141,7 +141,7 @@ public class FireworkObject extends StandalonePhysicsObject {
     /**
      * Adds the given {@link FireworkEffectDefinition}s that define how the spawned fireworks look like when they explode.
      * The new effects and the already existing ones will be applied to each spawned firework.
-     * 
+     *
      * @param effects The firework effect definitions that should be added.
      * @return This object.
      */
@@ -154,7 +154,7 @@ public class FireworkObject extends StandalonePhysicsObject {
     /**
      * Adds the given {@link FireworkEffectDefinition}s that define how the spawned fireworks look like when they explode.
      * The new effects and the already existing ones will be applied to each spawned firework.
-     * 
+     *
      * @param effects The firework effect definitions that should be added.
      * @return This object.
      */
@@ -168,7 +168,7 @@ public class FireworkObject extends StandalonePhysicsObject {
     /**
      * Removes the given {@link FireworkEffectDefinition}s so they will no longer influence how the spawned fireworks look like when they explode.
      * The removed effects won't be applied to each spawned firework any longer.
-     * 
+     *
      * @param effects The firework effect definitions that should be removed.
      * @return This object.
      */
@@ -181,7 +181,7 @@ public class FireworkObject extends StandalonePhysicsObject {
     /**
      * Removes the given {@link FireworkEffectDefinition}s so they will no longer influence how the spawned fireworks look like when they explode.
      * The removed effects won't be applied to each spawned firework any longer.
-     * 
+     *
      * @param effects The firework effect definitions that should be removed.
      * @return This object.
      */
@@ -195,7 +195,7 @@ public class FireworkObject extends StandalonePhysicsObject {
      * Returns whether the speed based frequency adjustment mode is enabled.
      * If it is, firework objects with a low velocity will spawn less frequently than ones with a high velocity.
      * That reduces the overall number of spawned particles in order to prevent the despawning of old ones.
-     * 
+     *
      * @return Whether speed based frequency is enabled.
      */
     public boolean hasSpeedBasedFrequency() {
@@ -207,7 +207,7 @@ public class FireworkObject extends StandalonePhysicsObject {
      * Sets whether the speed based frequency adjustment mode is enabled.
      * If it is, firework objects with a low velocity will spawn less frequently than ones with a high velocity.
      * That reduces the overall number of spawned particles in order to prevent the despawning of old ones.
-     * 
+     *
      * @param speedBasedFrequency Whether speed based frequency should be enabled.
      * @return This object.
      */

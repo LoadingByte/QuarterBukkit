@@ -46,7 +46,7 @@ public class ParticleObject extends StandalonePhysicsObject {
 
     /**
      * Creates a new particle object that never expires, is located at the given position and doesn't move initially.
-     * 
+     *
      * @param position The initial position {@link Vector}, which is relative to the origin of the object's {@link ActiveObjectSystem}, of the new object.
      */
     public ParticleObject(Vector position) {
@@ -56,7 +56,7 @@ public class ParticleObject extends StandalonePhysicsObject {
 
     /**
      * Creates a new particle object that never expires, is located at the given position and initially moves with the given velocity.
-     * 
+     *
      * @param position The initial position {@link Vector}, which is relative to the origin of the object's {@link ActiveObjectSystem}, of the new object.
      * @param velocity The initial velocity {@link Vector}, which defines the initial movement, of the new object.
      */
@@ -68,7 +68,7 @@ public class ParticleObject extends StandalonePhysicsObject {
     /**
      * Creates a new particle object that is removed after the given amount of updates, is located at the origin of its {@link ActiveObjectSystem} and
      * doesn't move initially.
-     * 
+     *
      * @param expirationTime The amount of updates after which the object expires and is removed.
      */
     public ParticleObject(int expirationTime) {
@@ -78,7 +78,7 @@ public class ParticleObject extends StandalonePhysicsObject {
 
     /**
      * Creates a new particle object that is removed after the given amount of updates, is located at the given position and doesn't move initially.
-     * 
+     *
      * @param expirationTime The amount of updates after which the object expires and is removed.
      * @param position The initial position {@link Vector}, which is relative to the origin of the object's {@link ActiveObjectSystem}, of the new object.
      */
@@ -90,7 +90,7 @@ public class ParticleObject extends StandalonePhysicsObject {
     /**
      * Creates a new particle object that is removed after the given amount of updates, is located at the given position and initially moves
      * with the given velocity.
-     * 
+     *
      * @param expirationTime The amount of updates after which the object expires and is removed.
      * @param position The initial position {@link Vector}, which is relative to the origin of the object's {@link ActiveObjectSystem}, of the new object.
      * @param velocity The initial velocity {@link Vector}, which defines the initial movement, of the new object.
@@ -103,7 +103,7 @@ public class ParticleObject extends StandalonePhysicsObject {
     /**
      * Returns the {@link ParticleDefinition}s that define the particles that should be spawned.
      * All particles will be spawned each time the particle object is spawned.
-     * 
+     *
      * @return The particle definitions that are spawned to display the object.
      */
     public Collection<ParticleDefinition> getParticles() {
@@ -114,7 +114,7 @@ public class ParticleObject extends StandalonePhysicsObject {
     /**
      * Adds the given {@link ParticleDefinition}s that define some more particles that should be spawned.
      * The new particles and the already existing ones particles will be spawned each time the particle object is spawned.
-     * 
+     *
      * @param particles The particle definitions that should be added.
      * @return This object.
      */
@@ -127,7 +127,7 @@ public class ParticleObject extends StandalonePhysicsObject {
     /**
      * Adds the given {@link ParticleDefinition}s that define some more particles that should be spawned.
      * The new particles and the already existing ones particles will be spawned each time the particle object is spawned.
-     * 
+     *
      * @param particles The particle definitions that should be added.
      * @return This object.
      */
@@ -141,7 +141,7 @@ public class ParticleObject extends StandalonePhysicsObject {
     /**
      * Removes the given {@link ParticleDefinition}s so they will no longer be spawned.
      * The removed effects won't be spawned each time the particle object is spawned.
-     * 
+     *
      * @param particles The particle definitions that should be removed.
      * @return This object.
      */
@@ -154,7 +154,7 @@ public class ParticleObject extends StandalonePhysicsObject {
     /**
      * Removes the given {@link ParticleDefinition}s so they will no longer be spawned.
      * The removed effects won't be spawned each time the particle object is spawned.
-     * 
+     *
      * @param particles The particle definitions that should be removed.
      * @return This object.
      */
@@ -168,7 +168,7 @@ public class ParticleObject extends StandalonePhysicsObject {
      * Returns whether the speed based frequency adjustment mode is enabled.
      * If it is, particle objects with a low velocity will spawn less frequently than ones with a high velocity.
      * That reduces the overall number of spawned particles in order to prevent the despawning of old ones.
-     * 
+     *
      * @return Whether speed based frequency is enabled.
      */
     public boolean hasSpeedBasedFrequency() {
@@ -180,7 +180,7 @@ public class ParticleObject extends StandalonePhysicsObject {
      * Sets whether the speed based frequency adjustment mode is enabled.
      * If it is, particle objects with a low velocity will spawn less frequently than ones with a high velocity.
      * That reduces the overall number of spawned particles in order to prevent the despawning of old ones.
-     * 
+     *
      * @param speedBasedFrequency Whether speed based frequency should be enabled.
      * @return This object.
      */

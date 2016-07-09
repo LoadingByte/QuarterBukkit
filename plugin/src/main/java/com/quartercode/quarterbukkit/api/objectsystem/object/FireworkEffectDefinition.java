@@ -32,7 +32,7 @@ import org.bukkit.FireworkEffect.Type;
 
 /**
  * This class represents a single effect that is part of the explosion of a firework.
- * 
+ *
  * @see FireworkObject
  */
 public class FireworkEffectDefinition implements Cloneable {
@@ -45,7 +45,7 @@ public class FireworkEffectDefinition implements Cloneable {
 
     /**
      * Returns the {@link Type} of the defined firework effect.
-     * 
+     *
      * @return The firework effect type.
      * @see Type
      */
@@ -56,7 +56,7 @@ public class FireworkEffectDefinition implements Cloneable {
 
     /**
      * Sets the {@link Type} of the defined firework effect.
-     * 
+     *
      * @param type The new firework effect type.
      * @return This object.
      * @see Type
@@ -69,7 +69,7 @@ public class FireworkEffectDefinition implements Cloneable {
 
     /**
      * Returns whether the particles spawned by this effect during the firework explosion flicker.
-     * 
+     *
      * @return Whether the firework effect particles flicker.
      */
     public boolean hasFlicker() {
@@ -79,7 +79,7 @@ public class FireworkEffectDefinition implements Cloneable {
 
     /**
      * Sets whether the particles spawned by this effect during the firework explosion flicker.
-     * 
+     *
      * @return Whether the firework effect particles should flicker.
      * @return This object.
      */
@@ -93,7 +93,7 @@ public class FireworkEffectDefinition implements Cloneable {
      * Returns whether the particles spawned by this effect during the firework explosion leave behind a trail of other particles.
      * Note that this option is only recommended in systems with few objects because the trail increases the particle amount by quite a bit.
      * Also note that setting this option to true will result
-     * 
+     *
      * @return Whether the firework effect particles leave behind a trail.
      */
     public boolean hasTrail() {
@@ -105,7 +105,7 @@ public class FireworkEffectDefinition implements Cloneable {
      * Sets whether the particles spawned by this effect during the firework explosion leave behind a trail of other particles.
      * Note that this option is only recommended in systems with few objects because the trail increases the particle amount by quite a bit.
      * Also note that setting this option to true will result
-     * 
+     *
      * @param trail Whether the firework effect particles should leave behind a trail.
      * @return This object.
      */
@@ -117,7 +117,7 @@ public class FireworkEffectDefinition implements Cloneable {
 
     /**
      * Returns the {@link Color}s the particles spawned by this effect have immediately after the firework explosion.
-     * 
+     *
      * @return The primary firework particle colors.
      */
     public Collection<Color> getColors() {
@@ -128,7 +128,7 @@ public class FireworkEffectDefinition implements Cloneable {
     /**
      * Adds the given {@link Color}s the particles spawned by this effect should have immediately after the firework explosion.
      * Note that the existing primary colors, which can be retrieved with {@link #getColors()}, are displayed as well.
-     * 
+     *
      * @param colors The additional primary firework particle colors.
      * @return This object.
      */
@@ -141,7 +141,7 @@ public class FireworkEffectDefinition implements Cloneable {
     /**
      * Adds the given {@link Color}s the particles spawned by this effect should have immediately after the firework explosion.
      * Note that the existing primary colors, which can be retrieved with {@link #getColors()}, are displayed as well.
-     * 
+     *
      * @param colors The additional primary firework particle colors.
      * @return This object.
      */
@@ -155,7 +155,7 @@ public class FireworkEffectDefinition implements Cloneable {
     /**
      * Removes the given {@link Color}s the particles spawned by this effect should not have immediately after the firework explosion.
      * Note that only the other existing primary colors, which can be retrieved with {@link #getColors()}, are displayed after the removal.
-     * 
+     *
      * @param colors The primary firework particle colors for removal.
      * @return This object.
      */
@@ -168,7 +168,7 @@ public class FireworkEffectDefinition implements Cloneable {
     /**
      * Removes the given {@link Color}s the particles spawned by this effect should not have immediately after the firework explosion.
      * Note that only the other existing primary colors, which can be retrieved with {@link #getColors()}, are displayed after the removal.
-     * 
+     *
      * @param colors The primary firework particle colors for removal.
      * @return This object.
      */
@@ -180,7 +180,7 @@ public class FireworkEffectDefinition implements Cloneable {
 
     /**
      * Returns the {@link Color}s the particles spawned by this effect fade to some time after the firework explosion.
-     * 
+     *
      * @return The secondary firework particle colors.
      */
     public Collection<Color> getFadeColors() {
@@ -191,7 +191,7 @@ public class FireworkEffectDefinition implements Cloneable {
     /**
      * Adds the given {@link Color}s the particles spawned by this effect should fade to some time after the firework explosion.
      * Note that the existing secondary colors, which can be retrieved with {@link #getFadeColors()}, are displayed as well.
-     * 
+     *
      * @param fadeColors The additional secondary firework particle colors.
      * @return This object.
      */
@@ -204,7 +204,7 @@ public class FireworkEffectDefinition implements Cloneable {
     /**
      * Adds the given {@link Color}s the particles spawned by this effect should fade to some time after the firework explosion.
      * Note that the existing secondary colors, which can be retrieved with {@link #getFadeColors()}, are displayed as well.
-     * 
+     *
      * @param fadeColors The additional secondary firework particle colors.
      * @return This object.
      */
@@ -218,7 +218,7 @@ public class FireworkEffectDefinition implements Cloneable {
     /**
      * Removes the given {@link Color}s the particles spawned by this effect should not fade to some time after the firework explosion.
      * Note that only the other existing secondary colors, which can be retrieved with {@link #getFadeColors()}, are displayed after the removal.
-     * 
+     *
      * @param fadeColors The secondary firework particle colors for removal.
      * @return This object.
      */
@@ -231,7 +231,7 @@ public class FireworkEffectDefinition implements Cloneable {
     /**
      * Removes the given {@link Color}s the particles spawned by this effect should not fade to some time after the firework explosion.
      * Note that only the other existing secondary colors, which can be retrieved with {@link #getFadeColors()}, are displayed after the removal.
-     * 
+     *
      * @param fadeColors The secondary firework particle colors for removal.
      * @return This object.
      */

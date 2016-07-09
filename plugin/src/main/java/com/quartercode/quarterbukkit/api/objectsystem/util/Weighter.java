@@ -23,7 +23,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
 /**
  * A weighter takes an object and returns a value between 0 and 1 based on some criteria.
  * For example, the value returned by a weighter could be based on the distance between the object and some other point.
- * 
+ *
  * @param <O> The type of object the weighter can calculate a weighting value for. It must extend {@link BaseObject}.
  */
 public interface Weighter<O extends BaseObject> {
@@ -31,7 +31,7 @@ public interface Weighter<O extends BaseObject> {
     /**
      * Returns the weighting value between 0 and 1 that was calculated by the weighter for the given object based on some criteria.
      * For example, the value could be based on the distance between the object and some other point.
-     * 
+     *
      * @param object The object that should be weighted.
      * @return The calculated weight for the given object.
      */

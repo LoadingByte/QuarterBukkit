@@ -23,7 +23,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.ModificationApplier;
 
 /**
  * A {@link ModificationApplier} that applies a velocity modification {@link Vector} produced by a {@link VelocityModifier} to a {@link PhysicsObject}.
- * 
+ *
  * @param <O> The type of object the velocity modification applier can apply a velocity modification vector to. This must extend {@link PhysicsObject}.
  *        Note that this type parameter is somewhat unnecessary since the velocity applier accepts all kinds of physics objects.
  *        However, the type system requires it.

@@ -24,7 +24,7 @@ import org.bukkit.plugin.Plugin;
 /**
  * Object sources are responsible for spawning new objects into an {@link ActiveObjectSystem}.
  * That can either be done deterministically or randomly using a provided {@link Random} object.
- * 
+ *
  * @see ObjectSystemDefinition
  */
 public interface Source {
@@ -32,7 +32,7 @@ public interface Source {
     /**
      * Spawns new objects into the given {@link ActiveObjectSystem} based on some rules.
      * If the object spawning is done randomly, the provided {@link Random} object can be used.
-     * 
+     *
      * @param plugin The {@link Plugin} that started a runner which now simulates the active system and called the object source.
      * @param objectSystem The active system new objects should be spawned into.
      * @param random The random object that should be used for random decisions.

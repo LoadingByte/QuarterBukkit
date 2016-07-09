@@ -41,7 +41,7 @@ public class ScheduleGroup extends ArrayList<ScheduleTask> {
 
     /**
      * A constructor for creating a filled group.
-     * 
+     *
      * @param collection The {@link ScheduleTask} collection.
      */
     public ScheduleGroup(Collection<? extends ScheduleTask> collection) {

@@ -68,7 +68,7 @@ public class ObjectSystemRunner {
 
     /**
      * Creates a new object system runner that simulates the given {@link ActiveObjectSystem} and uses the given {@link Plugin} as host.
-     * 
+     *
      * @param plugin The plugin that is used to call some required bukkit methods.
      *        It hosts the new runner.
      * @param objectSystem The active object system that should be ran and simulated by the runner.
@@ -81,7 +81,7 @@ public class ObjectSystemRunner {
     /**
      * Creates a new object system runner that simulates the given {@link ActiveObjectSystem}, uses the given {@link Plugin} as host, and can
      * stop if no more objects are stored in the active system.
-     * 
+     *
      * @param plugin The plugin that is used to call some required bukkit methods.
      *        It hosts the new runner.
      * @param objectSystem The active object system that should be ran and simulated by the runner.
@@ -96,7 +96,7 @@ public class ObjectSystemRunner {
     /**
      * Creates a new object system runner that simulates the given {@link ActiveObjectSystem} using the given {@link Renderer}s and uses the
      * given {@link Plugin} as host.
-     * 
+     *
      * @param plugin The plugin that is used to call some required bukkit methods.
      *        It hosts the new runner.
      * @param renderers The {@link Renderer}s that simulate and display the objects of the active system.
@@ -110,7 +110,7 @@ public class ObjectSystemRunner {
     /**
      * Creates a new object system runner that simulates the given {@link ActiveObjectSystem} using the given {@link Renderer}s, uses the
      * given {@link Plugin} as host, and can stop if no more objects are stored in the active system.
-     * 
+     *
      * @param plugin The plugin that is used to call some required bukkit methods.
      *        It hosts the new runner.
      * @param renderers The {@link Renderer}s that simulate and display the objects of the active system.
@@ -129,7 +129,7 @@ public class ObjectSystemRunner {
     /**
      * Returns whether the object system runner is currently running and simulating its {@link ActiveObjectSystem} using its {@link Renderer}s.
      * This state can be changed with {@link #setRunning(boolean)}.
-     * 
+     *
      * @return Whether the runner is running.
      */
     public boolean isRunning() {
@@ -139,7 +139,7 @@ public class ObjectSystemRunner {
 
     /**
      * Starts or stops the object system runner simulating its {@link ActiveObjectSystem} using its {@link Renderer}s.
-     * 
+     *
      * @param running Whether the should be running.
      */
     public void setRunning(boolean running) {

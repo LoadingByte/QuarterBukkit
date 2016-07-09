@@ -26,7 +26,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.ModifierWrapper;
 /**
  * A {@link Modifier} wrapper that changes the length of the modification {@link Vector} returned by a wrapped modifier by a defined factor.
  * For example, you could use the modifier to manipulate an acceleration value by applying the modifier to a velocity modification vector.
- * 
+ *
  * @param <O> The type of object the vector length modifier accepts. This must extend {@link BaseObject}.
  * @see Vector
  */
@@ -36,7 +36,7 @@ public class VectorLengthModifier<O extends BaseObject> extends ModifierWrapper<
 
     /**
      * Creates a new vector length modifier that changes the length of the modification {@link Vector} returned by the given wrapped {@link Modifier} by the given factor.
-     * 
+     *
      * @param factor The factor the modification vectors returned by the wrapped modifier are multiplied with.
      * @param wrapped The wrapped modifier whose returned vectors are modified.
      *        Obviously, it must return a vector as modification object.
@@ -50,7 +50,7 @@ public class VectorLengthModifier<O extends BaseObject> extends ModifierWrapper<
 
     /**
      * Returns the factor the modification {@link Vector} returned by the wrapped {@link Modifier} should be multiplied with.
-     * 
+     *
      * @return The vector length factor.
      */
     public float getFactor() {
@@ -60,7 +60,7 @@ public class VectorLengthModifier<O extends BaseObject> extends ModifierWrapper<
 
     /**
      * Sets the factor the modification {@link Vector} returned by the wrapped {@link Modifier} should be multiplied with.
-     * 
+     *
      * @param factor The new vector length factor.
      * @return This object.
      */

@@ -36,7 +36,7 @@ public class Command {
 
     /**
      * Creates a new command representing object.
-     * 
+     *
      * @param sender The {@link CommandSender} of the command.
      * @param globalLabel The global label of the command.
      * @param label The secondary label of the command.
@@ -52,7 +52,7 @@ public class Command {
 
     /**
      * Returns the {@link CommandSender} of the command.
-     * 
+     *
      * @return The {@link CommandSender}.
      */
     public CommandSender getSender() {
@@ -63,7 +63,7 @@ public class Command {
     /**
      * Returns the global label of the command.
      * If you type in /command help, command will be the global label.
-     * 
+     *
      * @return The global label of the command.
      */
     public String getGlobalLabel() {
@@ -74,7 +74,7 @@ public class Command {
     /**
      * Returns the secondary label of the command.
      * If you type in /command help, help will be the secondary label.
-     * 
+     *
      * @return The secondary label of the command.
      */
     public String getLabel() {
@@ -85,7 +85,7 @@ public class Command {
     /**
      * Returns the parsed arguments of the command as a {@link String}-array.
      * If you type in /command help 2, the array will only contains [2].
-     * 
+     *
      * @return The parsed arguments of the command.
      */
     public String[] getArguments() {

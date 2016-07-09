@@ -32,7 +32,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.physics.VelocityModifier;
  * A {@link VelocityModifier} that returns a velocity modification {@link Vector} which accelerates the {@link PhysicsObject} towards or away from a certain point.
  * It can be compared with an (inverted) gravitational force that pulls every object towards or away from its center.
  * Note that you can limit the velocity modification to a specific area using the {@link ShapedModifier} wrapper.
- * 
+ *
  * @param <O> The type of object the targeted velocity modifier accepts. This must extend {@link PhysicsObject}.
  * @see PhysicsObject
  * @see ShapedModifier
@@ -42,7 +42,7 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
     /**
      * The different types of targeted velocity modifications.
      * They have different behaviors depending on the distance of a {@link PhysicsObject} to the target point.
-     * 
+     *
      * @see TargetedVelocityModifier
      */
     public static enum TargetedVelocityModificationType {
@@ -65,11 +65,11 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
         /**
          * Takes the position {@link Vector} of the {@link PhysicsObject} to the target, uniforms its length and multiplies it by the result of a basic gravitational formula without mass.
          * Basically, the vector is multiplied with the result of the following term:
-         * 
+         *
          * <pre>
          * - (factor / distance &circ; 2)
          * </pre>
-         * 
+         *
          * This type might be dangerous because the acceleration becomes really high when an object gets closer to the target.
          * The velocity change is squared each time the distance between the object and the target halves.
          * Actually, the acceleration is infinite when the object directly passes through center.
@@ -88,7 +88,7 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
 
         /**
          * Returns the default factor that is used for the type if no factor is explicitly specified.
-         * 
+         *
          * @return The default factor of the type.
          */
         public float getDefaultFactor() {
@@ -110,7 +110,7 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
     /**
      * Creates a new targeted velocity modifier that makes {@link PhysicsObject}s accelerate towards the given target {@link Vector}.
      * This uses the {@link TargetedVelocityModificationType#NEGATIVE_POSITION_VECTOR} type and its default factor.
-     * 
+     *
      * @param target The target vector all objects accelerate towards.
      *        Note that this vector is always relative to the origin of any {@link ActiveObjectSystem} the modifier is used by.
      */
@@ -122,7 +122,7 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
     /**
      * Creates a new targeted velocity modifier that makes {@link PhysicsObject}s accelerate towards or away from the given target {@link Vector} with the given factor.
      * This uses the {@link TargetedVelocityModificationType#NEGATIVE_POSITION_VECTOR} type.
-     * 
+     *
      * @param target The target vector all objects accelerate towards or away from.
      *        Note that this vector is always relative to the origin of any {@link ActiveObjectSystem} the modifier is used by.
      * @param factor The factor that defines how fast an object accelerates towards or away from the target vector.
@@ -138,7 +138,7 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
     /**
      * Creates a new targeted velocity modifier that makes {@link PhysicsObject}s accelerate towards the given target {@link Vector} with the given {@link TargetedVelocityModificationType}.
      * This uses the default factor of the given modification type.
-     * 
+     *
      * @param target The target vector all objects accelerate towards.
      *        Note that this vector is always relative to the origin of any {@link ActiveObjectSystem} the modifier is used by.
      * @param type The modification type that defines how the acceleration changes when the distance between the object and the target changes
@@ -151,7 +151,7 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
     /**
      * Creates a new targeted velocity modifier that makes {@link PhysicsObject}s accelerate towards or away from the given target {@link Vector} with the given
      * {@link TargetedVelocityModificationType} and factor.
-     * 
+     *
      * @param target The target vector all objects accelerate towards or away from.
      *        Note that this vector is always relative to the origin of any {@link ActiveObjectSystem} the modifier is used by.
      * @param type The modification type that defines how the acceleration changes when the distance between the object and the target changes
@@ -169,7 +169,7 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
 
     /**
      * Returns the {@link TargetedVelocityModificationType} that defines how the acceleration changes when the distance between the {@link PhysicsObject} and the target changes.
-     * 
+     *
      * @return The modification type.
      */
     public TargetedVelocityModificationType getType() {
@@ -179,7 +179,7 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
 
     /**
      * Sets the {@link TargetedVelocityModificationType} that defines how the acceleration changes when the distance between the {@link PhysicsObject} and the target changes.
-     * 
+     *
      * @param type The new modification type.
      * @return This object.
      */
@@ -193,7 +193,7 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
     /**
      * Returns the target {@link Vector} all objects accelerate towards or away from depending on the sign of the factor.
      * Note that this vector is always relative to the origin of any {@link ActiveObjectSystem} the modifier is used by.
-     * 
+     *
      * @return The target vector.
      */
     public Vector getTarget() {
@@ -204,7 +204,7 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
     /**
      * Sets the target {@link Vector} all objects accelerate towards or away from depending on the sign of the factor.
      * Note that this vector is always relative to the origin of any {@link ActiveObjectSystem} the modifier is used by.
-     * 
+     *
      * @param target The new target vector.
      * @return This object.
      */
@@ -221,7 +221,7 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
      * By making this value negative, all objects accelerate away from the target.
      * Note that the range of appropriate values highly depends on the {@link TargetedVelocityModificationType}.
      * You should look up the default factors of the different types to get a starting point for further experiments.
-     * 
+     *
      * @return The acceleration factor.
      */
     public float getFactor() {
@@ -234,7 +234,7 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
      * By making this value negative, all objects accelerate away from the target.
      * Note that the range of appropriate values highly depends on the {@link TargetedVelocityModificationType}.
      * You should look up the default factors of the different types to get a starting point for further experiments.
-     * 
+     *
      * @param factor The new acceleration factor.
      * @return This object.
      */
@@ -248,7 +248,7 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
      * Returns which {@link Vector} components (x/y/z) aren't changed by the velocity modifier.
      * For example, if the y component is ignored, the y component of any modification vector will be zero.
      * That way, you can create objects that are dragged towards a specific line (1 ignored) or surface (2 ignored) instead of a point.
-     * 
+     *
      * @return The vector components that are ignored.
      *         The array has 3 elements.
      *         The first element represents the x component, the second one the y component, and the last one the z component.
@@ -262,7 +262,7 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
      * Sets which {@link Vector} components (x/y/z) aren't changed by the velocity modifier.
      * For example, if the y component is ignored, the y component of any modification vector will be zero.
      * That way, you can create objects that are dragged towards a specific line (1 ignored) or surface (2 ignored) instead of a point.
-     * 
+     *
      * @param ignoreX Whether the x vector component should be ignored.
      * @param ignoreY Whether the y vector component should be ignored.
      * @param ignoreZ Whether the z vector component should be ignored.

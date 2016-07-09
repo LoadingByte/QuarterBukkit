@@ -29,7 +29,7 @@ public class NoDefaultCommandFoundException extends NoCommandFoundException {
 
     /**
      * Creates a NoDefaultCommandFoundException filled with a {@link Command} and a {@link CommandExecutor}.
-     * 
+     *
      * @param plugin The causing {@link Plugin}.
      * @param command The not registered {@link Command}.
      * @param commandExecutor The {@link CommandExecutor} which should execute the {@link Command}.
@@ -41,7 +41,7 @@ public class NoDefaultCommandFoundException extends NoCommandFoundException {
 
     /**
      * Creates a NoDefaultCommandFoundException filled with a {@link Command}, a {@link CommandExecutor} and an informational message.
-     * 
+     *
      * @param plugin The causing {@link Plugin}.
      * @param command The not registered {@link Command}.
      * @param commandExecutor The {@link CommandExecutor} which should execute the {@link Command}.

@@ -34,7 +34,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * The first modifier of that chain can then be set as the rule modifier.
  * That way, different modifiers can be combined together.
  * For example, a second modifier could adjust the actual velocity modification depending on the location of the object.
- * 
+ *
  * @param <O> The type of object that can be modified by the rule. This must extend {@link BaseObject}.
  * @param <M> The type of the modification object that is returned by the modifier.
  *        For example, a velocity modifier would use a vector as modification object.
@@ -48,7 +48,7 @@ public class ModificationRule<O extends BaseObject, M> {
 
     /**
      * Creates a new modification rule that modifies objects of the given type and then lets the given {@link ModificationApplier} execute the changes.
-     * 
+     *
      * @param objectType The type of object that can be modified by the rule. This must extend {@link BaseObject}.
      * @param applier The modification applier, which is responsible for applying the modification to the actual object property.
      *        See {@link ModificationRule} for more information on that.
@@ -62,7 +62,7 @@ public class ModificationRule<O extends BaseObject, M> {
     /**
      * Creates a new modification rule that modifies objects of the given type using the given {@link Modifier} and
      * then lets the given {@link ModificationApplier} execute the changes.
-     * 
+     *
      * @param objectType The type of object that can be modified by the rule. This must extend {@link BaseObject}.
      * @param applier The modification applier which is responsible for applying the modification to the actual object property.
      *        See {@link ModificationRule} for more information on that.
@@ -77,7 +77,7 @@ public class ModificationRule<O extends BaseObject, M> {
 
     /**
      * Returns the type of object that can be modified by the rule. This must extend {@link BaseObject}.
-     * 
+     *
      * @return A class object which specifies the supported object types.
      */
     public Class<O> getObjectType() {
@@ -89,7 +89,7 @@ public class ModificationRule<O extends BaseObject, M> {
      * Returns the {@link ModificationApplier} which is responsible for applying the changes made by the {@link Modifier} to an actual object property.
      * For example, a velocity modification applier would add the velocity modification vector to the current velocity vector of the object.
      * See {@link ModificationRule} for more information on that.
-     * 
+     *
      * @return The set modification applier.
      */
     public ModificationApplier<O, M> getApplier() {
@@ -101,7 +101,7 @@ public class ModificationRule<O extends BaseObject, M> {
      * Sets the {@link ModificationApplier} which is responsible for applying the changes made by the {@link Modifier} to an actual object property.
      * For example, a velocity modification applier would add the velocity modification vector to the current velocity vector of the object.
      * See {@link ModificationRule} for more information on that.
-     * 
+     *
      * @param applier The new modification applier.
      */
     public void setApplier(ModificationApplier<O, M> applier) {
@@ -114,7 +114,7 @@ public class ModificationRule<O extends BaseObject, M> {
      * Returns the {@link Modifier} which is responsible for calculating the changes to the modified object property.
      * For example, a velocity modifier would return a modification vector that adjusts the velocity vector of the object.
      * See {@link ModificationRule} for more information on that.
-     * 
+     *
      * @return The set modifier.
      */
     public Modifier<O, M> getModifier() {
@@ -126,7 +126,7 @@ public class ModificationRule<O extends BaseObject, M> {
      * Sets the {@link Modifier} which is responsible for calculating the changes to the modified object property.
      * For example, a velocity modifier would return a modification vector that adjusts the velocity vector of the object.
      * See {@link ModificationRule} for more information on that.
-     * 
+     *
      * @param modifier The new modifier.
      */
     public void setModifier(Modifier<O, M> modifier) {
@@ -138,7 +138,7 @@ public class ModificationRule<O extends BaseObject, M> {
     /**
      * Applies the modification rule to the given object.
      * This first calls the {@link Modifier} and then passes the changes into the {@link ModificationApplier}.
-     * 
+     *
      * @param object The object that should be modified.
      */
     public void apply(O object) {

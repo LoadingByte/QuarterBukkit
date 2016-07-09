@@ -26,7 +26,7 @@ import org.bukkit.Color;
 
 /**
  * This class describes the look of one particle run.
- * 
+ *
  * @deprecated The particle api was replaced by the more flexible object system api.
  *             See the wiki for more information on that new api.
  */
@@ -46,7 +46,7 @@ public class ParticleDescription {
 
     /**
      * Creates a new particle description and sets the {@link ParticleShape}.
-     * 
+     *
      * @param shape The {@link ParticleShape}.
      */
     public ParticleDescription(ParticleShape shape) {
@@ -56,7 +56,7 @@ public class ParticleDescription {
 
     /**
      * Creates a new particle description and sets the particle {@link Color}s as an array/vararg.
-     * 
+     *
      * @param colors The particle {@link Color}s as an array/vararg.
      */
     public ParticleDescription(Color... colors) {
@@ -66,7 +66,7 @@ public class ParticleDescription {
 
     /**
      * Creates a new particle description and sets the particle {@link Color}s as a {@link List}.
-     * 
+     *
      * @param colors The particle {@link Color}s as a {@link List}.
      */
     public ParticleDescription(List<Color> colors) {
@@ -76,7 +76,7 @@ public class ParticleDescription {
 
     /**
      * Creates a new particle description and sets the {@link ParticleShape} and the particle {@link Color}s as an array/vararg.
-     * 
+     *
      * @param shape The {@link ParticleShape}.
      * @param colors The particle {@link Color}s as an array/vararg.
      */
@@ -88,7 +88,7 @@ public class ParticleDescription {
 
     /**
      * Creates a new particle description and sets the {@link ParticleShape} and the particle {@link Color}s as a {@link List}.
-     * 
+     *
      * @param shape The {@link ParticleShape}.
      * @param colors The particle {@link Color}s as a {@link List}.
      */
@@ -100,7 +100,7 @@ public class ParticleDescription {
 
     /**
      * Returns the {@link ParticleShape}.
-     * 
+     *
      * @return The {@link ParticleShape}.
      */
     public ParticleShape getShape() {
@@ -110,7 +110,7 @@ public class ParticleDescription {
 
     /**
      * Sets the {@link ParticleShape}.
-     * 
+     *
      * @param shape The {@link ParticleShape}.
      * @return This particle description.
      */
@@ -122,7 +122,7 @@ public class ParticleDescription {
 
     /**
      * Returns the particle {@link Color}s.
-     * 
+     *
      * @return This particle description.
      */
     public List<Color> getColors() {
@@ -132,7 +132,7 @@ public class ParticleDescription {
 
     /**
      * Sets the particle {@link Color}s as an array/vararg.
-     * 
+     *
      * @param colors The particle {@link Color}s as an array/vararg.
      * @return This particle description.
      */
@@ -144,7 +144,7 @@ public class ParticleDescription {
 
     /**
      * Sets the particle {@link Color}s as a {@link List}.
-     * 
+     *
      * @param colors The particle {@link Color}s as a {@link List}.
      * @return This particle description.
      */
@@ -156,7 +156,7 @@ public class ParticleDescription {
 
     /**
      * Adds a particle {@link Color}.
-     * 
+     *
      * @param color The particle {@link Color} to add.
      * @return This particle description.
      */
@@ -168,7 +168,7 @@ public class ParticleDescription {
 
     /**
      * Removes a particle {@link Color}.
-     * 
+     *
      * @param color The particle {@link Color} to remove.
      * @return This particle description.
      */
@@ -180,7 +180,7 @@ public class ParticleDescription {
 
     /**
      * Returns the fade particle {@link Color}s.
-     * 
+     *
      * @return The fade particle {@link Color}s.
      */
     public List<Color> getFadeColors() {
@@ -190,7 +190,7 @@ public class ParticleDescription {
 
     /**
      * Sets the fade particle {@link Color}s as an array/vararg.
-     * 
+     *
      * @param fadeColors The fade particle {@link Color}s as an array/vararg.
      * @return This particle description.
      */
@@ -202,7 +202,7 @@ public class ParticleDescription {
 
     /**
      * Sets the fade particle {@link Color}s as a {@link List}.
-     * 
+     *
      * @param fadeColors The fade particle {@link Color}s as a {@link List}.
      * @return This particle description.
      */
@@ -214,7 +214,7 @@ public class ParticleDescription {
 
     /**
      * Adds a fade particle {@link Color}.
-     * 
+     *
      * @param fadeColor The fade particle {@link Color} to add.
      * @return This particle description.
      */
@@ -226,7 +226,7 @@ public class ParticleDescription {
 
     /**
      * Removes a fade particle {@link Color}.
-     * 
+     *
      * @param fadeColor The fade particle {@link Color} to remove.
      * @return This particle description.
      */

@@ -25,7 +25,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.Modifier;
  * A shortcut for {@link Modifier}s that modify the velocity of a {@link PhysicsObject}.
  * That velocity modification can be compared to the effect of a force.
  * See {@link Modifier} for more information on modifiers.
- * 
+ *
  * @param <O> The type of object the velocity modifier can use to calculate a velocity modification {@link Vector}.
  *        This must extend {@link PhysicsObject}.
  * @see Modifier
@@ -37,7 +37,7 @@ public interface VelocityModifier<O extends PhysicsObject> extends Modifier<O, V
     /**
      * Calculates the velocity modification {@link Vector} for the given {@link PhysicsObject}.
      * A {@link VelocityModificationApplier} then adjusts the actual velocity vector of the object.
-     * 
+     *
      * @param object The object the velocity modifier should calculate a velocity modification vector for.
      * @return The calculated velocity modification vector.
      */

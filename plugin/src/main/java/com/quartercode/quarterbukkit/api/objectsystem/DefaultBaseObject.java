@@ -25,7 +25,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
  * A default implementation of {@link BaseObject} that just stores lifetime and expiration time as member variables.
- * 
+ *
  * @see BaseObject
  */
 public class DefaultBaseObject implements BaseObject {
@@ -43,7 +43,7 @@ public class DefaultBaseObject implements BaseObject {
 
     /**
      * Creates a new default base object that expires and is removed after the given amount of updates.
-     * 
+     *
      * @param expirationTime The amount of updates after which the object expires and is removed.
      */
     public DefaultBaseObject(int expirationTime) {

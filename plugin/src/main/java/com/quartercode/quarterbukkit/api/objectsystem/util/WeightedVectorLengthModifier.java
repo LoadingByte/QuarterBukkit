@@ -28,7 +28,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.ModifierWrapper;
  * A {@link Modifier} wrapper that changes the length of the modification {@link Vector} returned by a wrapped modifier based on the object's weight returned by a {@link Weighter}.
  * For example, you could use the modifier to manipulate an acceleration value depending on the distance to a certain point by applying the modifier to a
  * velocity modification vector.
- * 
+ *
  * @param <O> The type of object the weighted vector length modifier accepts. This must extend {@link BaseObject}.
  * @see Weighter
  * @see Vector
@@ -39,7 +39,7 @@ public class WeightedVectorLengthModifier<O extends BaseObject> extends Modifier
 
     /**
      * Creates a new weighted vector length modifier that changes the length of the modification {@link Vector} returned by the given wrapped {@link Modifier} using the given {@link Weighter}.
-     * 
+     *
      * @param weighter The weighter that is used to calculate the {@link Vector} length manipulation factor.
      *        The weight returned by the weighter is multiplied with the vector returned by the given wrapped modifier.
      * @param wrapped The wrapped modifier whose returned vectors are modified.
@@ -55,7 +55,7 @@ public class WeightedVectorLengthModifier<O extends BaseObject> extends Modifier
     /**
      * Returns the {@link Weighter} that is used to calculate the {@link Vector} length manipulation factor.
      * The weight returned by the weighter is multiplied with the vector returned by the wrapped {@link Modifier}.
-     * 
+     *
      * @return The weighter used to calculate the manipulation factor.
      */
     public Weighter<? super O> getWeighter() {
@@ -66,7 +66,7 @@ public class WeightedVectorLengthModifier<O extends BaseObject> extends Modifier
     /**
      * Sets the {@link Weighter} that is used to calculate the {@link Vector} length manipulation factor.
      * The weight returned by the weighter is multiplied with the vector returned by the wrapped {@link Modifier}.
-     * 
+     *
      * @param weighter The new weighter to use for calculating the manipulation factor.
      * @return This object.
      */
