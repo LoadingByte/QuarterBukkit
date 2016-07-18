@@ -39,7 +39,7 @@ public class ReflectionConstants {
      * The minor component is the second part of the version string.
      * For example, the minor version number of the minecraft version {@code 1.7.10} would be {@code 7}.
      */
-    public static final int    MINOR_VERSION     = Integer.parseInt(Character.toString(PACKAGE_VERSION.charAt(3)));
+    public static final int    MINOR_VERSION     = Integer.parseInt(PACKAGE_VERSION.split("_")[1]);
 
     /**
      * The real name of the {@code org.bukkit.craftbukkit} package.
