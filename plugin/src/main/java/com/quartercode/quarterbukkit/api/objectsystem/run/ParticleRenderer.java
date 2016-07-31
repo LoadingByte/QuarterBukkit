@@ -45,7 +45,7 @@ public class ParticleRenderer extends StatelessRenderer<ParticleObject> {
     private static final Field          NMS_ENTITY_PLAYER__PLAYER_CONNECTION;
     private static final Method         NMS_PLAYER_CONNECTION__SEND_PACKET;
     private static final Constructor<?> NMS_PACKET__CONSTRUCTOR;
-    private static final Method         NMS_ENUM_PARTICLE_VALUE_OF;
+    private static final Method         NMS_ENUM_PARTICLE__VALUE_OF;
 
     static {
 
@@ -54,16 +54,14 @@ public class ParticleRenderer extends StatelessRenderer<ParticleObject> {
             NMS_ENTITY_PLAYER__PLAYER_CONNECTION = Class.forName(ReflectionConstants.NMS_PACKAGE + ".EntityPlayer").getField("playerConnection");
             NMS_PLAYER_CONNECTION__SEND_PACKET = NMS_ENTITY_PLAYER__PLAYER_CONNECTION.getType().getMethod("sendPacket", Class.forName(ReflectionConstants.NMS_PACKAGE + ".Packet"));
 
-            String packetClassName = ReflectionConstants.NMS_PACKAGE + "." + (ReflectionConstants.MINOR_VERSION < 7 ? "Packet63WorldParticles" : "PacketPlayOutWorldParticles");
+            String packetClassName = ReflectionConstants.NMS_PACKAGE + "." + (ReflectionConstants.MINOR_VERSION <= 6 ? "Packet63WorldParticles" : "PacketPlayOutWorldParticles");
             NMS_PACKET__CONSTRUCTOR = Class.forName(packetClassName).getConstructor();
 
-            if(ReflectionConstants.MINOR_VERSION > 7) {
-                NMS_ENUM_PARTICLE_VALUE_OF = Class.forName(ReflectionConstants.NMS_PACKAGE + ".EnumParticle").getMethod("a", String.class);
+            if (ReflectionConstants.MINOR_VERSION >= 8) {
+                NMS_ENUM_PARTICLE__VALUE_OF = Class.forName(ReflectionConstants.NMS_PACKAGE + ".EnumParticle").getMethod("a", String.class);
             } else {
-                NMS_ENUM_PARTICLE_VALUE_OF = null;
+                NMS_ENUM_PARTICLE__VALUE_OF = null;
             }
-
-
         } catch (Exception e) {
             throw new RuntimeException("Cannot initialize particle renderer reflection handles", e);
         }
@@ -104,11 +102,10 @@ public class ParticleRenderer extends StatelessRenderer<ParticleObject> {
     private Object createPacket(ParticleDefinition particle, Location location) {
 
         try {
-
             Object packet = NMS_PACKET__CONSTRUCTOR.newInstance();
 
-            if(ReflectionConstants.MINOR_VERSION > 7) {
-                setField(packet, "a", NMS_ENUM_PARTICLE_VALUE_OF.invoke(null, particle.getType().getName()));
+            if (ReflectionConstants.MINOR_VERSION >= 8) {
+                setField(packet, "a", NMS_ENUM_PARTICLE__VALUE_OF.invoke(null, particle.getType().getName()));
                 setField(packet, "j", true);
             } else {
                 setField(packet, "a", particle.getType().getName());
