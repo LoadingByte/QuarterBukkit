@@ -4,6 +4,9 @@
 ### Fixes
 * QuarterBukkit now works with the latest versions of Bukkit for Minecraft 1.10.x.
 
+### Notes
+* Change the license to LGPL v3.
+
 0.3.0
 -----
 
