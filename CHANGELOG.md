@@ -1,3 +1,9 @@
+0.4.0
+-----
+
+### Fixes
+* QuarterBukkit now works with the latest versions of Bukkit for Minecraft 1.10.x.
+
 0.3.0
 -----
 
