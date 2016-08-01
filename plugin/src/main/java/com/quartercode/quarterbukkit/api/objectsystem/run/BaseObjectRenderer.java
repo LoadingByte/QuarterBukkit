@@ -23,7 +23,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.ActiveObjectSystem;
 import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
 
 /**
- * A {@link Renderer} that updates the lifetime of all {@link BaseObject}s and removes them if they expired.
+ * A {@link Renderer} that updates the lifetime of all {@link BaseObject}s and removes them if they have expired.
  *
  * @see BaseObject
  * @see Renderer
@@ -37,7 +37,7 @@ public class BaseObjectRenderer extends StatelessRenderer<BaseObject> {
     }
 
     @Override
-    public RenderingResult render(Plugin plugin, ActiveObjectSystem objectSystem, BaseObject object) {
+    public RenderingResult render(Plugin plugin, ActiveObjectSystem objectSystem, long dt, BaseObject object) {
 
         RenderingResult result;
         if (object.getExpirationTime() != -1 && object.getLifetime() >= object.getExpirationTime()) {
@@ -46,7 +46,7 @@ public class BaseObjectRenderer extends StatelessRenderer<BaseObject> {
             result = RenderingResult.NOTHING;
         }
 
-        object.incrementLifetime();
+        object.incrementLifetime(dt);
 
         return result;
     }

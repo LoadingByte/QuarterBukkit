@@ -30,8 +30,8 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 public class DefaultBaseObject implements BaseObject {
 
-    private int lifetime;
-    private int expirationTime;
+    private long lifetime;
+    private long expirationTime;
 
     /**
      * Creates a new default base object that never expires.
@@ -42,35 +42,35 @@ public class DefaultBaseObject implements BaseObject {
     }
 
     /**
-     * Creates a new default base object that expires and is removed after the given amount of updates.
+     * Creates a new default base object that expires and is removed after the given amount of milliseconds.
      *
-     * @param expirationTime The amount of updates after which the object expires and is removed.
+     * @param expirationTime The amount of milliseconds after which the object expires and is removed.
      */
-    public DefaultBaseObject(int expirationTime) {
+    public DefaultBaseObject(long expirationTime) {
 
         this.expirationTime = expirationTime;
     }
 
     @Override
-    public int getLifetime() {
+    public long getLifetime() {
 
         return lifetime;
     }
 
     @Override
-    public void incrementLifetime() {
+    public void incrementLifetime(long dt) {
 
-        lifetime++;
+        lifetime += dt;
     }
 
     @Override
-    public int getExpirationTime() {
+    public long getExpirationTime() {
 
         return expirationTime;
     }
 
     @Override
-    public void setExpirationTime(int expirationTime) {
+    public void setExpirationTime(long expirationTime) {
 
         this.expirationTime = expirationTime;
     }

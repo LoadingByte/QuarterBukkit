@@ -42,14 +42,14 @@ public class RenderingUtils {
     /**
      * Does the same as {@link #checkSpeedBasedFrequency(PhysicsObject, float)} using raw values.
      *
-     * @param objectLifetime The lifetime of the object.
+     * @param objectLifetime The lifetime of the object in milliseconds.
      *        It can be determined with {@link PhysicsObject#getLifetime()}.
      * @param objectVelocity The current velocity value of the object.
      *        It can be determined with {@link PhysicsObject#getVelocity()} and then {@link Vector#length()}.
      * @param minRenderDistance The minimum distance from the current position of the object its last rendering must have happened.
      * @return Whether the object should be rendered.
      */
-    public static boolean checkSpeedBasedFrequency(int objectLifetime, double objectVelocity, float minRenderDistance) {
+    public static boolean checkSpeedBasedFrequency(long objectLifetime, double objectVelocity, float minRenderDistance) {
 
         if (objectVelocity >= minRenderDistance) {
             return true;

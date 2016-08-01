@@ -174,12 +174,12 @@ public class ShapedModifier<O extends PhysicsObject, M> extends ModifierWrapper<
     }
 
     @Override
-    public M getModification(O object) {
+    public M getModification(long dt, O object) {
 
         boolean intersectsShape = shape.intersects(object.getPosition());
 
         if (intersectsShape == !inversed) {
-            return getWrapped().getModification(object);
+            return getWrapped().getModification(dt, object);
         } else {
             return nullObject;
         }

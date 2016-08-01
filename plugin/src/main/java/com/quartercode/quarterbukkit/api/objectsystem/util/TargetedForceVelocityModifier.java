@@ -30,38 +30,38 @@ import com.quartercode.quarterbukkit.api.objectsystem.physics.VelocityModifier;
 
 /**
  * A {@link VelocityModifier} that returns a velocity modification {@link Vector} which accelerates the {@link PhysicsObject} towards or away from a certain point.
- * It can be compared with an (inverted) gravitational force that pulls every object towards or away from its center.
+ * It can be compared with a (possibly inverted) gravitational force that pulls every object towards or away from its center.
  * Note that you can limit the velocity modification to a specific area using the {@link ShapedModifier} wrapper.
  *
  * @param <O> The type of object the targeted velocity modifier accepts. This must extend {@link PhysicsObject}.
  * @see PhysicsObject
  * @see ShapedModifier
  */
-public class TargetedVelocityModifier<O extends PhysicsObject> implements VelocityModifier<O> {
+public class TargetedForceVelocityModifier<O extends PhysicsObject> implements VelocityModifier<O> {
 
     /**
      * The different types of targeted velocity modifications.
      * They have different behaviors depending on the distance of a {@link PhysicsObject} to the target point.
      *
-     * @see TargetedVelocityModifier
+     * @see TargetedForceVelocityModifier
      */
-    public static enum TargetedVelocityModificationType {
+    public static enum TargetedForceType {
 
         /**
          * Takes the position {@link Vector} of the {@link PhysicsObject} to the target and multiplies it by the negative value of the provided factor.
          * That means that the acceleration is bigger if the object is farther away from the target point.
          * If the object is really close to the center, the acceleration is very close to zero.<br>
          * <br>
-         * The default factor is 0.01.
+         * The default factor is 1.
          */
-        NEGATIVE_POSITION_VECTOR (0.01F),
+        NEGATIVE_POSITION_VECTOR (1),
         /**
          * Takes the position {@link Vector} of the {@link PhysicsObject} to the target, uniforms its length and multiplies it by the negative value of the provided factor.
          * That means that the acceleration doesn't change if the object is farther away from or closer to the target point.<br>
          * <br>
-         * The default factor is 0.01.
+         * The default factor is 1.
          */
-        UNIFORM (0.01F),
+        UNIFORM (1),
         /**
          * Takes the position {@link Vector} of the {@link PhysicsObject} to the target, uniforms its length and multiplies it by the result of a basic gravitational formula without mass.
          * Basically, the vector is multiplied with the result of the following term:
@@ -75,13 +75,13 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
          * Actually, the acceleration is infinite when the object directly passes through center.
          * However, realistic single body orbital mechanics can be simulated if all objects don't get to close.<br>
          * <br>
-         * The default factor is 5.
+         * The default factor is 500.
          */
-        GRAVITY (5);
+        GRAVITY (500);
 
         private final float defaultFactor;
 
-        private TargetedVelocityModificationType(float defaultFactor) {
+        private TargetedForceType(float defaultFactor) {
 
             this.defaultFactor = defaultFactor;
         }
@@ -98,59 +98,58 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
 
     }
 
-    private static final Vector              ZERO_VECTOR        = new Vector();
+    private static final Vector ZERO_VECTOR        = new Vector();
 
-    private TargetedVelocityModificationType type;
-    private Vector                           target;
-    private float                            factor;
-    private boolean[]                        ignoredComponenets = new boolean[3];
+    private TargetedForceType   type;
+    private Vector              target;
+    private float               factor;
+    private boolean[]           ignoredComponenets = new boolean[3];
 
-    private Vector                           effectiveTarget;
+    private Vector              effectiveTarget;
 
     /**
      * Creates a new targeted velocity modifier that makes {@link PhysicsObject}s accelerate towards the given target {@link Vector}.
-     * This uses the {@link TargetedVelocityModificationType#NEGATIVE_POSITION_VECTOR} type and its default factor.
+     * This uses the {@link TargetedForceType#NEGATIVE_POSITION_VECTOR} type and its default factor.
      *
      * @param target The target vector all objects accelerate towards.
      *        Note that this vector is always relative to the origin of any {@link ActiveObjectSystem} the modifier is used by.
      */
-    public TargetedVelocityModifier(Vector target) {
+    public TargetedForceVelocityModifier(Vector target) {
 
-        this(target, TargetedVelocityModificationType.NEGATIVE_POSITION_VECTOR);
+        this(target, TargetedForceType.NEGATIVE_POSITION_VECTOR);
     }
 
     /**
      * Creates a new targeted velocity modifier that makes {@link PhysicsObject}s accelerate towards or away from the given target {@link Vector} with the given factor.
-     * This uses the {@link TargetedVelocityModificationType#NEGATIVE_POSITION_VECTOR} type.
+     * This uses the {@link TargetedForceType#NEGATIVE_POSITION_VECTOR} type.
      *
      * @param target The target vector all objects accelerate towards or away from.
      *        Note that this vector is always relative to the origin of any {@link ActiveObjectSystem} the modifier is used by.
      * @param factor The factor that defines how fast an object accelerates towards or away from the target vector.
      *        By choosing this value to be negative, all objects accelerate away from the target.
      *        Note that the range of appropriate values highly depends on the modification type.
-     *        You should look up the default factor of {@link TargetedVelocityModificationType#NEGATIVE_POSITION_VECTOR} to get a starting point for further experiments.
+     *        You should look up the default factor of {@link TargetedForceType#NEGATIVE_POSITION_VECTOR} to get a starting point for further experiments.
      */
-    public TargetedVelocityModifier(Vector target, float factor) {
+    public TargetedForceVelocityModifier(Vector target, float factor) {
 
-        this(target, TargetedVelocityModificationType.NEGATIVE_POSITION_VECTOR, factor);
+        this(target, TargetedForceType.NEGATIVE_POSITION_VECTOR, factor);
     }
 
     /**
-     * Creates a new targeted velocity modifier that makes {@link PhysicsObject}s accelerate towards the given target {@link Vector} with the given {@link TargetedVelocityModificationType}.
+     * Creates a new targeted velocity modifier that makes {@link PhysicsObject}s accelerate towards the given target {@link Vector} with the given {@link TargetedForceType}.
      * This uses the default factor of the given modification type.
      *
      * @param target The target vector all objects accelerate towards.
      *        Note that this vector is always relative to the origin of any {@link ActiveObjectSystem} the modifier is used by.
      * @param type The modification type that defines how the acceleration changes when the distance between the object and the target changes
      */
-    public TargetedVelocityModifier(Vector target, TargetedVelocityModificationType type) {
+    public TargetedForceVelocityModifier(Vector target, TargetedForceType type) {
 
         this(target, type, type.getDefaultFactor());
     }
 
     /**
-     * Creates a new targeted velocity modifier that makes {@link PhysicsObject}s accelerate towards or away from the given target {@link Vector} with the given
-     * {@link TargetedVelocityModificationType} and factor.
+     * Creates a new targeted velocity modifier that makes {@link PhysicsObject}s accelerate towards or away from the given target {@link Vector} with the given {@link TargetedForceType} and factor.
      *
      * @param target The target vector all objects accelerate towards or away from.
      *        Note that this vector is always relative to the origin of any {@link ActiveObjectSystem} the modifier is used by.
@@ -160,7 +159,7 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
      *        Note that the range of appropriate values highly depends on the modification type.
      *        You should look up the default factors of the different types to get a starting point for further experiments.
      */
-    public TargetedVelocityModifier(Vector target, TargetedVelocityModificationType type, float factor) {
+    public TargetedForceVelocityModifier(Vector target, TargetedForceType type, float factor) {
 
         setTarget(target);
         this.factor = factor;
@@ -168,22 +167,22 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
     }
 
     /**
-     * Returns the {@link TargetedVelocityModificationType} that defines how the acceleration changes when the distance between the {@link PhysicsObject} and the target changes.
+     * Returns the {@link TargetedForceType} that defines how the acceleration changes when the distance between the {@link PhysicsObject} and the target changes.
      *
      * @return The modification type.
      */
-    public TargetedVelocityModificationType getType() {
+    public TargetedForceType getType() {
 
         return type;
     }
 
     /**
-     * Sets the {@link TargetedVelocityModificationType} that defines how the acceleration changes when the distance between the {@link PhysicsObject} and the target changes.
+     * Sets the {@link TargetedForceType} that defines how the acceleration changes when the distance between the {@link PhysicsObject} and the target changes.
      *
      * @param type The new modification type.
      * @return This object.
      */
-    public TargetedVelocityModifier<O> setType(TargetedVelocityModificationType type) {
+    public TargetedForceVelocityModifier<O> setType(TargetedForceType type) {
 
         Validate.notNull(target, "Type of targeted velocity modifier cannot be null");
         this.type = type;
@@ -208,7 +207,7 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
      * @param target The new target vector.
      * @return This object.
      */
-    public TargetedVelocityModifier<O> setTarget(Vector target) {
+    public TargetedForceVelocityModifier<O> setTarget(Vector target) {
 
         Validate.notNull(target, "Target of targeted velocity modifier cannot be null");
         this.target = target.clone();
@@ -219,7 +218,7 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
     /**
      * Returns the factor that defines how fast an object accelerates towards or away from the target vector.
      * By making this value negative, all objects accelerate away from the target.
-     * Note that the range of appropriate values highly depends on the {@link TargetedVelocityModificationType}.
+     * Note that the range of appropriate values highly depends on the {@link TargetedForceType}.
      * You should look up the default factors of the different types to get a starting point for further experiments.
      *
      * @return The acceleration factor.
@@ -232,13 +231,13 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
     /**
      * Sets the factor that defines how fast an object accelerates towards or away from the target vector.
      * By making this value negative, all objects accelerate away from the target.
-     * Note that the range of appropriate values highly depends on the {@link TargetedVelocityModificationType}.
+     * Note that the range of appropriate values highly depends on the {@link TargetedForceType}.
      * You should look up the default factors of the different types to get a starting point for further experiments.
      *
      * @param factor The new acceleration factor.
      * @return This object.
      */
-    public TargetedVelocityModifier<O> setFactor(float factor) {
+    public TargetedForceVelocityModifier<O> setFactor(float factor) {
 
         this.factor = factor;
         return this;
@@ -268,7 +267,7 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
      * @param ignoreZ Whether the z vector component should be ignored.
      * @return This object.
      */
-    public TargetedVelocityModifier<O> setIgnoredComponenets(boolean ignoreX, boolean ignoreY, boolean ignoreZ) {
+    public TargetedForceVelocityModifier<O> setIgnoredComponenets(boolean ignoreX, boolean ignoreY, boolean ignoreZ) {
 
         ignoredComponenets = new boolean[] { ignoreX, ignoreY, ignoreZ };
         updateEffectiveTarget();
@@ -276,22 +275,23 @@ public class TargetedVelocityModifier<O extends PhysicsObject> implements Veloci
     }
 
     @Override
-    public Vector getModification(O object) {
+    public Vector getModification(long dt, O object) {
 
-        Vector relativePosition = removeIgnoredComponents(object.getPosition()).subtract(effectiveTarget);
+        Vector acceleration = removeIgnoredComponents(object.getPosition()).subtract(effectiveTarget);
 
-        if (!relativePosition.equals(ZERO_VECTOR)) {
-            if (type == TargetedVelocityModificationType.NEGATIVE_POSITION_VECTOR) {
-                return relativePosition.multiply(-1 * factor);
-            } else if (type == TargetedVelocityModificationType.UNIFORM) {
-                return relativePosition.normalize().multiply(-1 * factor);
-            } else if (type == TargetedVelocityModificationType.GRAVITY) {
-                double gravityAcceleration = factor / relativePosition.lengthSquared();
-                return relativePosition.normalize().multiply(-1 * gravityAcceleration);
+        if (!acceleration.equals(ZERO_VECTOR)) {
+            if (type == TargetedForceType.NEGATIVE_POSITION_VECTOR) {
+                acceleration.multiply(-1 * factor);
+            } else if (type == TargetedForceType.UNIFORM) {
+                acceleration.normalize().multiply(-1 * factor);
+            } else if (type == TargetedForceType.GRAVITY) {
+                double gravityAcceleration = factor / acceleration.lengthSquared();
+                acceleration.normalize().multiply(-1 * gravityAcceleration);
             }
         }
 
-        return null;
+        // Consider dt
+        return acceleration.multiply(dt / 1000d);
     }
 
     private void updateEffectiveTarget() {

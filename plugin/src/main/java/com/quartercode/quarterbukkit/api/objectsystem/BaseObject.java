@@ -27,38 +27,40 @@ package com.quartercode.quarterbukkit.api.objectsystem;
 public interface BaseObject extends Cloneable {
 
     /**
-     * Returns the amount of ticks the object has existed inside its {@link ActiveObjectSystem}.
-     * Note that this is 0 the first time the object is updated and {@link ModificationRule}s are called on it.
-     * After that, this value increases by 1 each time the object is updated.
+     * Returns the amount of milliseconds the object has existed inside its {@link ActiveObjectSystem}.
+     * Note that this is guaranteed to be 0 the first time the object is updated and {@link ModificationRule}s are called on it.
+     * After that, this value increases by the elapsed time {@code dt} each time the object is updated.
      *
-     * @return The current lifetime of the object.
+     * @return The current lifetime of the object in milliseconds.
      */
-    public int getLifetime();
+    public long getLifetime();
 
     /**
-     * Increments the current lifetime of the object.
-     * Note that this is an internal method and should not be used as an api function.
+     * Increments the current lifetime of the object by the given number of milliseconds.
+     * Note that this is an internal method and should not be used as an API function.
+     *
+     * @param dt The number of milliseconds that should be added to the object's lifetime.
      */
-    public void incrementLifetime();
+    public void incrementLifetime(long dt);
 
     /**
-     * Returns the amount of updates after which the object expires and is removed from its {@link ActiveObjectSystem}.
-     * For example, if the expiration time is 5 the object is removed after 5 updates/ticks/{@link ModificationRule} calls on the object.
-     * The expiration time -1 means that the object never expires.
+     * Returns the amount of milliseconds after which the object expires and is removed from its {@link ActiveObjectSystem}.
+     * For example, if the expiration time is {@code 2000} the object is removed after 2 seconds.
+     * The expiration time {@code -1} means that the object never expires.
      *
-     * @return The expiration time of the object.
+     * @return The expiration time of the object in milliseconds.
      */
-    public int getExpirationTime();
+    public long getExpirationTime();
 
     /**
-     * Sets the amount of updates after which the object expires and is removed from its {@link ActiveObjectSystem}.
-     * For example, if the expiration time is set 5 the object is removed after 5 updates/ticks/{@link ModificationRule} calls on the object.
-     * Note that this time can be set to a value smaller than {@link #getLifetime()}, in which case the object is removed immediately.
-     * The expiration time -1 means that the object never expires.
+     * Sets the amount of milliseconds after which the object expires and is removed from its {@link ActiveObjectSystem}.
+     * For example, if the expiration time is {@code 2000} the object is removed after 2 seconds.
+     * Note that this time can be set to a value smaller than {@link #getLifetime()}, in which case the object will be instantly removed in the next update.
+     * The expiration time {@code -1} means that the object never expires.
      *
-     * @param expirationTime The new expiration time of the object; -1 for no expiration.
+     * @param expirationTime The new expiration time of the object in milliseconds; {@code -1} for no expiration.
      */
-    public void setExpirationTime(int expirationTime);
+    public void setExpirationTime(long expirationTime);
 
     /**
      * Creates a <b>deep</b> clone of the object that exactly represents the cloned object.

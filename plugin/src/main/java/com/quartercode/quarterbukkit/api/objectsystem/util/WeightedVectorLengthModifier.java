@@ -77,10 +77,16 @@ public class WeightedVectorLengthModifier<O extends BaseObject> extends Modifier
         return this;
     }
 
+    /*
+     * This method does not need to consider dt.
+     * Proof: factor * vec1 + factor * vec2 = factor * (vec1 + vec2)
+     * It's irrelevant whether we multiply two small modifications or the combined modification with the factor.
+     * We can therefore safely ignore dt, which just tells us whether it's a small or a large modification.
+     */
     @Override
-    public Vector getModification(O object) {
+    public Vector getModification(long dt, O object) {
 
-        Vector modification = getWrapped().getModification(object);
+        Vector modification = getWrapped().getModification(dt, object);
         return modification == null ? null : modification.multiply(weighter.getWeight(object));
     }
 

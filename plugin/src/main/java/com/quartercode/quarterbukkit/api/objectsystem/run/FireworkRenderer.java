@@ -68,7 +68,7 @@ public class FireworkRenderer extends StatelessRenderer<FireworkObject> {
     }
 
     @Override
-    public RenderingResult render(Plugin plugin, ActiveObjectSystem objectSystem, FireworkObject object) {
+    public RenderingResult render(Plugin plugin, ActiveObjectSystem objectSystem, long dt, FireworkObject object) {
 
         // Determine whether the different effects should be spawned
         double objectVelocity = object.getVelocity().length();

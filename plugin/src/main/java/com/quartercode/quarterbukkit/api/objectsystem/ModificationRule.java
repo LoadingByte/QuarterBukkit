@@ -139,11 +139,12 @@ public class ModificationRule<O extends BaseObject, M> {
      * Applies the modification rule to the given object.
      * This first calls the {@link Modifier} and then passes the changes into the {@link ModificationApplier}.
      *
+     * @param dt The amount of milliseconds which have elapsed since the last update of the object system this modification rule is part of.
      * @param object The object that should be modified.
      */
-    public void apply(O object) {
+    public void apply(long dt, O object) {
 
-        applier.applyModification(object, modifier.getModification(object));
+        applier.applyModification(object, modifier.getModification(dt, object));
     }
 
     @Override

@@ -29,54 +29,58 @@ import com.quartercode.quarterbukkit.api.objectsystem.physics.VelocityModifier;
 
 /**
  * A {@link VelocityModifier} that always returns the same velocity modification {@link Vector} for any {@link PhysicsObject}.
- * It can be compared with a static force that pulls every object into the same direction.
+ * It can be compared with a static force that pulls every object into the same direction with the same acceleration.
  * Note that you can limit the velocity modification to a specific area using the {@link ShapedModifier} wrapper.
  *
  * @param <O> The type of object the static velocity modifier accepts. This must extend {@link PhysicsObject}.
  * @see PhysicsObject
  * @see ShapedModifier
  */
-public class StaticVelocityModifier<O extends PhysicsObject> implements VelocityModifier<O> {
+public class StaticForceVelocityModifier<O extends PhysicsObject> implements VelocityModifier<O> {
 
-    private Vector modification;
+    private Vector acceleration;
 
     /**
-     * Creates a new static velocity modifier that always returns the given velocity modification {@link Vector} for any {@link PhysicsObject}.
+     * Creates a new static velocity modifier that always returns the given acceleration {@link Vector} for any {@link PhysicsObject}.
+     * The unit of that acceleration vector is m/s<sup>2</sup>. Since all blocks have an edge length of 1 m, the unit can also be expressed as blocks/s<sup>2</sup>.
      *
-     * @param modification The static velocity modification vector that is returned for every object.
+     * @param acceleration The static acceleration vector in m/s<sup>2</sup> that is returned for every object.
      */
-    public StaticVelocityModifier(Vector modification) {
+    public StaticForceVelocityModifier(Vector acceleration) {
 
-        setModification(modification);
+        setAcceleration(acceleration);
     }
 
     /**
      * Returns the velocity modification {@link Vector} that is returned for any {@link PhysicsObject}.
+     * The unit of that acceleration vector is m/s<sup>2</sup>. Since all blocks have an edge length of 1 m, the unit can also be expressed as blocks/s<sup>2</sup>.
      *
-     * @return The static velocity modification vector.
+     * @return The static acceleration vector in m/s<sup>2</sup>.
      */
-    public Vector getModification() {
+    public Vector getAcceleration() {
 
-        return modification.clone();
+        return acceleration.clone();
     }
 
     /**
-     * Returns the velocity modification {@link Vector} that is returned for any {@link PhysicsObject}.
+     * Sets the velocity modification {@link Vector} that is returned for any {@link PhysicsObject}.
+     * The unit of that acceleration vector is m/s<sup>2</sup>. Since all blocks have an edge length of 1 m, the unit can also be expressed as blocks/s<sup>2</sup>.
      *
-     * @param modification The static velocity modification vector.
+     * @param acceleration The new static acceleration vector in m/s<sup>2</sup>.
      * @return This object.
      */
-    public StaticVelocityModifier<O> setModification(Vector modification) {
+    public StaticForceVelocityModifier<O> setAcceleration(Vector acceleration) {
 
-        Validate.notNull(modification, "Modification vector of static velocity modifier cannot be null");
-        this.modification = modification.clone();
+        Validate.notNull(acceleration, "Acceleration vector of static velocity modifier cannot be null");
+        this.acceleration = acceleration.clone();
         return this;
     }
 
     @Override
-    public Vector getModification(O object) {
+    public Vector getModification(long dt, O object) {
 
-        return modification.clone();
+        // Consider dt
+        return acceleration.clone().multiply(dt / 1000d);
     }
 
     @Override

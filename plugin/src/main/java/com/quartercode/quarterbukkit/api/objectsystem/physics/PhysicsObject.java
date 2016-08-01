@@ -52,17 +52,19 @@ public interface PhysicsObject extends BaseObject {
 
     /**
      * Returns the current velocity of the physics object as a {@link Vector}.
-     * Note that this vector is added to the position vector of the object every tick.
+     * The unit of this vector is m/s. Since all blocks have an edge length of 1 m, the unit can also be expressed as blocks/s.
+     * Note that this velocity vector is applied to the position vector of the object every update.
      *
-     * @return The current velocity vector of the object.
+     * @return The current velocity vector of the object in m/s.
      */
     public Vector getVelocity();
 
     /**
      * Changes the current velocity {@link Vector} of the physics object.
-     * Note that the newly set vector will be added to the position vector of the object every tick.
+     * The unit of this vector is m/s. Since all blocks have an edge length of 1 m, the unit can also be expressed as blocks/s.
+     * Note that this velocity vector is applied to the position vector of the object every update.
      *
-     * @param velocity The new velocity vector of the object.
+     * @param velocity The new velocity vector of the object in m/s.
      */
     public void setVelocity(Vector velocity);
 

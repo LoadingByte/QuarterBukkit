@@ -32,11 +32,13 @@ public interface Source {
     /**
      * Spawns new objects into the given {@link ActiveObjectSystem} based on some rules.
      * If the object spawning is done randomly, the provided {@link Random} object can be used.
+     * Note the important variable {@code dt} which basically informs you about the currently used time resolution.
      *
      * @param plugin The {@link Plugin} that started a runner which now simulates the active system and called the object source.
      * @param objectSystem The active system new objects should be spawned into.
+     * @param dt The amount of milliseconds which have elapsed since the last update of the object system this source is part of.
      * @param random The random object that should be used for random decisions.
      */
-    public void update(Plugin plugin, ActiveObjectSystem objectSystem, Random random);
+    public void update(Plugin plugin, ActiveObjectSystem objectSystem, long dt, Random random);
 
 }

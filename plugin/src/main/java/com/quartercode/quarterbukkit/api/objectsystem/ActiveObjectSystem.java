@@ -47,7 +47,7 @@ public class ActiveObjectSystem {
 
     private final Location               origin;
     private final Collection<BaseObject> objects = new ArrayList<BaseObject>();
-    private int                          lifetime;
+    private long                         lifetime;
 
     /**
      * Creates a new active object system that runs the given {@link ObjectSystemDefinition} and is centered on the given origin {@link Location}.
@@ -148,24 +148,30 @@ public class ActiveObjectSystem {
     }
 
     /**
-     * Returns the amount of ticks the active object system has been simulated for.
-     * Note that this is 0 the first time the active system is updated.
-     * After that, this value increases by 1 each time the active system is updated.
+     * Returns the amount of milliseconds the active object system has been simulated for.
+     * Note that this is guaranteed to be {@code 0} the first time the active system is updated.
+     * After that, this value increases by {@code 1} each time the active system is updated.
+     *
+     *
+     * Note that this is guaranteed to be 0 the first time the active system is updated.
+     * After that, this value increases by the elapsed time {@code dt} each time the active system is updated.
      *
      * @return The current lifetime of the active system.
      */
-    public int getLifetime() {
+    public long getLifetime() {
 
         return lifetime;
     }
 
     /**
-     * Increments the current lifetime of the active object system.
+     * Increments the current lifetime of the active object system by the given number of milliseconds.
      * Note that this is an internal method and should not be used as an API function.
+     *
+     * @param dt The number of milliseconds that should be added to the active object system's lifetime.
      */
-    public void incrementLifetime() {
+    public void incrementLifetime(long dt) {
 
-        lifetime++;
+        lifetime += dt;
     }
 
     @Override

@@ -33,11 +33,15 @@ public interface Modifier<O extends BaseObject, M> {
 
     /**
      * Calculates the modification object for the given object inside an object system.
-     * For example, a velocity modifier would return a modification vector that adjusts the velocity vector of the object here.
+     * For example, a velocity modifier would return a modification vector that adjusts the velocity vector of the object here.<br>
+     * <br>
+     * Note the important variable {@code dt} which basically informs you about the currently used time resolution.
+     * For example, our velocity modifier would need to consider it in order to correctly model acceleration and apply the correct velocity change for the last time interval {@code dt}.
      *
+     * @param dt The amount of milliseconds which have elapsed since the last update of the object system this modifier is part of.
      * @param object The object the modifier should calculate a modification object for.
      * @return The calculated modification object.
      */
-    public M getModification(O object);
+    public M getModification(long dt, O object);
 
 }

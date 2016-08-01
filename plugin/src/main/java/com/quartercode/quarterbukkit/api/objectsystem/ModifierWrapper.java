@@ -65,7 +65,7 @@ public abstract class ModifierWrapper<O extends BaseObject, M> implements Modifi
     }
 
     /**
-     * Returns the wrapped {@link Modifier} that should be called during the {@link #getModification(BaseObject)} call in order to create a modifier chain.
+     * Returns the wrapped {@link Modifier} that should be called during the {@link #getModification(long, BaseObject)} call in order to create a modifier chain.
      * Note that this is not allowed to be {@code null} if {@code nullAllowed} was set to {@code false} on construction.
      *
      * @return The wrapped modifier.
@@ -76,7 +76,7 @@ public abstract class ModifierWrapper<O extends BaseObject, M> implements Modifi
     }
 
     /**
-     * Sets the wrapped {@link Modifier} that should be called during the {@link #getModification(BaseObject)} call in order to create a modifier chain.
+     * Sets the wrapped {@link Modifier} that should be called during the {@link #getModification(long, BaseObject)} call in order to create a modifier chain.
      * Note that this is not allowed to be {@code null} if {@code nullAllowed} was set to {@code false} on construction.
      *
      * @param wrapped The new wrapped modifier.

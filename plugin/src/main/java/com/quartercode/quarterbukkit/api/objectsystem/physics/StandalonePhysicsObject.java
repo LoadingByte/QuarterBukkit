@@ -23,7 +23,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.ActiveObjectSystem;
 import com.quartercode.quarterbukkit.api.objectsystem.DefaultBaseObject;
 
 /**
- * A standalone implementation of {@link PhysicsObject} that just stores the data in member variables and applies the velocity every tick.
+ * A standalone implementation of {@link PhysicsObject} that just stores the data in member variables and applies the velocity every update.
  * It extends the {@link DefaultBaseObject} class for inheriting the basic object functionality.
  *
  * @see PhysicsObject

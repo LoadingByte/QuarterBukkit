@@ -60,13 +60,15 @@ public interface Renderer<O extends BaseObject> {
     /**
      * Performs some rendering actions using the given object which is located inside the given {@link ActiveObjectSystem}.
      * For example, this method could display a simple particle. However, it might also modify the object itself.
-     * Note that this method is called on all renderers after the modifications were performed on each object.
+     * Note the important variable {@code dt} which basically informs you about the currently used time resolution.
+     * Also note that this method is called on all renderers after the modifications were performed on each object.
      *
      * @param plugin The {@link Plugin} that started a runner which now simulates the active system and called the renderer.
      * @param objectSystem The active system the object is used in.
+     * @param dt The amount of milliseconds which have elapsed since the last update of the active system this renderer is part of.
      * @param object The actual object that should be rendered.
      * @return The result of the rendering process. See {@link RenderingResult} for more information on the possible results.
      */
-    public RenderingResult render(Plugin plugin, ActiveObjectSystem objectSystem, O object);
+    public RenderingResult render(Plugin plugin, ActiveObjectSystem objectSystem, long dt, O object);
 
 }

@@ -19,110 +19,63 @@
 package com.quartercode.quarterbukkit.api.objectsystem.run;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Callable;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
-import com.quartercode.quarterbukkit.api.MathUtil;
 import com.quartercode.quarterbukkit.api.objectsystem.ActiveObjectSystem;
 import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
 import com.quartercode.quarterbukkit.api.objectsystem.ModificationRule;
 import com.quartercode.quarterbukkit.api.objectsystem.Source;
 import com.quartercode.quarterbukkit.api.objectsystem.run.Renderer.RenderingResult;
-import com.quartercode.quarterbukkit.api.scheduler.ScheduleTask;
 
 /**
  * An object system runner takes an {@link ActiveObjectSystem} and a bunch of {@link Renderer}s and then simulates and displays the system using those renderers.
  */
 public class ObjectSystemRunner {
 
-    /**
-     * A {@link List} containing the default {@link Renderer}s that are used by the runner if no custom renderers are specified.
-     */
-    public static final List<Renderer<?>> DEFAULT_RENDERERS;
+    private static final Timer       UPDATE_TIMER = new Timer("Timer-ObjectSystemRunner-Update", true);
 
-    static {
+    private final Plugin             plugin;
+    private final ActiveObjectSystem objectSystem;
 
-        List<Renderer<?>> defaultRenderers = new ArrayList<Renderer<?>>();
-        defaultRenderers.add(new BaseObjectRenderer());
-        defaultRenderers.add(new StandalonePhysicsObjectRenderer());
-        defaultRenderers.add(new ParticleRenderer());
-        defaultRenderers.add(new FireworkRenderer());
-        defaultRenderers.add(new RealEntityObjectRenderer());
-        DEFAULT_RENDERERS = Collections.unmodifiableList(defaultRenderers);
+    private final List<Renderer<?>>  renderers;
+    private final long               timeResolution;
+    private final boolean            stopWhenNoObjects;
 
-    }
+    private TimerTask                updateTask;
+    private final Random             random       = new Random();
 
-    private final Plugin                  plugin;
-    private final List<Renderer<?>>       renderers;
-    private final ActiveObjectSystem      objectSystem;
-    private final boolean                 stopWhenNoObjects;
-
-    private ScheduleTask                  updateTask;
-    private final Random                  random = new Random();
+    private long                     lastUpdateTime;                                                   // nanoseconds
 
     /**
-     * Creates a new object system runner that simulates the given {@link ActiveObjectSystem} and uses the given {@link Plugin} as host.
+     * Creates a new object system runner using the given parameters.
+     * Note that this constructor is not considered public API and should therefore be avoided.
+     * Try to use the {@link ObjectSystemRunnerBuilder} instead.
      *
      * @param plugin The plugin that is used to call some required bukkit methods.
      *        It hosts the new runner.
      * @param objectSystem The active object system that should be ran and simulated by the runner.
-     */
-    public ObjectSystemRunner(Plugin plugin, ActiveObjectSystem objectSystem) {
-
-        this(plugin, DEFAULT_RENDERERS, objectSystem);
-    }
-
-    /**
-     * Creates a new object system runner that simulates the given {@link ActiveObjectSystem}, uses the given {@link Plugin} as host, and can
-     * stop if no more objects are stored in the active system.
+     * @param renderers The {@link Renderer}s that simulate and display the objects of the active system.
      *
-     * @param plugin The plugin that is used to call some required bukkit methods.
-     *        It hosts the new runner.
-     * @param objectSystem The active object system that should be ran and simulated by the runner.
      * @param stopWhenNoObjects Whether the runner should stop if no more objects are stored in the given active system.
      *        This is useful for systems with a few manually spawned objects that expire after some time.
      */
-    public ObjectSystemRunner(Plugin plugin, ActiveObjectSystem objectSystem, boolean stopWhenNoObjects) {
-
-        this(plugin, DEFAULT_RENDERERS, objectSystem);
-    }
-
-    /**
-     * Creates a new object system runner that simulates the given {@link ActiveObjectSystem} using the given {@link Renderer}s and uses the
-     * given {@link Plugin} as host.
-     *
-     * @param plugin The plugin that is used to call some required bukkit methods.
-     *        It hosts the new runner.
-     * @param renderers The {@link Renderer}s that simulate and display the objects of the active system.
-     * @param objectSystem The active object system that should be ran and simulated by the runner.
-     */
-    public ObjectSystemRunner(Plugin plugin, List<Renderer<?>> renderers, ActiveObjectSystem objectSystem) {
-
-        this(plugin, renderers, objectSystem, false);
-    }
-
-    /**
-     * Creates a new object system runner that simulates the given {@link ActiveObjectSystem} using the given {@link Renderer}s, uses the
-     * given {@link Plugin} as host, and can stop if no more objects are stored in the active system.
-     *
-     * @param plugin The plugin that is used to call some required bukkit methods.
-     *        It hosts the new runner.
-     * @param renderers The {@link Renderer}s that simulate and display the objects of the active system.
-     * @param objectSystem The active object system that should be ran and simulated by the runner.
-     * @param stopWhenNoObjects Whether the runner should stop if no more objects are stored in the given active system.
-     *        This is useful for systems with a few manually spawned objects that expire after some time.
-     */
-    public ObjectSystemRunner(Plugin plugin, List<Renderer<?>> renderers, ActiveObjectSystem objectSystem, boolean stopWhenNoObjects) {
+    protected ObjectSystemRunner(Plugin plugin, ActiveObjectSystem objectSystem, List<Renderer<?>> renderers, long timeResolution, boolean stopWhenNoObjects) {
 
         this.plugin = plugin;
-        this.renderers = new ArrayList<Renderer<?>>(renderers);
         this.objectSystem = objectSystem;
+
+        this.renderers = new ArrayList<Renderer<?>>(renderers);
+        this.timeResolution = timeResolution;
         this.stopWhenNoObjects = stopWhenNoObjects;
     }
 
@@ -145,33 +98,58 @@ public class ObjectSystemRunner {
     public void setRunning(boolean running) {
 
         if (running && !isRunning()) {
-            updateTask = new ScheduleTask(plugin) {
+            lastUpdateTime = -1;
+
+            updateTask = new TimerTask() {
 
                 @Override
                 public void run() {
 
-                    update();
+                    // If the plugin got disabled, stop this runner
+                    if (!plugin.isEnabled()) {
+                        setRunning(false);
+                        return;
+                    }
+
+                    long currentTime = System.nanoTime() / 1000 / 1000; // convert from ns to ms
+                    final long dt = lastUpdateTime == -1 ? 0 : currentTime - lastUpdateTime;
+                    lastUpdateTime = currentTime;
+
+                    Bukkit.getScheduler().callSyncMethod(plugin, new Callable<Void>() {
+
+                        @Override
+                        public Void call() throws Exception {
+
+                            update(dt);
+                            return null;
+                        }
+
+                    });
                 }
 
-            }.run(true, 0, MathUtil.getMillis(1));
+            };
+            UPDATE_TIMER.scheduleAtFixedRate(updateTask, 0, timeResolution);
         } else if (!running && isRunning()) {
             updateTask.cancel();
             updateTask = null;
         }
     }
 
-    private void update() {
+    private void update(long dt) {
+
+        // Increment object system lifetime
+        objectSystem.incrementLifetime(dt);
 
         // Apply modification rules
         for (BaseObject object : objectSystem.getObjects()) {
             for (ModificationRule<?, ?> modificationRule : objectSystem.getDefinition().getModificationRules()) {
-                tryApplyModificationRule(modificationRule, object);
+                tryApplyModificationRule(dt, modificationRule, object);
             }
         }
 
         // Spawn new objects
         for (Source source : objectSystem.getDefinition().getSources()) {
-            source.update(plugin, objectSystem, random);
+            source.update(plugin, objectSystem, dt, random);
         }
 
         // Stop if "stopWhenNoObjects" is enabled and no objects are found
@@ -184,33 +162,30 @@ public class ObjectSystemRunner {
         for (Renderer<?> renderer : renderers) {
             Iterator<BaseObject> objectRenderingIterator = objectSystem.getModifiableObjectsIterator();
             while (objectRenderingIterator.hasNext()) {
-                RenderingResult result = tryApplyRenderer(renderer, objectRenderingIterator.next());
+                RenderingResult result = tryApplyRenderer(dt, renderer, objectRenderingIterator.next());
 
                 if (result != null && result == RenderingResult.REMOVE) {
                     objectRenderingIterator.remove();
                 }
             }
         }
-
-        // Increment object system lifetime
-        objectSystem.incrementLifetime();
     }
 
     @SuppressWarnings ("unchecked")
-    private <O extends BaseObject> RenderingResult tryApplyRenderer(Renderer<O> renderer, BaseObject object) {
+    private <O extends BaseObject> RenderingResult tryApplyRenderer(long dt, Renderer<O> renderer, BaseObject object) {
 
         if (renderer.getObjectType().isInstance(object)) {
-            return renderer.render(plugin, objectSystem, (O) object);
+            return renderer.render(plugin, objectSystem, dt, (O) object);
         } else {
             return null;
         }
     }
 
     @SuppressWarnings ("unchecked")
-    private <O extends BaseObject> void tryApplyModificationRule(ModificationRule<O, ?> modificationRule, BaseObject object) {
+    private <O extends BaseObject> void tryApplyModificationRule(long dt, ModificationRule<O, ?> modificationRule, BaseObject object) {
 
         if (modificationRule.getObjectType().isInstance(object)) {
-            modificationRule.apply((O) object);
+            modificationRule.apply(dt, (O) object);
         }
     }
 

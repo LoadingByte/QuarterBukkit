@@ -36,12 +36,16 @@ public interface VelocityModifier<O extends PhysicsObject> extends Modifier<O, V
 
     /**
      * Calculates the velocity modification {@link Vector} for the given {@link PhysicsObject}.
-     * A {@link VelocityModificationApplier} then adjusts the actual velocity vector of the object.
+     * A {@link VelocityModificationApplier} then adjusts the actual velocity vector of the object.<br>
+     * <br>
+     * Note the important variable {@code dt} which basically informs you about the currently used time resolution.
+     * Velocity modifiers need to consider it in order to correctly model acceleration and apply the correct velocity change for the last time interval {@code dt}.
      *
+     * @param dt The amount of milliseconds which have elapsed since the last update of the object system this modifier is part of.
      * @param object The object the velocity modifier should calculate a velocity modification vector for.
      * @return The calculated velocity modification vector.
      */
     @Override
-    public Vector getModification(O object);
+    public Vector getModification(long dt, O object);
 
 }
