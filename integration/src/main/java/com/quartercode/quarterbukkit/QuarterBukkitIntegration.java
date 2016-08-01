@@ -31,11 +31,11 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
-import com.quartercode.quarterbukkit.api.FileUtils;
-import com.quartercode.quarterbukkit.api.query.FilesQuery;
-import com.quartercode.quarterbukkit.api.query.FilesQuery.ProjectFile;
-import com.quartercode.quarterbukkit.api.query.FilesQuery.VersionParser;
-import com.quartercode.quarterbukkit.api.query.QueryException;
+import com.quartercode.quarterbukkit.integration.api.FileUtils;
+import com.quartercode.quarterbukkit.integration.api.query.FilesQuery;
+import com.quartercode.quarterbukkit.integration.api.query.FilesQuery.ProjectFile;
+import com.quartercode.quarterbukkit.integration.api.query.FilesQuery.VersionParser;
+import com.quartercode.quarterbukkit.integration.api.query.QueryException;
 
 /**
  * This class is used for integrating QuarterBukkit into a {@link Plugin}.

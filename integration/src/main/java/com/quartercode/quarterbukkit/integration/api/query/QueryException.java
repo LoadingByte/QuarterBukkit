@@ -16,7 +16,7 @@
  * along with QuarterBukkit-Integration. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.quartercode.quarterbukkit.api.query;
+package com.quartercode.quarterbukkit.integration.api.query;
 
 import java.net.URL;
 import org.json.simple.JSONArray;
