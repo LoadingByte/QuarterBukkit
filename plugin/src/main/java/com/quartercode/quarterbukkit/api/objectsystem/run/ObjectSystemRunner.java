@@ -61,7 +61,7 @@ public class ObjectSystemRunner {
      * Note that this constructor is not considered public API and should therefore be avoided.
      * Try to use the {@link ObjectSystemRunnerBuilder} instead.
      *
-     * @param plugin The plugin that is used to call some required bukkit methods.
+     * @param plugin The plugin that is used to call some required Bukkit methods.
      *        It hosts the new runner.
      * @param objectSystem The active object system that should be ran and simulated by the runner.
      * @param renderers The {@link Renderer}s that simulate and display the objects of the active system.

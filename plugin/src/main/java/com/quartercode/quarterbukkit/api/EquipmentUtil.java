@@ -24,7 +24,7 @@ import org.bukkit.inventory.ItemStack;
 /**
  * Class for setting the equipment of {@link LivingEntity}s as {@link ItemStack}s.
  *
- * @deprecated This class is no longer required since the bukkit method {@link LivingEntity#getEquipment()} provides an alternative.
+ * @deprecated This class is no longer required since the Bukkit method {@link LivingEntity#getEquipment()} provides an alternative.
  */
 @Deprecated
 public class EquipmentUtil {

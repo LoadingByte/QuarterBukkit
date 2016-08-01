@@ -59,7 +59,7 @@ public class ObjectSystemRunnerBuilder {
     /**
      * Creates a new object system runner builder for a new object system runner that simulates the given {@link ActiveObjectSystem} and uses the given {@link Plugin} as host.
      *
-     * @param plugin The plugin that is used to call some required bukkit methods.
+     * @param plugin The plugin that is used to call some required Bukkit methods.
      *        It hosts the new runner.
      * @param objectSystem The active object system that should be ran and simulated by the runner.
      */

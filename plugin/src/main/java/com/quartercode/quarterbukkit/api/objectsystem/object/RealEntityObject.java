@@ -27,7 +27,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.DefaultBaseObject;
 import com.quartercode.quarterbukkit.api.objectsystem.physics.PhysicsObject;
 
 /**
- * An object that represents a regular bukkit {@link Entity} and makes it controllable for an {@link ActiveObjectSystem}.
+ * An object that represents a regular Bukkit {@link Entity} and makes it controllable for an {@link ActiveObjectSystem}.
  * All calls to {@link PhysicsObject} methods are forwarded to the equivalent methods of the entity object.
  *
  * @see Entity
@@ -79,10 +79,10 @@ public class RealEntityObject extends DefaultBaseObject implements PhysicsObject
     }
 
     /**
-     * Returns the bukkit {@link Entity} that made controllable by the object.
+     * Returns the Bukkit {@link Entity} that made controllable by the object.
      * All calls to the physics methods are forwarded to that entity.
      *
-     * @return The bukkit entity that is represented by the object.
+     * @return The Bukkit entity that is represented by the object.
      */
     public Entity getEntity() {
 

@@ -50,7 +50,7 @@ public class QuarterBukkit extends JavaPlugin {
     private MetricsLite metrics;
 
     /**
-     * The default constructor for bukkit.
+     * The default constructor for Bukkit.
      */
     public QuarterBukkit() {
 

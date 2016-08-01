@@ -48,7 +48,7 @@ public class ExceptionHandler {
         }
     }
 
-    // Modified bukkit code
+    // Modified Bukkit code
     private static void call(GameException exception) {
 
         HandlerList handlers = exception.getHandlers();
