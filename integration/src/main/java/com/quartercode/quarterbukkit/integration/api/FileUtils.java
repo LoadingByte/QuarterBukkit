@@ -16,7 +16,7 @@
  * along with QuarterBukkit-Integration. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.quartercode.quarterbukkit.api;
+package com.quartercode.quarterbukkit.integration.api;
 
 import java.io.Closeable;
 import java.io.File;

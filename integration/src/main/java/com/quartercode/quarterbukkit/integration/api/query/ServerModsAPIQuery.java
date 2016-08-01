@@ -16,7 +16,7 @@
  * along with QuarterBukkit-Integration. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.quartercode.quarterbukkit.api.query;
+package com.quartercode.quarterbukkit.integration.api.query;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,8 +28,8 @@ import java.nio.charset.Charset;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import com.quartercode.quarterbukkit.QuarterBukkitIntegration;
-import com.quartercode.quarterbukkit.api.FileUtils;
-import com.quartercode.quarterbukkit.api.query.QueryException.QueryExceptionType;
+import com.quartercode.quarterbukkit.integration.api.FileUtils;
+import com.quartercode.quarterbukkit.integration.api.query.QueryException.QueryExceptionType;
 
 /**
  * A server mods api query can be used to query the official server mods api (https://api.curseforge.com/servermods).

@@ -16,7 +16,7 @@
  * along with QuarterBukkit-Integration. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.quartercode.quarterbukkit.api.query;
+package com.quartercode.quarterbukkit.integration.api.query;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import com.quartercode.quarterbukkit.api.query.FilesQuery.ProjectFile.ReleaseType;
+import com.quartercode.quarterbukkit.integration.api.query.FilesQuery.ProjectFile.ReleaseType;
 
 /**
  * The files query can be used to retrieve all files of a project which are currently available on BukkitDev.
