@@ -57,7 +57,7 @@ public class QuarterBukkitUpdater {
         try {
             // ----- Version Check -----
 
-            plugin.getLogger().info("Querying server mods api ...");
+            plugin.getLogger().info("Querying server mods API ...");
 
             // Get latest version
             List<ProjectFile> availableFiles = new FilesQuery(PROJECT_ID, new VersionParser() {
@@ -122,7 +122,7 @@ public class QuarterBukkitUpdater {
             plugin.getLogger().info("Successfully updated " + plugin.getName() + " to " + latestFile.getVersion() + "!");
             return true;
         } catch (QueryException e) {
-            ExceptionHandler.exception(new InstallException(plugin, e, "Error while querying the server mods api: " + e.getType()));
+            ExceptionHandler.exception(new InstallException(plugin, e, "Error while querying the server mods API: " + e.getType()));
         } catch (IOException e) {
             ExceptionHandler.exception(new InstallException(plugin, e, "Error while doing some file operations"));
         }

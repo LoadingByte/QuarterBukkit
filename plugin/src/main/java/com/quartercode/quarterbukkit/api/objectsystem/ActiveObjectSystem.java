@@ -161,7 +161,7 @@ public class ActiveObjectSystem {
 
     /**
      * Increments the current lifetime of the active object system.
-     * Note that this is an internal method and should not be used as an api function.
+     * Note that this is an internal method and should not be used as an API function.
      */
     public void incrementLifetime() {
 

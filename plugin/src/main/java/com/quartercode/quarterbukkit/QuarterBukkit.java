@@ -70,7 +70,7 @@ public class QuarterBukkit extends JavaPlugin {
         // Config
         config = new Config(this, new File(getDataFolder(), "config.yml"));
 
-        // Autoupdate of the api plugin
+        // Autoupdate of the API plugin
         if (config.getBoolean("autoupdate")) {
             QuarterBukkitUpdater updater = new QuarterBukkitUpdater();
             getLogger().info("Checking for a new version and updating " + getName() + " ...");

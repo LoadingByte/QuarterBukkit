@@ -90,7 +90,7 @@ public class FilesQuery {
      * If a {@link VersionParser} is set, it will be called in order to add versions to all {@link ProjectFile}s.
      *
      * @return The {@link ProjectFile}s the files query found.
-     * @throws QueryException Something goes wrong while querying the server mods api.
+     * @throws QueryException Something goes wrong while querying the server mods API.
      */
     public List<ProjectFile> execute() throws QueryException {
 

@@ -25,7 +25,7 @@ import org.json.simple.JSONObject;
 import com.quartercode.quarterbukkit.api.query.SearchQuery.Project.ProjectStage;
 
 /**
- * The search query can be used to search the server mods api for projects which contain a given character sequence.
+ * The search query can be used to search the server mods API for projects which contain a given character sequence.
  * The class internally uses the {@link ServerModsAPIQuery}.
  *
  * @see ServerModsAPIQuery
@@ -58,7 +58,7 @@ public class SearchQuery {
      * Searches for the set character sequence ({@link #getSearch()}) and returns the found {@link Project}s.
      *
      * @return The {@link Project}s the search query found.
-     * @throws QueryException Something goes wrong while querying the server mods api.
+     * @throws QueryException Something goes wrong while querying the server mods API.
      */
     public List<Project> execute() throws QueryException {
 

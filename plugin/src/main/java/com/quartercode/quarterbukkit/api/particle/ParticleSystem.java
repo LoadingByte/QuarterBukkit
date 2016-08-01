@@ -34,8 +34,8 @@ import com.quartercode.quarterbukkit.api.scheduler.ScheduleTask;
  * The system can also get customized with custom renderers and spawners.
  * All parameters can be changed in real time between to runs.
  *
- * @deprecated The particle api was replaced by the more flexible object system api.
- *             See the wiki for more information on that new api.
+ * @deprecated The particle API was replaced by the more flexible object system API.
+ *             See the wiki for more information on that new API.
  */
 @Deprecated
 public class ParticleSystem {

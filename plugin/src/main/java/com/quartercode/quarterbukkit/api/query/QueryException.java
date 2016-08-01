@@ -48,15 +48,15 @@ public class QueryException extends Exception {
          */
         CANNOT_OPEN_CONNECTION,
         /**
-         * Can't read the response the server mods api may return.
+         * Can't read the response the server mods API may return.
          */
         CANNOT_READ_RESPONSE,
         /**
-         * The api key provided in QuarterBukkit's configuration was rejected by the server mods api.
+         * The API key provided in QuarterBukkit's configuration was rejected by the server mods API.
          */
         INVALID_API_KEY,
         /**
-         * The response of the server mods api isn't a valid {@link JSONArray}.
+         * The response of the server mods API isn't a valid {@link JSONArray}.
          */
         INVALID_RESPONSE;
 
@@ -71,7 +71,7 @@ public class QueryException extends Exception {
      *
      * @param type The type of error which occurred.
      * @param query The {@link ServerModsAPIQuery} instance which caused the exception on execution.
-     * @param requestUrl The url which was used to send a GET request to the server mods api.
+     * @param requestUrl The url which was used to send a GET request to the server mods API.
      */
     public QueryException(QueryExceptionType type, ServerModsAPIQuery query, String requestUrl) {
 
@@ -85,7 +85,7 @@ public class QueryException extends Exception {
      *
      * @param type The type of error which occurred.
      * @param query The {@link ServerModsAPIQuery} instance which caused the exception on execution.
-     * @param requestUrl The url which was used to send a GET request to the server mods api.
+     * @param requestUrl The url which was used to send a GET request to the server mods API.
      * @param cause The {@link Throwable} which caused the query exception.
      */
     public QueryException(QueryExceptionType type, ServerModsAPIQuery query, String requestUrl, Throwable cause) {
@@ -118,7 +118,7 @@ public class QueryException extends Exception {
     }
 
     /**
-     * Returns the url which was used to send a GET request to the server mods api.
+     * Returns the url which was used to send a GET request to the server mods API.
      *
      * @return The request url which was used by the given {@link ServerModsAPIQuery}.
      */

@@ -31,7 +31,7 @@ import com.quartercode.quarterbukkit.QuarterBukkit;
 import com.quartercode.quarterbukkit.api.query.QueryException.QueryExceptionType;
 
 /**
- * A server mods api query can be used to query the official server mods api (https://api.curseforge.com/servermods).
+ * A server mods API query can be used to query the official server mods API (https://api.curseforge.com/servermods).
  * For example, you can create updaters or version checkers with this query.
  *
  * @see SearchQuery
@@ -48,7 +48,7 @@ public class ServerModsAPIQuery {
     /**
      * Creates a new query whose GET request {@link URL} is made out of the given query string attached to {@code https://api.curseforge.com/servermods/}.
      *
-     * @param query The query string for the server mods api to process.
+     * @param query The query string for the server mods API to process.
      */
     public ServerModsAPIQuery(String query) {
 
@@ -58,7 +58,7 @@ public class ServerModsAPIQuery {
     /**
      * Returns the query string which is used by the {@link #execute()} method to build the request {@link URL}.
      *
-     * @return The query string for the server mods api to process.
+     * @return The query string for the server mods API to process.
      */
     public String getQuery() {
 
@@ -70,8 +70,8 @@ public class ServerModsAPIQuery {
      * The query string ({@link #getQuery()}) is attached to {@code https://api.curseforge.com/servermods/}.
      * The GET response of that {@link URL} is then parsed to a {@link JSONArray}.
      *
-     * @return The response of the server mods api.
-     * @throws QueryException Something goes wrong while querying the server mods api.
+     * @return The response of the server mods API.
+     * @throws QueryException Something goes wrong while querying the server mods API.
      */
     public JSONArray execute() throws QueryException {
 
@@ -98,7 +98,7 @@ public class ServerModsAPIQuery {
         // Set user agent
         request.addRequestProperty("User-Agent", USER_AGENT);
 
-        // Set api key (if provided)
+        // Set API key (if provided)
         String apiKey = QuarterBukkit.getPlugin().getConfig().getString("server-mods-api-key");
         if (apiKey != null && !apiKey.isEmpty()) {
             request.addRequestProperty("X-API-Key", apiKey);
