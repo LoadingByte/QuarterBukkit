@@ -11,6 +11,13 @@
 * Change the license to LGPL v3.
 * Some big changes to the object system API may break existing code. Watch out for that!
 
+0.3.1
+-----
+
+### Fixes
+* HTTP redirects which result in a protocol change (e.g. HTTP to HTTPS) are now correctly followed. That means that the autoupdater and the integration mechanism should function again.
+* Prevent possibly fatal FQCN collisions between copied API classes in the integration code and proper API classes from the actual API plugin. Since these classes differ slightly, problems could quickly emerge.
+
 0.3.0
 -----
 
