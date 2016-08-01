@@ -96,12 +96,14 @@ public class QuarterBukkit extends JavaPlugin {
     @Override
     public void onDisable() {
 
-        // Disable MetricsLite
-        getLogger().info("Disabling MetricsLite ...");
-        try {
-            metrics.disable();
-        } catch (IOException e) {
-            getLogger().severe("An error occurred while disabling MetricsLite (" + e + ")");
+        if (metrics != null) {
+            // Disable MetricsLite
+            getLogger().info("Disabling MetricsLite ...");
+            try {
+                metrics.disable();
+            } catch (IOException e) {
+                getLogger().severe("An error occurred while disabling MetricsLite (" + e + ")");
+            }
         }
     }
 
