@@ -1,11 +1,15 @@
 0.4.0
 -----
 
+### Additions
+* Previously, all object systems were updated each tick. That, however, resulted in problems with both accurate physics simulation as well as finer-graned time resolutions. The new system informs everybody about the passed time &Delta;t and even allows for discrete time steps smaller than the length of a tick.
+
 ### Fixes
 * QuarterBukkit now works with the latest versions of Bukkit for Minecraft 1.10.x.
 
 ### Notes
 * Change the license to LGPL v3.
+* Some big changes to the object system API may break existing code. Watch out for that!
 
 0.3.0
 -----
