@@ -25,6 +25,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Collections;
 import java.util.logging.Level;
@@ -51,7 +52,7 @@ public class FileUtils {
         InputStream inputStream = null;
         OutputStream outputStream = null;
         try {
-            inputStream = source.openStream();
+            inputStream = resolveRedirects((HttpURLConnection) source.openConnection()).getInputStream();
             outputStream = new FileOutputStream(destination);
             outputStream.flush();
 
@@ -63,6 +64,31 @@ public class FileUtils {
             }
         } finally {
             closeResources(inputStream, outputStream);
+        }
+    }
+
+    /**
+     * When the given {@link HttpURLConnection} yields a redirect code which isn't handled by java (e.g. due to a change in protocol), this method recursively makes sure that even those redirects are
+     * followed.
+     * The returned connection is guaranteed to yield some actual data and <b>not any kind of redirect</b>.
+     * Note, however, that the returned connection always is a new one and therefore doesn't have any of the settings the initial connection had.
+     *
+     * @param conn The connection which should be resolved.
+     * @return The new connection which resulted after following all redirects.
+     * @throws IOException Something goes wrong while following the redirects.
+     */
+    public static HttpURLConnection resolveRedirects(HttpURLConnection conn) throws IOException {
+
+        int status = conn.getResponseCode();
+
+        if (status == HttpURLConnection.HTTP_MOVED_TEMP || status == HttpURLConnection.HTTP_MOVED_PERM || status == HttpURLConnection.HTTP_SEE_OTHER) {
+            // Get redirect URL from "Location" header field
+            String newUrl = conn.getHeaderField("Location");
+
+            // open the new connnection again
+            return resolveRedirects((HttpURLConnection) new URL(newUrl).openConnection());
+        } else {
+            return (HttpURLConnection) conn.getURL().openConnection();
         }
     }
 

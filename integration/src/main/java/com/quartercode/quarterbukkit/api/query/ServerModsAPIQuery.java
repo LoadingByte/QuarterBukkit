@@ -21,13 +21,14 @@ package com.quartercode.quarterbukkit.api.query;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.nio.charset.Charset;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import com.quartercode.quarterbukkit.QuarterBukkitIntegration;
+import com.quartercode.quarterbukkit.api.FileUtils;
 import com.quartercode.quarterbukkit.api.query.QueryException.QueryExceptionType;
 
 /**
@@ -83,9 +84,9 @@ public class ServerModsAPIQuery {
         }
 
         // Open connection to request url
-        URLConnection request = null;
+        HttpURLConnection request = null;
         try {
-            request = requestUrl.openConnection();
+            request = FileUtils.resolveRedirects((HttpURLConnection) requestUrl.openConnection());
         } catch (IOException e) {
             throw new QueryException(QueryExceptionType.CANNOT_OPEN_CONNECTION, this, requestUrl.toExternalForm(), e);
         }
