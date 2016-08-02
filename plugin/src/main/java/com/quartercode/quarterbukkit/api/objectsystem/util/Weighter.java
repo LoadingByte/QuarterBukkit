@@ -30,11 +30,14 @@ public interface Weighter<O extends BaseObject> {
 
     /**
      * Returns the weighting value between 0 and 1 that was calculated by the weighter for the given object based on some criteria.
-     * For example, the value could be based on the distance between the object and some other point.
+     * For example, the value could be based on the distance between the object and some other point.<br>
+     * <br>
+     * Note the important variable {@code dt} which basically informs you about the currently used time resolution.
      *
+     * @param dt The amount of milliseconds which have elapsed since the last update of the object system this weighter is somehow part of.
      * @param object The object that should be weighted.
      * @return The calculated weight for the given object.
      */
-    public float getWeight(O object);
+    public float getWeight(long dt, O object);
 
 }

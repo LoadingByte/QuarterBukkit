@@ -87,7 +87,7 @@ public class WeightedVectorLengthModifier<O extends BaseObject> extends Modifier
     public Vector getModification(long dt, O object) {
 
         Vector modification = getWrapped().getModification(dt, object);
-        return modification == null ? null : modification.multiply(weighter.getWeight(object));
+        return modification == null ? null : modification.multiply(weighter.getWeight(dt, object));
     }
 
 }
