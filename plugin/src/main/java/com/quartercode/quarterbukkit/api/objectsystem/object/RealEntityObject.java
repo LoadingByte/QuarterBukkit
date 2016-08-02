@@ -79,10 +79,12 @@ public class RealEntityObject extends DefaultBaseObject implements PhysicsObject
     }
 
     @Override
-    public void setPosition(Vector position) {
+    public RealEntityObject setPosition(Vector position) {
 
         Location oldLocation = entity.getLocation();
         entity.teleport(position.toLocation(oldLocation.getWorld(), oldLocation.getYaw(), oldLocation.getPitch()).add(getSystem().getOrigin()));
+
+        return this;
     }
 
     @Override
@@ -92,9 +94,10 @@ public class RealEntityObject extends DefaultBaseObject implements PhysicsObject
     }
 
     @Override
-    public void setVelocity(Vector velocity) {
+    public RealEntityObject setVelocity(Vector velocity) {
 
         entity.setVelocity(velocity.clone());
+        return this;
     }
 
     @Override

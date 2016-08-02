@@ -111,9 +111,10 @@ public class StandalonePhysicsObject extends DefaultBaseObject implements Physic
     }
 
     @Override
-    public void setPosition(Vector position) {
+    public StandalonePhysicsObject setPosition(Vector position) {
 
         this.position = position.clone();
+        return this;
     }
 
     @Override
@@ -123,9 +124,10 @@ public class StandalonePhysicsObject extends DefaultBaseObject implements Physic
     }
 
     @Override
-    public void setVelocity(Vector velocity) {
+    public StandalonePhysicsObject setVelocity(Vector velocity) {
 
         this.velocity = velocity.clone();
+        return this;
     }
 
     @Override

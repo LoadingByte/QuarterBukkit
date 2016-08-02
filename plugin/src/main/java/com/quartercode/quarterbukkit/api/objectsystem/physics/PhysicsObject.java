@@ -46,8 +46,9 @@ public interface PhysicsObject extends BaseObject {
      * Note that the newly set vector will change over time if the object's velocity vector doesn't have a length of zero.
      *
      * @param position The new position vector of the object.
+     * @return This object.
      */
-    public void setPosition(Vector position);
+    public PhysicsObject setPosition(Vector position);
 
     /**
      * Returns the current velocity of the physics object as a {@link Vector}.
@@ -64,7 +65,8 @@ public interface PhysicsObject extends BaseObject {
      * Note that this velocity vector is applied to the position vector of the object every update.
      *
      * @param velocity The new velocity vector of the object in m/s.
+     * @return This object.
      */
-    public void setVelocity(Vector velocity);
+    public PhysicsObject setVelocity(Vector velocity);
 
 }
