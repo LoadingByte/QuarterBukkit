@@ -3,13 +3,23 @@
 
 ### Additions
 * Previously, all object systems were updated each tick. That, however, resulted in problems with both accurate physics simulation as well as finer-graned time resolutions. The new system informs everybody about the passed time &Delta;t and even allows for discrete time steps smaller than the length of a tick.
+* Overall simplified the generics used by the object system API.
+* Added a new abstract `SourceWrapper` class which is analog to the already existing `ModifierWrapper` class to the object system API.
+* Added some preset sources to the object system API.
+* Added some more preset modifiers and modification appliers.
+* Previously, most of the users and -- in some cases -- even the object classes themselves had no clue about the context of an object and were instead faced with just the object on it's own. Now, however, each object stores the `ActiveObjectSystem` it is part of and makes that variable accessible to everyone.
+* Object system renderers no longer need to return a `RenderingResult` in order to remove an object. Instead, they can now remove objects completely by themselves.
+
+### Removals
+* Sources are no longer provided with a predefined `java.util.Random` object since it's easy to not use it anyway. As soon as someone does that, the whole idea of reproducibility is lost.
 
 ### Fixes
 * QuarterBukkit now works with the latest versions of Bukkit for Minecraft 1.10.x.
 
 ### Notes
-* Change the license to LGPL v3.
-* Some big changes to the object system API may break existing code. Watch out for that!
+* Changed the license to LGPL v3.
+* Updated the plugin to Java 7. That means that Java 6 support has been dropped, and the plugin will no longer work in Java 6 environments.
+* Some big changes to the object system API will most certainly break existing code. Watch out for that if you used the API in 0.3.x!
 
 0.3.1
 -----
