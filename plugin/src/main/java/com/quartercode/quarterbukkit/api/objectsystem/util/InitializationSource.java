@@ -18,7 +18,6 @@
 
 package com.quartercode.quarterbukkit.api.objectsystem.util;
 
-import java.util.Random;
 import org.bukkit.plugin.Plugin;
 import com.quartercode.quarterbukkit.api.objectsystem.ActiveObjectSystem;
 import com.quartercode.quarterbukkit.api.objectsystem.Source;
@@ -41,10 +40,10 @@ public class InitializationSource extends SourceWrapper {
     }
 
     @Override
-    public void update(Plugin plugin, ActiveObjectSystem objectSystem, long dt, Random random) {
+    public void update(Plugin plugin, ActiveObjectSystem objectSystem, long dt) {
 
         if (objectSystem.getLifetime() == 0) {
-            getWrapped().update(plugin, objectSystem, dt, random);
+            getWrapped().update(plugin, objectSystem, dt);
         }
     }
 

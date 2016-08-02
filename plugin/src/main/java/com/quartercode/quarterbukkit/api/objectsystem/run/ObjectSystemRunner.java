@@ -21,7 +21,6 @@ package com.quartercode.quarterbukkit.api.objectsystem.run;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Callable;
@@ -52,7 +51,6 @@ public class ObjectSystemRunner {
     private final boolean            stopWhenNoObjects;
 
     private TimerTask                updateTask;
-    private final Random             random       = new Random();
 
     private long                     lastUpdateTime;                                                   // nanoseconds
 
@@ -149,7 +147,7 @@ public class ObjectSystemRunner {
 
         // Spawn new objects
         for (Source source : objectSystem.getDefinition().getSources()) {
-            source.update(plugin, objectSystem, dt, random);
+            source.update(plugin, objectSystem, dt);
         }
 
         // Stop if "stopWhenNoObjects" is enabled and no objects are found
