@@ -143,10 +143,6 @@ public class ActiveObjectSystem {
 
     /**
      * Returns the amount of milliseconds the active object system has been simulated for.
-     * Note that this is guaranteed to be {@code 0} the first time the active system is updated.
-     * After that, this value increases by {@code 1} each time the active system is updated.
-     *
-     *
      * Note that this is guaranteed to be 0 the first time the active system is updated.
      * After that, this value increases by the elapsed time {@code dt} each time the active system is updated.
      *
@@ -159,13 +155,17 @@ public class ActiveObjectSystem {
 
     /**
      * Increments the current lifetime of the active object system by the given number of milliseconds.
-     * Note that this is an internal method and should not be used as an API function.
+     * <b>Note that this is an internal method and should not be used as an API function.</b>
      *
      * @param dt The number of milliseconds that should be added to the active object system's lifetime.
      */
     public void incrementLifetime(long dt) {
 
         lifetime += dt;
+
+        for (BaseObject object : objects) {
+            object.incrementLifetime(dt);
+        }
     }
 
     @Override

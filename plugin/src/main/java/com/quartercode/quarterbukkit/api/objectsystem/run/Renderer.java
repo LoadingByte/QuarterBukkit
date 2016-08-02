@@ -21,11 +21,14 @@ package com.quartercode.quarterbukkit.api.objectsystem.run;
 import org.bukkit.plugin.Plugin;
 import com.quartercode.quarterbukkit.api.objectsystem.ActiveObjectSystem;
 import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
+import com.quartercode.quarterbukkit.api.objectsystem.ModificationRule;
 
 /**
  * A renderer takes an object, which must extend {@link BaseObject}, and performs some action using it.
  * For example, it could display a simple particle. However, it might also modify the object itself.
- * Note that all renderers are called after the modifications were performed on each object.
+ * Note that all renderers are called after the modifications were performed on each object.<br>
+ * <br>
+ * If you are interested in the conceptual differences between renderers and modification rules, look into the documentation for {@link ModificationRule}s.
  *
  * @param <O> The type of object the renderer can use to perform some action. This must extend {@link BaseObject}.
  */

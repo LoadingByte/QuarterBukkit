@@ -23,7 +23,6 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import org.bukkit.plugin.Plugin;
 
 /**
  * A modifier wrapper wraps around another {@link Modifier} and manipulates the modification objects produced by that modifier.
@@ -42,7 +41,7 @@ public abstract class ModifierWrapper<O extends BaseObject, M> implements Modifi
     private Modifier<? super O, ? extends M> wrapped;
 
     /**
-     * Creates a new modification wrapper that allows a {@code null} reference as wrapped modifier.
+     * Creates a new modifier wrapper that allows a {@code null} reference as wrapped modifier.
      * That means that the wrapper might have no wrapped modifier in some cases.
      */
     public ModifierWrapper() {
@@ -51,11 +50,11 @@ public abstract class ModifierWrapper<O extends BaseObject, M> implements Modifi
     }
 
     /**
-     * Creates a new modification wrapper and immediately sets the wrapped {@link Modifier}.
+     * Creates a new modifier wrapper and immediately sets the wrapped {@link Modifier}.
      * Also sets whether the wrapper is allowed to have a {@code null} reference as wrapped modifier.
      * If that's the case, the wrapper might have no wrapped modifier in some cases.
      *
-     * @param nullAllowed Whether a non-null wrapped modifier must not be provided in all cases.
+     * @param nullAllowed Whether a non-null wrapped modifier must not be provided at all times.
      * @param wrapped The initial wrapped modifier.
      *        If {@code nullAllowed} is {@code false}, this cannot be {@code null}.
      */
@@ -66,7 +65,7 @@ public abstract class ModifierWrapper<O extends BaseObject, M> implements Modifi
     }
 
     /**
-     * Returns the wrapped {@link Modifier} that should be called during the {@link #getModification(Plugin, ActiveObjectSystem, long, BaseObject)} call in order to create a modifier chain.
+     * Returns the wrapped {@link Modifier} that should be called during the {@link #getModification(long, BaseObject)} call in order to create a modifier chain.
      * Note that this is not allowed to be {@code null} if {@code nullAllowed} was set to {@code false} on construction.
      *
      * @return The wrapped modifier.
@@ -77,7 +76,7 @@ public abstract class ModifierWrapper<O extends BaseObject, M> implements Modifi
     }
 
     /**
-     * Sets the wrapped {@link Modifier} that should be called during the {@link #getModification(Plugin, ActiveObjectSystem, long, BaseObject)} call in order to create a modifier chain.
+     * Sets the wrapped {@link Modifier} that should be called during the {@link #getModification(long, BaseObject)} call in order to create a modifier chain.
      * Note that this is not allowed to be {@code null} if {@code nullAllowed} was set to {@code false} on construction.
      *
      * @param wrapped The new wrapped modifier.

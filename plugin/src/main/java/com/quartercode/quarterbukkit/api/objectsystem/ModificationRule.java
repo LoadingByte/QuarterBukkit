@@ -23,6 +23,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import com.quartercode.quarterbukkit.api.objectsystem.run.Renderer;
 
 /**
  * A modification rule takes an object and then lets a {@link Modifier} calculate a modification of a specific property of that object.
@@ -33,7 +34,11 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * Note that a modifier can be wrapped around another one using a {@link ModifierWrapper} in order to create a modifier chain.
  * The first modifier of that chain can then be set as the rule modifier.
  * That way, different modifiers can be combined together.
- * For example, a second modifier could adjust the actual velocity modification depending on the location of the object.
+ * For example, a second modifier could adjust the actual velocity modification depending on the location of the object.<br>
+ * <br>
+ * Some may ask why there's a distinction between modification rules and {@link Renderer}s.
+ * Apart from the broader and more flexible approach the rendering system takes, frontend users generally capture the characteristics of an object system in modification rules, while backend
+ * developers use renderers to implement fundamental behavior like the laws of physics.
  *
  * @param <O> The type of object that can be modified by the rule. This must extend {@link BaseObject}.
  * @param <M> The type of the modification object that is returned by the modifier.
@@ -136,7 +141,7 @@ public class ModificationRule<O extends BaseObject, M> {
     }
 
     /**
-     * Applies the modification rule to the given object.
+     * Applies the modification rule to the given {@link BaseObject object}.
      * This first calls the {@link Modifier} and then passes the changes into the {@link ModificationApplier}.
      *
      * @param dt The amount of milliseconds which have elapsed since the last update of the object system this modification rule is part of.

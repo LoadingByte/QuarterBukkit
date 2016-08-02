@@ -21,6 +21,7 @@ package com.quartercode.quarterbukkit.api.objectsystem;
 /**
  * The base interface for all objects that can be put into an {@link ActiveObjectSystem}.
  * It defines some basic object properties and a public {@link #clone()} method.
+ * All other more advanced properties are added by subclasses.
  *
  * @see ActiveObjectSystem
  */
@@ -37,7 +38,7 @@ public interface BaseObject extends Cloneable {
 
     /**
      * Increments the current lifetime of the object by the given number of milliseconds.
-     * Note that this is an internal method and should not be used as an API function.
+     * <b>Note that this is an internal method and should not be used as an API function.</b>
      *
      * @param dt The number of milliseconds that should be added to the object's lifetime.
      */
@@ -59,8 +60,9 @@ public interface BaseObject extends Cloneable {
      * The expiration time {@code -1} means that the object never expires.
      *
      * @param expirationTime The new expiration time of the object in milliseconds; {@code -1} for no expiration.
+     * @return This object.
      */
-    public void setExpirationTime(long expirationTime);
+    public BaseObject setExpirationTime(long expirationTime);
 
     /**
      * Returns the {@link ActiveObjectSystem} this object is part of, or {@code null} if this object hasn't been {@link ActiveObjectSystem#addObjects(BaseObject...) added} to any active system yet.
@@ -83,7 +85,7 @@ public interface BaseObject extends Cloneable {
 
     /**
      * Creates a <b>deep</b> clone of the object that exactly represents the cloned object.
-     * Note that this should use the system clone method and then perform the deep cloning on the resulting object
+     * Note that this should use the system clone method and then perform the deep cloning on the resulting object.
      * in order to add easy inheritance support.
      *
      * @return A deep clone of the object.

@@ -18,7 +18,6 @@
 
 package com.quartercode.quarterbukkit.api.objectsystem;
 
-import java.util.Random;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -63,7 +62,7 @@ public abstract class SourceWrapper implements Source {
     }
 
     /**
-     * Returns the wrapped {@link Source} that should be called during the {@link #update(Plugin, ActiveObjectSystem, long, Random)} call in order to create a source chain.
+     * Returns the wrapped {@link Source} that should be called during the {@link #update(Plugin, ActiveObjectSystem, long)} call in order to create a source chain.
      * Note that this is not allowed to be {@code null} if {@code nullAllowed} was set to {@code false} on construction.
      *
      * @return The wrapped source.
@@ -74,7 +73,7 @@ public abstract class SourceWrapper implements Source {
     }
 
     /**
-     * Sets the wrapped {@link Source} that should be called during the {@link #update(Plugin, ActiveObjectSystem, long, Random)} call in order to create a source chain.
+     * Sets the wrapped {@link Source} that should be called during the {@link #update(Plugin, ActiveObjectSystem, long)} call in order to create a source chain.
      * Note that this is not allowed to be {@code null} if {@code nullAllowed} was set to {@code false} on construction.
      *
      * @param wrapped The new wrapped source.

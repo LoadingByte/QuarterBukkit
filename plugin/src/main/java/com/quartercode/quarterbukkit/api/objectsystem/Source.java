@@ -23,6 +23,7 @@ import org.bukkit.plugin.Plugin;
 /**
  * Object sources are responsible for spawning new objects into an {@link ActiveObjectSystem}.
  * That can either be done deterministically or randomly.
+ * Note that sources can be chained together using the {@link SourceWrapper} class.
  *
  * @see ObjectSystemDefinition
  */

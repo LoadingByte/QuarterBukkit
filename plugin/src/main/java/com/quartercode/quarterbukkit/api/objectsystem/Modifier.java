@@ -19,7 +19,7 @@
 package com.quartercode.quarterbukkit.api.objectsystem;
 
 /**
- * A modifier is responsible for calculating a modification object that represents the modification of a certain object property.
+ * A modifier is responsible for calculating a modification object that represents the modification of a certain {@link BaseObject object} property.
  * For example, a velocity modifier would return a modification vector that adjusts the velocity vector of the object.
  * See {@link ModificationRule} for more information on the role of modifiers.
  * Note that modifiers can be chained together using the {@link ModifierWrapper} class.
