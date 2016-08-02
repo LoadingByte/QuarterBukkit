@@ -20,7 +20,6 @@ package com.quartercode.quarterbukkit.api.objectsystem.run;
 
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
-import com.quartercode.quarterbukkit.api.objectsystem.ActiveObjectSystem;
 import com.quartercode.quarterbukkit.api.objectsystem.physics.StandalonePhysicsObject;
 
 /**
@@ -39,7 +38,7 @@ public class StandalonePhysicsObjectRenderer extends StatelessRenderer<Standalon
     }
 
     @Override
-    public void render(Plugin plugin, ActiveObjectSystem objectSystem, long dt, StandalonePhysicsObject object) {
+    public void render(Plugin plugin, long dt, StandalonePhysicsObject object) {
 
         Vector positionChange = object.getVelocity().multiply(dt / 1000d);
         object.setPosition(object.getPosition().add(positionChange));

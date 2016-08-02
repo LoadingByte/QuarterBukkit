@@ -46,10 +46,9 @@ public interface Renderer<O extends BaseObject> {
      * Also note that this method is called on all renderers after the modifications were performed on each object.
      *
      * @param plugin The {@link Plugin} that started a runner which now simulates the active system and called the renderer.
-     * @param objectSystem The active system the object is used in.
      * @param dt The amount of milliseconds which have elapsed since the last update of the active system this renderer is part of.
      * @param object The actual object that should be rendered.
      */
-    public void render(Plugin plugin, ActiveObjectSystem objectSystem, long dt, O object);
+    public void render(Plugin plugin, long dt, O object);
 
 }

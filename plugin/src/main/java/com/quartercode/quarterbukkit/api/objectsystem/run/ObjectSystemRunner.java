@@ -172,7 +172,7 @@ public class ObjectSystemRunner {
     private <O extends BaseObject> void tryApplyRenderer(long dt, Renderer<O> renderer, BaseObject object) {
 
         if (renderer.getObjectType().isInstance(object)) {
-            renderer.render(plugin, objectSystem, dt, (O) object);
+            renderer.render(plugin, dt, (O) object);
         }
     }
 

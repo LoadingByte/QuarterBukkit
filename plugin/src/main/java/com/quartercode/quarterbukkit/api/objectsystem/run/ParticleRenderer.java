@@ -29,7 +29,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 import com.quartercode.quarterbukkit.api.exception.ExceptionHandler;
 import com.quartercode.quarterbukkit.api.exception.InternalException;
-import com.quartercode.quarterbukkit.api.objectsystem.ActiveObjectSystem;
 import com.quartercode.quarterbukkit.api.objectsystem.object.ParticleDefinition;
 import com.quartercode.quarterbukkit.api.objectsystem.object.ParticleObject;
 
@@ -75,18 +74,18 @@ public class ParticleRenderer extends StatelessRenderer<ParticleObject> {
     }
 
     @Override
-    public void render(Plugin plugin, ActiveObjectSystem objectSystem, long dt, ParticleObject object) {
+    public void render(Plugin plugin, long dt, ParticleObject object) {
 
         if (object.hasSpeedBasedFrequency() && !RenderingUtils.checkSpeedBasedFrequency(object, 0.5F)) {
             return;
         }
 
-        spawn(plugin, objectSystem, object);
+        spawn(plugin, object);
     }
 
-    private void spawn(Plugin plugin, ActiveObjectSystem objectSystem, ParticleObject object) {
+    private void spawn(Plugin plugin, ParticleObject object) {
 
-        Location location = objectSystem.getOrigin().add(object.getPosition());
+        Location location = object.getSystem().getOrigin().add(object.getPosition());
 
         try {
             for (ParticleDefinition particle : object.getParticles()) {

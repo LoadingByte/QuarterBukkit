@@ -29,7 +29,6 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.plugin.Plugin;
 import com.quartercode.quarterbukkit.api.exception.ExceptionHandler;
 import com.quartercode.quarterbukkit.api.exception.InternalException;
-import com.quartercode.quarterbukkit.api.objectsystem.ActiveObjectSystem;
 import com.quartercode.quarterbukkit.api.objectsystem.object.FireworkEffectDefinition;
 import com.quartercode.quarterbukkit.api.objectsystem.object.FireworkObject;
 
@@ -68,7 +67,7 @@ public class FireworkRenderer extends StatelessRenderer<FireworkObject> {
     }
 
     @Override
-    public void render(Plugin plugin, ActiveObjectSystem objectSystem, long dt, FireworkObject object) {
+    public void render(Plugin plugin, long dt, FireworkObject object) {
 
         // Determine whether the different effects should be spawned
         double objectVelocity = object.getVelocity().length();
@@ -89,12 +88,12 @@ public class FireworkRenderer extends StatelessRenderer<FireworkObject> {
         }
 
         // Actually spawn all effects for this round
-        spawn(plugin, objectSystem, object, spawnEffects);
+        spawn(plugin, object, spawnEffects);
     }
 
-    private void spawn(Plugin plugin, ActiveObjectSystem objectSystem, FireworkObject object, Collection<FireworkEffectDefinition> spawnEffects) {
+    private void spawn(Plugin plugin, FireworkObject object, Collection<FireworkEffectDefinition> spawnEffects) {
 
-        Location location = objectSystem.getOrigin().add(object.getPosition());
+        Location location = object.getSystem().getOrigin().add(object.getPosition());
         Firework firework = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
 
         try {

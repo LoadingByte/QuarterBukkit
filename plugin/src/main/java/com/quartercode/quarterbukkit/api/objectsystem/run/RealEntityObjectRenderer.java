@@ -19,7 +19,6 @@
 package com.quartercode.quarterbukkit.api.objectsystem.run;
 
 import org.bukkit.plugin.Plugin;
-import com.quartercode.quarterbukkit.api.objectsystem.ActiveObjectSystem;
 import com.quartercode.quarterbukkit.api.objectsystem.object.RealEntityObject;
 
 /**
@@ -38,11 +37,11 @@ public class RealEntityObjectRenderer extends StatelessRenderer<RealEntityObject
     }
 
     @Override
-    public void render(Plugin plugin, ActiveObjectSystem objectSystem, long dt, RealEntityObject object) {
+    public void render(Plugin plugin, long dt, RealEntityObject object) {
 
         // Remove the object if the assigned entity has vanished
         if (!object.getEntity().isValid()) {
-            objectSystem.removeObjects(object);
+            object.getSystem().removeObjects(object);
         }
     }
 

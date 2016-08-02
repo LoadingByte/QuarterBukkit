@@ -19,7 +19,6 @@
 package com.quartercode.quarterbukkit.api.objectsystem.run;
 
 import org.bukkit.plugin.Plugin;
-import com.quartercode.quarterbukkit.api.objectsystem.ActiveObjectSystem;
 import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
 
 /**
@@ -37,14 +36,12 @@ public class BaseObjectRenderer extends StatelessRenderer<BaseObject> {
     }
 
     @Override
-    public void render(Plugin plugin, ActiveObjectSystem objectSystem, long dt, BaseObject object) {
+    public void render(Plugin plugin, long dt, BaseObject object) {
 
         if (object.getExpirationTime() != -1 && object.getLifetime() >= object.getExpirationTime()) {
-            objectSystem.removeObjects(object);
+            object.getSystem().removeObjects(object);
             return;
         }
-
-        object.incrementLifetime(dt);
     }
 
 }
