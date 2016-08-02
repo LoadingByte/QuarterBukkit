@@ -27,7 +27,11 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.util.Vector;
+import com.quartercode.quarterbukkit.api.objectsystem.physics.StandalonePhysicsObject;
 
 /**
  * An active object system runs the rules defined by an {@link ObjectSystemDefinition}.
@@ -40,13 +44,27 @@ import org.bukkit.Location;
  * @see ObjectSystemDefinition
  * @see BaseObject
  */
-public class ActiveObjectSystem {
+public class ActiveObjectSystem extends StandalonePhysicsObject {
 
     private final ObjectSystemDefinition definition;
 
-    private final Location               origin;
     private final Collection<BaseObject> objects = new ArrayList<>();
     private long                         lifetime;
+
+    // In case of a manual origin, this field stores the world the origin is located in
+    private World                        manualOriginWorld;
+
+    /**
+     * Creates a new active object system that runs the given {@link ObjectSystemDefinition} and is centered on the origin {@code (0/0/0)} in the first available {@link World}.
+     * This constructor is most useful when you just need a dummy origin because you want to nest this object system inside another one.
+     *
+     * @param definition The object system definition which defines the spawning of new objects and the behavior of existing ones.
+     */
+    public ActiveObjectSystem(ObjectSystemDefinition definition) {
+
+        this.definition = definition;
+        manualOriginWorld = Bukkit.getWorlds().get(0);
+    }
 
     /**
      * Creates a new active object system that runs the given {@link ObjectSystemDefinition} and is centered on the given origin {@link Location}.
@@ -58,7 +76,7 @@ public class ActiveObjectSystem {
     public ActiveObjectSystem(ObjectSystemDefinition definition, Location origin) {
 
         this.definition = definition;
-        this.origin = origin.clone();
+        setOrigin(origin);
     }
 
     /**
@@ -79,7 +97,26 @@ public class ActiveObjectSystem {
      */
     public Location getOrigin() {
 
-        return origin.clone();
+        ActiveObjectSystem parentSystem = getSystem();
+
+        if (parentSystem == null) {
+            Vector position = getPosition();
+            return new Location(manualOriginWorld, position.getX(), position.getY(), position.getZ());
+        } else {
+            return parentSystem.getOrigin().add(getPosition());
+        }
+    }
+
+    /**
+     * If this active system is not nested inside another system, this method manually sets the origin this system is centered on.
+     * All object locations are relative to this origin.
+     *
+     * @param origin The new origin location the active system should be centered on.
+     */
+    public void setOrigin(Location origin) {
+
+        manualOriginWorld = origin.getWorld();
+        setPosition(origin.toVector());
     }
 
     /**
@@ -113,6 +150,14 @@ public class ActiveObjectSystem {
     public void addObjects(Collection<BaseObject> objects) {
 
         Validate.noNullElements(objects, "Cannot add null objects to active object system");
+
+        // Ensure that the new objects are not part of any object system yet
+        for (BaseObject object : objects) {
+            if (object.getSystem() != null) {
+                throw new IllegalStateException("An object can't be added to two object systems at the same time");
+            }
+        }
+
         this.objects.addAll(objects);
 
         // Tell the objects that they have just been added to this active system
@@ -139,6 +184,11 @@ public class ActiveObjectSystem {
     public void removeObjects(Collection<BaseObject> objects) {
 
         this.objects.removeAll(objects);
+
+        // Tell the objects that they have just been removed from this active system
+        for (BaseObject object : objects) {
+            object.setSystem(null);
+        }
     }
 
     /**
@@ -148,6 +198,7 @@ public class ActiveObjectSystem {
      *
      * @return The current lifetime of the active system.
      */
+    @Override
     public long getLifetime() {
 
         return lifetime;
@@ -159,6 +210,7 @@ public class ActiveObjectSystem {
      *
      * @param dt The number of milliseconds that should be added to the active object system's lifetime.
      */
+    @Override
     public void incrementLifetime(long dt) {
 
         lifetime += dt;

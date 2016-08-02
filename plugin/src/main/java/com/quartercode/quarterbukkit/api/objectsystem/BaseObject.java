@@ -76,8 +76,8 @@ public interface BaseObject extends Cloneable {
 
     /**
      * Tells the object that it has just been added to the given {@link ActiveObjectSystem}.
+     * If you provide {@code null} as an argument, it tells the object that it has just been removed from its previous active system.
      * <b>Note that this is an internal method and should not be used as an API function.</b>
-     * Also note that once you called this method once, you can never call it again on the same object.
      *
      * @param system The active object system this object is now part of.
      */

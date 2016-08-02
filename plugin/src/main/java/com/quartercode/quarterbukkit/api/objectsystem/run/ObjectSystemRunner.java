@@ -117,7 +117,13 @@ public class ObjectSystemRunner {
                         @Override
                         public Void call() throws Exception {
 
-                            update(dt);
+                            updateRecursively(dt, objectSystem);
+
+                            // Stop if "stopWhenNoObjects" is enabled and no objects are found
+                            if (stopWhenNoObjects && !checkNotEmptyRecursively(objectSystem)) {
+                                setRunning(false);
+                            }
+
                             return null;
                         }
 
@@ -132,35 +138,50 @@ public class ObjectSystemRunner {
         }
     }
 
-    private void update(long dt) {
+    private void updateRecursively(long dt, ActiveObjectSystem system) {
 
         // Increment object system lifetime
-        objectSystem.incrementLifetime(dt);
+        system.incrementLifetime(dt);
 
         // Apply modification rules
-        for (BaseObject object : concurrentIterable(objectSystem.getObjects())) {
-            for (ModificationRule<?, ?> modificationRule : objectSystem.getDefinition().getModificationRules()) {
+        for (BaseObject object : concurrentIterable(system.getObjects())) {
+            for (ModificationRule<?, ?> modificationRule : system.getDefinition().getModificationRules()) {
                 tryApplyModificationRule(dt, modificationRule, object);
             }
         }
 
         // Spawn new objects
-        for (Source source : objectSystem.getDefinition().getSources()) {
-            source.update(plugin, objectSystem, dt);
-        }
-
-        // Stop if "stopWhenNoObjects" is enabled and no objects are found
-        if (stopWhenNoObjects && objectSystem.getObjects().isEmpty()) {
-            setRunning(false);
-            return;
+        for (Source source : system.getDefinition().getSources()) {
+            source.update(plugin, system, dt);
         }
 
         // Apply renderers
         for (Renderer<?> renderer : renderers) {
-            for (BaseObject object : concurrentIterable(objectSystem.getObjects())) {
+            for (BaseObject object : concurrentIterable(system.getObjects())) {
                 tryApplyRenderer(dt, renderer, object);
             }
         }
+
+        // Update all nested object systems, if there are any
+        for (BaseObject object : system.getObjects()) {
+            if (object instanceof ActiveObjectSystem) {
+                updateRecursively(dt, (ActiveObjectSystem) object);
+            }
+        }
+    }
+
+    /*
+     * Returns whether the given active system or any of its children contains at least one non-subsystem object.
+     */
+    private boolean checkNotEmptyRecursively(ActiveObjectSystem system) {
+
+        for (BaseObject object : system.getObjects()) {
+            if (! (object instanceof ActiveObjectSystem) || checkNotEmptyRecursively((ActiveObjectSystem) object)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private <E> Iterable<E> concurrentIterable(Collection<E> collection) {

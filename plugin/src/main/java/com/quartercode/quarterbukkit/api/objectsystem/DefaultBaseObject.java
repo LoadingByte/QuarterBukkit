@@ -87,10 +87,6 @@ public class DefaultBaseObject implements BaseObject {
     @Override
     public void setSystem(ActiveObjectSystem system) {
 
-        if (this.system != null) {
-            throw new IllegalStateException("An object can't be added to object systems");
-        }
-
         this.system = system;
     }
 
