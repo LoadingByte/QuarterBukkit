@@ -19,7 +19,7 @@
 package com.quartercode.quarterbukkit.api.objectsystem.run;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collection;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -34,7 +34,6 @@ import com.quartercode.quarterbukkit.api.objectsystem.ActiveObjectSystem;
 import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
 import com.quartercode.quarterbukkit.api.objectsystem.ModificationRule;
 import com.quartercode.quarterbukkit.api.objectsystem.Source;
-import com.quartercode.quarterbukkit.api.objectsystem.run.Renderer.RenderingResult;
 
 /**
  * An object system runner takes an {@link ActiveObjectSystem} and a bunch of {@link Renderer}s and then simulates and displays the system using those renderers.
@@ -158,24 +157,22 @@ public class ObjectSystemRunner {
 
         // Apply renderers
         for (Renderer<?> renderer : renderers) {
-            Iterator<BaseObject> objectRenderingIterator = objectSystem.getModifiableObjectsIterator();
-            while (objectRenderingIterator.hasNext()) {
-                RenderingResult result = tryApplyRenderer(dt, renderer, objectRenderingIterator.next());
-
-                if (result != null && result == RenderingResult.REMOVE) {
-                    objectRenderingIterator.remove();
-                }
+            for (BaseObject object : concurrentIterable(objectSystem.getObjects())) {
+                tryApplyRenderer(dt, renderer, object);
             }
         }
     }
 
+    private <E> Iterable<E> concurrentIterable(Collection<E> collection) {
+
+        return new ArrayList<E>(collection);
+    }
+
     @SuppressWarnings ("unchecked")
-    private <O extends BaseObject> RenderingResult tryApplyRenderer(long dt, Renderer<O> renderer, BaseObject object) {
+    private <O extends BaseObject> void tryApplyRenderer(long dt, Renderer<O> renderer, BaseObject object) {
 
         if (renderer.getObjectType().isInstance(object)) {
-            return renderer.render(plugin, objectSystem, dt, (O) object);
-        } else {
-            return null;
+            renderer.render(plugin, objectSystem, dt, (O) object);
         }
     }
 

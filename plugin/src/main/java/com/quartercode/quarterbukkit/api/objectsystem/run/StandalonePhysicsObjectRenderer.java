@@ -39,12 +39,10 @@ public class StandalonePhysicsObjectRenderer extends StatelessRenderer<Standalon
     }
 
     @Override
-    public RenderingResult render(Plugin plugin, ActiveObjectSystem objectSystem, long dt, StandalonePhysicsObject object) {
+    public void render(Plugin plugin, ActiveObjectSystem objectSystem, long dt, StandalonePhysicsObject object) {
 
         Vector positionChange = object.getVelocity().multiply(dt / 1000d);
         object.setPosition(object.getPosition().add(positionChange));
-
-        return RenderingResult.NOTHING;
     }
 
 }

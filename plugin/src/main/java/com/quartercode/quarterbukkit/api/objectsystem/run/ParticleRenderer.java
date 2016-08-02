@@ -75,15 +75,13 @@ public class ParticleRenderer extends StatelessRenderer<ParticleObject> {
     }
 
     @Override
-    public RenderingResult render(Plugin plugin, ActiveObjectSystem objectSystem, long dt, ParticleObject object) {
+    public void render(Plugin plugin, ActiveObjectSystem objectSystem, long dt, ParticleObject object) {
 
         if (object.hasSpeedBasedFrequency() && !RenderingUtils.checkSpeedBasedFrequency(object, 0.5F)) {
-            return RenderingResult.NOTHING;
+            return;
         }
 
         spawn(plugin, objectSystem, object);
-
-        return RenderingResult.NOTHING;
     }
 
     private void spawn(Plugin plugin, ActiveObjectSystem objectSystem, ParticleObject object) {

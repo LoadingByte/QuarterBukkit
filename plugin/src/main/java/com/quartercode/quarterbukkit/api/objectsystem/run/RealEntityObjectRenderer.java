@@ -38,13 +38,11 @@ public class RealEntityObjectRenderer extends StatelessRenderer<RealEntityObject
     }
 
     @Override
-    public RenderingResult render(Plugin plugin, ActiveObjectSystem objectSystem, long dt, RealEntityObject object) {
+    public void render(Plugin plugin, ActiveObjectSystem objectSystem, long dt, RealEntityObject object) {
 
-        // Remove the entity if it has vanished
+        // Remove the object if the assigned entity has vanished
         if (!object.getEntity().isValid()) {
-            return RenderingResult.REMOVE;
-        } else {
-            return RenderingResult.NOTHING;
+            objectSystem.removeObjects(object);
         }
     }
 

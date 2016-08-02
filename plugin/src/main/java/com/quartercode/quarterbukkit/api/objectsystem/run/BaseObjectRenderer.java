@@ -37,18 +37,14 @@ public class BaseObjectRenderer extends StatelessRenderer<BaseObject> {
     }
 
     @Override
-    public RenderingResult render(Plugin plugin, ActiveObjectSystem objectSystem, long dt, BaseObject object) {
+    public void render(Plugin plugin, ActiveObjectSystem objectSystem, long dt, BaseObject object) {
 
-        RenderingResult result;
         if (object.getExpirationTime() != -1 && object.getLifetime() >= object.getExpirationTime()) {
-            result = RenderingResult.REMOVE;
-        } else {
-            result = RenderingResult.NOTHING;
+            objectSystem.removeObjects(object);
+            return;
         }
 
         object.incrementLifetime(dt);
-
-        return result;
     }
 
 }

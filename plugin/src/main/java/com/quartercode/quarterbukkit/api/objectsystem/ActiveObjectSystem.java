@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -92,16 +91,6 @@ public class ActiveObjectSystem {
     public Collection<BaseObject> getObjects() {
 
         return Collections.unmodifiableCollection(objects);
-    }
-
-    /**
-     * Returns a modifiable {@link Iterator} that allows to iterate over and modify the object list (see {@link #getObjects()}).
-     *
-     * @return A modifiable iterator for the object list.
-     */
-    public Iterator<BaseObject> getModifiableObjectsIterator() {
-
-        return objects.iterator();
     }
 
     /**

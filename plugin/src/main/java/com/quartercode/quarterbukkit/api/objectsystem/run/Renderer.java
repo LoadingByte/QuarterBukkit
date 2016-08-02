@@ -32,24 +32,6 @@ import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
 public interface Renderer<O extends BaseObject> {
 
     /**
-     * The different results of the rendering process.
-     * For example, the rendered object might be removed.
-     */
-    public static enum RenderingResult {
-
-        /**
-         * Nothing special should happen.
-         */
-        NOTHING,
-        /**
-         * The object should be removed from its {@link ActiveObjectSystem}.
-         * Note that following renderers will not receive a rendering call for that object during the system update.
-         */
-        REMOVE;
-
-    }
-
-    /**
      * Returns the generic {@code O} parameter, which specifies the type of object the renderer accepts, as a {@link Class} object.
      * This is used to determine whether the renderer is able to handle the object.
      *
@@ -67,8 +49,7 @@ public interface Renderer<O extends BaseObject> {
      * @param objectSystem The active system the object is used in.
      * @param dt The amount of milliseconds which have elapsed since the last update of the active system this renderer is part of.
      * @param object The actual object that should be rendered.
-     * @return The result of the rendering process. See {@link RenderingResult} for more information on the possible results.
      */
-    public RenderingResult render(Plugin plugin, ActiveObjectSystem objectSystem, long dt, O object);
+    public void render(Plugin plugin, ActiveObjectSystem objectSystem, long dt, O object);
 
 }

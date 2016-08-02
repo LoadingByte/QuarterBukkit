@@ -68,7 +68,7 @@ public class FireworkRenderer extends StatelessRenderer<FireworkObject> {
     }
 
     @Override
-    public RenderingResult render(Plugin plugin, ActiveObjectSystem objectSystem, long dt, FireworkObject object) {
+    public void render(Plugin plugin, ActiveObjectSystem objectSystem, long dt, FireworkObject object) {
 
         // Determine whether the different effects should be spawned
         double objectVelocity = object.getVelocity().length();
@@ -85,13 +85,11 @@ public class FireworkRenderer extends StatelessRenderer<FireworkObject> {
 
         // Check whether at least one effect would be spawned this round
         if (spawnEffects.isEmpty()) {
-            return RenderingResult.NOTHING;
+            return;
         }
 
         // Actually spawn all effects for this round
         spawn(plugin, objectSystem, object, spawnEffects);
-
-        return RenderingResult.NOTHING;
     }
 
     private void spawn(Plugin plugin, ActiveObjectSystem objectSystem, FireworkObject object, Collection<FireworkEffectDefinition> spawnEffects) {
