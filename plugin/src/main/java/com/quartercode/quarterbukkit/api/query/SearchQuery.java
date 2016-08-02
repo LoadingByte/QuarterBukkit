@@ -65,7 +65,7 @@ public class SearchQuery {
         String query = "projects?search=" + search;
         JSONArray result = new ServerModsAPIQuery(query).execute();
 
-        List<Project> projects = new ArrayList<Project>();
+        List<Project> projects = new ArrayList<>();
         for (Object resultEntry : result) {
             if (resultEntry instanceof JSONObject) {
                 JSONObject entry = (JSONObject) resultEntry;

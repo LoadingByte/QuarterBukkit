@@ -232,7 +232,7 @@ public class Cylinder implements Shape {
     @Override
     public Collection<Vector> getContent(double distance) {
 
-        Collection<Vector> vectors = new ArrayList<Vector>();
+        Collection<Vector> vectors = new ArrayList<>();
 
         for (Vector bbVector : getAxisAlignedBoundingBox().getContent(distance)) {
             if (intersects(bbVector)) {

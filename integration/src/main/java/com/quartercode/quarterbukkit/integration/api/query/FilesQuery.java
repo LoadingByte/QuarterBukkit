@@ -97,7 +97,7 @@ public class FilesQuery {
         String query = "files?projectIds=" + projectId;
         JSONArray result = new ServerModsAPIQuery(query).execute();
 
-        List<ProjectFile> files = new ArrayList<ProjectFile>();
+        List<ProjectFile> files = new ArrayList<>();
         for (Object resultEntry : result) {
             if (resultEntry instanceof JSONObject) {
                 JSONObject entry = (JSONObject) resultEntry;

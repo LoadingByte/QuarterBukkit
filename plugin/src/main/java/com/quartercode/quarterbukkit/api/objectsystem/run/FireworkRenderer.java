@@ -75,7 +75,7 @@ public class FireworkRenderer extends StatelessRenderer<FireworkObject> {
         boolean spawnTrailObjects = !object.hasSpeedBasedFrequency() || RenderingUtils.checkSpeedBasedFrequency(object.getLifetime(), objectVelocity, 0.75F);
 
         // Collect all effects that are spawned this round
-        Collection<FireworkEffectDefinition> spawnEffects = new ArrayList<FireworkEffectDefinition>();
+        Collection<FireworkEffectDefinition> spawnEffects = new ArrayList<>();
         for (FireworkEffectDefinition effect : object.getEffects()) {
             if (!effect.hasTrail() && spawnNoTrailObjects || effect.hasTrail() && spawnTrailObjects) {
                 spawnEffects.add(effect);

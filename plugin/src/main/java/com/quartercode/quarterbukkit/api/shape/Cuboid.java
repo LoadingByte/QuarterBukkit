@@ -204,7 +204,7 @@ public class Cuboid implements Shape {
     @Override
     public Collection<Vector> getContent(double distance) {
 
-        Collection<Vector> vectors = new ArrayList<Vector>();
+        Collection<Vector> vectors = new ArrayList<>();
 
         for (double x = minVector.getX(); x <= maxVector.getX(); x += distance) {
             for (double y = minVector.getY(); y <= maxVector.getY(); y += distance) {

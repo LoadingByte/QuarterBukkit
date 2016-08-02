@@ -40,8 +40,8 @@ public class FireworkEffectDefinition implements Cloneable {
     private Type                    type;
     private boolean                 flicker;
     private boolean                 trail;
-    private final Collection<Color> colors     = new ArrayList<Color>();
-    private final Collection<Color> fadeColors = new ArrayList<Color>();
+    private final Collection<Color> colors     = new ArrayList<>();
+    private final Collection<Color> fadeColors = new ArrayList<>();
 
     /**
      * Returns the {@link Type} of the defined firework effect.

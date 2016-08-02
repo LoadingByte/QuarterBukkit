@@ -572,7 +572,7 @@ public class Cuboid {
      */
     public List<Vector> getBlocks() {
 
-        List<Vector> blockPositions = new ArrayList<Vector>();
+        List<Vector> blockPositions = new ArrayList<>();
 
         for (int x = getBlockX2(); x <= getBlockX1(); x++) {
             for (int y = getBlockY2(); y <= getBlockY1(); y++) {

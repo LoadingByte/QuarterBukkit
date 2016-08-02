@@ -39,7 +39,7 @@ public class ObjectSystemRunnerBuilder {
 
     static {
 
-        List<Renderer<?>> defaultRenderers = new ArrayList<Renderer<?>>();
+        List<Renderer<?>> defaultRenderers = new ArrayList<>();
         defaultRenderers.add(new BaseObjectRenderer());
         defaultRenderers.add(new StandalonePhysicsObjectRenderer());
         defaultRenderers.add(new ParticleRenderer());
@@ -78,7 +78,7 @@ public class ObjectSystemRunnerBuilder {
      */
     public ObjectSystemRunnerBuilder renderers(List<Renderer<?>> renderers) {
 
-        this.renderers = new ArrayList<Renderer<?>>(renderers);
+        this.renderers = new ArrayList<>(renderers);
         return this;
     }
 

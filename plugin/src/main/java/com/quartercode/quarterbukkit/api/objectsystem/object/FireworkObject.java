@@ -37,7 +37,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.physics.StandalonePhysicsO
 public class FireworkObject extends StandalonePhysicsObject {
 
     private int                                  power               = 0;
-    private Collection<FireworkEffectDefinition> effects             = new ArrayList<FireworkEffectDefinition>();
+    private Collection<FireworkEffectDefinition> effects             = new ArrayList<>();
     private boolean                              speedBasedFrequency = true;
 
     /**
@@ -223,7 +223,7 @@ public class FireworkObject extends StandalonePhysicsObject {
         FireworkObject clone = (FireworkObject) super.clone();
 
         // Deep cloning
-        clone.effects = new ArrayList<FireworkEffectDefinition>(effects);
+        clone.effects = new ArrayList<>(effects);
 
         return clone;
     }

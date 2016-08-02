@@ -40,7 +40,7 @@ import com.quartercode.quarterbukkit.api.scheduler.ScheduleTask;
 @Deprecated
 public class ParticleSystem {
 
-    private List<ParticleDescription> descriptions = new ArrayList<ParticleDescription>();
+    private List<ParticleDescription> descriptions = new ArrayList<>();
     private Location                  location;
     private int                       runs         = 1;
     private int                       rate         = 0;
@@ -301,7 +301,7 @@ public class ParticleSystem {
         }
 
         final AtomicInteger runCounter = new AtomicInteger();
-        final AtomicReference<Location> playLocation = new AtomicReference<Location>(location.clone());
+        final AtomicReference<Location> playLocation = new AtomicReference<>(location.clone());
         scheduleTask = new ScheduleTask(plugin) {
 
             @Override

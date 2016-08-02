@@ -50,9 +50,9 @@ public abstract class SelectInventory implements Listener {
     private final Plugin               plugin;
     private String                     title;
     private InventoryLayouter          layouter     = new LineInventoryLayouter();
-    private final List<Selection>      selections   = new ArrayList<Selection>();
+    private final List<Selection>      selections   = new ArrayList<>();
 
-    private final Map<Player, ViewMap> inventoryMap = new HashMap<Player, ViewMap>();
+    private final Map<Player, ViewMap> inventoryMap = new HashMap<>();
 
     /**
      * Creates an empty select inventory with the given title.
@@ -370,7 +370,7 @@ public abstract class SelectInventory implements Listener {
      */
     public SelectInventory remove(Object value) {
 
-        for (Selection selection : new ArrayList<Selection>(selections)) {
+        for (Selection selection : new ArrayList<>(selections)) {
             if (selection.getValue().equals(value)) {
                 selections.remove(selection);
             }
@@ -438,7 +438,7 @@ public abstract class SelectInventory implements Listener {
 
     private void repaint() {
 
-        for (Entry<Player, ViewMap> entry : new HashMap<Player, ViewMap>(inventoryMap).entrySet()) {
+        for (Entry<Player, ViewMap> entry : new HashMap<>(inventoryMap).entrySet()) {
             inventoryMap.put(entry.getKey(), new ViewMap(entry.getValue().getInventory(), entry.getValue().getView(), paint(entry.getValue().getInventory())));
         }
     }
@@ -447,7 +447,7 @@ public abstract class SelectInventory implements Listener {
 
         InventoryLayout layout = layouter.getLayout(this, selections);
 
-        Map<Integer, Selection> slotMap = new HashMap<Integer, Selection>();
+        Map<Integer, Selection> slotMap = new HashMap<>();
         for (int x = 0; x < layout.getLayout().size(); x++) {
             for (int y = 0; y < layout.getLayout().get(x).size() && y < inventory.getSize() / 9; y++) {
                 inventory.setItem(x + y * 9, layout.get(x, y) == null ? new ItemStack(Material.AIR) : layout.get(x, y).getItemStack());
@@ -489,7 +489,7 @@ public abstract class SelectInventory implements Listener {
      */
     public void closeAll() {
 
-        for (Player player : new ArrayList<Player>(inventoryMap.keySet())) {
+        for (Player player : new ArrayList<>(inventoryMap.keySet())) {
             close(player);
         }
     }

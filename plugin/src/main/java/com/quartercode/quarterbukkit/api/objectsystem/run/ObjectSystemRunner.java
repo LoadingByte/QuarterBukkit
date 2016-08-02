@@ -71,7 +71,7 @@ public class ObjectSystemRunner {
         this.plugin = plugin;
         this.objectSystem = objectSystem;
 
-        this.renderers = new ArrayList<Renderer<?>>(renderers);
+        this.renderers = new ArrayList<>(renderers);
         this.timeResolution = timeResolution;
         this.stopWhenNoObjects = stopWhenNoObjects;
     }
@@ -165,7 +165,7 @@ public class ObjectSystemRunner {
 
     private <E> Iterable<E> concurrentIterable(Collection<E> collection) {
 
-        return new ArrayList<E>(collection);
+        return new ArrayList<>(collection);
     }
 
     @SuppressWarnings ("unchecked")

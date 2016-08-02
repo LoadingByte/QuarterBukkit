@@ -34,8 +34,8 @@ import org.bukkit.Color;
 public class ParticleDescription {
 
     private ParticleShape shape;
-    private List<Color>   colors     = new ArrayList<Color>();
-    private List<Color>   fadeColors = new ArrayList<Color>();
+    private List<Color>   colors     = new ArrayList<>();
+    private List<Color>   fadeColors = new ArrayList<>();
 
     /**
      * Creates a new empty particle description.

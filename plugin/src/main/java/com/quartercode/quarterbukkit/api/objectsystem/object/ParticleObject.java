@@ -33,7 +33,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.physics.StandalonePhysicsO
  */
 public class ParticleObject extends StandalonePhysicsObject {
 
-    private final Collection<ParticleDefinition> particles           = new ArrayList<ParticleDefinition>();
+    private final Collection<ParticleDefinition> particles           = new ArrayList<>();
     private boolean                              speedBasedFrequency = true;
 
     /**

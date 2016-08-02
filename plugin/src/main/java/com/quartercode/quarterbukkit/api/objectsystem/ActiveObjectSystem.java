@@ -45,7 +45,7 @@ public class ActiveObjectSystem {
     private final ObjectSystemDefinition definition;
 
     private final Location               origin;
-    private final Collection<BaseObject> objects = new ArrayList<BaseObject>();
+    private final Collection<BaseObject> objects = new ArrayList<>();
     private long                         lifetime;
 
     /**

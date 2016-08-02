@@ -48,7 +48,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     public static final String         DEFAULT_COMMAND_LABEL = "<empty>";
 
     private final Plugin               plugin;
-    private final List<CommandHandler> commandHandlers       = new ArrayList<CommandHandler>();
+    private final List<CommandHandler> commandHandlers       = new ArrayList<>();
 
     /**
      * Creates a new CommandExecutor which can be used as Bukkit-{@link CommandExecutor}.
@@ -114,7 +114,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
         }
 
         if (arguments.length > 0) {
-            Command command2 = new Command(sender, label, arguments[0], new ArrayList<String>(Arrays.asList(arguments)).subList(1, arguments.length).toArray(new String[arguments.length - 1]));
+            Command command2 = new Command(sender, label, arguments[0], new ArrayList<>(Arrays.asList(arguments)).subList(1, arguments.length).toArray(new String[arguments.length - 1]));
             ExceptionHandler.exception(new NoCommandFoundException(plugin, command2, this, "No command " + arguments[0] + " found"));
         } else {
             ExceptionHandler.exception(new NoDefaultCommandFoundException(plugin, new Command(sender, label, null), this, "No default command found"));
@@ -127,7 +127,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
 
         Command command;
         if (rawArguments.length > 0) {
-            command = new Command(sender, rawLabel, rawArguments[0], new ArrayList<String>(Arrays.asList(rawArguments)).subList(1, rawArguments.length).toArray(new String[rawArguments.length - 1]));
+            command = new Command(sender, rawLabel, rawArguments[0], new ArrayList<>(Arrays.asList(rawArguments)).subList(1, rawArguments.length).toArray(new String[rawArguments.length - 1]));
         } else {
             command = new Command(sender, rawLabel, null);
         }
@@ -164,7 +164,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor, TabC
     @Override
     public List<String> onTabComplete(CommandSender sender, org.bukkit.command.Command command, String alias, String[] arguments) {
 
-        List<String> proposals = new ArrayList<String>();
+        List<String> proposals = new ArrayList<>();
 
         if (arguments.length == 1) {
             for (CommandHandler commandHandler : commandHandlers) {

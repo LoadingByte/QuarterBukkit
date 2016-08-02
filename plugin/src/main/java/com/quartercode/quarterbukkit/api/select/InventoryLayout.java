@@ -27,7 +27,7 @@ import java.util.List;
 public class InventoryLayout {
 
     private final int             maxColumns;
-    private List<List<Selection>> layout = new ArrayList<List<Selection>>();
+    private List<List<Selection>> layout = new ArrayList<>();
 
     /**
      * Creates a new InventoryLayout.
@@ -133,7 +133,7 @@ public class InventoryLayout {
      */
     public List<Selection> getRow(int y) {
 
-        List<Selection> row = new ArrayList<Selection>();
+        List<Selection> row = new ArrayList<>();
         for (int x = 0; x < layout.size(); x++) {
             row.set(x, get(x, y));
         }

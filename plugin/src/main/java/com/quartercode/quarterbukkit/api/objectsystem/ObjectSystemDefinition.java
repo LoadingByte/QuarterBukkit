@@ -39,8 +39,8 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 public class ObjectSystemDefinition {
 
-    private final Collection<Source>                 sources           = new ArrayList<Source>();
-    private final Collection<ModificationRule<?, ?>> modificationRules = new ArrayList<ModificationRule<?, ?>>();
+    private final Collection<Source>                 sources           = new ArrayList<>();
+    private final Collection<ModificationRule<?, ?>> modificationRules = new ArrayList<>();
 
     /**
      * Returns the object {@link Source}s, which are responsible for spawning new objects.
