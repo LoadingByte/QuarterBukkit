@@ -30,8 +30,10 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 public class DefaultBaseObject implements BaseObject {
 
-    private long lifetime;
-    private long expirationTime;
+    private long               lifetime;
+    private long               expirationTime;
+
+    private ActiveObjectSystem system;
 
     /**
      * Creates a new default base object that never expires.
@@ -70,9 +72,26 @@ public class DefaultBaseObject implements BaseObject {
     }
 
     @Override
-    public void setExpirationTime(long expirationTime) {
+    public DefaultBaseObject setExpirationTime(long expirationTime) {
 
         this.expirationTime = expirationTime;
+        return this;
+    }
+
+    @Override
+    public ActiveObjectSystem getSystem() {
+
+        return system;
+    }
+
+    @Override
+    public void setSystem(ActiveObjectSystem system) {
+
+        if (this.system != null) {
+            throw new IllegalStateException("An object can't be added to object systems");
+        }
+
+        this.system = system;
     }
 
     @Override

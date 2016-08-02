@@ -138,7 +138,7 @@ public class ObjectSystemRunner {
         objectSystem.incrementLifetime(dt);
 
         // Apply modification rules
-        for (BaseObject object : objectSystem.getObjects()) {
+        for (BaseObject object : concurrentIterable(objectSystem.getObjects())) {
             for (ModificationRule<?, ?> modificationRule : objectSystem.getDefinition().getModificationRules()) {
                 tryApplyModificationRule(dt, modificationRule, object);
             }

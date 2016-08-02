@@ -32,8 +32,11 @@ package com.quartercode.quarterbukkit.api.objectsystem;
 public interface Modifier<O extends BaseObject, M> {
 
     /**
-     * Calculates the modification object for the given object inside an object system.
-     * For example, a velocity modifier would return a modification vector that adjusts the velocity vector of the object here.<br>
+     * Calculates the modification object for the given {@link BaseObject object} inside an {@link ActiveObjectSystem}.
+     * For example, a velocity modifier would return a modification vector that adjusts the velocity vector of the object here.
+     * <b>It is vital to understand that a modifier is in no case allowed to actually perform some changes on the object or even remove the object!</b>
+     * It should only construct and return a modification object. It's the {@link ModificationApplier}s responsibility to execute the changes.
+     * Otherwise, the whole chaining concept wouldn't work out.<br>
      * <br>
      * Note the important variable {@code dt} which basically informs you about the currently used time resolution.
      * For example, our velocity modifier would need to consider it in order to correctly model acceleration and apply the correct velocity change for the last time interval {@code dt}.

@@ -34,48 +34,31 @@ import com.quartercode.quarterbukkit.api.objectsystem.physics.PhysicsObject;
  */
 public class RealEntityObject extends DefaultBaseObject implements PhysicsObject {
 
-    private final ActiveObjectSystem referenceSystem;
-    private final Entity             entity;
+    private final Entity entity;
 
     /**
      * Creates a new real entity object that never expires for the given {@link Entity}.
-     * Note that a reference to the object's {@link ActiveObjectSystem} must be provided for position vector calculations.
      *
-     * @param referenceSystem The active system the new object is used in.
      * @param entity The entity that should be made controllable for the active system.
      */
-    public RealEntityObject(ActiveObjectSystem referenceSystem, Entity entity) {
+    public RealEntityObject(Entity entity) {
 
         Validate.notNull(entity, "Cannot use null entity for real entity object");
 
-        this.referenceSystem = referenceSystem;
         this.entity = entity;
     }
 
     /**
      * Creates a new real entity object that expires and is removed after the given amount of updates for the given {@link Entity}.
-     * Note that a reference to the object's {@link ActiveObjectSystem} must be provided for position vector calculations.
      *
-     * @param referenceSystem The active system the new object is used in.
      * @param entity The entity that should be made controllable for the active system.
      * @param expirationTime The amount of updates after which the object expires and is removed.
      */
-    public RealEntityObject(ActiveObjectSystem referenceSystem, Entity entity, int expirationTime) {
+    public RealEntityObject(Entity entity, int expirationTime) {
 
-        this(referenceSystem, entity);
+        this(entity);
 
         setExpirationTime(expirationTime);
-    }
-
-    /**
-     * Returns the {@link ActiveObjectSystem} that uses the real entity object.
-     * This reference is required because the position vector must be transformed to be relative to the system's origin vector.
-     *
-     * @return The active system the object is used in.
-     */
-    public ActiveObjectSystem getReferenceSystem() {
-
-        return referenceSystem;
     }
 
     /**
@@ -92,14 +75,14 @@ public class RealEntityObject extends DefaultBaseObject implements PhysicsObject
     @Override
     public Vector getPosition() {
 
-        return entity.getLocation().clone().subtract(referenceSystem.getOrigin()).toVector();
+        return entity.getLocation().clone().subtract(getSystem().getOrigin()).toVector();
     }
 
     @Override
     public void setPosition(Vector position) {
 
         Location oldLocation = entity.getLocation();
-        entity.teleport(position.toLocation(oldLocation.getWorld(), oldLocation.getYaw(), oldLocation.getPitch()).add(referenceSystem.getOrigin()));
+        entity.teleport(position.toLocation(oldLocation.getWorld(), oldLocation.getYaw(), oldLocation.getPitch()).add(getSystem().getOrigin()));
     }
 
     @Override

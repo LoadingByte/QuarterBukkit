@@ -114,6 +114,11 @@ public class ActiveObjectSystem {
 
         Validate.noNullElements(objects, "Cannot add null objects to active object system");
         this.objects.addAll(objects);
+
+        // Tell the objects that they have just been added to this active system
+        for (BaseObject object : objects) {
+            object.setSystem(this);
+        }
     }
 
     /**

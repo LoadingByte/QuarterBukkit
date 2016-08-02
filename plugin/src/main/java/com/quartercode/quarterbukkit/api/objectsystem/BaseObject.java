@@ -63,6 +63,25 @@ public interface BaseObject extends Cloneable {
     public void setExpirationTime(long expirationTime);
 
     /**
+     * Returns the {@link ActiveObjectSystem} this object is part of, or {@code null} if this object hasn't been {@link ActiveObjectSystem#addObjects(BaseObject...) added} to any active system yet.
+     * Please use the returned reference with caution and try to stick to the main design principles of the object system API.
+     * If you ignore those, you quickly loose many of the advantages this API provides you with.
+     * It's especially important to not modify the returned active system when your not allowed to (e.g. because you're in a {@link Modifier}).
+     *
+     * @return The active object system that contains and simulates this object.
+     */
+    public ActiveObjectSystem getSystem();
+
+    /**
+     * Tells the object that it has just been added to the given {@link ActiveObjectSystem}.
+     * <b>Note that this is an internal method and should not be used as an API function.</b>
+     * Also note that once you called this method once, you can never call it again on the same object.
+     *
+     * @param system The active object system this object is now part of.
+     */
+    public void setSystem(ActiveObjectSystem system);
+
+    /**
      * Creates a <b>deep</b> clone of the object that exactly represents the cloned object.
      * Note that this should use the system clone method and then perform the deep cloning on the resulting object
      * in order to add easy inheritance support.
