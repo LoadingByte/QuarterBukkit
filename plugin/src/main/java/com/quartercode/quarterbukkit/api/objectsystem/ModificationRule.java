@@ -47,22 +47,9 @@ import com.quartercode.quarterbukkit.api.objectsystem.run.Renderer;
  */
 public class ModificationRule<O extends BaseObject, M> {
 
-    private final Class<O>            objectType;
-    private ModificationApplier<O, M> applier;
-    private Modifier<O, M>            modifier;
-
-    /**
-     * Creates a new modification rule that modifies objects of the given type and then lets the given {@link ModificationApplier} execute the changes.
-     *
-     * @param objectType The type of object that can be modified by the rule. This must extend {@link BaseObject}.
-     * @param applier The modification applier, which is responsible for applying the modification to the actual object property.
-     *        See {@link ModificationRule} for more information on that.
-     */
-    public ModificationRule(Class<O> objectType, ModificationApplier<O, M> applier) {
-
-        setApplier(applier);
-        this.objectType = objectType;
-    }
+    private final Class<O>                    objectType;
+    private ModificationApplier<? super O, M> applier;
+    private Modifier<? super O, M>            modifier;
 
     /**
      * Creates a new modification rule that modifies objects of the given type using the given {@link Modifier} and
@@ -73,10 +60,10 @@ public class ModificationRule<O extends BaseObject, M> {
      *        See {@link ModificationRule} for more information on that.
      * @param modifier The modifier which is responsible for calculating the changes to the object property.
      */
-    public ModificationRule(Class<O> objectType, ModificationApplier<O, M> applier, Modifier<O, M> modifier) {
+    public ModificationRule(Class<O> objectType, ModificationApplier<? super O, M> applier, Modifier<? super O, M> modifier) {
 
-        this(objectType, applier);
-
+        this.objectType = objectType;
+        setApplier(applier);
         setModifier(modifier);
     }
 
@@ -97,7 +84,7 @@ public class ModificationRule<O extends BaseObject, M> {
      *
      * @return The set modification applier.
      */
-    public ModificationApplier<O, M> getApplier() {
+    public ModificationApplier<? super O, M> getApplier() {
 
         return applier;
     }
@@ -109,7 +96,7 @@ public class ModificationRule<O extends BaseObject, M> {
      *
      * @param applier The new modification applier.
      */
-    public void setApplier(ModificationApplier<O, M> applier) {
+    public void setApplier(ModificationApplier<? super O, M> applier) {
 
         Validate.notNull(applier, "Modification applier of modification rule cannot be null");
         this.applier = applier;
@@ -122,7 +109,7 @@ public class ModificationRule<O extends BaseObject, M> {
      *
      * @return The set modifier.
      */
-    public Modifier<O, M> getModifier() {
+    public Modifier<? super O, M> getModifier() {
 
         return modifier;
     }
@@ -134,7 +121,7 @@ public class ModificationRule<O extends BaseObject, M> {
      *
      * @param modifier The new modifier.
      */
-    public void setModifier(Modifier<O, M> modifier) {
+    public void setModifier(Modifier<? super O, M> modifier) {
 
         Validate.notNull(modifier, "Modifier of modification rule cannot be null");
         this.modifier = modifier;

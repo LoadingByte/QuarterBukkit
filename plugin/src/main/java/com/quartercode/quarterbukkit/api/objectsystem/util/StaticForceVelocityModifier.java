@@ -24,19 +24,18 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.bukkit.util.Vector;
+import com.quartercode.quarterbukkit.api.objectsystem.Modifier;
 import com.quartercode.quarterbukkit.api.objectsystem.physics.PhysicsObject;
-import com.quartercode.quarterbukkit.api.objectsystem.physics.VelocityModifier;
 
 /**
- * A {@link VelocityModifier} that always returns the same velocity modification {@link Vector} for any {@link PhysicsObject}.
+ * A velocity {@link Modifier} that always returns the same velocity modification {@link Vector} for any {@link PhysicsObject}.
  * It can be compared with a static force that pulls every object into the same direction with the same acceleration.
  * Note that you can limit the velocity modification to a specific area using the {@link ShapedModifier} wrapper.
  *
- * @param <O> The type of object the static velocity modifier accepts. This must extend {@link PhysicsObject}.
  * @see PhysicsObject
  * @see ShapedModifier
  */
-public class StaticForceVelocityModifier<O extends PhysicsObject> implements VelocityModifier<O> {
+public class StaticForceVelocityModifier implements Modifier<PhysicsObject, Vector> {
 
     private Vector acceleration;
 
@@ -69,7 +68,7 @@ public class StaticForceVelocityModifier<O extends PhysicsObject> implements Vel
      * @param acceleration The new static acceleration vector in m/s<sup>2</sup>.
      * @return This object.
      */
-    public StaticForceVelocityModifier<O> setAcceleration(Vector acceleration) {
+    public StaticForceVelocityModifier setAcceleration(Vector acceleration) {
 
         Validate.notNull(acceleration, "Acceleration vector of static velocity modifier cannot be null");
         this.acceleration = acceleration.clone();
@@ -77,7 +76,7 @@ public class StaticForceVelocityModifier<O extends PhysicsObject> implements Vel
     }
 
     @Override
-    public Vector getModification(long dt, O object) {
+    public Vector getModification(long dt, PhysicsObject object) {
 
         // Consider dt
         return acceleration.clone().multiply(dt / 1000d);

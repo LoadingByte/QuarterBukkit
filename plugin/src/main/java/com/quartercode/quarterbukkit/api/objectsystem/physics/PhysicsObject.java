@@ -30,7 +30,6 @@ import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
  * Note that the position vector changes over time if the velocity vector doesn't have a length of zero.
  *
  * @see BaseObject
- * @see VelocityModificationRule
  */
 public interface PhysicsObject extends BaseObject {
 

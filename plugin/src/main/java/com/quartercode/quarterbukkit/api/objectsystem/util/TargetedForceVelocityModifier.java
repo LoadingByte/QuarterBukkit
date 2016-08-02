@@ -25,19 +25,18 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.bukkit.util.Vector;
 import com.quartercode.quarterbukkit.api.objectsystem.ActiveObjectSystem;
+import com.quartercode.quarterbukkit.api.objectsystem.Modifier;
 import com.quartercode.quarterbukkit.api.objectsystem.physics.PhysicsObject;
-import com.quartercode.quarterbukkit.api.objectsystem.physics.VelocityModifier;
 
 /**
- * A {@link VelocityModifier} that returns a velocity modification {@link Vector} which accelerates the {@link PhysicsObject} towards or away from a certain point.
+ * A velocity {@link Modifier} that returns a velocity modification {@link Vector} which accelerates the {@link PhysicsObject} towards or away from a certain point.
  * It can be compared with a (possibly inverted) gravitational force that pulls every object towards or away from its center.
  * Note that you can limit the velocity modification to a specific area using the {@link ShapedModifier} wrapper.
  *
- * @param <O> The type of object the targeted velocity modifier accepts. This must extend {@link PhysicsObject}.
  * @see PhysicsObject
  * @see ShapedModifier
  */
-public class TargetedForceVelocityModifier<O extends PhysicsObject> implements VelocityModifier<O> {
+public class TargetedForceVelocityModifier implements Modifier<PhysicsObject, Vector> {
 
     /**
      * The different types of targeted velocity modifications.
@@ -182,7 +181,7 @@ public class TargetedForceVelocityModifier<O extends PhysicsObject> implements V
      * @param type The new modification type.
      * @return This object.
      */
-    public TargetedForceVelocityModifier<O> setType(TargetedForceType type) {
+    public TargetedForceVelocityModifier setType(TargetedForceType type) {
 
         Validate.notNull(target, "Type of targeted velocity modifier cannot be null");
         this.type = type;
@@ -207,7 +206,7 @@ public class TargetedForceVelocityModifier<O extends PhysicsObject> implements V
      * @param target The new target vector.
      * @return This object.
      */
-    public TargetedForceVelocityModifier<O> setTarget(Vector target) {
+    public TargetedForceVelocityModifier setTarget(Vector target) {
 
         Validate.notNull(target, "Target of targeted velocity modifier cannot be null");
         this.target = target.clone();
@@ -237,7 +236,7 @@ public class TargetedForceVelocityModifier<O extends PhysicsObject> implements V
      * @param factor The new acceleration factor.
      * @return This object.
      */
-    public TargetedForceVelocityModifier<O> setFactor(float factor) {
+    public TargetedForceVelocityModifier setFactor(float factor) {
 
         this.factor = factor;
         return this;
@@ -267,7 +266,7 @@ public class TargetedForceVelocityModifier<O extends PhysicsObject> implements V
      * @param ignoreZ Whether the z vector component should be ignored.
      * @return This object.
      */
-    public TargetedForceVelocityModifier<O> setIgnoredComponenets(boolean ignoreX, boolean ignoreY, boolean ignoreZ) {
+    public TargetedForceVelocityModifier setIgnoredComponenets(boolean ignoreX, boolean ignoreY, boolean ignoreZ) {
 
         ignoredComponenets = new boolean[] { ignoreX, ignoreY, ignoreZ };
         updateEffectiveTarget();
@@ -275,7 +274,7 @@ public class TargetedForceVelocityModifier<O extends PhysicsObject> implements V
     }
 
     @Override
-    public Vector getModification(long dt, O object) {
+    public Vector getModification(long dt, PhysicsObject object) {
 
         Vector acceleration = removeIgnoredComponents(object.getPosition()).subtract(effectiveTarget);
 

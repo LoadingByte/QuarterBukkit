@@ -20,18 +20,14 @@ package com.quartercode.quarterbukkit.api.objectsystem.physics;
 
 import org.bukkit.util.Vector;
 import com.quartercode.quarterbukkit.api.objectsystem.ModificationApplier;
+import com.quartercode.quarterbukkit.api.objectsystem.Modifier;
 
 /**
- * A {@link ModificationApplier} that applies a velocity modification {@link Vector} produced by a {@link VelocityModifier} to a {@link PhysicsObject}.
+ * A {@link ModificationApplier} that applies a velocity modification {@link Vector} produced by a velocity {@link Modifier} to a {@link PhysicsObject}.
  *
- * @param <O> The type of object the velocity modification applier can apply a velocity modification vector to. This must extend {@link PhysicsObject}.
- *        Note that this type parameter is somewhat unnecessary since the velocity applier accepts all kinds of physics objects.
- *        However, the type system requires it.
  * @see ModificationApplier
- * @see VelocityModificationRule
- * @see VelocityModifier
  */
-public class VelocityModificationApplier<O extends PhysicsObject> implements ModificationApplier<O, Vector> {
+public class VelocityModificationApplier implements ModificationApplier<PhysicsObject, Vector> {
 
     private static final Vector ZERO_VECTOR = new Vector();
 
