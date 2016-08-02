@@ -9,6 +9,7 @@
 * Added some more preset modifiers and modification appliers.
 * Previously, most of the users and -- in some cases -- even the object classes themselves had no clue about the context of an object and were instead faced with just the object on it's own. Now, however, each object stores the `ActiveObjectSystem` it is part of and makes that variable accessible to everyone.
 * Object system renderers no longer need to return a `RenderingResult` in order to remove an object. Instead, they can now remove objects completely by themselves.
+* Active object systems can now be nested. In fact, those systems are now objects as well and can therefore be added to other active object systems.
 
 ### Removals
 * Sources are no longer provided with a predefined `java.util.Random` object since it's easy to not use it anyway. As soon as someone does that, the whole idea of reproducibility is lost.
