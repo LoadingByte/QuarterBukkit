@@ -49,7 +49,6 @@ public class ActiveObjectSystem extends StandalonePhysicsObject {
     private final ObjectSystemDefinition definition;
 
     private final Collection<BaseObject> objects = new ArrayList<>();
-    private long                         lifetime;
 
     // In case of a manual origin, this field stores the world the origin is located in
     private World                        manualOriginWorld;
@@ -201,7 +200,7 @@ public class ActiveObjectSystem extends StandalonePhysicsObject {
     @Override
     public long getLifetime() {
 
-        return lifetime;
+        return super.getLifetime();
     }
 
     /**
@@ -213,29 +212,11 @@ public class ActiveObjectSystem extends StandalonePhysicsObject {
     @Override
     public void incrementLifetime(long dt) {
 
-        lifetime += dt;
+        super.incrementLifetime(dt);
 
         for (BaseObject object : objects) {
             object.incrementLifetime(dt);
         }
-    }
-
-    @Override
-    public int hashCode() {
-
-        return HashCodeBuilder.reflectionHashCode(this);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-
-        return EqualsBuilder.reflectionEquals(this, obj);
-    }
-
-    @Override
-    public String toString() {
-
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
 }
