@@ -16,7 +16,7 @@
  * along with QuarterBukkit-Plugin. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.quartercode.quarterbukkit.api.objectsystem.object;
+package com.quartercode.quarterbukkit.api.objectsystem.traits;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +33,7 @@ import org.bukkit.FireworkEffect.Type;
 /**
  * This class represents a single effect that is part of the explosion of a firework.
  *
- * @see FireworkObject
+ * @see FireworkTrait
  */
 public class FireworkEffectDefinition implements Cloneable {
 

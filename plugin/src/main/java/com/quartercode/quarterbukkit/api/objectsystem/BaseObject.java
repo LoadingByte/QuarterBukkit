@@ -18,14 +18,54 @@
 
 package com.quartercode.quarterbukkit.api.objectsystem;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import org.apache.commons.lang.Validate;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 /**
  * The base interface for all objects that can be put into an {@link ActiveObjectSystem}.
- * It defines some basic object properties and a public {@link #clone()} method.
- * All other more advanced properties are added by subclasses.
+ * It defines the fundamental lifetime property and manages a collection of {@link Trait}s that further specialize the object.
+ * For example, the physics trait adds a position and a velocity to the object so that it can be located and take part in the physics simulation.
+ * Moreover, it holds a reference to the active object system the object is currently part of.<br>
+ * <br>
+ * Now comes a part that's a bit tricky, but vital to understand for some operations.
+ * <b>The fact that an object is an object is an inherent trait of that object.</b>
+ * If you can't follow, here's another try:
+ * <b>First, imagine that instead of objects, we are talking about a <i>set of traits</i>.
+ * We could talk about all kinds of <i>sets of traits</i>; <i>sets</i> that represent people with certain characteristics, <i>sets</i> that represent tables with certain features, you name it.
+ * But there are some <i>sets of traits</i> that represent objects.
+ * Those <i>sets</i> must have a trait that says: I'm an object!</b>
+ * If you still can't follow, don't worry about those philosophical statements anymore.
+ * Instead, just know that the traits list of an object contains that object itself.
+ * The object is one of its own {@link Trait}s!<br>
+ * You might wonder why that's important.
+ * Actually, it's necessary so that the whole system/object/trait abstraction holds up.
+ * If it weren't for the <b>identity trait</b>, you i.e. couldn't even remove objects from their systems using an existence modifier!
+ * Still, in most cases, you probably don't even need to think about this weird self-referential identity trait.
  *
+ * @see Trait
  * @see ActiveObjectSystem
  */
-public interface BaseObject extends Cloneable {
+public class BaseObject extends Trait {
+
+    private long               lifetime;
+    private final List<Trait>  traits = new ArrayList<>();
+
+    private ActiveObjectSystem system;
+
+    {
+
+        // Since the fact that the object is an object is a trait of that very object
+        traits.add(this);
+
+    }
 
     /**
      * Returns the amount of milliseconds the object has existed inside its {@link ActiveObjectSystem}.
@@ -34,7 +74,10 @@ public interface BaseObject extends Cloneable {
      *
      * @return The current lifetime of the object in milliseconds.
      */
-    public long getLifetime();
+    public long getLifetime() {
+
+        return lifetime;
+    }
 
     /**
      * Increments the current lifetime of the object by the given number of milliseconds.
@@ -42,37 +85,195 @@ public interface BaseObject extends Cloneable {
      *
      * @param dt The number of milliseconds that should be added to the object's lifetime.
      */
-    public void incrementLifetime(long dt);
+    protected void incrementLifetime(long dt) {
+
+        lifetime += dt;
+    }
 
     /**
-     * Returns the amount of milliseconds after which the object expires and is removed from its {@link ActiveObjectSystem}.
-     * For example, if the expiration time is {@code 2000} the object is removed after 2 seconds.
-     * The expiration time {@code -1} means that the object never expires.
+     * Returns for all given trait types whether this object contains a {@link Trait} that is an instance of or a subclass of the given type.
+     * For example, this method could be used to check whether an object has some kind of physics trait attached to it.
      *
-     * @return The expiration time of the object in milliseconds.
+     * @param traitTypes The types of trait you want to look for.
+     * @return Whether this object contains a trait that fulfills the given type for all given types.
      */
-    public long getExpirationTime();
+    @SafeVarargs
+    public final boolean has(Class<? extends Trait>... traitTypes) {
+
+        for (Class<? extends Trait> traitType : traitTypes) {
+            if (get(traitType) == null) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     /**
-     * Sets the amount of milliseconds after which the object expires and is removed from its {@link ActiveObjectSystem}.
-     * For example, if the expiration time is {@code 2000} the object is removed after 2 seconds.
-     * Note that this time can be set to a value smaller than {@link #getLifetime()}, in which case the object will be instantly removed in the next update.
-     * The expiration time {@code -1} means that the object never expires.
+     * Returns all {@link Trait}s which specialize this very object.
+     * You will probably never use this method. Consider using {@link #get(Class)} instead.
      *
-     * @param expirationTime The new expiration time of the object in milliseconds; {@code -1} for no expiration.
+     * @return All traits which are held by this object.
+     */
+    public List<Trait> getTraits() {
+
+        return Collections.unmodifiableList(traits);
+    }
+
+    /**
+     * Returns the {@link Trait} of this object that is an instance of or a subclass of the given type.
+     * For example, this method could be used to get the physics trait which is attached to a specific object.
+     * If there are multiple traits that match the given criterion, only the first one is returned. No warnings or such things are printed.
+     *
+     * @param traitType The type of trait you want to look for.
+     * @return The first trait that fulfills the given type.
+     */
+    public <T extends Trait> T get(Class<T> traitType) {
+
+        return traitType.cast(getTraitWithCustomCollection(traits, traitType));
+    }
+
+    /*
+     * Returns the first trait in the given collection that is an instance of the given class.
+     * If there's no such trait, null is returned.
+     */
+    private Trait getTraitWithCustomCollection(Collection<Trait> traits, Class<? extends Trait> traitType) {
+
+        for (Trait trait : traits) {
+            if (traitType.isInstance(trait)) {
+                return trait;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Adds the given {@link Trait}s to the object so that they specialize it more.
+     * If any of the traits defines {@link TraitDependencies dependencies on other traits}, those dependencies are immediately checked.
+     * In case some dependency of some trait wouldn't be fulfilled after the addition completed, the whole operation is aborted.
+     *
+     * @param traits The traits that should be added to the object in order to specialize it.
      * @return This object.
+     * @throws IllegalStateException If one of the given traits is already part of another object, or if one new trait dependency cannot be fulfilled.
      */
-    public BaseObject setExpirationTime(long expirationTime);
+    public BaseObject add(Trait... traits) {
+
+        add(Arrays.asList(traits));
+        return this;
+    }
+
+    /**
+     * Adds the given {@link Trait}s to the object so that they specialize it more.
+     * If any of the traits defines {@link TraitDependencies dependencies on other traits}, those dependencies are immediately checked.
+     * In case some dependency of some trait wouldn't be fulfilled after the addition completed, the whole operation is aborted.
+     *
+     * @param traits The traits that should be added to the object in order to specialize it.
+     * @return This object.
+     * @throws IllegalStateException If one of the given traits is already part of another object, or if one new trait dependency cannot be fulfilled.
+     */
+    public BaseObject add(Collection<Trait> traits) {
+
+        Validate.noNullElements(traits, "Cannot add null traits to object");
+
+        // Ensure that the new objects are not part of any object yet, and that all trait dependencies are fulfilled
+        for (Trait newTrait : traits) {
+            if (newTrait.getObject() != null) {
+                throw new IllegalStateException("A trait can't be added to two objects at the same time");
+            }
+
+            for (Class<? extends Trait> dependency : getTraitDependencies(newTrait.getClass())) {
+                if (!has(dependency) && getTraitWithCustomCollection(traits, dependency) == null) {
+                    throw new IllegalStateException("The dependency of the trait '" + newTrait.getClass().getName() + "' on '" + dependency.getClass().getName() + "' cannot be fulfilled");
+                }
+            }
+        }
+
+        this.traits.addAll(traits);
+
+        // Tell the traits that they have just been added to this object
+        for (Trait trait : traits) {
+            trait.setObject(this);
+        }
+
+        return this;
+    }
+
+    /**
+     * Removes the given {@link Trait}s from the object and thus makes the object lose some of its specialization.
+     * If any of the remaining traits defines {@link TraitDependencies dependencies on other traits}, this method immediately checks whether they can still be fulfilled after the removal completed.
+     * If that's not the case, the whole operation is aborted.
+     *
+     * @param traits The traits that should be removed from the object in order to remove some of its specialization.
+     * @return This object.
+     * @throws IllegalStateException If one of the traits that remains after the operation has completed has a dependency that wouldn't be fulfilled anymore.
+     */
+    public BaseObject remove(Trait... traits) {
+
+        remove(Arrays.asList(traits));
+        return this;
+    }
+
+    /**
+     * Removes the given {@link Trait}s from the object and thus makes the object lose some of its specialization.
+     * If any of the remaining traits defines {@link TraitDependencies dependencies on other traits}, this method immediately checks whether they can still be fulfilled after the removal completed.
+     * If that's not the case, the whole operation is aborted.
+     *
+     * @param traits The traits that should be removed from the object in order to remove some of its specialization.
+     * @return This object.
+     * @throws IllegalStateException If one of the traits that remains after the operation has completed has a dependency that wouldn't be fulfilled anymore.
+     */
+    public BaseObject remove(Collection<Trait> traits) {
+
+        for (Trait trait : traits) {
+            if (trait == this) {
+                throw new IllegalArgumentException("The identity trait of an object can't be removed");
+            }
+        }
+
+        List<Trait> remainingTraits = new ArrayList<>(this.traits);
+        remainingTraits.removeAll(traits);
+
+        // Ensure that the new objects are not part of any object yet, and that all trait dependencies are fulfilled
+        for (Trait remainingTrait : remainingTraits) {
+            for (Class<? extends Trait> dependency : getTraitDependencies(remainingTrait.getClass())) {
+                if (getTraitWithCustomCollection(remainingTraits, dependency) == null) {
+                    throw new IllegalStateException("The dependency of the trait '" + remainingTrait.getClass().getName() + "' on '" + dependency.getClass().getName() + "' could no longer be fulfilled because the dependency should be removed");
+                }
+            }
+        }
+
+        this.traits.removeAll(traits);
+
+        // Tell the traits that they have just been removed from this object
+        for (Trait trait : traits) {
+            trait.setObject(null);
+        }
+
+        return this;
+    }
+
+    private List<Class<? extends Trait>> getTraitDependencies(Class<? extends Trait> traitType) {
+
+        if (traitType.isAnnotationPresent(TraitDependencies.class)) {
+            return Arrays.asList(traitType.getAnnotation(TraitDependencies.class).value());
+        } else {
+            return Collections.emptyList();
+        }
+    }
 
     /**
      * Returns the {@link ActiveObjectSystem} this object is part of, or {@code null} if this object hasn't been {@link ActiveObjectSystem#addObjects(BaseObject...) added} to any active system yet.
      * Please use the returned reference with caution and try to stick to the main design principles of the object system API.
-     * If you ignore those, you quickly loose many of the advantages this API provides you with.
+     * If you ignore those, you quickly lose many of the advantages this API provides you with.
      * It's especially important to not modify the returned active system when your not allowed to (e.g. because you're in a {@link Modifier}).
      *
      * @return The active object system that contains and simulates this object.
      */
-    public ActiveObjectSystem getSystem();
+    public ActiveObjectSystem getSystem() {
+
+        return system;
+    }
 
     /**
      * Tells the object that it has just been added to the given {@link ActiveObjectSystem}.
@@ -81,15 +282,27 @@ public interface BaseObject extends Cloneable {
      *
      * @param system The active object system this object is now part of.
      */
-    public void setSystem(ActiveObjectSystem system);
+    protected void setSystem(ActiveObjectSystem system) {
 
-    /**
-     * Creates a <b>deep</b> clone of the object that exactly represents the cloned object.
-     * Note that this should use the system clone method and then perform the deep cloning on the resulting object.
-     * in order to add easy inheritance support.
-     *
-     * @return A deep clone of the object.
-     */
-    public BaseObject clone();
+        this.system = system;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    @Override
+    public String toString() {
+
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 
 }

@@ -16,26 +16,27 @@
  * along with QuarterBukkit-Plugin. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.quartercode.quarterbukkit.api.objectsystem.physics;
+package com.quartercode.quarterbukkit.api.objectsystem.mods;
 
 import org.bukkit.util.Vector;
 import com.quartercode.quarterbukkit.api.objectsystem.ModificationApplier;
 import com.quartercode.quarterbukkit.api.objectsystem.Modifier;
+import com.quartercode.quarterbukkit.api.objectsystem.traits.PhysicsTrait;
 
 /**
- * A {@link ModificationApplier} that applies a velocity modification {@link Vector} produced by a velocity {@link Modifier} to a {@link PhysicsObject}.
+ * A {@link ModificationApplier} that applies a velocity modification {@link Vector} produced by a velocity {@link Modifier} to a {@link PhysicsTrait}.
  *
  * @see ModificationApplier
  */
-public class VelocityModificationApplier implements ModificationApplier<PhysicsObject, Vector> {
+public class VelocityModificationApplier implements ModificationApplier<PhysicsTrait, Vector> {
 
     private static final Vector ZERO_VECTOR = new Vector();
 
     @Override
-    public void applyModification(PhysicsObject object, Vector modification) {
+    public void applyModification(PhysicsTrait trait, Vector modification) {
 
         if (modification != null && !modification.equals(ZERO_VECTOR)) {
-            object.setVelocity(object.getVelocity().add(modification));
+            trait.setVelocity(trait.getVelocity().add(modification));
         }
     }
 

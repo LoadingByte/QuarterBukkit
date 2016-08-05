@@ -25,7 +25,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.bukkit.util.Vector;
 import com.quartercode.quarterbukkit.api.objectsystem.Modifier;
-import com.quartercode.quarterbukkit.api.objectsystem.physics.PhysicsObject;
+import com.quartercode.quarterbukkit.api.objectsystem.mods.PhysicsObject;
 
 /**
  * A velocity {@link Modifier} that always returns the same velocity modification {@link Vector} for any {@link PhysicsObject}.

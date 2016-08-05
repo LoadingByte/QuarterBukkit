@@ -16,10 +16,10 @@
  * along with QuarterBukkit-Plugin. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.quartercode.quarterbukkit.api.objectsystem.object;
+package com.quartercode.quarterbukkit.api.objectsystem.traits;
 
 /**
- * An enumeration containing the different particle types that can be spawned by a {@link ParticleObject}.
+ * An enumeration containing the different particle types that can be spawned by a {@link ParticleTrait}.
  * Note that some particles support a parameter.
  * If that's the case, it is explicitly mentioned in the particle description and can be set in the {@link ParticleDefinition}.<br>
  * <br>

@@ -20,7 +20,7 @@ package com.quartercode.quarterbukkit.api.objectsystem.run;
 
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
-import com.quartercode.quarterbukkit.api.objectsystem.physics.StandalonePhysicsObject;
+import com.quartercode.quarterbukkit.api.objectsystem.mods.StandalonePhysicsObject;
 
 /**
  * A {@link Renderer} that simulates the physics of all {@link StandalonePhysicsObject}s.

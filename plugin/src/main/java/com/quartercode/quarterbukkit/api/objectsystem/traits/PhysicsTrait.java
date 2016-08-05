@@ -16,57 +16,60 @@
  * along with QuarterBukkit-Plugin. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.quartercode.quarterbukkit.api.objectsystem.physics;
+package com.quartercode.quarterbukkit.api.objectsystem.traits;
 
 import org.bukkit.util.Vector;
 import com.quartercode.quarterbukkit.api.objectsystem.ActiveObjectSystem;
 import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
+import com.quartercode.quarterbukkit.api.objectsystem.Trait;
 
 /**
- * A physics object that can be moved through the world.
+ * A {@link Trait} that adds physics to {@link BaseObject objects} so that they can be moved through the world.
  * It stores a position {@link Vector} which is relative to the origin of the {@link ActiveObjectSystem} it is used in, as well as a velocity vector
  * which defines the movement of the object.
- * An implementation of this interface can either be a standalone physics engine or a delegation to the Bukkit physics engine (e.g. using an entity).
- * Note that the position vector changes over time if the velocity vector doesn't have a length of zero.
+ * An implementation of this interface can either be a {@link StandalonePhysicsObject standalone physics engine} or a delegation to the Bukkit physics engine (e.g. using an entity).
+ * Note that it is generally assumed that the position vector changes over time if the velocity vector doesn't have a length of zero.<br>
+ * <br>
+ * <b>Trait dependencies:</b> <i>none</i>
  *
- * @see BaseObject
+ * @see Trait
  */
-public interface PhysicsObject extends BaseObject {
+public abstract class PhysicsTrait extends Trait {
 
     /**
-     * Returns the current position of the physics object relative to the origin of the {@link ActiveObjectSystem} it is used in as a {@link Vector}.
+     * Returns the current position of the object relative to the origin of the {@link ActiveObjectSystem} it is used in as a {@link Vector}.
      * Note that this vector changes over time if the object's velocity vector doesn't have a length of zero.
      *
      * @return The current position vector of the object.
      */
-    public Vector getPosition();
+    public abstract Vector getPosition();
 
     /**
-     * Changes the current position {@link Vector} of the physics object relative to the origin of the {@link ActiveObjectSystem} it is used.
+     * Changes the current position {@link Vector} of the object relative to the origin of the {@link ActiveObjectSystem} it is used.
      * Note that the newly set vector will change over time if the object's velocity vector doesn't have a length of zero.
      *
      * @param position The new position vector of the object.
      * @return This object.
      */
-    public PhysicsObject setPosition(Vector position);
+    public abstract PhysicsTrait setPosition(Vector position);
 
     /**
-     * Returns the current velocity of the physics object as a {@link Vector}.
+     * Returns the current velocity of the object as a {@link Vector}.
      * The unit of this vector is m/s. Since all blocks have an edge length of 1 m, the unit can also be expressed as blocks/s.
      * Note that this velocity vector is applied to the position vector of the object every update.
      *
      * @return The current velocity vector of the object in m/s.
      */
-    public Vector getVelocity();
+    public abstract Vector getVelocity();
 
     /**
-     * Changes the current velocity {@link Vector} of the physics object.
+     * Changes the current velocity {@link Vector} of the object.
      * The unit of this vector is m/s. Since all blocks have an edge length of 1 m, the unit can also be expressed as blocks/s.
      * Note that this velocity vector is applied to the position vector of the object every update.
      *
      * @param velocity The new velocity vector of the object in m/s.
      * @return This object.
      */
-    public PhysicsObject setVelocity(Vector velocity);
+    public abstract PhysicsTrait setVelocity(Vector velocity);
 
 }

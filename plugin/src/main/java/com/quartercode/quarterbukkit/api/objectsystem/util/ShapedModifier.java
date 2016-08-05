@@ -22,7 +22,7 @@ import org.apache.commons.lang.Validate;
 import com.quartercode.quarterbukkit.api.objectsystem.ActiveObjectSystem;
 import com.quartercode.quarterbukkit.api.objectsystem.Modifier;
 import com.quartercode.quarterbukkit.api.objectsystem.ModifierWrapper;
-import com.quartercode.quarterbukkit.api.objectsystem.physics.PhysicsObject;
+import com.quartercode.quarterbukkit.api.objectsystem.mods.PhysicsObject;
 import com.quartercode.quarterbukkit.api.shape.Shape;
 
 /**

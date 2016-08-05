@@ -19,25 +19,25 @@
 package com.quartercode.quarterbukkit.api.objectsystem.run;
 
 import org.bukkit.plugin.Plugin;
-import com.quartercode.quarterbukkit.api.objectsystem.object.RealEntityObject;
+import com.quartercode.quarterbukkit.api.objectsystem.traits.RealEntityPhysicsTrait;
 
 /**
- * A {@link Renderer} that updates all {@link RealEntityObject}s.
+ * A {@link Renderer} that updates all {@link RealEntityPhysicsTrait}s.
  * Currently, it just removes them if the underlying entities vanished by dying or logging out.
  *
- * @see RealEntityObject
+ * @see RealEntityPhysicsTrait
  * @see Renderer
  */
-public class RealEntityObjectRenderer extends StatelessRenderer<RealEntityObject> {
+public class RealEntityObjectRenderer extends StatelessRenderer<RealEntityPhysicsTrait> {
 
     @Override
-    public Class<RealEntityObject> getObjectType() {
+    public Class<RealEntityPhysicsTrait> getObjectType() {
 
-        return RealEntityObject.class;
+        return RealEntityPhysicsTrait.class;
     }
 
     @Override
-    public void render(Plugin plugin, long dt, RealEntityObject object) {
+    public void render(Plugin plugin, long dt, RealEntityPhysicsTrait object) {
 
         // Remove the object if the assigned entity has vanished
         if (!object.getEntity().isValid()) {

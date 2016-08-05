@@ -19,7 +19,7 @@
 package com.quartercode.quarterbukkit.api.objectsystem.run;
 
 import org.bukkit.util.Vector;
-import com.quartercode.quarterbukkit.api.objectsystem.physics.PhysicsObject;
+import com.quartercode.quarterbukkit.api.objectsystem.mods.PhysicsObject;
 
 /**
  * A class that contains some general rendering utilities.

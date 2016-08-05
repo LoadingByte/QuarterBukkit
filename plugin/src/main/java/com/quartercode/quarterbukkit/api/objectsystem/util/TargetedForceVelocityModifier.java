@@ -26,7 +26,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.bukkit.util.Vector;
 import com.quartercode.quarterbukkit.api.objectsystem.ActiveObjectSystem;
 import com.quartercode.quarterbukkit.api.objectsystem.Modifier;
-import com.quartercode.quarterbukkit.api.objectsystem.physics.PhysicsObject;
+import com.quartercode.quarterbukkit.api.objectsystem.mods.PhysicsObject;
 
 /**
  * A velocity {@link Modifier} that returns a velocity modification {@link Vector} which accelerates the {@link PhysicsObject} towards or away from a certain point.

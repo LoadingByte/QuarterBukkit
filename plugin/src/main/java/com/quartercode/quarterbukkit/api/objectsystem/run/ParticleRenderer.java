@@ -29,16 +29,16 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 import com.quartercode.quarterbukkit.api.exception.ExceptionHandler;
 import com.quartercode.quarterbukkit.api.exception.InternalException;
-import com.quartercode.quarterbukkit.api.objectsystem.object.ParticleDefinition;
-import com.quartercode.quarterbukkit.api.objectsystem.object.ParticleObject;
+import com.quartercode.quarterbukkit.api.objectsystem.traits.ParticleDefinition;
+import com.quartercode.quarterbukkit.api.objectsystem.traits.ParticleTrait;
 
 /**
- * A {@link Renderer} that displays all {@link ParticleObject}s by spawning minecraft particles.
+ * A {@link Renderer} that displays all {@link ParticleTrait}s by spawning minecraft particles.
  *
- * @see ParticleObject
+ * @see ParticleTrait
  * @see Renderer
  */
-public class ParticleRenderer extends StatelessRenderer<ParticleObject> {
+public class ParticleRenderer extends StatelessRenderer<ParticleTrait> {
 
     private static final Method         CRAFT_PLAYER__GET_HANDLE;
     private static final Field          NMS_ENTITY_PLAYER__PLAYER_CONNECTION;
@@ -68,13 +68,13 @@ public class ParticleRenderer extends StatelessRenderer<ParticleObject> {
     }
 
     @Override
-    public Class<ParticleObject> getObjectType() {
+    public Class<ParticleTrait> getObjectType() {
 
-        return ParticleObject.class;
+        return ParticleTrait.class;
     }
 
     @Override
-    public void render(Plugin plugin, long dt, ParticleObject object) {
+    public void render(Plugin plugin, long dt, ParticleTrait object) {
 
         if (object.hasSpeedBasedFrequency() && !RenderingUtils.checkSpeedBasedFrequency(object, 0.5F)) {
             return;
@@ -83,7 +83,7 @@ public class ParticleRenderer extends StatelessRenderer<ParticleObject> {
         spawn(plugin, object);
     }
 
-    private void spawn(Plugin plugin, ParticleObject object) {
+    private void spawn(Plugin plugin, ParticleTrait object) {
 
         Location location = object.getSystem().getOrigin().add(object.getPosition());
 

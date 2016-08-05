@@ -34,6 +34,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.ActiveObjectSystem;
 import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
 import com.quartercode.quarterbukkit.api.objectsystem.ModificationRule;
 import com.quartercode.quarterbukkit.api.objectsystem.Source;
+import com.quartercode.quarterbukkit.api.objectsystem.Trait;
 
 /**
  * An object system runner takes an {@link ActiveObjectSystem} and a bunch of {@link Renderer}s and then simulates and displays the system using those renderers.
@@ -145,8 +146,10 @@ public class ObjectSystemRunner {
 
         // Apply modification rules
         for (BaseObject object : concurrentIterable(system.getObjects())) {
-            for (ModificationRule<?, ?> modificationRule : system.getDefinition().getModificationRules()) {
-                tryApplyModificationRule(dt, modificationRule, object);
+            for (Trait trait : concurrentIterable(object.getTraits())) {
+                for (ModificationRule<?, ?> modificationRule : system.getDefinition().getModificationRules()) {
+                    tryApplyModificationRule(dt, modificationRule, trait);
+                }
             }
         }
 
@@ -164,8 +167,8 @@ public class ObjectSystemRunner {
 
         // Update all nested object systems, if there are any
         for (BaseObject object : system.getObjects()) {
-            if (object instanceof ActiveObjectSystem) {
-                updateRecursively(dt, (ActiveObjectSystem) object);
+            if (object.hasTrait(ActiveObjectSystem.class)) {
+                updateRecursively(dt, object.getTrait(ActiveObjectSystem.class));
             }
         }
     }
@@ -176,7 +179,7 @@ public class ObjectSystemRunner {
     private boolean checkNotEmptyRecursively(ActiveObjectSystem system) {
 
         for (BaseObject object : system.getObjects()) {
-            if (! (object instanceof ActiveObjectSystem) || checkNotEmptyRecursively((ActiveObjectSystem) object)) {
+            if (!object.hasTrait(ActiveObjectSystem.class) || checkNotEmptyRecursively(object.getTrait(ActiveObjectSystem.class))) {
                 return true;
             }
         }
@@ -190,18 +193,18 @@ public class ObjectSystemRunner {
     }
 
     @SuppressWarnings ("unchecked")
-    private <O extends BaseObject> void tryApplyRenderer(long dt, Renderer<O> renderer, BaseObject object) {
+    private <T extends Trait> void tryApplyModificationRule(long dt, ModificationRule<T, ?> modificationRule, Trait trait) {
 
-        if (renderer.getObjectType().isInstance(object)) {
-            renderer.render(plugin, dt, (O) object);
+        if (modificationRule.getTraitType().isInstance(trait)) {
+            modificationRule.apply(dt, (T) trait);
         }
     }
 
     @SuppressWarnings ("unchecked")
-    private <O extends BaseObject> void tryApplyModificationRule(long dt, ModificationRule<O, ?> modificationRule, BaseObject object) {
+    private <O extends BaseObject> void tryApplyRenderer(long dt, Renderer<O> renderer, BaseObject object) {
 
-        if (modificationRule.getObjectType().isInstance(object)) {
-            modificationRule.apply(dt, (O) object);
+        if (renderer.getObjectType().isInstance(object)) {
+            renderer.render(plugin, dt, (O) object);
         }
     }
 

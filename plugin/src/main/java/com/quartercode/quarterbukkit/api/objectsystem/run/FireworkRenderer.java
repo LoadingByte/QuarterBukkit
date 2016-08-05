@@ -29,16 +29,16 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.plugin.Plugin;
 import com.quartercode.quarterbukkit.api.exception.ExceptionHandler;
 import com.quartercode.quarterbukkit.api.exception.InternalException;
-import com.quartercode.quarterbukkit.api.objectsystem.object.FireworkEffectDefinition;
-import com.quartercode.quarterbukkit.api.objectsystem.object.FireworkObject;
+import com.quartercode.quarterbukkit.api.objectsystem.object.FireworkTrait;
+import com.quartercode.quarterbukkit.api.objectsystem.traits.FireworkEffectDefinition;
 
 /**
- * A {@link Renderer} that displays all {@link FireworkObject}s by spawning fireworks.
+ * A {@link Renderer} that displays all {@link FireworkTrait}s by spawning fireworks.
  *
- * @see FireworkObject
+ * @see FireworkTrait
  * @see Renderer
  */
-public class FireworkRenderer extends StatelessRenderer<FireworkObject> {
+public class FireworkRenderer extends StatelessRenderer<FireworkTrait> {
 
     private static final Method CRAFT_WORLD__GET_HANDLE;
     private static final Method CRAFT_FIREWORK__GET_HANDLE;
@@ -61,13 +61,13 @@ public class FireworkRenderer extends StatelessRenderer<FireworkObject> {
     }
 
     @Override
-    public Class<FireworkObject> getObjectType() {
+    public Class<FireworkTrait> getObjectType() {
 
-        return FireworkObject.class;
+        return FireworkTrait.class;
     }
 
     @Override
-    public void render(Plugin plugin, long dt, FireworkObject object) {
+    public void render(Plugin plugin, long dt, FireworkTrait object) {
 
         // Determine whether the different effects should be spawned
         double objectVelocity = object.getVelocity().length();
@@ -91,7 +91,7 @@ public class FireworkRenderer extends StatelessRenderer<FireworkObject> {
         spawn(plugin, object, spawnEffects);
     }
 
-    private void spawn(Plugin plugin, FireworkObject object, Collection<FireworkEffectDefinition> spawnEffects) {
+    private void spawn(Plugin plugin, FireworkTrait object, Collection<FireworkEffectDefinition> spawnEffects) {
 
         Location location = object.getSystem().getOrigin().add(object.getPosition());
         Firework firework = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);

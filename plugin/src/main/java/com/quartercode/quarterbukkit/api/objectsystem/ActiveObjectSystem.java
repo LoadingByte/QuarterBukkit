@@ -23,15 +23,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import org.apache.commons.lang.Validate;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.Vector;
-import com.quartercode.quarterbukkit.api.objectsystem.physics.StandalonePhysicsObject;
+import com.quartercode.quarterbukkit.api.objectsystem.traits.PhysicsTrait;
 
 /**
  * An active object system runs the rules defined by an {@link ObjectSystemDefinition}.
@@ -39,19 +35,26 @@ import com.quartercode.quarterbukkit.api.objectsystem.physics.StandalonePhysicsO
  * For example, a rule might add a force field that accelerates the objects into a certain direction by modifying its velocity vector.
  * Furthermore, object {@link Source}s defined by the object system definition constantly spawn new objects,
  * and old object have the possibility to expire and be removed from the system.
- * Note that the {@link Location}s of the objects are relative to a reference origin location.
+ * Note that the {@link Location}s of the objects are relative to a reference origin location.<br>
+ * <br>
+ * It's important to note that each active object system is in fact also a {@link Trait}.
+ * By adding it to other objects, you can nest one active system inside another one and thereby create way more complex setups than you otherwise could.<br>
+ * <br>
+ * <b>Trait dependencies:</b> {@link PhysicsTrait}
  *
  * @see ObjectSystemDefinition
  * @see BaseObject
  */
-public class ActiveObjectSystem extends StandalonePhysicsObject {
+@TraitDependencies (PhysicsTrait.class)
+public class ActiveObjectSystem extends Trait {
 
     private final ObjectSystemDefinition definition;
 
     private final Collection<BaseObject> objects = new ArrayList<>();
+    private int                          lifetime;
 
-    // In case of a manual origin, this field stores the world the origin is located in
-    private World                        manualOriginWorld;
+    // In case this is a root active object system
+    private Location                     manualOrigin;
 
     /**
      * Creates a new active object system that runs the given {@link ObjectSystemDefinition} and is centered on the origin {@code (0/0/0)} in the first available {@link World}.
@@ -62,7 +65,7 @@ public class ActiveObjectSystem extends StandalonePhysicsObject {
     public ActiveObjectSystem(ObjectSystemDefinition definition) {
 
         this.definition = definition;
-        manualOriginWorld = Bukkit.getWorlds().get(0);
+        manualOrigin = new Location(Bukkit.getWorlds().get(0), 0, 0, 0);
     }
 
     /**
@@ -75,7 +78,7 @@ public class ActiveObjectSystem extends StandalonePhysicsObject {
     public ActiveObjectSystem(ObjectSystemDefinition definition, Location origin) {
 
         this.definition = definition;
-        setOrigin(origin);
+        manualOrigin = origin.clone();
     }
 
     /**
@@ -89,6 +92,17 @@ public class ActiveObjectSystem extends StandalonePhysicsObject {
     }
 
     /**
+     * Returns whether this active object system is in fact not a root one, but nested inside another system.
+     * That's possible since the active system class is a {@link Trait} in itself.
+     *
+     * @return Whether this is a system that's nested inside another one.
+     */
+    public boolean isNested() {
+
+        return getObject() != null && getObject().getSystem() != null;
+    }
+
+    /**
      * Returns the origin {@link Location} the active system is centered on.
      * All object locations are relative to this origin.
      *
@@ -96,13 +110,12 @@ public class ActiveObjectSystem extends StandalonePhysicsObject {
      */
     public Location getOrigin() {
 
-        ActiveObjectSystem parentSystem = getSystem();
-
-        if (parentSystem == null) {
-            Vector position = getPosition();
-            return new Location(manualOriginWorld, position.getX(), position.getY(), position.getZ());
+        if (isNested()) {
+            return manualOrigin.clone();
         } else {
-            return parentSystem.getOrigin().add(getPosition());
+            ActiveObjectSystem parentSystem = getObject().getSystem();
+            Vector relativePosition = getObject().get(PhysicsTrait.class).getPosition();
+            return parentSystem.getOrigin().add(relativePosition);
         }
     }
 
@@ -114,8 +127,7 @@ public class ActiveObjectSystem extends StandalonePhysicsObject {
      */
     public void setOrigin(Location origin) {
 
-        manualOriginWorld = origin.getWorld();
-        setPosition(origin.toVector());
+        manualOrigin = origin.clone();
     }
 
     /**
@@ -134,6 +146,7 @@ public class ActiveObjectSystem extends StandalonePhysicsObject {
      * Their behavior is defined by the system's {@link ObjectSystemDefinition}.
      *
      * @param objects The objects that should be added to the active system.
+     * @throws IllegalStateException If one of the given objects is already part of another active object system.
      */
     public void addObjects(BaseObject... objects) {
 
@@ -145,6 +158,7 @@ public class ActiveObjectSystem extends StandalonePhysicsObject {
      * Their behavior is defined by the system's {@link ObjectSystemDefinition}.
      *
      * @param objects The objects that should be added to the active system.
+     * @throws IllegalStateException If one of the given objects is already part of another active object system.
      */
     public void addObjects(Collection<BaseObject> objects) {
 
@@ -153,7 +167,7 @@ public class ActiveObjectSystem extends StandalonePhysicsObject {
         // Ensure that the new objects are not part of any object system yet
         for (BaseObject object : objects) {
             if (object.getSystem() != null) {
-                throw new IllegalStateException("An object can't be added to two object systems at the same time");
+                throw new IllegalStateException("An object can't be added to two active object systems at the same time");
             }
         }
 
@@ -197,10 +211,9 @@ public class ActiveObjectSystem extends StandalonePhysicsObject {
      *
      * @return The current lifetime of the active system.
      */
-    @Override
     public long getLifetime() {
 
-        return super.getLifetime();
+        return lifetime;
     }
 
     /**
@@ -209,10 +222,9 @@ public class ActiveObjectSystem extends StandalonePhysicsObject {
      *
      * @param dt The number of milliseconds that should be added to the active object system's lifetime.
      */
-    @Override
     public void incrementLifetime(long dt) {
 
-        super.incrementLifetime(dt);
+        lifetime += dt;
 
         for (BaseObject object : objects) {
             object.incrementLifetime(dt);

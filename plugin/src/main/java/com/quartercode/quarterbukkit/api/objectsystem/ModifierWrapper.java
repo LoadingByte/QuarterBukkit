@@ -28,17 +28,17 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * A modifier wrapper wraps around another {@link Modifier} and manipulates the modification objects produced by that modifier.
  * That way, different modifiers can be combined together creating chains of modifiers.
  * The last modifier in the chain produces a modification object and all subsequent modifiers manipulate that object further.
- * For example, a manipulation modifier could adjust the velocity modification of a velocity modifier depending on the location of the system object.
+ * For example, a manipulation modifier could adjust the velocity modification of a velocity modifier depending on the location of the physics {@link Trait}.
  *
- * @param <O> The type of object the modifier wrapper can use to calculate a modification object. This must extend {@link BaseObject}.
+ * @param <T> The type of trait the modifier wrapper can use to calculate a modification object. This must extend {@link Trait}.
  * @param <M> The type of the modification object that is returned by the modifier wrapper and the wrapped modifier.
  *        For example, a velocity modifier wrapper would use a vector as modification object.
  * @see Modifier
  */
-public abstract class ModifierWrapper<O extends BaseObject, M> implements Modifier<O, M> {
+public abstract class ModifierWrapper<T extends Trait, M> implements Modifier<T, M> {
 
     private final boolean                    nullAllowed;
-    private Modifier<? super O, ? extends M> wrapped;
+    private Modifier<? super T, ? extends M> wrapped;
 
     /**
      * Creates a new modifier wrapper that allows a {@code null} reference as wrapped modifier.
@@ -58,30 +58,30 @@ public abstract class ModifierWrapper<O extends BaseObject, M> implements Modifi
      * @param wrapped The initial wrapped modifier.
      *        If {@code nullAllowed} is {@code false}, this cannot be {@code null}.
      */
-    public ModifierWrapper(boolean nullAllowed, Modifier<? super O, ? extends M> wrapped) {
+    public ModifierWrapper(boolean nullAllowed, Modifier<? super T, ? extends M> wrapped) {
 
         this.nullAllowed = nullAllowed;
         setWrapped(wrapped);
     }
 
     /**
-     * Returns the wrapped {@link Modifier} that should be called during the {@link #getModification(long, BaseObject)} call in order to create a modifier chain.
+     * Returns the wrapped {@link Modifier} that should be called during the {@link #getModification(long, Trait)} call in order to create a modifier chain.
      * Note that this is not allowed to be {@code null} if {@code nullAllowed} was set to {@code false} on construction.
      *
      * @return The wrapped modifier.
      */
-    public Modifier<? super O, ? extends M> getWrapped() {
+    public Modifier<? super T, ? extends M> getWrapped() {
 
         return wrapped;
     }
 
     /**
-     * Sets the wrapped {@link Modifier} that should be called during the {@link #getModification(long, BaseObject)} call in order to create a modifier chain.
+     * Sets the wrapped {@link Modifier} that should be called during the {@link #getModification(long, Trait)} call in order to create a modifier chain.
      * Note that this is not allowed to be {@code null} if {@code nullAllowed} was set to {@code false} on construction.
      *
      * @param wrapped The new wrapped modifier.
      */
-    public void setWrapped(Modifier<? super O, ? extends M> wrapped) {
+    public void setWrapped(Modifier<? super T, ? extends M> wrapped) {
 
         if (!nullAllowed) {
             Validate.notNull(wrapped, "Wrapped modifer of this modifier wrapper cannot be null");
