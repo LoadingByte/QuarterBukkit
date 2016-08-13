@@ -19,29 +19,25 @@
 package com.quartercode.quarterbukkit.api.objectsystem.run;
 
 import org.bukkit.plugin.Plugin;
-import org.bukkit.util.Vector;
-import com.quartercode.quarterbukkit.api.objectsystem.mods.StandalonePhysicsObject;
+import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
+import com.quartercode.quarterbukkit.api.objectsystem.traits.BehaviorTrait;
+import com.quartercode.quarterbukkit.api.objectsystem.traits.ExpirationTrait;
 
 /**
- * A {@link Renderer} that simulates the physics of all {@link StandalonePhysicsObject}s.
- * For doing that, it applies the objects' current velocity vectors the the position vectors.
+ * A {@link Renderer} that removes all {@link BaseObject objects} which have an {@link ExpirationTrait} that marks them as expired.
  *
- * @see StandalonePhysicsObject
+ * @see ExpirationTrait
  * @see Renderer
  */
-public class StandalonePhysicsObjectRenderer extends StatelessRenderer<StandalonePhysicsObject> {
+public class ExpirationTraitRenderer extends StatelessRenderer {
 
     @Override
-    public Class<StandalonePhysicsObject> getObjectType() {
+    public void render(Plugin plugin, long dt, BaseObject object) {
 
-        return StandalonePhysicsObject.class;
-    }
-
-    @Override
-    public void render(Plugin plugin, long dt, StandalonePhysicsObject object) {
-
-        Vector positionChange = object.getVelocity().multiply(dt / 1000d);
-        object.setPosition(object.getPosition().add(positionChange));
+        if (object.has(BehaviorTrait.class) && object.getLifetime() >= object.get(ExpirationTrait.class).getExpirationTime()) {
+            object.getSystem().removeObjects(object);
+            return;
+        }
     }
 
 }

@@ -19,28 +19,27 @@
 package com.quartercode.quarterbukkit.api.objectsystem.run;
 
 import org.bukkit.plugin.Plugin;
+import org.bukkit.util.Vector;
 import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
+import com.quartercode.quarterbukkit.api.objectsystem.traits.StandalonePhysicsTrait;
 
 /**
- * A {@link Renderer} that updates the lifetime of all {@link BaseObject}s and removes them if they have expired.
+ * A {@link Renderer} that simulates the physics of all {@link BaseObject objects} with the {@link StandalonePhysicsTrait}.
+ * For doing that, it applies the objects' current velocity vectors the the position vectors.
  *
- * @see BaseObject
+ * @see StandalonePhysicsTrait
  * @see Renderer
  */
-public class BaseObjectRenderer extends StatelessRenderer<BaseObject> {
-
-    @Override
-    public Class<BaseObject> getObjectType() {
-
-        return BaseObject.class;
-    }
+public class StandalonePhysicsTraitRenderer extends StatelessRenderer {
 
     @Override
     public void render(Plugin plugin, long dt, BaseObject object) {
 
-        if (object.getExpirationTime() != -1 && object.getLifetime() >= object.getExpirationTime()) {
-            object.getSystem().removeObjects(object);
-            return;
+        if (object.has(StandalonePhysicsTrait.class)) {
+            StandalonePhysicsTrait physics = object.get(StandalonePhysicsTrait.class);
+
+            Vector positionChange = physics.getVelocity().multiply(dt / 1000d);
+            physics.setPosition(physics.getPosition().add(positionChange));
         }
     }
 

@@ -19,7 +19,8 @@
 package com.quartercode.quarterbukkit.api.objectsystem.run;
 
 import org.bukkit.util.Vector;
-import com.quartercode.quarterbukkit.api.objectsystem.mods.PhysicsObject;
+import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
+import com.quartercode.quarterbukkit.api.objectsystem.traits.PhysicsTrait;
 
 /**
  * A class that contains some general rendering utilities.
@@ -34,9 +35,9 @@ public class RenderingUtils {
      * @param minRenderDistance The minimum distance from the current position of the object its last rendering must have happened.
      * @return Whether the object should be rendered.
      */
-    public static boolean checkSpeedBasedFrequency(PhysicsObject object, float minRenderDistance) {
+    public static boolean checkSpeedBasedFrequency(BaseObject object, float minRenderDistance) {
 
-        return checkSpeedBasedFrequency(object.getLifetime(), object.getVelocity().length(), minRenderDistance);
+        return checkSpeedBasedFrequency(object.getLifetime(), object.get(PhysicsTrait.class).getVelocity().length(), minRenderDistance);
     }
 
     /**

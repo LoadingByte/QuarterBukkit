@@ -29,16 +29,18 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 import com.quartercode.quarterbukkit.api.exception.ExceptionHandler;
 import com.quartercode.quarterbukkit.api.exception.InternalException;
+import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
 import com.quartercode.quarterbukkit.api.objectsystem.traits.ParticleDefinition;
 import com.quartercode.quarterbukkit.api.objectsystem.traits.ParticleTrait;
+import com.quartercode.quarterbukkit.api.objectsystem.traits.PhysicsTrait;
 
 /**
- * A {@link Renderer} that displays all {@link ParticleTrait}s by spawning minecraft particles.
+ * A {@link Renderer} that displays all {@link BaseObject objects} with {@link ParticleTrait}s by spawning minecraft particles.
  *
  * @see ParticleTrait
  * @see Renderer
  */
-public class ParticleRenderer extends StatelessRenderer<ParticleTrait> {
+public class ParticleTraitRenderer extends StatelessRenderer {
 
     private static final Method         CRAFT_PLAYER__GET_HANDLE;
     private static final Field          NMS_ENTITY_PLAYER__PLAYER_CONNECTION;
@@ -68,27 +70,25 @@ public class ParticleRenderer extends StatelessRenderer<ParticleTrait> {
     }
 
     @Override
-    public Class<ParticleTrait> getObjectType() {
+    public void render(Plugin plugin, long dt, BaseObject object) {
 
-        return ParticleTrait.class;
-    }
+        if (!object.has(ParticleTrait.class)) {
+            return;
+        }
 
-    @Override
-    public void render(Plugin plugin, long dt, ParticleTrait object) {
-
-        if (object.hasSpeedBasedFrequency() && !RenderingUtils.checkSpeedBasedFrequency(object, 0.5F)) {
+        if (object.get(ParticleTrait.class).hasSpeedBasedFrequency() && !RenderingUtils.checkSpeedBasedFrequency(object, 0.5F)) {
             return;
         }
 
         spawn(plugin, object);
     }
 
-    private void spawn(Plugin plugin, ParticleTrait object) {
+    private void spawn(Plugin plugin, BaseObject object) {
 
-        Location location = object.getSystem().getOrigin().add(object.getPosition());
+        Location location = object.getSystem().getOrigin().add(object.get(PhysicsTrait.class).getPosition());
 
         try {
-            for (ParticleDefinition particle : object.getParticles()) {
+            for (ParticleDefinition particle : object.get(ParticleTrait.class).getParticles()) {
                 sendPacket(location.getWorld(), createPacket(particle, location));
             }
         } catch (RuntimeException e) {

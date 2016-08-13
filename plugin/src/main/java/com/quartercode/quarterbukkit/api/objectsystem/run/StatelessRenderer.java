@@ -18,16 +18,13 @@
 
 package com.quartercode.quarterbukkit.api.objectsystem.run;
 
-import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
-
 /**
  * An abstract class that implements the {@code hashCode()} ... methods for stateless {@link Renderer}s.
  * Such renderers have no settings so each instance does exactly the same thing.
  *
- * @param <O> The type of object the stateless renderer can use to perform some action. This must extend {@link BaseObject}.
  * @see Renderer
  */
-public abstract class StatelessRenderer<O extends BaseObject> implements Renderer<O> {
+public abstract class StatelessRenderer implements Renderer {
 
     @Override
     public int hashCode() {

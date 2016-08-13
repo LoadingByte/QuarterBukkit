@@ -35,26 +35,26 @@ public class ObjectSystemRunnerBuilder {
     /**
      * A {@link List} containing the default {@link Renderer}s that are used by the runner if no custom renderers are specified.
      */
-    public static final List<Renderer<?>> DEFAULT_RENDERERS;
+    public static final List<Renderer> DEFAULT_RENDERERS;
 
     static {
 
-        List<Renderer<?>> defaultRenderers = new ArrayList<>();
-        defaultRenderers.add(new BaseObjectRenderer());
-        defaultRenderers.add(new StandalonePhysicsObjectRenderer());
-        defaultRenderers.add(new ParticleRenderer());
-        defaultRenderers.add(new FireworkRenderer());
-        defaultRenderers.add(new RealEntityObjectRenderer());
+        List<Renderer> defaultRenderers = new ArrayList<>();
+        defaultRenderers.add(new ExpirationTraitRenderer());
+        defaultRenderers.add(new StandalonePhysicsTraitRenderer());
+        defaultRenderers.add(new RealEntityPhysicsTraitRenderer());
+        defaultRenderers.add(new ParticleTraitRenderer());
+        defaultRenderers.add(new FireworkTraitRenderer());
         DEFAULT_RENDERERS = Collections.unmodifiableList(defaultRenderers);
 
     }
 
-    private final Plugin                  plugin;
-    private final ActiveObjectSystem      objectSystem;
+    private final Plugin               plugin;
+    private final ActiveObjectSystem   objectSystem;
 
-    private List<Renderer<?>>             renderers         = DEFAULT_RENDERERS;
-    private long                          timeResolution    = MathUtil.getMillis(1);
-    private boolean                       stopWhenNoObjects = false;
+    private List<Renderer>             renderers         = DEFAULT_RENDERERS;
+    private long                       timeResolution    = MathUtil.getMillis(1);
+    private boolean                    stopWhenNoObjects = false;
 
     /**
      * Creates a new object system runner builder for a new object system runner that simulates the given {@link ActiveObjectSystem} and uses the given {@link Plugin} as host.
@@ -70,13 +70,26 @@ public class ObjectSystemRunnerBuilder {
     }
 
     /**
+     * Adds the given list of custom {@link Renderer}s, which are used to simulate and display the objects of the {@link ActiveObjectSystem}, to the end of the current renderer list.
+     * In contrast to {@link #renderersReplaceAll(List)}, this method keeps the default renderers in place, which is the desired behavior in most cases.
+     *
+     * @param renderers The new renderers that also simulate and display the objects of the active system.
+     * @return This object.
+     */
+    public ObjectSystemRunnerBuilder renderers(List<Renderer> renderers) {
+
+        this.renderers.addAll(renderers);
+        return this;
+    }
+
+    /**
      * Uses the given list of custom {@link Renderer}s for simulating and displaying the objects of the {@link ActiveObjectSystem}.
      * Note that this completely overrides the previously set list of {@link #DEFAULT_RENDERERS}, which you most certainly want to add manually as well.
      *
      * @param renderers The renderers that simulate and display the objects of the active system.
      * @return This object.
      */
-    public ObjectSystemRunnerBuilder renderers(List<Renderer<?>> renderers) {
+    public ObjectSystemRunnerBuilder renderersReplaceAll(List<Renderer> renderers) {
 
         this.renderers = new ArrayList<>(renderers);
         return this;

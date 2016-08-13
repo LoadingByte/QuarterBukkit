@@ -46,7 +46,7 @@ public class ObjectSystemRunner {
     private final Plugin             plugin;
     private final ActiveObjectSystem objectSystem;
 
-    private final List<Renderer<?>>  renderers;
+    private final List<Renderer>     renderers;
     private final long               timeResolution;
     private final boolean            stopWhenNoObjects;
 
@@ -67,7 +67,7 @@ public class ObjectSystemRunner {
      * @param stopWhenNoObjects Whether the runner should stop if no more objects are stored in the given active system.
      *        This is useful for systems with a few manually spawned objects that expire after some time.
      */
-    protected ObjectSystemRunner(Plugin plugin, ActiveObjectSystem objectSystem, List<Renderer<?>> renderers, long timeResolution, boolean stopWhenNoObjects) {
+    protected ObjectSystemRunner(Plugin plugin, ActiveObjectSystem objectSystem, List<Renderer> renderers, long timeResolution, boolean stopWhenNoObjects) {
 
         this.plugin = plugin;
         this.objectSystem = objectSystem;
@@ -159,16 +159,16 @@ public class ObjectSystemRunner {
         }
 
         // Apply renderers
-        for (Renderer<?> renderer : renderers) {
+        for (Renderer renderer : renderers) {
             for (BaseObject object : concurrentIterable(system.getObjects())) {
-                tryApplyRenderer(dt, renderer, object);
+                renderer.render(plugin, dt, object);
             }
         }
 
         // Update all nested object systems, if there are any
         for (BaseObject object : system.getObjects()) {
-            if (object.hasTrait(ActiveObjectSystem.class)) {
-                updateRecursively(dt, object.getTrait(ActiveObjectSystem.class));
+            if (object.has(ActiveObjectSystem.class)) {
+                updateRecursively(dt, object.get(ActiveObjectSystem.class));
             }
         }
     }
@@ -179,7 +179,7 @@ public class ObjectSystemRunner {
     private boolean checkNotEmptyRecursively(ActiveObjectSystem system) {
 
         for (BaseObject object : system.getObjects()) {
-            if (!object.hasTrait(ActiveObjectSystem.class) || checkNotEmptyRecursively(object.getTrait(ActiveObjectSystem.class))) {
+            if (!object.has(ActiveObjectSystem.class) || checkNotEmptyRecursively(object.get(ActiveObjectSystem.class))) {
                 return true;
             }
         }
@@ -197,14 +197,6 @@ public class ObjectSystemRunner {
 
         if (modificationRule.getTraitType().isInstance(trait)) {
             modificationRule.apply(dt, (T) trait);
-        }
-    }
-
-    @SuppressWarnings ("unchecked")
-    private <O extends BaseObject> void tryApplyRenderer(long dt, Renderer<O> renderer, BaseObject object) {
-
-        if (renderer.getObjectType().isInstance(object)) {
-            renderer.render(plugin, dt, (O) object);
         }
     }
 

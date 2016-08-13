@@ -29,16 +29,18 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.plugin.Plugin;
 import com.quartercode.quarterbukkit.api.exception.ExceptionHandler;
 import com.quartercode.quarterbukkit.api.exception.InternalException;
-import com.quartercode.quarterbukkit.api.objectsystem.object.FireworkTrait;
+import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
 import com.quartercode.quarterbukkit.api.objectsystem.traits.FireworkEffectDefinition;
+import com.quartercode.quarterbukkit.api.objectsystem.traits.FireworkTrait;
+import com.quartercode.quarterbukkit.api.objectsystem.traits.PhysicsTrait;
 
 /**
- * A {@link Renderer} that displays all {@link FireworkTrait}s by spawning fireworks.
+ * A {@link Renderer} that displays all {@link BaseObject objects} with {@link FireworkTrait}s by spawning fireworks.
  *
  * @see FireworkTrait
  * @see Renderer
  */
-public class FireworkRenderer extends StatelessRenderer<FireworkTrait> {
+public class FireworkTraitRenderer extends StatelessRenderer {
 
     private static final Method CRAFT_WORLD__GET_HANDLE;
     private static final Method CRAFT_FIREWORK__GET_HANDLE;
@@ -61,22 +63,21 @@ public class FireworkRenderer extends StatelessRenderer<FireworkTrait> {
     }
 
     @Override
-    public Class<FireworkTrait> getObjectType() {
+    public void render(Plugin plugin, long dt, BaseObject object) {
 
-        return FireworkTrait.class;
-    }
-
-    @Override
-    public void render(Plugin plugin, long dt, FireworkTrait object) {
+        if (!object.has(FireworkTrait.class)) {
+            return;
+        }
+        FireworkTrait fireworks = object.get(FireworkTrait.class);
 
         // Determine whether the different effects should be spawned
-        double objectVelocity = object.getVelocity().length();
-        boolean spawnNoTrailObjects = !object.hasSpeedBasedFrequency() || RenderingUtils.checkSpeedBasedFrequency(object.getLifetime(), objectVelocity, 0.5F);
-        boolean spawnTrailObjects = !object.hasSpeedBasedFrequency() || RenderingUtils.checkSpeedBasedFrequency(object.getLifetime(), objectVelocity, 0.75F);
+        double objectVelocity = object.get(PhysicsTrait.class).getVelocity().length();
+        boolean spawnNoTrailObjects = !fireworks.hasSpeedBasedFrequency() || RenderingUtils.checkSpeedBasedFrequency(object.getLifetime(), objectVelocity, 0.5F);
+        boolean spawnTrailObjects = !fireworks.hasSpeedBasedFrequency() || RenderingUtils.checkSpeedBasedFrequency(object.getLifetime(), objectVelocity, 0.75F);
 
         // Collect all effects that are spawned this round
         Collection<FireworkEffectDefinition> spawnEffects = new ArrayList<>();
-        for (FireworkEffectDefinition effect : object.getEffects()) {
+        for (FireworkEffectDefinition effect : fireworks.getEffects()) {
             if (!effect.hasTrail() && spawnNoTrailObjects || effect.hasTrail() && spawnTrailObjects) {
                 spawnEffects.add(effect);
             }
@@ -91,9 +92,9 @@ public class FireworkRenderer extends StatelessRenderer<FireworkTrait> {
         spawn(plugin, object, spawnEffects);
     }
 
-    private void spawn(Plugin plugin, FireworkTrait object, Collection<FireworkEffectDefinition> spawnEffects) {
+    private void spawn(Plugin plugin, BaseObject object, Collection<FireworkEffectDefinition> spawnEffects) {
 
-        Location location = object.getSystem().getOrigin().add(object.getPosition());
+        Location location = object.getSystem().getOrigin().add(object.get(PhysicsTrait.class).getPosition());
         Firework firework = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
 
         try {
@@ -103,7 +104,7 @@ public class FireworkRenderer extends StatelessRenderer<FireworkTrait> {
 
             FireworkMeta meta = firework.getFireworkMeta();
             applyEffects(meta, spawnEffects);
-            meta.setPower(object.getPower());
+            meta.setPower(object.get(FireworkTrait.class).getPower());
             firework.setFireworkMeta(meta);
 
             NMS_WORLD__BROADCAST_ENTITY_EFFECT.invoke(nmsWorld, nmsFirework, (byte) 17);
