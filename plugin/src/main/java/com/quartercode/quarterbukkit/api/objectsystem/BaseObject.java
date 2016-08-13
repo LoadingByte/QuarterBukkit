@@ -33,43 +33,21 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * The base interface for all objects that can be put into an {@link ActiveObjectSystem}.
  * It defines the fundamental lifetime property and manages a collection of {@link Trait}s that further specialize the object.
  * For example, the physics trait adds a position and a velocity to the object so that it can be located and take part in the physics simulation.
- * Moreover, it holds a reference to the active object system the object is currently part of.<br>
- * <br>
- * Now comes a part that's a bit tricky, but vital to understand for some operations.
- * <b>The fact that an object is an object is an inherent trait of that object.</b>
- * If you can't follow, here's another try:
- * <b>First, imagine that instead of objects, we are talking about a <i>set of traits</i>.
- * We could talk about all kinds of <i>sets of traits</i>; <i>sets</i> that represent people with certain characteristics, <i>sets</i> that represent tables with certain features, you name it.
- * But there are some <i>sets of traits</i> that represent objects.
- * Those <i>sets</i> must have a trait that says: I'm an object!</b>
- * If you still can't follow, don't worry about those philosophical statements anymore.
- * Instead, just know that the traits list of an object contains that object itself.
- * The object is one of its own {@link Trait}s!<br>
- * You might wonder why that's important.
- * Actually, it's necessary so that the whole system/object/trait abstraction holds up.
- * If it weren't for the <b>identity trait</b>, you i.e. couldn't even remove objects from their systems using an existence modifier!
- * Still, in most cases, you probably don't even need to think about this weird self-referential identity trait.
+ * Moreover, it holds a reference to the active object system the object is currently part of.
  *
  * @see Trait
  * @see ActiveObjectSystem
  */
-public class BaseObject extends Trait {
+public class BaseObject {
 
     private long               lifetime;
     private final List<Trait>  traits = new ArrayList<>();
 
     private ActiveObjectSystem system;
 
-    {
-
-        // Since the fact that the object is an object is a trait of that very object
-        traits.add(this);
-
-    }
-
     /**
      * Returns the amount of milliseconds the object has existed inside its {@link ActiveObjectSystem}.
-     * Note that this is guaranteed to be 0 the first time the object is updated and {@link ModificationRule}s are called on it.
+     * Note that this is guaranteed to be 0 the first time the object is updated.
      * After that, this value increases by the elapsed time {@code dt} each time the object is updated.
      *
      * @return The current lifetime of the object in milliseconds.
@@ -225,12 +203,6 @@ public class BaseObject extends Trait {
      */
     public BaseObject remove(Collection<Trait> traits) {
 
-        for (Trait trait : traits) {
-            if (trait == this) {
-                throw new IllegalArgumentException("The identity trait of an object can't be removed");
-            }
-        }
-
         List<Trait> remainingTraits = new ArrayList<>(this.traits);
         remainingTraits.removeAll(traits);
 
@@ -266,7 +238,7 @@ public class BaseObject extends Trait {
      * Returns the {@link ActiveObjectSystem} this object is part of, or {@code null} if this object hasn't been {@link ActiveObjectSystem#addObjects(BaseObject...) added} to any active system yet.
      * Please use the returned reference with caution and try to stick to the main design principles of the object system API.
      * If you ignore those, you quickly lose many of the advantages this API provides you with.
-     * It's especially important to not modify the returned active system when your not allowed to (e.g. because you're in a {@link Modifier}).
+     * Most importantly, if you see another more elegant way to get something done without accessing this reference, do it that way!
      *
      * @return The active object system that contains and simulates this object.
      */

@@ -32,9 +32,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import com.quartercode.quarterbukkit.api.objectsystem.ActiveObjectSystem;
 import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
-import com.quartercode.quarterbukkit.api.objectsystem.ModificationRule;
-import com.quartercode.quarterbukkit.api.objectsystem.Source;
-import com.quartercode.quarterbukkit.api.objectsystem.Trait;
+import com.quartercode.quarterbukkit.api.objectsystem.Behavior;
 
 /**
  * An object system runner takes an {@link ActiveObjectSystem} and a bunch of {@link Renderer}s and then simulates and displays the system using those renderers.
@@ -144,18 +142,9 @@ public class ObjectSystemRunner {
         // Increment object system lifetime
         system.incrementLifetime(dt);
 
-        // Apply modification rules
-        for (BaseObject object : concurrentIterable(system.getObjects())) {
-            for (Trait trait : concurrentIterable(object.getTraits())) {
-                for (ModificationRule<?, ?> modificationRule : system.getDefinition().getModificationRules()) {
-                    tryApplyModificationRule(dt, modificationRule, trait);
-                }
-            }
-        }
-
-        // Spawn new objects
-        for (Source source : system.getDefinition().getSources()) {
-            source.update(plugin, system, dt);
+        // Apply global behaviors
+        for (Behavior<ActiveObjectSystem> behavior : system.getDefinition().getBehaviors()) {
+            behavior.behave(dt, system);
         }
 
         // Apply renderers
@@ -190,14 +179,6 @@ public class ObjectSystemRunner {
     private <E> Iterable<E> concurrentIterable(Collection<E> collection) {
 
         return new ArrayList<>(collection);
-    }
-
-    @SuppressWarnings ("unchecked")
-    private <T extends Trait> void tryApplyModificationRule(long dt, ModificationRule<T, ?> modificationRule, Trait trait) {
-
-        if (modificationRule.getTraitType().isInstance(trait)) {
-            modificationRule.apply(dt, (T) trait);
-        }
     }
 
     @Override

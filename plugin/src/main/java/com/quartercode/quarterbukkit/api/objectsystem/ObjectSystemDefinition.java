@@ -20,9 +20,9 @@ package com.quartercode.quarterbukkit.api.objectsystem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import javax.xml.transform.Source;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -39,109 +39,64 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 public class ObjectSystemDefinition {
 
-    private final Collection<Source>                 sources           = new ArrayList<>();
-    private final Collection<ModificationRule<?, ?>> modificationRules = new ArrayList<>();
+    private final List<Behavior<ActiveObjectSystem>> behaviors = new ArrayList<>();
 
     /**
-     * Returns the object {@link Source}s, which are responsible for spawning new objects.
+     * Returns the global {@link Behavior}s, which are responsible for controlling the behavior of the {@link ActiveObjectSystem object system instances} itself, as well as all existing objects.
+     * Such behaviors typically either affect all objects or add/remove objects from/to the active system.
      *
-     * @return The sources of the defined object system.
+     * @return The global behaviors of the defined object system.
      */
-    public Collection<Source> getSources() {
+    public List<Behavior<ActiveObjectSystem>> getBehaviors() {
 
-        return Collections.unmodifiableCollection(sources);
+        return Collections.unmodifiableList(behaviors);
     }
 
     /**
-     * Adds the given object {@link Source}s, which are responsible for spawning new objects, to the defined object system.
+     * Adds the given global {@link Behavior}s, which are responsible for controlling the behavior of the {@link ActiveObjectSystem object system instances} itself, as well as all existing objects.
+     * Such behaviors typically either affect all objects or add/remove objects from/to the active system.
      *
-     * @param sources The sources that should be added to the object system.
+     * @param behaviors The global behaviors that should be added to the defined object system.
      */
-    public void addSources(Source... sources) {
+    @SafeVarargs
+    public final void addBehaviors(Behavior<ActiveObjectSystem>... behaviors) {
 
-        addSources(Arrays.asList(sources));
+        addBehaviors(Arrays.asList(behaviors));
     }
 
     /**
-     * Adds the given object {@link Source}s, which are responsible for spawning new objects, to the defined object system.
+     * Adds the given global {@link Behavior}s, which are responsible for controlling the behavior of the {@link ActiveObjectSystem object system instances} itself, as well as all existing objects.
+     * Such behaviors typically either affect all objects or add/remove objects from/to the active system.
      *
-     * @param sources The sources that should be added to the object system.
+     * @param behaviors The global behaviors that should be added to the defined object system.
      */
-    public void addSources(List<Source> sources) {
+    public void addBehaviors(List<Behavior<ActiveObjectSystem>> behaviors) {
 
-        Validate.noNullElements(sources, "Cannot add null sources to object system definition");
-        this.sources.addAll(sources);
+        Validate.noNullElements(behaviors, "Cannot add null behaviors to object system definition");
+        this.behaviors.addAll(behaviors);
     }
 
     /**
-     * Removes the given object {@link Source}s, which are responsible for spawning new objects, from the defined object system.
+     * Removes the given global {@link Behavior}s, which are responsible for controlling the behavior of the {@link ActiveObjectSystem object system instances} itself, as well as all existing objects.
+     * Such behaviors typically either affect all objects or add/remove objects from/to the active system.
      *
-     * @param sources The sources that should be removed from the object system.
+     * @param behaviors The global behaviors that should be removed from the defined object system.
      */
-    public void removeSources(Source... sources) {
+    @SafeVarargs
+    public final void removeBehaviors(Behavior<ActiveObjectSystem>... behaviors) {
 
-        removeSources(Arrays.asList(sources));
+        removeBehaviors(Arrays.asList(behaviors));
     }
 
     /**
-     * Removes the given object {@link Source}s, which are responsible for spawning new objects, from the defined object system.
+     * Removes the given global {@link Behavior}s, which are responsible for controlling the behavior of the {@link ActiveObjectSystem object system instances} itself, as well as all existing objects.
+     * Such behaviors typically either affect all objects or add/remove objects from/to the active system.
      *
-     * @param sources The sources that should be removed from the object system.
+     * @param behaviors The global behaviors that should be removed from the defined object system.
      */
-    public void removeSources(Collection<Source> sources) {
+    public void removeBehaviors(List<Behavior<ActiveObjectSystem>> behaviors) {
 
-        this.sources.removeAll(sources);
-    }
-
-    /**
-     * Returns the object {@link ModificationRule}s, which are responsible for controlling the behavior of existing objects.
-     *
-     * @return The modification rules of the defined object system.
-     */
-    public Collection<ModificationRule<?, ?>> getModificationRules() {
-
-        return Collections.unmodifiableCollection(modificationRules);
-    }
-
-    /**
-     * Adds the given object {@link ModificationRule}s, which are responsible for controlling the behavior of existing objects, to the defined object system.
-     *
-     * @param modificationRules The modification rules that should be added to the object system.
-     */
-    public void addModificationRules(ModificationRule<?, ?>... modificationRules) {
-
-        addModificationRules(Arrays.asList(modificationRules));
-    }
-
-    /**
-     * Adds the given object {@link ModificationRule}s, which are responsible for controlling the behavior of existing objects, to the defined object system.
-     *
-     * @param modificationRules The modification rules that should be added to the object system.
-     */
-    public void addModificationRules(List<ModificationRule<?, ?>> modificationRules) {
-
-        Validate.noNullElements(modificationRules, "Cannot add null modification rules to object system definition");
-        this.modificationRules.addAll(modificationRules);
-    }
-
-    /**
-     * Removes the given object {@link ModificationRule}s, which are responsible for controlling the behavior of existing objects, from the defined object system.
-     *
-     * @param modificationRules The modification rules that should be removed from the object system.
-     */
-    public void removeModificationRules(ModificationRule<?, ?>... modificationRules) {
-
-        removeModificationRules(Arrays.asList(modificationRules));
-    }
-
-    /**
-     * Removes the given object {@link ModificationRule}s, which are responsible for controlling the behavior of existing objects, from the defined object system.
-     *
-     * @param modificationRules The modification rules that should be removed from the object system.
-     */
-    public void removeModificationRules(Collection<ModificationRule<?, ?>> modificationRules) {
-
-        this.modificationRules.removeAll(modificationRules);
+        this.behaviors.removeAll(behaviors);
     }
 
     @Override

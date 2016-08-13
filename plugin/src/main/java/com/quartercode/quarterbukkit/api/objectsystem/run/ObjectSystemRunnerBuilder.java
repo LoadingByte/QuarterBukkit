@@ -40,6 +40,7 @@ public class ObjectSystemRunnerBuilder {
     static {
 
         List<Renderer> defaultRenderers = new ArrayList<>();
+        defaultRenderers.add(new BehaviorTraitRenderer());
         defaultRenderers.add(new ExpirationTraitRenderer());
         defaultRenderers.add(new StandalonePhysicsTraitRenderer());
         defaultRenderers.add(new RealEntityPhysicsTraitRenderer());
