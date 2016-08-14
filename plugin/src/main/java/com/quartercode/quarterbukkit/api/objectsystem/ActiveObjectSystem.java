@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.stream.Stream;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -138,6 +139,17 @@ public class ActiveObjectSystem extends Trait {
     public Collection<BaseObject> getObjects() {
 
         return Collections.unmodifiableCollection(objects);
+    }
+
+    /**
+     * Returns a {@link Stream} with the objects, which must implement {@link BaseObject}, that are simulated by the active system.
+     * Their behavior is defined by the system's {@link ObjectSystemDefinition}.
+     *
+     * @return A stream with the objects that are simulated by the active system.
+     */
+    public Stream<BaseObject> objectStream() {
+
+        return objects.stream();
     }
 
     /**
