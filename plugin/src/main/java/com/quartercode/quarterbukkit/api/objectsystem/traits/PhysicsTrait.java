@@ -72,4 +72,19 @@ public abstract class PhysicsTrait extends Trait {
      */
     public abstract PhysicsTrait setVelocity(Vector velocity);
 
+    /**
+     * Adds the given {@link Vector} to the velocity vector of the object. This method is quite useful for accelerating or decelerating objects.
+     * Internally, this is just a shortcut for <code>physics.{@link #setVelocity(Vector) setVelocity}(physics.{@link #getVelocity() getVelocity}().add(velocityChange))</code>.
+     * The unit of the input vector is m/s. Since all blocks have an edge length of 1 m, the unit can also be expressed as blocks/s.
+     * Note that the overall velocity vector is applied to the position vector of the object every update.
+     *
+     * @param velocityChange The new velocity vector of the object in m/s.
+     * @return This object.
+     */
+    public PhysicsTrait addVelocity(Vector velocityChange) {
+
+        setVelocity(getVelocity().add(velocityChange));
+        return this;
+    }
+
 }

@@ -52,6 +52,12 @@ import com.quartercode.quarterbukkit.api.objectsystem.traits.PhysicsTrait;
  *         }));
  * </pre>
  *
+ * Note that behaviors can also be chained together using the {@link BehaviorWrapper} class:
+ *
+ * <pre>
+ * systemDef.{@link ObjectSystemDefinition#addBehaviors(Behavior...) addBehaviors}(new InitializationBehavior((dt, activeSystem) -&gt; ...));
+ * </pre>
+ *
  * Some may ask why there's a distinction between behaviors and {@link Renderer}s.
  * One clear difference is the broader and more flexible approach the rendering system takes.
  * For example, each renderer is executed on all objects both in the root system as well as in all nested systems; therefore, it provides less abstraction than the simple behaviors.
