@@ -31,11 +31,10 @@ import com.quartercode.quarterbukkit.api.objectsystem.traits.PhysicsTrait;
 
 /**
  * An active object system runs the rules defined by an {@link ObjectSystemDefinition}.
- * It contains several objects that are constantly modified by {@link ModificationRule}s.
- * For example, a rule might add a force field that accelerates the objects into a certain direction by modifying its velocity vector.
- * Furthermore, object {@link Source}s defined by the object system definition constantly spawn new objects,
- * and old object have the possibility to expire and be removed from the system.
- * Note that the {@link Location}s of the objects are relative to a reference origin location.<br>
+ * It contains several objects that are constantly modified by {@link ObjectSystemDefinition#getBehaviors() global behaviors}.
+ * For example, such a global behavior might add a force field that accelerates the objects into a certain direction by modifying its velocity vector.
+ * Furthermore, global behaviors can also be used to spawn new objects or remove old ones.
+ * Note that the locations of the objects are relative to a reference origin location.<br>
  * <br>
  * It's important to note that each active object system is in fact also a {@link Trait}.
  * By adding it to other objects, you can nest one active system inside another one and thereby create way more complex setups than you otherwise could.<br>

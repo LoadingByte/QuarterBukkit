@@ -562,11 +562,11 @@ public class Cuboid {
      * You can iterate over the list and doing anything you want with the blocks like this:
      * </p>
      *
-     * <pre>
+     * <pre>{@code
      * for (Vector vector : getBlocks()) {
      *     vector.toLocation(world).getBlock()...
      * }
-     * </pre>
+     * }</pre>
      *
      * @return A list of all blocks which are located in the cuboid as a list of {@link Vector}s.
      */

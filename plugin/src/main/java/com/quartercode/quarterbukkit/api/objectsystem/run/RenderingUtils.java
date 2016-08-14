@@ -18,6 +18,7 @@
 
 package com.quartercode.quarterbukkit.api.objectsystem.run;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.util.Vector;
 import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
 import com.quartercode.quarterbukkit.api.objectsystem.traits.PhysicsTrait;
@@ -28,7 +29,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.traits.PhysicsTrait;
 public class RenderingUtils {
 
     /**
-     * Returns whether the given {@link PhysicsObject} should be rendered based on the "speed based frequency mode".
+     * Returns whether the given {@link BaseObject object} (it must have a {@link PhysicsTrait}) should be rendered based on the "speed based frequency mode".
      * It basically means that the object is only rendered if the last rendering happened the given distance away based on the current object velocity.
      *
      * @param object The physics object that should be checked.
@@ -37,16 +38,17 @@ public class RenderingUtils {
      */
     public static boolean checkSpeedBasedFrequency(BaseObject object, float minRenderDistance) {
 
+        Validate.isTrue(object.has(PhysicsTrait.class), "Non-physical objects cannot be checked for whether speed based frequency applies");
         return checkSpeedBasedFrequency(object.getLifetime(), object.get(PhysicsTrait.class).getVelocity().length(), minRenderDistance);
     }
 
     /**
-     * Does the same as {@link #checkSpeedBasedFrequency(PhysicsObject, float)} using raw values.
+     * Does the same as {@link #checkSpeedBasedFrequency(BaseObject, float)} using raw values.
      *
      * @param objectLifetime The lifetime of the object in milliseconds.
-     *        It can be determined with {@link PhysicsObject#getLifetime()}.
+     *        It can be determined with {@link BaseObject#getLifetime()}.
      * @param objectVelocity The current velocity value of the object.
-     *        It can be determined with {@link PhysicsObject#getVelocity()} and then {@link Vector#length()}.
+     *        It can be determined with {@link PhysicsTrait#getVelocity()} and then {@link Vector#length()}.
      * @param minRenderDistance The minimum distance from the current position of the object its last rendering must have happened.
      * @return Whether the object should be rendered.
      */

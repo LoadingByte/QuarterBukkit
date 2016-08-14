@@ -27,6 +27,8 @@ package com.quartercode.quarterbukkit.api.objectsystem.traits;
  * All credit to the enumeration part of his library goes to him.
  * The original disclaimer of the class is shown below:
  *
+ * <blockquote>
+ *
  * <pre>
  * <b>ParticleEffect Library</b>
  *
@@ -42,6 +44,8 @@ package com.quartercode.quarterbukkit.api.objectsystem.traits;
  * Author: DarkBlade12
  * Version: 1.5
  * </pre>
+ *
+ * </blockquote>
  *
  * @see ParticleDefinition
  */

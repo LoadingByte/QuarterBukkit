@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import javax.xml.transform.Source;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -30,11 +29,11 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * This class describes an object system and allows to create new equivalent {@link ActiveObjectSystem}s using it.
- * It basically contains some {@link Source}s, which spawn new objects, and some {@link ModificationRule}s, which define the behavior of these objects.
+ * This class defines how an object system should behave and allows to create new {@link ActiveObjectSystem}s, which actually implement those rules, using it.
+ * It basically contains some global {@link Behavior}s, which are i.e. responsible for spawning new objects or controlling the behavior of existing ones.
+ * For example, such a global behavior might add a force field that accelerates the objects into a certain direction by modifying its velocity vector.
  *
- * @see Source
- * @see ModificationRule
+ * @see Behavior
  * @see ActiveObjectSystem
  */
 public class ObjectSystemDefinition {

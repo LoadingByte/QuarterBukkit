@@ -25,38 +25,51 @@ import com.quartercode.quarterbukkit.api.objectsystem.traits.PhysicsTrait;
  * A behavior is a function that can be attached to a Java object (a body) and will run at each update step while being supplied with the object it's attached to.
  * For example, the body could be an {@link ActiveObjectSystem} if the behavior affects to the whole system, e.g. for applying a force of gravity to all phyiscal objects inside that system:
  *
- * <pre>
- * public void behave(long dt, {@link ActiveObjectSystem} activeSystem) {
+ * <pre>{@code
+ * public void behave(long dt, ActiveObjectSystem activeSystem) {
  *     // ... apply gravity each update
  * }
- * </pre>
+ * }</pre>
  *
  * However, the behavior could just as well be attached to a single {@link BaseObject object} if it only cares about that very object:
  *
- * <pre>
- * public void behave(long dt, {@link BaseObject} object) {
+ * <pre>{@code
+ * public void behave(long dt, BaseObject object) {
  *     // ... do something amazing each update
  * }
- * </pre>
+ * }</pre>
  *
  * You can say that a behavior adds some special characteristic (aka. behavior) to the body it is attached to.<br>
  * <br>
  * Behaviors are probably most useful when being implemented using lambdas:
  *
- * <pre>
- * systemDef.{@link ObjectSystemDefinition#addBehaviors(Behavior...) addBehaviors}((dt, activeSystem) -> activeSystem.getObjects().stream()
+ * <pre>{@code
+ * systemDef.addBehaviors((dt, activeSystem) -> {
+ *     for (BaseObject obj : atomSystem.getObjects()) {
+ *         if (obj.has(PhysicsTrait.class)) {
+ *             PhysicsTrait physics = obj.get(PhysicsTrait.class);
+ *             physics.addVelocity(Forces.staticForce(new Vector(0, 1, 0), dt));
+ *         }
+ *     }
+ * });
+ * }</pre>
+ *
+ * Or, if you really want to use streams, you can, of course, do that as well:
+ *
+ * <pre>{@code
+ * systemDef.addBehaviors((dt, activeSystem) -> activeSystem.objectStream()
  *         .filter(obj -> obj.has(PhysicsTrait.class))
  *         .forEach(obj -> {
  *             PhysicsTrait physics = obj.get(PhysicsTrait.class);
- *             physics.setVelocity(physics.getVelocity().add(new Vector(0, 1, 0)));
+ *             physics.addVelocity(Forces.staticForce(new Vector(0, 1, 0), dt));
  *         }));
- * </pre>
+ * }</pre>
  *
  * Note that behaviors can also be chained together using the {@link BehaviorWrapper} class:
  *
- * <pre>
- * systemDef.{@link ObjectSystemDefinition#addBehaviors(Behavior...) addBehaviors}(new InitializationBehavior((dt, activeSystem) -&gt; ...));
- * </pre>
+ * <pre>{@code
+ * systemDef.addBehaviors(new InitializationBehavior((dt, activeSystem) -> ...));
+ * }</pre>
  *
  * Some may ask why there's a distinction between behaviors and {@link Renderer}s.
  * One clear difference is the broader and more flexible approach the rendering system takes.

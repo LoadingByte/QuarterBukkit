@@ -43,7 +43,7 @@ public abstract class Trait {
     private BaseObject object;
 
     /**
-     * Returns the {@link BaseObject} this trait is part of, or {@code null} if this trait hasn't been {@link BaseObject#addTraits(Trait...) added} to any object yet.
+     * Returns the {@link BaseObject} this trait is part of, or {@code null} if this trait hasn't been {@link BaseObject#add(Trait...) added} to any object yet.
      *
      * @return The object that is specialized by this trait.
      */

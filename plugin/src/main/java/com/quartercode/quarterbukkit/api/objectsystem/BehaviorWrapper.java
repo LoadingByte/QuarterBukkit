@@ -28,9 +28,9 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * A behavior wrapper wraps around another {@link Behavior} and implements some kind of intermediate behavior which might or might not call the wrapped behavior one or more times.
  * That way, different behaviors can be combined together, creating chains of behaviors:
  *
- * <pre>
- * systemDef.{@link ObjectSystemDefinition#addBehaviors(Behavior...) addBehaviors}(new InitializationBehavior((dt, activeSystem) -&gt; ...));
- * </pre>
+ * <pre>{@code
+ * systemDef.addBehaviors(new InitializationBehavior((dt, activeSystem) -> ...));
+ * }</pre>
  *
  * In the example above, the behavior wrapper probably only calls its wrapped behavior once when the object system is first started, and then never again, resulting in some kind of
  * "initialization behavior".

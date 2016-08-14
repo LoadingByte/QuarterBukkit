@@ -48,7 +48,7 @@ public class ExpirationTrait extends Trait {
     /**
      * Sets the amount of milliseconds after which the object expires and is removed from its {@link ActiveObjectSystem}.
      * For example, if the expiration time is {@code 2000}, the object is removed after 2 seconds.
-     * Note that this time can be set to a value smaller than {@link #getLifetime()}, in which case the object will be removed instantly during the next update.
+     * Note that this time can be set to a value smaller than the object's {@link BaseObject#getLifetime() lifetime}, in which case the object will be removed instantly during the next update.
      *
      * @param expirationTime The new expiration time of the object in milliseconds.
      * @return This object.

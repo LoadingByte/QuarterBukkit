@@ -62,12 +62,12 @@ public interface Shape {
      * <br>
      * For example, you could retrieve the blocks inside the shape as follows:
      *
-     * <pre>
-     * for (Vector vector : <i>shape</i>.getContent(1)) {
-     *     Block block = vector.toLocation(<i>world</i>).getBlock();
+     * <pre>{@code
+     * for (Vector vector : shape.getContent(1)) {
+     *     Block block = vector.toLocation(world).getBlock();
      *     ...
      * }
-     * </pre>
+     * }</pre>
      *
      * @param distance The distance between the returned vectors.
      * @return The vectors inside the shape separated by the given distance.

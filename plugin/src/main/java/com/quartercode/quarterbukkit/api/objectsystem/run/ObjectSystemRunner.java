@@ -61,7 +61,7 @@ public class ObjectSystemRunner {
      *        It hosts the new runner.
      * @param objectSystem The active object system that should be ran and simulated by the runner.
      * @param renderers The {@link Renderer}s that simulate and display the objects of the active system.
-     *
+     * @param timeResolution The time between to object system updates in milliseconds.
      * @param stopWhenNoObjects Whether the runner should stop if no more objects are stored in the given active system.
      *        This is useful for systems with a few manually spawned objects that expire after some time.
      */

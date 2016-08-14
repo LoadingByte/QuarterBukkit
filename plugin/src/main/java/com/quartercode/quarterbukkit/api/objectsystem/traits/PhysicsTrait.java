@@ -27,7 +27,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.Trait;
  * A {@link Trait} that adds physics to {@link BaseObject objects} so that they can be moved through the world.
  * It stores a position {@link Vector} which is relative to the origin of the {@link ActiveObjectSystem} it is used in, as well as a velocity vector
  * which defines the movement of the object.
- * An implementation of this interface can either be a {@link StandalonePhysicsObject standalone physics engine} or a delegation to the Bukkit physics engine (e.g. using an entity).
+ * An implementation of this interface can either be a {@link StandalonePhysicsTrait standalone physics engine} or a delegation to the Bukkit physics engine (e.g. using an entity).
  * Note that it is generally assumed that the position vector changes over time if the velocity vector doesn't have a length of zero.<br>
  * <br>
  * <b>Trait dependencies:</b> <i>none</i>
