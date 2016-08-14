@@ -35,12 +35,10 @@ public class StandalonePhysicsTraitRenderer extends StatelessRenderer {
     @Override
     public void render(Plugin plugin, long dt, BaseObject object) {
 
-        if (object.has(StandalonePhysicsTrait.class)) {
-            StandalonePhysicsTrait physics = object.get(StandalonePhysicsTrait.class);
-
+        object.get(StandalonePhysicsTrait.class).ifPresent(physics -> {
             Vector positionChange = physics.getVelocity().multiply(dt / 1000d);
             physics.setPosition(physics.getPosition().add(positionChange));
-        }
+        });
     }
 
 }

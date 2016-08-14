@@ -21,6 +21,7 @@ package com.quartercode.quarterbukkit.api.objectsystem.run;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Callable;
@@ -156,9 +157,7 @@ public class ObjectSystemRunner {
 
         // Update all nested object systems, if there are any
         for (BaseObject object : system.getObjects()) {
-            if (object.has(ActiveObjectSystem.class)) {
-                updateRecursively(dt, object.get(ActiveObjectSystem.class));
-            }
+            object.get(ActiveObjectSystem.class).ifPresent(aos -> updateRecursively(dt, aos));
         }
     }
 
@@ -168,7 +167,8 @@ public class ObjectSystemRunner {
     private boolean checkNotEmptyRecursively(ActiveObjectSystem system) {
 
         for (BaseObject object : system.getObjects()) {
-            if (!object.has(ActiveObjectSystem.class) || checkNotEmptyRecursively(object.get(ActiveObjectSystem.class))) {
+            Optional<ActiveObjectSystem> subSystem = object.get(ActiveObjectSystem.class);
+            if (!subSystem.isPresent() || checkNotEmptyRecursively(subSystem.get())) {
                 return true;
             }
         }

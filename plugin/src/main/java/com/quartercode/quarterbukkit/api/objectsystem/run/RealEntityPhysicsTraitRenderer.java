@@ -33,12 +33,12 @@ public class RealEntityPhysicsTraitRenderer extends StatelessRenderer {
     @Override
     public void render(Plugin plugin, long dt, BaseObject object) {
 
-        if (object.has(RealEntityPhysicsTrait.class)) {
+        object.get(RealEntityPhysicsTrait.class).ifPresent(physics -> {
             // Remove the object if the assigned entity has vanished
-            if (!object.get(RealEntityPhysicsTrait.class).getEntity().isValid()) {
+            if (!physics.getEntity().isValid()) {
                 object.getSystem().removeObjects(object);
             }
-        }
+        });
     }
 
 }

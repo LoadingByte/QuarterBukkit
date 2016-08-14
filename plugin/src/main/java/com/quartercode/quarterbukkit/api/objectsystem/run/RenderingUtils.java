@@ -39,7 +39,7 @@ public class RenderingUtils {
     public static boolean checkSpeedBasedFrequency(BaseObject object, float minRenderDistance) {
 
         Validate.isTrue(object.has(PhysicsTrait.class), "Non-physical objects cannot be checked for whether speed based frequency applies");
-        return checkSpeedBasedFrequency(object.getLifetime(), object.get(PhysicsTrait.class).getVelocity().length(), minRenderDistance);
+        return checkSpeedBasedFrequency(object.getLifetime(), object.get(PhysicsTrait.class).get().getVelocity().length(), minRenderDistance);
     }
 
     /**

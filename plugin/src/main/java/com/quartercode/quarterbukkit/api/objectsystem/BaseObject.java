@@ -23,11 +23,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import com.quartercode.quarterbukkit.api.BiOptional;
 
 /**
  * The base interface for all objects that can be put into an {@link ActiveObjectSystem}.
@@ -69,17 +71,17 @@ public class BaseObject {
     }
 
     /**
-     * Returns for all given trait types whether this object contains a {@link Trait} that is an instance of or a subclass of the given type.
+     * Returns for all given trait types whether this object contains a {@link Trait} that is an instance or a subclass of the given type.
      * For example, this method could be used to check whether an object has some kind of physics trait attached to it.
      *
-     * @param traitTypes The types of trait you want to look for.
+     * @param traitTypes The types of trait you want to look for, as a class object.
      * @return Whether this object contains a trait that fulfills the given type for all given types.
      */
     @SafeVarargs
     public final boolean has(Class<? extends Trait>... traitTypes) {
 
         for (Class<? extends Trait> traitType : traitTypes) {
-            if (get(traitType) == null) {
+            if (get(traitType).isPresent()) {
                 return false;
             }
         }
@@ -99,16 +101,39 @@ public class BaseObject {
     }
 
     /**
-     * Returns the {@link Trait} of this object that is an instance of or a subclass of the given type.
+     * Returns the {@link Trait} of this object that is an instance or a subclass of the given type.
      * For example, this method could be used to get the physics trait which is attached to a specific object.
      * If there are multiple traits that match the given criterion, only the first one is returned. No warnings or such things are printed.
+     * If there is no trait at all that matches the criterion, {@link Optional#empty()} is returned.
      *
-     * @param traitType The type of trait you want to look for.
-     * @return The first trait that fulfills the given type.
+     * @param <T> The type of trait you want to look for.
+     * @param traitType The type of trait you want to look for, as a class object.
+     * @return The first trait that fulfills the given type, or {@link Optional#empty()} if there's no such trait.
      */
-    public <T extends Trait> T get(Class<T> traitType) {
+    public <T extends Trait> Optional<T> get(Class<T> traitType) {
 
-        return traitType.cast(getTraitWithCustomCollection(traits, traitType));
+        Trait trait = getTraitWithCustomCollection(traits, traitType);
+        return Optional.ofNullable(trait == null ? null : traitType.cast(trait));
+    }
+
+    /**
+     * Returns the two {@link Trait}s of this object that are an instance or a subclass of the respective given type.
+     * For example, this method could be used to get the both physics trait and the category trait which are attached to a specific object simultaneously.
+     * If, for any of the two trait types, there are multiple traits that match the specified criterion, only the first one is returned as part of the {@link BiOptional}.
+     * No warnings or such things are printed.
+     * If, for any of the two trait types, there is no trait at all that matches the criterion, {@link BiOptional#empty()} is returned.
+     *
+     * @param <T1> The first type of trait you want to look for.
+     * @param <T2> The second type of trait you want to look for.
+     * @param traitType1 The type of the first trait you want to look for, as a class object.
+     * @param traitType2 The type of the second trait you want to look for, as a class object.
+     * @return For both trait types, the respective first trait that fulfills the given type, or {@link BiOptional#empty()} if either or both wanted traits can't be found.
+     */
+    public <T1 extends Trait, T2 extends Trait> BiOptional<T1, T2> get(Class<T1> traitType1, Class<T2> traitType2) {
+
+        Trait trait1 = getTraitWithCustomCollection(traits, traitType1);
+        Trait trait2 = getTraitWithCustomCollection(traits, traitType2);
+        return BiOptional.ofNullables(trait1 == null ? null : traitType1.cast(trait1), trait2 == null ? null : traitType2.cast(trait2));
     }
 
     /*

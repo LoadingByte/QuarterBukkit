@@ -45,12 +45,8 @@ import com.quartercode.quarterbukkit.api.objectsystem.traits.PhysicsTrait;
  *
  * <pre>{@code
  * systemDef.addBehaviors((dt, activeSystem) -> {
- *     for (BaseObject obj : atomSystem.getObjects()) {
- *         if (obj.has(PhysicsTrait.class)) {
- *             PhysicsTrait physics = obj.get(PhysicsTrait.class);
- *             physics.addVelocity(Forces.staticForce(new Vector(0, 1, 0), dt));
- *         }
- *     }
+ *     for (BaseObject obj : activeSystem.getObjects())
+ *         obj.get(PhysicsTrait.class).ifPresent(physics -> physics.addVelocity(Forces.staticForce(new Vector(0, 1, 0), dt)));
  * });
  * }</pre>
  *
@@ -58,11 +54,7 @@ import com.quartercode.quarterbukkit.api.objectsystem.traits.PhysicsTrait;
  *
  * <pre>{@code
  * systemDef.addBehaviors((dt, activeSystem) -> activeSystem.objectStream()
- *         .filter(obj -> obj.has(PhysicsTrait.class))
- *         .forEach(obj -> {
- *             PhysicsTrait physics = obj.get(PhysicsTrait.class);
- *             physics.addVelocity(Forces.staticForce(new Vector(0, 1, 0), dt));
- *         }));
+ *         .forEach(obj -> obj.get(PhysicsTrait.class).ifPresent(physics -> physics.addVelocity(Forces.staticForce(new Vector(0, 1, 0), dt)))));
  * }</pre>
  *
  * Note that behaviors can also be chained together using the {@link BehaviorWrapper} class:

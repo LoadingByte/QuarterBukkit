@@ -34,11 +34,11 @@ public class BehaviorTraitRenderer extends StatelessRenderer {
     @Override
     public void render(Plugin plugin, long dt, BaseObject object) {
 
-        if (object.has(BehaviorTrait.class)) {
-            for (Behavior<BaseObject> behavior : object.get(BehaviorTrait.class).getBehaviors()) {
+        object.get(BehaviorTrait.class).ifPresent(beh -> {
+            for (Behavior<BaseObject> behavior : beh.getBehaviors()) {
                 behavior.behave(dt, object);
             }
-        }
+        });
     }
 
 }

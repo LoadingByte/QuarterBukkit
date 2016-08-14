@@ -20,7 +20,7 @@ package com.quartercode.quarterbukkit.api.objectsystem.run;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
@@ -65,36 +65,32 @@ public class FireworkTraitRenderer extends StatelessRenderer {
     @Override
     public void render(Plugin plugin, long dt, BaseObject object) {
 
-        if (!object.has(FireworkTrait.class)) {
-            return;
-        }
-        FireworkTrait fireworks = object.get(FireworkTrait.class);
+        object.get(PhysicsTrait.class, FireworkTrait.class).ifPresent((physics, frwk) -> {
+            // Determine whether the different effects should be spawned
+            double objectVelocity = physics.getVelocity().length();
+            boolean spawnNoTrailObjects = !frwk.hasSpeedBasedFrequency() || RenderingUtils.checkSpeedBasedFrequency(object.getLifetime(), objectVelocity, 0.5F);
+            boolean spawnTrailObjects = !frwk.hasSpeedBasedFrequency() || RenderingUtils.checkSpeedBasedFrequency(object.getLifetime(), objectVelocity, 0.75F);
 
-        // Determine whether the different effects should be spawned
-        double objectVelocity = object.get(PhysicsTrait.class).getVelocity().length();
-        boolean spawnNoTrailObjects = !fireworks.hasSpeedBasedFrequency() || RenderingUtils.checkSpeedBasedFrequency(object.getLifetime(), objectVelocity, 0.5F);
-        boolean spawnTrailObjects = !fireworks.hasSpeedBasedFrequency() || RenderingUtils.checkSpeedBasedFrequency(object.getLifetime(), objectVelocity, 0.75F);
-
-        // Collect all effects that are spawned this round
-        Collection<FireworkEffectDefinition> spawnEffects = new ArrayList<>();
-        for (FireworkEffectDefinition effect : fireworks.getEffects()) {
-            if (!effect.hasTrail() && spawnNoTrailObjects || effect.hasTrail() && spawnTrailObjects) {
-                spawnEffects.add(effect);
+            // Collect all effects that are spawned this round
+            List<FireworkEffectDefinition> spawnEffects = new ArrayList<>();
+            for (FireworkEffectDefinition effect : frwk.getEffects()) {
+                if (!effect.hasTrail() && spawnNoTrailObjects || effect.hasTrail() && spawnTrailObjects) {
+                    spawnEffects.add(effect);
+                }
             }
-        }
 
-        // Check whether at least one effect would be spawned this round
-        if (spawnEffects.isEmpty()) {
-            return;
-        }
+            // Check whether at least one effect would be spawned this round
+            if (spawnEffects.isEmpty()) {
+                return;
+            }
 
-        // Actually spawn all effects for this round
-        spawn(plugin, object, spawnEffects);
+            // Actually spawn all effects for this round
+            spawn(plugin, object.getSystem().getOrigin().add(physics.getPosition()), frwk.getPower(), spawnEffects);
+        });
     }
 
-    private void spawn(Plugin plugin, BaseObject object, Collection<FireworkEffectDefinition> spawnEffects) {
+    private void spawn(Plugin plugin, Location location, int power, List<FireworkEffectDefinition> spawnEffects) {
 
-        Location location = object.getSystem().getOrigin().add(object.get(PhysicsTrait.class).getPosition());
         Firework firework = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
 
         try {
@@ -104,7 +100,7 @@ public class FireworkTraitRenderer extends StatelessRenderer {
 
             FireworkMeta meta = firework.getFireworkMeta();
             applyEffects(meta, spawnEffects);
-            meta.setPower(object.get(FireworkTrait.class).getPower());
+            meta.setPower(power);
             firework.setFireworkMeta(meta);
 
             NMS_WORLD__BROADCAST_ENTITY_EFFECT.invoke(nmsWorld, nmsFirework, (byte) 17);
@@ -115,7 +111,7 @@ public class FireworkTraitRenderer extends StatelessRenderer {
         firework.remove();
     }
 
-    private void applyEffects(FireworkMeta meta, Collection<FireworkEffectDefinition> effects) {
+    private void applyEffects(FireworkMeta meta, List<FireworkEffectDefinition> effects) {
 
         meta.clearEffects();
         for (FireworkEffectDefinition effect : effects) {

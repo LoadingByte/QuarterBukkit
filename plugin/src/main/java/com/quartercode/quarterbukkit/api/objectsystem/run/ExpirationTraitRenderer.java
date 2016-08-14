@@ -20,7 +20,6 @@ package com.quartercode.quarterbukkit.api.objectsystem.run;
 
 import org.bukkit.plugin.Plugin;
 import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
-import com.quartercode.quarterbukkit.api.objectsystem.traits.BehaviorTrait;
 import com.quartercode.quarterbukkit.api.objectsystem.traits.ExpirationTrait;
 
 /**
@@ -34,10 +33,12 @@ public class ExpirationTraitRenderer extends StatelessRenderer {
     @Override
     public void render(Plugin plugin, long dt, BaseObject object) {
 
-        if (object.has(BehaviorTrait.class) && object.getLifetime() >= object.get(ExpirationTrait.class).getExpirationTime()) {
-            object.getSystem().removeObjects(object);
-            return;
-        }
+        object.get(ExpirationTrait.class).ifPresent(exp -> {
+            if (object.getLifetime() >= exp.getExpirationTime()) {
+                object.getSystem().removeObjects(object);
+                return;
+            }
+        });
     }
 
 }

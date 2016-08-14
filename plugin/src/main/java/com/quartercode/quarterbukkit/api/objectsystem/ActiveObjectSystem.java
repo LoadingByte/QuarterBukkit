@@ -114,7 +114,7 @@ public class ActiveObjectSystem extends Trait {
             return manualOrigin.clone();
         } else {
             ActiveObjectSystem parentSystem = getObject().getSystem();
-            Vector relativePosition = getObject().get(PhysicsTrait.class).getPosition();
+            Vector relativePosition = getObject().get(PhysicsTrait.class).map(PhysicsTrait::getPosition).orElse(new Vector(0, 0, 0));
             return parentSystem.getOrigin().add(relativePosition);
         }
     }

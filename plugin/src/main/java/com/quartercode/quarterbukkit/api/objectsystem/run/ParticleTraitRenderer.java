@@ -21,6 +21,7 @@ package com.quartercode.quarterbukkit.api.objectsystem.run;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -72,23 +73,17 @@ public class ParticleTraitRenderer extends StatelessRenderer {
     @Override
     public void render(Plugin plugin, long dt, BaseObject object) {
 
-        if (!object.has(ParticleTrait.class)) {
-            return;
-        }
-
-        if (object.get(ParticleTrait.class).hasSpeedBasedFrequency() && !RenderingUtils.checkSpeedBasedFrequency(object, 0.5F)) {
-            return;
-        }
-
-        spawn(plugin, object);
+        object.get(PhysicsTrait.class, ParticleTrait.class).ifPresent((physics, prtcl) -> {
+            if (!prtcl.hasSpeedBasedFrequency() || RenderingUtils.checkSpeedBasedFrequency(object, 0.5F)) {
+                spawn(plugin, object.getSystem().getOrigin().add(physics.getPosition()), prtcl.getParticles());
+            }
+        });
     }
 
-    private void spawn(Plugin plugin, BaseObject object) {
-
-        Location location = object.getSystem().getOrigin().add(object.get(PhysicsTrait.class).getPosition());
+    private void spawn(Plugin plugin, Location location, Collection<ParticleDefinition> particles) {
 
         try {
-            for (ParticleDefinition particle : object.get(ParticleTrait.class).getParticles()) {
+            for (ParticleDefinition particle : particles) {
                 sendPacket(location.getWorld(), createPacket(particle, location));
             }
         } catch (RuntimeException e) {
