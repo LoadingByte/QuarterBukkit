@@ -45,6 +45,35 @@ public class FireworkTrait extends Trait {
     private boolean                                    speedBasedFrequency = true;
 
     /**
+     * Creates a new firework trait which doesn't have any {@link FireworkEffectDefinition}s yet.
+     */
+    public FireworkTrait() {
+
+    }
+
+    /**
+     * Creates a new firework trait with the given {@link FireworkEffectDefinition}s that define how the spawned fireworks look like when they explode.
+     * Those effects will be applied to each spawned firework.
+     *
+     * @param effects The firework effect definitions that should be used.
+     */
+    public FireworkTrait(FireworkEffectDefinition... effects) {
+
+        addEffects(effects);
+    }
+
+    /**
+     * Creates a new firework trait with the given {@link FireworkEffectDefinition}s that define how the spawned fireworks look like when they explode.
+     * Those effects will be applied to each spawned firework.
+     *
+     * @param effects The firework effect definitions that should be used.
+     */
+    public FireworkTrait(Collection<FireworkEffectDefinition> effects) {
+
+        addEffects(effects);
+    }
+
+    /**
      * Returns the approximate height all spawned fireworks will fly.
      *
      * @return The approximate flight height.

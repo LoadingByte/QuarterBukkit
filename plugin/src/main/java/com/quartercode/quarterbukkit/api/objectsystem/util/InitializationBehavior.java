@@ -38,8 +38,6 @@ public class InitializationBehavior extends BehaviorWrapper<ActiveObjectSystem> 
     public InitializationBehavior(Behavior<? super ActiveObjectSystem> wrappedBehavior) {
 
         super(wrappedBehavior);
-
-        new InitializationBehavior((dt, activeSystem) -> System.out.println(dt));
     }
 
     @Override

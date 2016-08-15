@@ -110,7 +110,7 @@ public class ActiveObjectSystem extends Trait {
      */
     public Location getOrigin() {
 
-        if (isNested()) {
+        if (!isNested()) {
             return manualOrigin.clone();
         } else {
             ActiveObjectSystem parentSystem = getObject().getSystem();
@@ -157,11 +157,13 @@ public class ActiveObjectSystem extends Trait {
      * Their behavior is defined by the system's {@link ObjectSystemDefinition}.
      *
      * @param objects The objects that should be added to the active system.
+     * @return This object.
      * @throws IllegalStateException If one of the given objects is already part of another active object system.
      */
-    public void addObjects(BaseObject... objects) {
+    public ActiveObjectSystem addObjects(BaseObject... objects) {
 
         addObjects(Arrays.asList(objects));
+        return this;
     }
 
     /**
@@ -169,9 +171,10 @@ public class ActiveObjectSystem extends Trait {
      * Their behavior is defined by the system's {@link ObjectSystemDefinition}.
      *
      * @param objects The objects that should be added to the active system.
+     * @return This object.
      * @throws IllegalStateException If one of the given objects is already part of another active object system.
      */
-    public void addObjects(Collection<BaseObject> objects) {
+    public ActiveObjectSystem addObjects(Collection<BaseObject> objects) {
 
         Validate.noNullElements(objects, "Cannot add null objects to active object system");
 
@@ -188,24 +191,29 @@ public class ActiveObjectSystem extends Trait {
         for (BaseObject object : objects) {
             object.setSystem(this);
         }
+
+        return this;
     }
 
     /**
      * Removes the given objects, which must implement {@link BaseObject}, from the active system in order to stop them from being simulated.
      *
      * @param objects The objects that should be removed from the active system.
+     * @return This object.
      */
-    public void removeObjects(BaseObject... objects) {
+    public ActiveObjectSystem removeObjects(BaseObject... objects) {
 
         removeObjects(Arrays.asList(objects));
+        return this;
     }
 
     /**
      * Removes the given objects, which must implement {@link BaseObject}, from the active system in order to stop them from being simulated.
      *
      * @param objects The objects that should be removed from the active system.
+     * @return This object.
      */
-    public void removeObjects(Collection<BaseObject> objects) {
+    public ActiveObjectSystem removeObjects(Collection<BaseObject> objects) {
 
         this.objects.removeAll(objects);
 
@@ -213,6 +221,8 @@ public class ActiveObjectSystem extends Trait {
         for (BaseObject object : objects) {
             object.setSystem(null);
         }
+
+        return this;
     }
 
     /**

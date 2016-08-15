@@ -56,11 +56,13 @@ public class ObjectSystemDefinition {
      * Such behaviors typically either affect all objects or add/remove objects from/to the active system.
      *
      * @param behaviors The global behaviors that should be added to the defined object system.
+     * @return This object.
      */
     @SafeVarargs
-    public final void addBehaviors(Behavior<ActiveObjectSystem>... behaviors) {
+    public final ObjectSystemDefinition addBehaviors(Behavior<ActiveObjectSystem>... behaviors) {
 
         addBehaviors(Arrays.asList(behaviors));
+        return this;
     }
 
     /**
@@ -68,11 +70,13 @@ public class ObjectSystemDefinition {
      * Such behaviors typically either affect all objects or add/remove objects from/to the active system.
      *
      * @param behaviors The global behaviors that should be added to the defined object system.
+     * @return This object.
      */
-    public void addBehaviors(List<Behavior<ActiveObjectSystem>> behaviors) {
+    public ObjectSystemDefinition addBehaviors(List<Behavior<ActiveObjectSystem>> behaviors) {
 
         Validate.noNullElements(behaviors, "Cannot add null behaviors to object system definition");
         this.behaviors.addAll(behaviors);
+        return this;
     }
 
     /**
@@ -80,11 +84,13 @@ public class ObjectSystemDefinition {
      * Such behaviors typically either affect all objects or add/remove objects from/to the active system.
      *
      * @param behaviors The global behaviors that should be removed from the defined object system.
+     * @return This object.
      */
     @SafeVarargs
-    public final void removeBehaviors(Behavior<ActiveObjectSystem>... behaviors) {
+    public final ObjectSystemDefinition removeBehaviors(Behavior<ActiveObjectSystem>... behaviors) {
 
         removeBehaviors(Arrays.asList(behaviors));
+        return this;
     }
 
     /**
@@ -92,10 +98,12 @@ public class ObjectSystemDefinition {
      * Such behaviors typically either affect all objects or add/remove objects from/to the active system.
      *
      * @param behaviors The global behaviors that should be removed from the defined object system.
+     * @return This object.
      */
-    public void removeBehaviors(List<Behavior<ActiveObjectSystem>> behaviors) {
+    public ObjectSystemDefinition removeBehaviors(List<Behavior<ActiveObjectSystem>> behaviors) {
 
         this.behaviors.removeAll(behaviors);
+        return this;
     }
 
     @Override

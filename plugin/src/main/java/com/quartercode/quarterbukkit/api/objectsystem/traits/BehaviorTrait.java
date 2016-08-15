@@ -20,6 +20,7 @@ package com.quartercode.quarterbukkit.api.objectsystem.traits;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.Validate;
@@ -44,6 +45,42 @@ public class BehaviorTrait extends Trait {
     private final List<Behavior<BaseObject>> behaviors = new ArrayList<>();
 
     /**
+     * Creates a new behavior trait which doesn't have any object-specific {@link Behavior}s yet.
+     */
+    public BehaviorTrait() {
+
+    }
+
+    /**
+     * Creates a new behavior trait with the given object-specific {@link Behavior}s, which are responsible for controlling the behavior of the single {@link BaseObject object} this trait will be part
+     * of.
+     * Although it might sound dumb at first, such behaviors can still use data from or even affect other objects in the {@link ActiveObjectSystem active system}.
+     * For example, you could attach a "gravity" behavior to an object so that it pulls all other physical objects inside the system to it.
+     * Remember that you can access the system an object is part of using {@link BaseObject#getSystem()}.
+     *
+     * @param behaviors The object-specific behaviors that should be used for this trait, which makes them apply to the object this trait will be part of.
+     */
+    @SafeVarargs
+    public BehaviorTrait(Behavior<BaseObject>... behaviors) {
+
+        addBehaviors(behaviors);
+    }
+
+    /**
+     * Creates a new behavior trait with the given object-specific {@link Behavior}s, which are responsible for controlling the behavior of the single {@link BaseObject object} this trait will be part
+     * of.
+     * Although it might sound dumb at first, such behaviors can still use data from or even affect other objects in the {@link ActiveObjectSystem active system}.
+     * For example, you could attach a "gravity" behavior to an object so that it pulls all other physical objects inside the system to it.
+     * Remember that you can access the system an object is part of using {@link BaseObject#getSystem()}.
+     *
+     * @param behaviors The object-specific behaviors that should be used for this trait, which makes them apply to the object this trait will be part of.
+     */
+    public BehaviorTrait(Collection<Behavior<BaseObject>> behaviors) {
+
+        addBehaviors(behaviors);
+    }
+
+    /**
      * Returns the object-specific {@link Behavior}s, which are responsible for controlling the behavior of the single {@link BaseObject object} this trait is part of.
      * Although it might sound dumb at first, such behaviors can still use data from or even affect other objects in the {@link ActiveObjectSystem active system}.
      * For example, you could attach a "gravity" behavior to an object so that it pulls all other physical objects inside the system to it.
@@ -63,11 +100,13 @@ public class BehaviorTrait extends Trait {
      * Remember that you can access the system an object is part of using {@link BaseObject#getSystem()}.
      *
      * @param behaviors The object-specific behaviors that should be added to this trait, which makes them apply to the object this trait is actually part of.
+     * @return This object.
      */
     @SafeVarargs
-    public final void addBehaviors(Behavior<BaseObject>... behaviors) {
+    public final BehaviorTrait addBehaviors(Behavior<BaseObject>... behaviors) {
 
         addBehaviors(Arrays.asList(behaviors));
+        return this;
     }
 
     /**
@@ -77,11 +116,13 @@ public class BehaviorTrait extends Trait {
      * Remember that you can access the system an object is part of using {@link BaseObject#getSystem()}.
      *
      * @param behaviors The object-specific behaviors that should be added to this trait, which makes them apply to the object this trait is actually part of.
+     * @return This object.
      */
-    public void addBehaviors(List<Behavior<BaseObject>> behaviors) {
+    public BehaviorTrait addBehaviors(Collection<Behavior<BaseObject>> behaviors) {
 
         Validate.noNullElements(behaviors, "Cannot add null behaviors to object system definition");
         this.behaviors.addAll(behaviors);
+        return this;
     }
 
     /**
@@ -91,11 +132,13 @@ public class BehaviorTrait extends Trait {
      * Remember that you can access the system an object is part of using {@link BaseObject#getSystem()}.
      *
      * @param behaviors The object-specific behaviors that should be removed from this trait, which results in them no longer applying to the object this trait is actually part of.
+     * @return This object.
      */
     @SafeVarargs
-    public final void removeBehaviors(Behavior<BaseObject>... behaviors) {
+    public final BehaviorTrait removeBehaviors(Behavior<BaseObject>... behaviors) {
 
         removeBehaviors(Arrays.asList(behaviors));
+        return this;
     }
 
     /**
@@ -105,10 +148,12 @@ public class BehaviorTrait extends Trait {
      * Remember that you can access the system an object is part of using {@link BaseObject#getSystem()}.
      *
      * @param behaviors The object-specific behaviors that should be removed from this trait, which results in them no longer applying to the object this trait is actually part of.
+     * @return This object.
      */
-    public void removeBehaviors(List<Behavior<BaseObject>> behaviors) {
+    public BehaviorTrait removeBehaviors(Collection<Behavior<BaseObject>> behaviors) {
 
         this.behaviors.removeAll(behaviors);
+        return this;
     }
 
 }

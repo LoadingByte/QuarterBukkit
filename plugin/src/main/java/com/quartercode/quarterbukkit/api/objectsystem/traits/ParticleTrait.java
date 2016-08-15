@@ -42,6 +42,35 @@ public class ParticleTrait extends Trait {
     private boolean                              speedBasedFrequency = true;
 
     /**
+     * Creates a new particle trait which doesn't have any {@link ParticleDefinition}s yet.
+     */
+    public ParticleTrait() {
+
+    }
+
+    /**
+     * Creates a new particle trait with the given {@link ParticleDefinition}s that define some more particles that should be spawned.
+     * Those particles will be spawned each time the object system is updated.
+     *
+     * @param particles The particle definitions that should be used.
+     */
+    public ParticleTrait(ParticleDefinition... particles) {
+
+        addParticles(particles);
+    }
+
+    /**
+     * Creates a new particle trait with the given {@link ParticleDefinition}s that define some more particles that should be spawned.
+     * Those particles will be spawned each time the object system is updated.
+     *
+     * @param particles The particle definitions that should be used.
+     */
+    public ParticleTrait(Collection<ParticleDefinition> particles) {
+
+        addParticles(particles);
+    }
+
+    /**
      * Returns the {@link ParticleDefinition}s that define the particles that should be spawned.
      * All particles will be spawned each time the object system is updated.
      *

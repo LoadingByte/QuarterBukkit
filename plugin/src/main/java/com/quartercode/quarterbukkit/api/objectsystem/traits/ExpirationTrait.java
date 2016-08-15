@@ -35,6 +35,18 @@ public class ExpirationTrait extends Trait {
     private long expirationTime;
 
     /**
+     * Creates a new expiration trait for an object that expires and is removed from its {@link ActiveObjectSystem} after the given amount of milliseconds.
+     * For example, if the expiration time is {@code 2000}, the object is removed after 2 seconds.
+     * Note that this time can be set to a value smaller than the object's {@link BaseObject#getLifetime() lifetime}, in which case the object will be removed instantly during the next update.
+     *
+     * @param expirationTime The expiration time of the object in milliseconds.
+     */
+    public ExpirationTrait(long expirationTime) {
+
+        this.expirationTime = expirationTime;
+    }
+
+    /**
      * Returns the amount of milliseconds after which the object expires and is removed from its {@link ActiveObjectSystem}.
      * For example, if the expiration time is {@code 2000}, the object is removed after 2 seconds.
      *

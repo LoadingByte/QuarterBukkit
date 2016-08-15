@@ -77,7 +77,7 @@ public class BiOptional<A, B> {
      */
     public static <A, B> BiOptional<A, B> ofNullables(A value1, B value2) {
 
-        return value1 == null && value2 == null ? empty() : of(value1, value2);
+        return value1 == null || value2 == null ? empty() : of(value1, value2);
     }
 
     private final A value1;

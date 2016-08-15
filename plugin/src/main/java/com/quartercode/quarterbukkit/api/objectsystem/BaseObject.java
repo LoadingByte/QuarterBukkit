@@ -71,25 +71,6 @@ public class BaseObject {
     }
 
     /**
-     * Returns for all given trait types whether this object contains a {@link Trait} that is an instance or a subclass of the given type.
-     * For example, this method could be used to check whether an object has some kind of physics trait attached to it.
-     *
-     * @param traitTypes The types of trait you want to look for, as a class object.
-     * @return Whether this object contains a trait that fulfills the given type for all given types.
-     */
-    @SafeVarargs
-    public final boolean has(Class<? extends Trait>... traitTypes) {
-
-        for (Class<? extends Trait> traitType : traitTypes) {
-            if (get(traitType).isPresent()) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
      * Returns all {@link Trait}s which specialize this very object.
      * You will probably never use this method. Consider using {@link #get(Class)} instead.
      *
@@ -152,6 +133,25 @@ public class BaseObject {
     }
 
     /**
+     * Returns for all given trait types whether this object contains a {@link Trait} that is an instance or a subclass of the given type.
+     * For example, this method could be used to check whether an object has some kind of physics trait attached to it.
+     *
+     * @param traitTypes The types of trait you want to look for, as a class object.
+     * @return Whether this object contains a trait that fulfills the given type for all given types.
+     */
+    @SafeVarargs
+    public final boolean has(Class<? extends Trait>... traitTypes) {
+
+        for (Class<? extends Trait> traitType : traitTypes) {
+            if (!get(traitType).isPresent()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Adds the given {@link Trait}s to the object so that they specialize it more.
      * If any of the traits defines {@link TraitDependencies dependencies on other traits}, those dependencies are immediately checked.
      * In case some dependency of some trait wouldn't be fulfilled after the addition completed, the whole operation is aborted.
@@ -187,7 +187,7 @@ public class BaseObject {
 
             for (Class<? extends Trait> dependency : getTraitDependencies(newTrait.getClass())) {
                 if (!has(dependency) && getTraitWithCustomCollection(traits, dependency) == null) {
-                    throw new IllegalStateException("The dependency of the trait '" + newTrait.getClass().getName() + "' on '" + dependency.getClass().getName() + "' cannot be fulfilled");
+                    throw new IllegalStateException("The dependency of the trait '" + newTrait.getClass().getName() + "' on '" + dependency.getName() + "' cannot be fulfilled");
                 }
             }
         }
@@ -235,7 +235,7 @@ public class BaseObject {
         for (Trait remainingTrait : remainingTraits) {
             for (Class<? extends Trait> dependency : getTraitDependencies(remainingTrait.getClass())) {
                 if (getTraitWithCustomCollection(remainingTraits, dependency) == null) {
-                    throw new IllegalStateException("The dependency of the trait '" + remainingTrait.getClass().getName() + "' on '" + dependency.getClass().getName() + "' could no longer be fulfilled because the dependency should be removed");
+                    throw new IllegalStateException("The dependency of the trait '" + remainingTrait.getClass().getName() + "' on '" + dependency.getName() + "' could no longer be fulfilled because the dependency should be removed");
                 }
             }
         }
