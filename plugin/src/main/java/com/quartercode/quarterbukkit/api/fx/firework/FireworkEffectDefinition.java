@@ -16,32 +16,81 @@
  * along with QuarterBukkit-Plugin. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.quartercode.quarterbukkit.api.objectsystem.traits;
+package com.quartercode.quarterbukkit.api.fx.firework;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
 
 /**
  * This class represents a single effect that is part of the explosion of a firework.
+ * Essentially, this class is a mutable version of the default {@link FireworkEffect} class that comes with Bukkit.
  *
- * @see FireworkTrait
+ * @see FireworkEffect
+ * @see FireworkEffectSpawner
  */
-public class FireworkEffectDefinition implements Cloneable {
+public class FireworkEffectDefinition {
 
-    private Type                    type;
-    private boolean                 flicker;
-    private boolean                 trail;
-    private final Collection<Color> colors     = new ArrayList<>();
-    private final Collection<Color> fadeColors = new ArrayList<>();
+    private Type              type;
+    private boolean           flicker;
+    private boolean           trail;
+    private final List<Color> colors     = new ArrayList<>();
+    private final List<Color> fadeColors = new ArrayList<>();
+
+    /**
+     * Creates a new empty firework effect definition.
+     */
+    public FireworkEffectDefinition() {
+
+    }
+
+    /**
+     * Creates a new firework effect definition with the given {@link Type}.
+     *
+     * @param type The firework effect type.
+     */
+    public FireworkEffectDefinition(Type type) {
+
+        this.type = type;
+    }
+
+    /**
+     * Creates a new firework effect definition that uses the information which is stored inside the given {@link FireworkEffectDefinition}.
+     *
+     * @param from The firework effect definition to copy the initial information from.
+     */
+    public FireworkEffectDefinition(FireworkEffectDefinition from) {
+
+        type = from.getType();
+        flicker = from.hasFlicker();
+        trail = from.hasTrail();
+        colors.addAll(from.getColors());
+        fadeColors.addAll(from.getFadeColors());
+    }
+
+    /**
+     * Creates a new firework effect definition that uses the information which is stored inside the given {@link FireworkEffect}.
+     *
+     * @param from The Bukkit firework effect to copy the initial information from.
+     */
+    public FireworkEffectDefinition(FireworkEffect from) {
+
+        type = from.getType();
+        flicker = from.hasFlicker();
+        trail = from.hasTrail();
+        colors.addAll(from.getColors());
+        fadeColors.addAll(from.getFadeColors());
+    }
 
     /**
      * Returns the {@link Type} of the defined firework effect.
@@ -120,9 +169,9 @@ public class FireworkEffectDefinition implements Cloneable {
      *
      * @return The primary firework particle colors.
      */
-    public Collection<Color> getColors() {
+    public List<Color> getColors() {
 
-        return Collections.unmodifiableCollection(colors);
+        return Collections.unmodifiableList(colors);
     }
 
     /**
@@ -183,9 +232,9 @@ public class FireworkEffectDefinition implements Cloneable {
      *
      * @return The secondary firework particle colors.
      */
-    public Collection<Color> getFadeColors() {
+    public List<Color> getFadeColors() {
 
-        return Collections.unmodifiableCollection(fadeColors);
+        return Collections.unmodifiableList(fadeColors);
     }
 
     /**
@@ -241,10 +290,20 @@ public class FireworkEffectDefinition implements Cloneable {
         return this;
     }
 
-    @Override
-    public FireworkEffectDefinition clone() {
+    /**
+     * Converts this firework effect definition into a native Bukkit {@link FireworkEffect}.
+     *
+     * @return The Bukkit firework effect which contains this definition's information.
+     */
+    public FireworkEffect toBukkit() {
 
-        return new FireworkEffectDefinition().setType(type).addColors(colors).addFadeColors(fadeColors);
+        FireworkEffect.Builder builder = FireworkEffect.builder();
+        builder.with(type);
+        builder.flicker(flicker);
+        builder.trail(trail);
+        builder.withColor(colors);
+        builder.withFade(fadeColors);
+        return builder.build();
     }
 
     @Override

@@ -23,12 +23,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import org.apache.commons.lang.Validate;
+import com.quartercode.quarterbukkit.api.fx.particle.ParticleDefinition;
 import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
 import com.quartercode.quarterbukkit.api.objectsystem.Trait;
 import com.quartercode.quarterbukkit.api.objectsystem.TraitDependencies;
 
 /**
- * A {@link Trait} that makes its {@link BaseObject object} spawn minecraft particle wherever it currently is.
+ * A {@link Trait} that makes its {@link BaseObject object} spawn Minecraft particle wherever it currently is.
  * The goal is to support all possible particles.<br>
  * <br>
  * <b>Trait dependencies:</b> {@link PhysicsTrait}

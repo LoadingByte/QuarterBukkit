@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import org.apache.commons.lang.Validate;
+import com.quartercode.quarterbukkit.api.fx.firework.FireworkEffectDefinition;
 import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
 import com.quartercode.quarterbukkit.api.objectsystem.Trait;
 import com.quartercode.quarterbukkit.api.objectsystem.TraitDependencies;
@@ -93,7 +94,7 @@ public class FireworkTrait extends Trait {
      */
     public FireworkTrait setPower(int power) {
 
-        Validate.isTrue(power >= 0 && power <= 128, "Firework trait power must be > 0");
+        Validate.isTrue(power >= 0 && power <= 128, "Firework trait power must be >= 0 and <= 128");
         this.power = power;
         return this;
     }

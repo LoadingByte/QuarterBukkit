@@ -16,16 +16,16 @@
  * along with QuarterBukkit-Plugin. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.quartercode.quarterbukkit.api.objectsystem.traits;
+package com.quartercode.quarterbukkit.api.fx.particle;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.util.Vector;
 
 /**
- * This class represents a single particle that is spawned at the location of its parent {@link ParticleTrait}.
- * Almost all particle effects provided by minecraft are supported using this class.
+ * This class represents a single particle that can spawned in the Minecraft world.
+ * Almost all particle effects provided by Minecraft are supported by this class.
  *
- * @see ParticleTrait
+ * @see ParticleType
  */
 public class ParticleDefinition {
 
@@ -84,7 +84,7 @@ public class ParticleDefinition {
     }
 
     /**
-     * Returns the {@link Vector} that defines how far away from the {@link ParticleTrait} position particles can spawn.
+     * Returns the {@link Vector} that defines how far away from the spawning position particles can appear.
      * For example, if the x component of the vector is 2, the particle can spawn up to 2 blocks above or below the position of the object.
      * The amount property is useful in combination with the spread vector (see {@link #getAmount()}).
      *
@@ -96,7 +96,7 @@ public class ParticleDefinition {
     }
 
     /**
-     * Sets the {@link Vector} that defines how far away from the {@link ParticleTrait} position particles can spawn.
+     * Sets the {@link Vector} that defines how far away from the spawning position particles can appear.
      * For example, if the x component of the vector is 2, the particle can spawn up to 2 blocks above or below the position of the object.
      * The amount property is useful in combination with the spread vector (see {@link #setAmount(int)}).
      *

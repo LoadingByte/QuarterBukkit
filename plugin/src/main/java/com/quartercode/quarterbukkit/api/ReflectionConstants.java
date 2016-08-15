@@ -16,7 +16,7 @@
  * along with QuarterBukkit-Plugin. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.quartercode.quarterbukkit.api.objectsystem.run;
+package com.quartercode.quarterbukkit.api;
 
 import org.bukkit.Bukkit;
 

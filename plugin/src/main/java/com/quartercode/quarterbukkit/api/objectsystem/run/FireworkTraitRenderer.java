@@ -18,19 +18,12 @@
 
 package com.quartercode.quarterbukkit.api.objectsystem.run;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Location;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Firework;
-import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.plugin.Plugin;
-import com.quartercode.quarterbukkit.api.exception.ExceptionHandler;
-import com.quartercode.quarterbukkit.api.exception.InternalException;
+import com.quartercode.quarterbukkit.api.fx.firework.FireworkEffectDefinition;
+import com.quartercode.quarterbukkit.api.fx.firework.FireworkEffectSpawner;
 import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
-import com.quartercode.quarterbukkit.api.objectsystem.traits.FireworkEffectDefinition;
 import com.quartercode.quarterbukkit.api.objectsystem.traits.FireworkTrait;
 import com.quartercode.quarterbukkit.api.objectsystem.traits.PhysicsTrait;
 
@@ -41,26 +34,6 @@ import com.quartercode.quarterbukkit.api.objectsystem.traits.PhysicsTrait;
  * @see Renderer
  */
 public class FireworkTraitRenderer extends StatelessRenderer {
-
-    private static final Method CRAFT_WORLD__GET_HANDLE;
-    private static final Method CRAFT_FIREWORK__GET_HANDLE;
-    private static final Method NMS_ENTITY__SET_INVISIVBLE;
-    private static final Method NMS_WORLD__BROADCAST_ENTITY_EFFECT;
-
-    static {
-
-        try {
-            CRAFT_WORLD__GET_HANDLE = Class.forName(ReflectionConstants.CB_PACKAGE + ".CraftWorld").getMethod("getHandle");
-            CRAFT_FIREWORK__GET_HANDLE = Class.forName(ReflectionConstants.CB_ENTITY_PACKAGE + ".CraftFirework").getMethod("getHandle");
-
-            Class<?> nmsEntityClass = Class.forName(ReflectionConstants.NMS_PACKAGE + ".Entity");
-            NMS_ENTITY__SET_INVISIVBLE = nmsEntityClass.getMethod("setInvisible", boolean.class);
-            NMS_WORLD__BROADCAST_ENTITY_EFFECT = Class.forName(ReflectionConstants.NMS_PACKAGE + ".World").getMethod("broadcastEntityEffect", nmsEntityClass, byte.class);
-        } catch (Exception e) {
-            throw new RuntimeException("Cannot initialize firework renderer reflection handles", e);
-        }
-
-    }
 
     @Override
     public void render(Plugin plugin, long dt, BaseObject object) {
@@ -85,44 +58,8 @@ public class FireworkTraitRenderer extends StatelessRenderer {
             }
 
             // Actually spawn all effects for this round
-            spawn(plugin, object.getSystem().getOrigin().add(physics.getPosition()), frwk.getPower(), spawnEffects);
+            FireworkEffectSpawner.spawn(object.getSystem().getOrigin().add(physics.getPosition()), frwk.getPower(), spawnEffects);
         });
-    }
-
-    private void spawn(Plugin plugin, Location location, int power, List<FireworkEffectDefinition> spawnEffects) {
-
-        Firework firework = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
-
-        try {
-            Object nmsWorld = CRAFT_WORLD__GET_HANDLE.invoke(firework.getWorld());
-            Object nmsFirework = CRAFT_FIREWORK__GET_HANDLE.invoke(firework);
-            NMS_ENTITY__SET_INVISIVBLE.invoke(nmsFirework, true);
-
-            FireworkMeta meta = firework.getFireworkMeta();
-            applyEffects(meta, spawnEffects);
-            meta.setPower(power);
-            firework.setFireworkMeta(meta);
-
-            NMS_WORLD__BROADCAST_ENTITY_EFFECT.invoke(nmsWorld, nmsFirework, (byte) 17);
-        } catch (Exception e) {
-            ExceptionHandler.exception(new InternalException(plugin, e, "Firework renderer reflection error"));
-        }
-
-        firework.remove();
-    }
-
-    private void applyEffects(FireworkMeta meta, List<FireworkEffectDefinition> effects) {
-
-        meta.clearEffects();
-        for (FireworkEffectDefinition effect : effects) {
-            FireworkEffect.Builder builder = FireworkEffect.builder();
-            builder.with(effect.getType());
-            builder.flicker(effect.hasFlicker());
-            builder.trail(effect.hasTrail());
-            builder.withColor(effect.getColors());
-            builder.withFade(effect.getFadeColors());
-            meta.addEffect(builder.build());
-        }
     }
 
 }

@@ -16,10 +16,10 @@
  * along with QuarterBukkit-Plugin. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.quartercode.quarterbukkit.api.objectsystem.traits;
+package com.quartercode.quarterbukkit.api.fx.particle;
 
 /**
- * An enumeration containing the different particle types that can be spawned by a {@link ParticleTrait}.
+ * An enumeration containing the different particle types that can be spawned in Minecraft.
  * Note that some particles support a parameter.
  * If that's the case, it is explicitly mentioned in the particle description and can be set in the {@link ParticleDefinition}.<br>
  * <br>
@@ -261,7 +261,7 @@ public enum ParticleType {
 
     /**
      * Returns the name of the particle type.
-     * It is internally used by the minecraft client to select and render the particle.
+     * It is internally used by the Minecraft client to select and render the particle.
      *
      * @return The particle name.
      */
@@ -272,7 +272,7 @@ public enum ParticleType {
 
     /**
      * Returns whether the particle types allows a parameter to be sent.
-     * The parameter changes the look or the behavior of the particle on the minecraft client.
+     * The parameter changes the look or the behavior of the particle on the Minecraft client.
      *
      * @return Whether a particle parameter is allowed.
      */
