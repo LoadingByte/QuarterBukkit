@@ -25,10 +25,10 @@ package com.quartercode.quarterbukkit.api;
 public class MathUtil {
 
     /**
-     * Convert milliseconds to minecraft ticks.
+     * Convert milliseconds to Minecraft ticks.
      *
      * @param millis The milliseconds.
-     * @return The minecraft ticks.
+     * @return The Minecraft ticks.
      */
     public static long getTicks(long millis) {
 
@@ -36,9 +36,9 @@ public class MathUtil {
     }
 
     /**
-     * Convert minecraft ticks to milliseconds.
+     * Convert Minecraft ticks to milliseconds.
      *
-     * @param ticks The minecraft ticks.
+     * @param ticks The Minecraft ticks.
      * @return The milliseconds.
      */
     public static long getMillis(long ticks) {

@@ -22,18 +22,16 @@ import java.io.File;
 import java.io.IOException;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
+import com.quartercode.quarterbukkit.QuarterBukkit;
 import com.quartercode.quarterbukkit.api.exception.ExceptionHandler;
 import com.quartercode.quarterbukkit.api.exception.GameException;
 
 public class Config extends YamlConfiguration {
 
-    private final Plugin plugin;
-    private final File   file;
+    private final File file;
 
-    public Config(Plugin plugin, File file) {
+    public Config(File file) {
 
-        this.plugin = plugin;
         this.file = file;
 
         if (file.exists()) {
@@ -50,9 +48,9 @@ public class Config extends YamlConfiguration {
         try {
             super.load(file);
         } catch (IOException e) {
-            ExceptionHandler.exception(new GameException(plugin, "Can't load QuarterBukkit config (" + e + ")"));
+            ExceptionHandler.exception(new GameException(QuarterBukkit.getPlugin(), "Can't load QuarterBukkit config (" + e + ")"));
         } catch (InvalidConfigurationException e) {
-            ExceptionHandler.exception(new GameException(plugin, "Invalid QuarterBukkit config (" + e + ")"));
+            ExceptionHandler.exception(new GameException(QuarterBukkit.getPlugin(), "Invalid QuarterBukkit config (" + e + ")"));
         }
     }
 
@@ -62,7 +60,7 @@ public class Config extends YamlConfiguration {
         try {
             super.save(file);
         } catch (IOException e) {
-            ExceptionHandler.exception(new GameException(plugin, "Can't save QuarterBukkit config (" + e + ")"));
+            ExceptionHandler.exception(new GameException(QuarterBukkit.getPlugin(), "Can't save QuarterBukkit config (" + e + ")"));
         }
     }
 

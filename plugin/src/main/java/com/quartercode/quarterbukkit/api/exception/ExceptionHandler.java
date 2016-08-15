@@ -19,12 +19,12 @@
 package com.quartercode.quarterbukkit.api.exception;
 
 import java.util.logging.Level;
-import org.bukkit.Bukkit;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.AuthorNagException;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredListener;
+import com.quartercode.quarterbukkit.QuarterBukkit;
 
 /**
  * A utility class for handling event exceptions ({@link GameException}s).
@@ -70,10 +70,10 @@ public class ExceptionHandler {
 
                 if (plugin.isNaggable()) {
                     plugin.setNaggable(false);
-                    Bukkit.getLogger().log(Level.SEVERE, String.format("Nag author(s): '%s' of '%s' about the following: %s", new Object[] { plugin.getDescription().getAuthors(), plugin.getDescription().getFullName(), e.getMessage() }));
+                    QuarterBukkit.getLog().log(Level.SEVERE, String.format("Nag author(s): '%s' of '%s' about the following: %s", new Object[] { plugin.getDescription().getAuthors(), plugin.getDescription().getFullName(), e.getMessage() }));
                 }
             } catch (Exception e) {
-                Bukkit.getLogger().log(Level.SEVERE, "Could not pass exception " + exception.getEventName() + " to " + registration.getPlugin().getDescription().getFullName(), e);
+                QuarterBukkit.getLog().log(Level.SEVERE, "Could not pass exception " + exception.getEventName() + " to " + registration.getPlugin().getDescription().getFullName(), e);
             }
         }
     }

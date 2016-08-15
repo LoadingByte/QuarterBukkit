@@ -28,6 +28,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
+import com.quartercode.quarterbukkit.QuarterBukkit;
 import com.quartercode.quarterbukkit.api.exception.ExceptionHandler;
 import com.quartercode.quarterbukkit.api.exception.InternalException;
 import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
@@ -87,7 +88,7 @@ public class ParticleTraitRenderer extends StatelessRenderer {
                 sendPacket(location.getWorld(), createPacket(particle, location));
             }
         } catch (RuntimeException e) {
-            ExceptionHandler.exception(new InternalException(plugin, e, "Particle renderer reflection error"));
+            ExceptionHandler.exception(new InternalException(QuarterBukkit.getPlugin(), e, "Particle renderer reflection error"));
         }
     }
 

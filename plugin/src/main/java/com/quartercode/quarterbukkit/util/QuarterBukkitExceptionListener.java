@@ -18,37 +18,33 @@
 
 package com.quartercode.quarterbukkit.util;
 
-import org.bukkit.Bukkit;
+import java.util.logging.Level;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
+import com.quartercode.quarterbukkit.QuarterBukkit;
 import com.quartercode.quarterbukkit.api.exception.InstallException;
 import com.quartercode.quarterbukkit.api.exception.InternalException;
 
 public class QuarterBukkitExceptionListener implements Listener {
 
-    private final Plugin plugin;
-
-    public QuarterBukkitExceptionListener(Plugin plugin) {
-
-        this.plugin = plugin;
-
-        Bukkit.getPluginManager().registerEvents(this, plugin);
-    }
-
     @EventHandler
     public void installException(InstallException exception) {
 
-        if (exception.getCauser() != null) {
-            exception.getCauser().sendMessage(ChatColor.RED + "Can't update " + plugin.getName() + ": " + exception.getMessage());
-            if (exception.getCause() != null) {
-                exception.getCauser().sendMessage(ChatColor.RED + "Reason: " + exception.getCause().toString());
-            }
-        } else {
-            plugin.getLogger().warning("Can't update " + plugin.getName() + ": " + exception.getMessage());
-            if (exception.getCause() != null) {
-                plugin.getLogger().warning("Reason: " + exception.getCause().toString());
+        if (exception.getPlugin().equals(QuarterBukkit.getPlugin())) {
+            Plugin plugin = exception.getPlugin();
+
+            if (exception.getCauser() != null) {
+                exception.getCauser().sendMessage(ChatColor.RED + "Can't update " + plugin.getName() + ": " + exception.getMessage());
+                if (exception.getCause() != null) {
+                    exception.getCauser().sendMessage(ChatColor.RED + "Reason: " + exception.getCause().toString());
+                }
+            } else {
+                plugin.getLogger().warning("Can't update " + plugin.getName() + ": " + exception.getMessage());
+                if (exception.getCause() != null) {
+                    plugin.getLogger().log(Level.WARNING, "Reason:", exception.getCause());
+                }
             }
         }
     }
@@ -56,7 +52,7 @@ public class QuarterBukkitExceptionListener implements Listener {
     @EventHandler
     public void internalException(InternalException exception) {
 
-        exception.getCause().printStackTrace();
+        QuarterBukkit.getLog().log(Level.SEVERE, "The plugin " + exception.getPlugin().getName() + " caused an internal exception", exception.getCause());
     }
 
 }

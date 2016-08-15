@@ -10,7 +10,7 @@
     <artifactId>quarterbukkit-plugin</artifactId>
 
     <name>QuarterBukkit-Plugin</name>
-    <description>The main QuarterBukkit plugin which is is essentially a bukkit plugin jar.</description>
+    <description>The main QuarterBukkit plugin which is is essentially a Bukkit plugin jar.</description>
 
     <dependencies>
         <!-- MCStats -->

@@ -24,15 +24,9 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockRedstoneEvent;
-import org.bukkit.plugin.Plugin;
 import com.quartercode.quarterbukkit.api.event.RedstoneToggleEvent;
 
 public class CustomEventListener implements Listener {
-
-    public CustomEventListener(Plugin plugin) {
-
-        Bukkit.getPluginManager().registerEvents(this, plugin);
-    }
 
     @EventHandler
     public void onRedstoneBlockChange(BlockRedstoneEvent event) {

@@ -20,6 +20,8 @@ package com.quartercode.quarterbukkit;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Logger;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.MetricsLite;
@@ -46,6 +48,16 @@ public class QuarterBukkit extends JavaPlugin {
         return plugin;
     }
 
+    /**
+     * Returns the {@link Logger} provided by the current QuarterBukkit {@link Plugin} instance.
+     *
+     * @return The current QuarterBukkit logger.
+     */
+    public static Logger getLog() {
+
+        return plugin.getLogger();
+    }
+
     private Config      config;
     private MetricsLite metrics;
 
@@ -64,11 +76,11 @@ public class QuarterBukkit extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        // Internal Exceptions
-        new QuarterBukkitExceptionListener(this);
+        // Internal exceptions
+        Bukkit.getPluginManager().registerEvents(new QuarterBukkitExceptionListener(), plugin);
 
         // Config
-        config = new Config(this, new File(getDataFolder(), "config.yml"));
+        config = new Config(new File(getDataFolder(), "config.yml"));
 
         // Autoupdate of the API plugin
         if (config.getBoolean("autoupdate")) {
@@ -90,7 +102,7 @@ public class QuarterBukkit extends JavaPlugin {
         }
 
         // Custom events
-        new CustomEventListener(this);
+        Bukkit.getPluginManager().registerEvents(new CustomEventListener(), this);
     }
 
     @Override

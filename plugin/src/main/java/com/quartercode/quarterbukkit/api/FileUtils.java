@@ -200,7 +200,7 @@ public class FileUtils {
                 try {
                     closeable.close();
                 } catch (IOException e) {
-                    QuarterBukkit.getPlugin().getLogger().log(Level.SEVERE, "Unexpected exception while closing resource", e);
+                    QuarterBukkit.getLog().log(Level.SEVERE, "Unexpected exception while closing resource", e);
                 }
             }
         }

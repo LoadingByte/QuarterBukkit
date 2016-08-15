@@ -35,9 +35,9 @@ public class ReflectionConstants {
     public static final String PACKAGE_VERSION   = Bukkit.getServer().getClass().getPackage().getName().substring(23);
 
     /**
-     * The minor version number of the current minecraft version the server implements.
+     * The minor version number of the current Minecraft version the server implements.
      * The minor component is the second part of the version string.
-     * For example, the minor version number of the minecraft version {@code 1.7.10} would be {@code 7}.
+     * For example, the minor version number of the Minecraft version {@code 1.7.10} would be {@code 7}.
      */
     public static final int    MINOR_VERSION     = Integer.parseInt(PACKAGE_VERSION.split("_")[1]);
 
