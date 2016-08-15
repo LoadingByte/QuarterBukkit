@@ -4,22 +4,24 @@
 ### Additions
 * Previously, all object systems were updated each tick. That, however, resulted in problems with both accurate physics simulation as well as finer-graned time resolutions. The new system informs everybody about the passed time &Delta;t and even allows for discrete time steps smaller than the length of a tick.
 * Overall simplified the generics used by the object system API.
-* Added a new abstract `SourceWrapper` class which is analog to the already existing `ModifierWrapper` class to the object system API.
-* Added some preset sources to the object system API.
-* Added some more preset modifiers and modification appliers.
+* Added traits to object system objects. Objects are now specialized by adding traits (like the physics trait or the particle trait) instead of subclassing the `BaseObject` class. For example, an object is now able to both be a source of fireworks and a source of particles at the same time because you can simply add both traits to the same object.
+* Added the new behavior API to the object system which replaces the previously separate `ModificationRule` and `Source` APIs. It is way more flexible than any of the former APIs and fully leverages the power of Java 8 lambdas. Now, you are free to write your own rule code without having to think in the weird and narrow terms of a specialized system.
+* The new behavior API not only allows to specify code which will be executed on the entire object system. You can also attach pieces of code to groups of objects (using `CategoryTrait`) or even individual objects (using `BehaviorTrait`) now.
+* Added some new more generic object system utility classes which are now responsible for tasks previously executed using the `ModificationRule` and `Source` APIs. One prominent example is the `Forces` class.
 * Previously, most of the users and -- in some cases -- even the object classes themselves had no clue about the context of an object and were instead faced with just the object on it's own. Now, however, each object stores the `ActiveObjectSystem` it is part of and makes that variable accessible to everyone.
 * Object system renderers no longer need to return a `RenderingResult` in order to remove an object. Instead, they can now remove objects completely by themselves.
-* Active object systems can now be nested. In fact, those systems are now objects as well and can therefore be added to other active object systems.
+* Active object systems can now be nested. In fact, those systems are now traits by themselves and can therefore be added to other objects inside other active systems.
 
 ### Removals
-* Sources are no longer provided with a predefined `java.util.Random` object since it's easy to not use it anyway. As soon as someone does that, the whole idea of reproducibility is lost.
+* Removed the separate `ModificationRule` and `Source` APIs used by the object system in favor of the behavior API.
+* No object system components (e.g. behaviors) are provided with a predefined `java.util.Random` object anymore since it's too easy to not use it. As soon as someone does that, the whole idea of reproducibility is lost.
 
 ### Fixes
 * QuarterBukkit now works with the latest versions of Bukkit for Minecraft 1.10.x.
 
 ### Notes
 * Changed the license to LGPL v3.
-* Updated the plugin to Java 7. That means that Java 6 support has been dropped, and the plugin will no longer work in Java 6 environments.
+* Updated the plugin to Java 8. That means that Java 6 and 7 support has been dropped, and the plugin will no longer work in Java 6 or 7 environments.
 * Some big changes to the object system API will most certainly break existing code. Watch out for that if you used the API in 0.3.x!
 
 0.3.1
