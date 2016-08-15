@@ -11,8 +11,10 @@
 * Previously, most of the users and -- in some cases -- even the object classes themselves had no clue about the context of an object and were instead faced with just the object on it's own. Now, however, each object stores the `ActiveObjectSystem` it is part of and makes that variable accessible to everyone.
 * Object system renderers no longer need to return a `RenderingResult` in order to remove an object. Instead, they can now remove objects completely by themselves.
 * Active object systems can now be nested. In fact, those systems are now traits by themselves and can therefore be added to other objects inside other active systems.
+* Extract the object system particle API and the object system and fireworks API into standalone APIs that can be used to spawn effects without an object system if that just seems overkill.
 
 ### Removals
+* Finally removed the previously deprecated APIs `EquipmentUtil`, `Cuboid` in the root package, and the old firework particle API which was revolutionary at its time.
 * Removed the separate `ModificationRule` and `Source` APIs used by the object system in favor of the behavior API.
 * No object system components (e.g. behaviors) are provided with a predefined `java.util.Random` object anymore since it's too easy to not use it. As soon as someone does that, the whole idea of reproducibility is lost.
 
