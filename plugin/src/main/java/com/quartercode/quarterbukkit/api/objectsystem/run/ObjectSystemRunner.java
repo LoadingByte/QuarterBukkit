@@ -19,18 +19,15 @@
 package com.quartercode.quarterbukkit.api.objectsystem.run;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Callable;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import com.quartercode.quarterbukkit.api.objectsystem.ActiveObjectSystem;
 import com.quartercode.quarterbukkit.api.objectsystem.BaseObject;
 import com.quartercode.quarterbukkit.api.objectsystem.Behavior;
@@ -40,8 +37,6 @@ import com.quartercode.quarterbukkit.api.objectsystem.Behavior;
  */
 public class ObjectSystemRunner {
 
-    private static final Timer       UPDATE_TIMER = new Timer("Timer-ObjectSystemRunner-Update", true);
-
     private final Plugin             plugin;
     private final ActiveObjectSystem objectSystem;
 
@@ -49,9 +44,9 @@ public class ObjectSystemRunner {
     private final long               timeResolution;
     private final boolean            stopWhenNoObjects;
 
-    private TimerTask                updateTask;
+    private BukkitTask               updateTask;
 
-    private long                     lastUpdateTime;                                                   // nanoseconds
+    private long                     lastUpdateTime;   // milliseconds
 
     /**
      * Creates a new object system runner using the given parameters.
@@ -97,44 +92,41 @@ public class ObjectSystemRunner {
         if (running && !isRunning()) {
             lastUpdateTime = -1;
 
-            updateTask = new TimerTask() {
+            new BukkitRunnable() {
 
                 @Override
                 public void run() {
 
-                    // If the plugin got disabled, stop this runner
-                    if (!plugin.isEnabled()) {
-                        setRunning(false);
-                        return;
-                    }
-
+                    // Although we know that 50ms should have elapsed since the last call, we measure elapsed time anyway since lag could influence the scheduler stability
                     long currentTime = System.nanoTime() / 1000 / 1000; // convert from ns to ms
-                    final long dt = lastUpdateTime == -1 ? 0 : currentTime - lastUpdateTime;
-                    lastUpdateTime = currentTime;
 
-                    Bukkit.getScheduler().callSyncMethod(plugin, new Callable<Void>() {
-
-                        @Override
-                        public Void call() throws Exception {
-
-                            updateRecursively(dt, objectSystem);
-
-                            // Stop if "stopWhenNoObjects" is enabled and no objects are found
-                            if (stopWhenNoObjects && !checkNotEmptyRecursively(objectSystem)) {
-                                setRunning(false);
-                            }
-
-                            return null;
+                    if (lastUpdateTime == -1) {
+                        // If this is the first run, initialize "lastUpdateTime" and update the object system with a dt of 0
+                        lastUpdateTime = currentTime;
+                        performUpdate(0);
+                    } else {
+                        // Otherwise, fill up "lastUpdateTime" with as many "timeResolution"s as we can so that it doesn't exceed currentTime, and update with a dt of "timeResolution" each time
+                        while (lastUpdateTime < currentTime - timeResolution) {
+                            lastUpdateTime += timeResolution;
+                            performUpdate(timeResolution);
                         }
-
-                    });
+                    }
                 }
 
-            };
-            UPDATE_TIMER.scheduleAtFixedRate(updateTask, 0, timeResolution);
+            }.runTaskTimer(plugin, 0, 1);
         } else if (!running && isRunning()) {
             updateTask.cancel();
             updateTask = null;
+        }
+    }
+
+    private void performUpdate(long dt) {
+
+        updateRecursively(dt, objectSystem);
+
+        // Stop if "stopWhenNoObjects" is enabled and no objects are found
+        if (stopWhenNoObjects && !checkNotEmptyRecursively(objectSystem)) {
+            setRunning(false);
         }
     }
 
@@ -150,7 +142,7 @@ public class ObjectSystemRunner {
 
         // Apply renderers
         for (Renderer renderer : renderers) {
-            for (BaseObject object : concurrentIterable(system.getObjects())) {
+            for (BaseObject object : new ArrayList<>(system.getObjects())) {
                 renderer.render(plugin, dt, object);
             }
         }
@@ -174,11 +166,6 @@ public class ObjectSystemRunner {
         }
 
         return false;
-    }
-
-    private <E> Iterable<E> concurrentIterable(Collection<E> collection) {
-
-        return new ArrayList<>(collection);
     }
 
     @Override
