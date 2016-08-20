@@ -58,7 +58,7 @@ public class FireworkTraitRenderer extends StatelessRenderer {
             }
 
             // Actually spawn all effects for this round
-            FireworkEffectSpawner.spawn(object.getSystem().getOrigin().add(physics.getPosition()), frwk.getPower(), spawnEffects);
+            FireworkEffectSpawner.spawn(object.getSystem().getOrigin().add(physics.getPosition()), spawnEffects);
         });
     }
 

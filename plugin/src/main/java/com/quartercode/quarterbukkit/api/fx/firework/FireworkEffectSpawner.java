@@ -68,26 +68,22 @@ public class FireworkEffectSpawner {
      * Spawns an invisible firework with the given {@link FireworkEffectDefinition}s.
      *
      * @param location The {@link Location} where the firework should be spawned at.
-     * @param power The approximate flight height of all spawned fireworks (0 - 128).
-     *        Each level of power is half a second of flight time.
      * @param effects The firework effect definitions that define how the spawned firework looks like when it explodes.
      *        All effects will be applied to the firework at once.
      */
-    public static void spawn(Location location, int power, FireworkEffectDefinition... effects) {
+    public static void spawn(Location location, FireworkEffectDefinition... effects) {
 
-        spawn(location, power, Arrays.asList(effects));
+        spawn(location, Arrays.asList(effects));
     }
 
     /**
      * Spawns an invisible firework with the given {@link FireworkEffectDefinition}s.
      *
      * @param location The {@link Location} where the firework should be spawned at.
-     * @param power The approximate flight height of all spawned fireworks (0 - 128).
-     *        Each level of power is half a second of flight time.
      * @param effects The firework effect definitions that define how the spawned firework looks like when it explodes.
      *        All effects will be applied to the firework at once.
      */
-    public static void spawn(Location location, int power, Collection<FireworkEffectDefinition> effects) {
+    public static void spawn(Location location, Collection<FireworkEffectDefinition> effects) {
 
         Validate.noNullElements(effects, "Cannot use null firework effect definitions");
 
@@ -96,35 +92,30 @@ public class FireworkEffectSpawner {
             bukkitEffects.add(effect.toBukkit());
         }
 
-        spawnBukkit(location, power, bukkitEffects);
+        spawnBukkit(location, bukkitEffects);
     }
 
     /**
      * Spawns an invisible firework with the given Bukkit {@link FireworkEffect}s.
      *
      * @param location The {@link Location} where the firework should be spawned at.
-     * @param power The approximate flight height of all spawned fireworks (0 - 128).
-     *        Each level of power is half a second of flight time.
      * @param bukkitEffects The Bukkit firework effect definitions that define how the spawned firework looks like when it explodes.
      *        All effects will be applied to the firework at once.
      */
-    public static void spawnBukkit(Location location, int power, FireworkEffect... bukkitEffects) {
+    public static void spawnBukkit(Location location, FireworkEffect... bukkitEffects) {
 
-        spawnBukkit(location, power, Arrays.asList(bukkitEffects));
+        spawnBukkit(location, Arrays.asList(bukkitEffects));
     }
 
     /**
      * Spawns an invisible firework with the given Bukkit {@link FireworkEffect}s.
      *
      * @param location The {@link Location} where the firework should be spawned at.
-     * @param power The approximate flight height of all spawned fireworks (0 - 128).
-     *        Each level of power is half a second of flight time.
      * @param bukkitEffects The Bukkit firework effect definitions that define how the spawned firework looks like when it explodes.
      *        All effects will be applied to the firework at once.
      */
-    public static void spawnBukkit(Location location, int power, Collection<FireworkEffect> bukkitEffects) {
+    public static void spawnBukkit(Location location, Collection<FireworkEffect> bukkitEffects) {
 
-        Validate.isTrue(power >= 0 && power <= 128, "Firework power must be >= 0 and <= 128");
         Validate.noNullElements(bukkitEffects, "Cannot use null firework effects");
 
         Firework firework = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
@@ -136,7 +127,7 @@ public class FireworkEffectSpawner {
 
             FireworkMeta meta = firework.getFireworkMeta();
             meta.addEffects(bukkitEffects);
-            meta.setPower(power);
+            meta.setPower(0);
             firework.setFireworkMeta(meta);
 
             NMS_WORLD__BROADCAST_ENTITY_EFFECT.invoke(nmsWorld, nmsFirework, (byte) 17);

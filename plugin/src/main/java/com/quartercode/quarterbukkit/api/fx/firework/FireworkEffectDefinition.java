@@ -48,14 +48,8 @@ public class FireworkEffectDefinition {
     private final List<Color> fadeColors = new ArrayList<>();
 
     /**
-     * Creates a new empty firework effect definition.
-     */
-    public FireworkEffectDefinition() {
-
-    }
-
-    /**
      * Creates a new firework effect definition with the given {@link Type}.
+     * Don't forget to {@link #addColors(Color...) add some colors} to it, or otherwise it won't be visible!
      *
      * @param type The firework effect type.
      */

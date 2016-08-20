@@ -41,7 +41,6 @@ import com.quartercode.quarterbukkit.api.objectsystem.TraitDependencies;
 @TraitDependencies (PhysicsTrait.class)
 public class FireworkTrait extends Trait {
 
-    private int                                        power               = 0;
     private final Collection<FireworkEffectDefinition> effects             = new ArrayList<>();
     private boolean                                    speedBasedFrequency = true;
 
@@ -72,31 +71,6 @@ public class FireworkTrait extends Trait {
     public FireworkTrait(Collection<FireworkEffectDefinition> effects) {
 
         addEffects(effects);
-    }
-
-    /**
-     * Returns the approximate height all spawned fireworks will fly.
-     *
-     * @return The approximate flight height.
-     */
-    public int getPower() {
-
-        return power;
-    }
-
-    /**
-     * Sets the approximate flight height of all spawned fireworks.
-     * Each level of power is half a second of flight time.
-     *
-     * @param power The new approximate flight height of all spawned fireworks.
-     *        Must be between 0 and 128.
-     * @return This object.
-     */
-    public FireworkTrait setPower(int power) {
-
-        Validate.isTrue(power >= 0 && power <= 128, "Firework trait power must be >= 0 and <= 128");
-        this.power = power;
-        return this;
     }
 
     /**
