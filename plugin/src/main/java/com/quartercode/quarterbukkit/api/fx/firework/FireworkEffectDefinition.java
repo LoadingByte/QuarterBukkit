@@ -59,31 +59,23 @@ public class FireworkEffectDefinition {
     }
 
     /**
-     * Creates a new firework effect definition that uses the information which is stored inside the given {@link FireworkEffectDefinition}.
+     * Creates a new firework effect definition that uses the information which is stored inside the given firework effect definition.
      *
      * @param from The firework effect definition to copy the initial information from.
      */
     public FireworkEffectDefinition(FireworkEffectDefinition from) {
 
-        type = from.getType();
-        flicker = from.hasFlicker();
-        trail = from.hasTrail();
-        colors.addAll(from.getColors());
-        fadeColors.addAll(from.getFadeColors());
+        from(from);
     }
 
     /**
-     * Creates a new firework effect definition that uses the information which is stored inside the given {@link FireworkEffect}.
+     * Creates a new firework effect definition that uses the information which is stored inside the given Bukkit {@link FireworkEffect}.
      *
      * @param from The Bukkit firework effect to copy the initial information from.
      */
     public FireworkEffectDefinition(FireworkEffect from) {
 
-        type = from.getType();
-        flicker = from.hasFlicker();
-        trail = from.hasTrail();
-        colors.addAll(from.getColors());
-        fadeColors.addAll(from.getFadeColors());
+        fromBukkit(from);
     }
 
     /**
@@ -135,7 +127,6 @@ public class FireworkEffectDefinition {
     /**
      * Returns whether the particles spawned by this effect during the firework explosion leave behind a trail of other particles.
      * Note that this option is only recommended in systems with few objects because the trail increases the particle amount by quite a bit.
-     * Also note that setting this option to true will result
      *
      * @return Whether the firework effect particles leave behind a trail.
      */
@@ -147,7 +138,6 @@ public class FireworkEffectDefinition {
     /**
      * Sets whether the particles spawned by this effect during the firework explosion leave behind a trail of other particles.
      * Note that this option is only recommended in systems with few objects because the trail increases the particle amount by quite a bit.
-     * Also note that setting this option to true will result
      *
      * @param trail Whether the firework effect particles should leave behind a trail.
      * @return This object.
@@ -169,8 +159,38 @@ public class FireworkEffectDefinition {
     }
 
     /**
+     * Sets the {@link Color}s the particles spawned by this effect should have immediately after the firework explosion.
+     * Note that the already existing primary colors, which can be retrieved with {@link #getColors()}, are removed through this call.
+     * If you just want to add new colors, try {@link #addColors(Color...)}.
+     *
+     * @param colors The new primary firework particle colors.
+     * @return This object.
+     */
+    public FireworkEffectDefinition setColors(Color... colors) {
+
+        setColors(Arrays.asList(colors));
+        return this;
+    }
+
+    /**
+     * Sets the {@link Color}s the particles spawned by this effect should have immediately after the firework explosion.
+     * Note that the already existing primary colors, which can be retrieved with {@link #getColors()}, are removed through this call.
+     * If you just want to add new colors, try {@link #addColors(Collection)}.
+     *
+     * @param colors The new primary firework particle colors.
+     * @return This object.
+     */
+    public FireworkEffectDefinition setColors(Collection<Color> colors) {
+
+        Validate.noNullElements(colors, "Cannot add null colors to firework effect definition");
+        this.colors.clear();
+        this.colors.addAll(colors);
+        return this;
+    }
+
+    /**
      * Adds the given {@link Color}s the particles spawned by this effect should have immediately after the firework explosion.
-     * Note that the existing primary colors, which can be retrieved with {@link #getColors()}, are displayed as well.
+     * Note that the already existing primary colors, which can be retrieved with {@link #getColors()}, are displayed as well if you don't remove them.
      *
      * @param colors The additional primary firework particle colors.
      * @return This object.
@@ -183,7 +203,7 @@ public class FireworkEffectDefinition {
 
     /**
      * Adds the given {@link Color}s the particles spawned by this effect should have immediately after the firework explosion.
-     * Note that the existing primary colors, which can be retrieved with {@link #getColors()}, are displayed as well.
+     * Note that the already existing primary colors, which can be retrieved with {@link #getColors()}, are displayed as well if you don't remove them.
      *
      * @param colors The additional primary firework particle colors.
      * @return This object.
@@ -232,8 +252,38 @@ public class FireworkEffectDefinition {
     }
 
     /**
+     * Sets the {@link Color}s the particles spawned by this effect should fade to some time after the firework explosion.
+     * Note that the already existing secondary colors, which can be retrieved with {@link #getFadeColors()}, are removed through this call.
+     * If you just want to add new fade colors, try {@link #addFadeColors(Color...)}.
+     *
+     * @param fadeColors The new secondary firework particle colors.
+     * @return This object.
+     */
+    public FireworkEffectDefinition setFadeColors(Color... fadeColors) {
+
+        setFadeColors(Arrays.asList(fadeColors));
+        return this;
+    }
+
+    /**
+     * Sets the {@link Color}s the particles spawned by this effect should fade to some time after the firework explosion.
+     * Note that the already existing secondary colors, which can be retrieved with {@link #getFadeColors()}, are removed through this call.
+     * If you just want to add new fade colors, try {@link #addFadeColors(Collection)}.
+     *
+     * @param fadeColors The new secondary firework particle colors.
+     * @return This object.
+     */
+    public FireworkEffectDefinition setFadeColors(Collection<Color> fadeColors) {
+
+        Validate.noNullElements(fadeColors, "Cannot add null fade colors to firework effect definition");
+        this.fadeColors.clear();
+        this.fadeColors.addAll(fadeColors);
+        return this;
+    }
+
+    /**
      * Adds the given {@link Color}s the particles spawned by this effect should fade to some time after the firework explosion.
-     * Note that the existing secondary colors, which can be retrieved with {@link #getFadeColors()}, are displayed as well.
+     * Note that the already existing secondary colors, which can be retrieved with {@link #getFadeColors()}, are displayed as well if you don't remove them.
      *
      * @param fadeColors The additional secondary firework particle colors.
      * @return This object.
@@ -246,7 +296,7 @@ public class FireworkEffectDefinition {
 
     /**
      * Adds the given {@link Color}s the particles spawned by this effect should fade to some time after the firework explosion.
-     * Note that the existing secondary colors, which can be retrieved with {@link #getFadeColors()}, are displayed as well.
+     * Note that the already existing secondary colors, which can be retrieved with {@link #getFadeColors()}, are displayed as well if you don't remove them.
      *
      * @param fadeColors The additional secondary firework particle colors.
      * @return This object.
@@ -281,6 +331,42 @@ public class FireworkEffectDefinition {
     public FireworkEffectDefinition removeFadeColors(Collection<Color> fadeColors) {
 
         this.fadeColors.removeAll(fadeColors);
+        return this;
+    }
+
+    /**
+     * Copies the the information which is stored inside the given firework effect definition into this one.
+     * After the operation completed, the two definitions are exact copies of each other.
+     *
+     * @param from The firework effect definition to copy the information from.
+     * @return This object.
+     */
+    public FireworkEffectDefinition from(FireworkEffectDefinition from) {
+
+        type = from.getType();
+        flicker = from.hasFlicker();
+        trail = from.hasTrail();
+        colors.addAll(from.getColors());
+        fadeColors.addAll(from.getFadeColors());
+
+        return this;
+    }
+
+    /**
+     * Copies the the information which is stored inside the given Bukkit {@link FireworkEffect} into this one.
+     * After the operation completed, this definitions exactly represents the firework effect described by the given Bukkit object.
+     *
+     * @param from The Bukkit firework effect to copy the information from.
+     * @return This object.
+     */
+    public FireworkEffectDefinition fromBukkit(FireworkEffect from) {
+
+        type = from.getType();
+        flicker = from.hasFlicker();
+        trail = from.hasTrail();
+        colors.addAll(from.getColors());
+        fadeColors.addAll(from.getFadeColors());
+
         return this;
     }
 
