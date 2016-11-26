@@ -19,6 +19,10 @@
 package com.quartercode.quarterbukkit.api.fx.particle;
 
 import org.apache.commons.lang.Validate;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.bukkit.util.Vector;
 
 /**
@@ -139,6 +143,24 @@ public class ParticleDefinition {
         Validate.isTrue(parameter >= 0, "Parameter must be >= 0: ", parameter);
         this.parameter = parameter;
         return this;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    @Override
+    public String toString() {
+
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
 }

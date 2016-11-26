@@ -132,4 +132,6 @@ public class ParticleSpawner {
         }
     }
 
+    private ParticleSpawner() {}
+
 }

@@ -138,4 +138,6 @@ public class FireworkEffectSpawner {
         firework.remove();
     }
 
+    private FireworkEffectSpawner() {}
+
 }
