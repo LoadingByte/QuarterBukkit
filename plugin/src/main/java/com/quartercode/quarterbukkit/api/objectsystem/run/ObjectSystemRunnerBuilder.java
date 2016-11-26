@@ -50,12 +50,12 @@ public class ObjectSystemRunnerBuilder {
 
     }
 
-    private final Plugin               plugin;
-    private final ActiveObjectSystem   objectSystem;
+    private final Plugin             plugin;
+    private final ActiveObjectSystem objectSystem;
 
-    private List<Renderer>             renderers         = DEFAULT_RENDERERS;
-    private long                       timeResolution    = MathUtil.getMillis(1);
-    private boolean                    stopWhenNoObjects = false;
+    private List<Renderer>           renderers         = DEFAULT_RENDERERS;
+    private long                     timeResolution    = MathUtil.getMillis(1);
+    private boolean                  stopWhenNoObjects = false;
 
     /**
      * Creates a new object system runner builder for a new object system runner that simulates the given {@link ActiveObjectSystem} and uses the given {@link Plugin} as host.
