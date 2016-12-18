@@ -39,7 +39,27 @@ public class ParticleDefinition {
     private float        parameter;
 
     /**
-     * Returns the {@link ParticleType} that defines which particle should be spawned.
+     * Creates a new particle definition with the given {@link ParticleType}.
+     *
+     * @param type The particle type that defines which kind of particle should be spawned.
+     */
+    public ParticleDefinition(ParticleType type) {
+
+        setType(type);
+    }
+
+    /**
+     * Creates a new particle definition that uses the information which is stored inside the given particle definition.
+     *
+     * @param from The particle definition to copy the initial information from.
+     */
+    public ParticleDefinition(ParticleDefinition from) {
+
+        from(from);
+    }
+
+    /**
+     * Returns the {@link ParticleType} that defines which kind of particle should be spawned.
      *
      * @return The particle type.
      * @see ParticleType
@@ -50,7 +70,7 @@ public class ParticleDefinition {
     }
 
     /**
-     * Sets the {@link ParticleType} that defines which particle should be spawned.
+     * Sets the {@link ParticleType} that defines which kind of particle should be spawned.
      *
      * @param type The new particle type.
      * @return This object.
@@ -58,13 +78,14 @@ public class ParticleDefinition {
      */
     public ParticleDefinition setType(ParticleType type) {
 
+        Validate.notNull(type, "Particle type cannot be null");
         this.type = type;
         return this;
     }
 
     /**
-     * Returns the amount of spawned particles.
-     * This is useful in combination with the spread vector (see {@link #getSpread()}).
+     * Returns the amount of spawned individual particles.
+     * This is quite useful in combination with the spread vector (see {@link #getSpread()}).
      *
      * @return The particle amount.
      */
@@ -74,8 +95,8 @@ public class ParticleDefinition {
     }
 
     /**
-     * Returns the amount of spawned particles.
-     * This is useful in combination with the spread vector (see {@link #setSpread(Vector)}).
+     * Returns the amount of spawned individual particles.
+     * This is quite useful in combination with the spread vector (see {@link #setSpread(Vector)}).
      *
      * @param amount The new particle amount.
      * @return This object.
@@ -88,9 +109,9 @@ public class ParticleDefinition {
     }
 
     /**
-     * Returns the {@link Vector} that defines how far away from the spawning position particles can appear.
-     * For example, if the x component of the vector is 2, the particle can spawn up to 2 blocks above or below the position of the object.
-     * The amount property is useful in combination with the spread vector (see {@link #getAmount()}).
+     * Returns the {@link Vector} that defines how far away from the spawning location individual particles can appear.
+     * For example, if the x component of the vector is 2, the particle can spawn up to 2 blocks above or below the spawning location.
+     * Note that the amount property is quite useful in combination with the spread vector, since you can use high amounts to create a spread of multiple individual particles (see {@link #getAmount()}).
      *
      * @return The spread vector.
      */
@@ -100,9 +121,9 @@ public class ParticleDefinition {
     }
 
     /**
-     * Sets the {@link Vector} that defines how far away from the spawning position particles can appear.
-     * For example, if the x component of the vector is 2, the particle can spawn up to 2 blocks above or below the position of the object.
-     * The amount property is useful in combination with the spread vector (see {@link #setAmount(int)}).
+     * Sets the {@link Vector} that defines how far away from the spawning location individual particles can appear.
+     * For example, if the x component of the vector is 2, the particle can spawn up to 2 blocks above or below the spawning location.
+     * Note that the amount property is quite useful in combination with the spread vector, since you can use high amounts to create a spread of multiple individual particles (see {@link #getAmount()}).
      *
      * @param spread The new spread vector.
      * @return This object.
@@ -142,6 +163,23 @@ public class ParticleDefinition {
         Validate.isTrue(type.hasParameter(), "Cannot use parameter with non-parameter particle type: ", type);
         Validate.isTrue(parameter >= 0, "Parameter must be >= 0: ", parameter);
         this.parameter = parameter;
+        return this;
+    }
+
+    /**
+     * Copies the the information which is stored inside the given particle definition into this one.
+     * After the operation completed, the two definitions are exact copies of each other.
+     *
+     * @param from The particle definition to copy the information from.
+     * @return This object.
+     */
+    public ParticleDefinition from(ParticleDefinition from) {
+
+        type = from.getType();
+        amount = from.getAmount();
+        spread = from.getSpread();
+        parameter = from.getParameter();
+
         return this;
     }
 

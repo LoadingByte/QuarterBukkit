@@ -55,11 +55,11 @@ public class FireworkEffectDefinition {
      */
     public FireworkEffectDefinition(Type type) {
 
-        this.type = type;
+        setType(type);
     }
 
     /**
-     * Creates a new firework effect definition that uses the information which is stored inside the given firework effect definition.
+     * Creates a new firework effect definition that copies the information which is stored inside the given firework effect definition.
      *
      * @param from The firework effect definition to copy the initial information from.
      */
@@ -69,7 +69,7 @@ public class FireworkEffectDefinition {
     }
 
     /**
-     * Creates a new firework effect definition that uses the information which is stored inside the given Bukkit {@link FireworkEffect}.
+     * Creates a new firework effect definition that copies the information which is stored inside the given Bukkit {@link FireworkEffect}.
      *
      * @param from The Bukkit firework effect to copy the initial information from.
      */
@@ -98,6 +98,7 @@ public class FireworkEffectDefinition {
      */
     public FireworkEffectDefinition setType(Type type) {
 
+        Validate.notNull(type, "Firework effect type cannot be null");
         this.type = type;
         return this;
     }
