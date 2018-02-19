@@ -19,12 +19,11 @@
 package com.quartercode.quarterbukkit;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.logging.Logger;
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.mcstats.MetricsLite;
 import com.quartercode.quarterbukkit.util.Config;
 import com.quartercode.quarterbukkit.util.CustomEventListener;
 import com.quartercode.quarterbukkit.util.QuarterBukkitExceptionListener;
@@ -58,8 +57,7 @@ public class QuarterBukkit extends JavaPlugin {
         return plugin.getLogger();
     }
 
-    private Config      config;
-    private MetricsLite metrics;
+    private Config config;
 
     /**
      * The default constructor for Bukkit.
@@ -92,31 +90,8 @@ public class QuarterBukkit extends JavaPlugin {
             }
         }
 
-        // Enable MetricsLite
-        getLogger().info("Enabling MetricsLite ...");
-        try {
-            metrics = new MetricsLite(this);
-            metrics.enable();
-        } catch (IOException e) {
-            getLogger().severe("An error occurred while enabling MetricsLite (" + e + ")");
-        }
-
         // Custom events
         Bukkit.getPluginManager().registerEvents(new CustomEventListener(), this);
-    }
-
-    @Override
-    public void onDisable() {
-
-        if (metrics != null) {
-            // Disable MetricsLite
-            getLogger().info("Disabling MetricsLite ...");
-            try {
-                metrics.disable();
-            } catch (IOException e) {
-                getLogger().severe("An error occurred while disabling MetricsLite (" + e + ")");
-            }
-        }
     }
 
     /**
