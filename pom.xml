@@ -71,11 +71,11 @@
     <distributionManagement>
         <repository>
             <id>quartercode-deployment</id>
-            <url>http://repo.quartercode.com/content/repositories/releases/</url>
+            <url>https://repo.quartercode.com/repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
             <id>quartercode-deployment</id>
-            <url>http://repo.quartercode.com/content/repositories/snapshots/</url>
+            <url>https://repo.quartercode.com/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
