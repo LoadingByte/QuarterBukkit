@@ -20,9 +20,8 @@ package com.quartercode.quarterbukkit.api.query;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import com.quartercode.quarterbukkit.api.query.SearchQuery.Project.ProjectStage;
+import org.apache.commons.lang.NotImplementedException;
 
 /**
  * The search query can be used to search the server mods API for projects which contain a given character sequence.
@@ -30,6 +29,7 @@ import com.quartercode.quarterbukkit.api.query.SearchQuery.Project.ProjectStage;
  *
  * @see ServerModsAPIQuery
  */
+@Deprecated
 public class SearchQuery {
 
     private final String search;
@@ -62,7 +62,9 @@ public class SearchQuery {
      */
     public List<Project> execute() throws QueryException {
 
-        String query = "projects?search=" + search;
+        throw new NotImplementedException();
+
+        /*String query = "projects?search=" + search;
         JSONArray result = new ServerModsAPIQuery(query).execute();
 
         List<Project> projects = new ArrayList<>();
@@ -78,7 +80,7 @@ public class SearchQuery {
             }
         }
 
-        return projects;
+        return projects;*/
     }
 
     /**

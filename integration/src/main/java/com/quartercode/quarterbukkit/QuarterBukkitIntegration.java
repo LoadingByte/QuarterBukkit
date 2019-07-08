@@ -31,11 +31,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
-import com.quartercode.quarterbukkit.integration.api.FileUtils;
-import com.quartercode.quarterbukkit.integration.api.query.FilesQuery;
-import com.quartercode.quarterbukkit.integration.api.query.FilesQuery.ProjectFile;
-import com.quartercode.quarterbukkit.integration.api.query.FilesQuery.VersionParser;
-import com.quartercode.quarterbukkit.integration.api.query.QueryException;
 
 /**
  * This class is used for integrating QuarterBukkit into a {@link Plugin}.
@@ -77,7 +72,8 @@ public class QuarterBukkitIntegration {
                 // That means that we are free to install the main plugin
                 if (requiringPlugins.contains(plugin.getName())) {
                     autoinstallConfigFile.delete();
-                    install(pluginDir);
+                    //install(pluginDir);
+                    Bukkit.getLogger().warning("Can't install QuarterBukkit due to missing dependencies. Will be resolved in future versions");
                     return true;
                 }
                 // Otherwise, this is the first time the user starts up the server with a QuarterBukkit-requiring plugin
@@ -111,7 +107,7 @@ public class QuarterBukkitIntegration {
         }
     }
 
-    private static void install(File pluginDir) throws QueryException, IOException, InvalidPluginException, InvalidDescriptionException {
+    /*private static void install(File pluginDir) throws QueryException, IOException, InvalidPluginException, InvalidDescriptionException {
 
         // ----- Get Latest Version -----
 
@@ -164,7 +160,7 @@ public class QuarterBukkitIntegration {
         Bukkit.getPluginManager().enablePlugin(Bukkit.getPluginManager().loadPlugin(pluginJar));
 
         Bukkit.getLogger().info("Successfully installed " + PLUGIN_NAME + " " + latestFile.getVersion() + "!");
-    }
+    }*/
 
     private QuarterBukkitIntegration() {
 

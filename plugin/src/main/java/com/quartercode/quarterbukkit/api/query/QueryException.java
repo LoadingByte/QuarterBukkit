@@ -19,7 +19,6 @@
 package com.quartercode.quarterbukkit.api.query;
 
 import java.net.URL;
-import org.json.simple.JSONArray;
 
 /**
  * The query exception is thrown by a {@link ServerModsAPIQuery} if something goes wrong there.
@@ -28,6 +27,7 @@ import org.json.simple.JSONArray;
  * @see ServerModsAPIQuery
  * @see QueryExceptionType
  */
+@Deprecated
 public class QueryException extends Exception {
 
     private static final long serialVersionUID = -5960397138979837038L;
@@ -56,7 +56,7 @@ public class QueryException extends Exception {
          */
         INVALID_API_KEY,
         /**
-         * The response of the server mods API isn't a valid {@link JSONArray}.
+         * The response of the server mods API isn't a valid JSONArray.
          */
         INVALID_RESPONSE;
 

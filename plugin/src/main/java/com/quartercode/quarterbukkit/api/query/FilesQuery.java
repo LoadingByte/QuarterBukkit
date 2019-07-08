@@ -22,9 +22,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+
 import com.quartercode.quarterbukkit.api.query.FilesQuery.ProjectFile.ReleaseType;
+import org.apache.commons.lang.NotImplementedException;
 
 /**
  * The files query can be used to retrieve all files of a project which are currently available on BukkitDev.
@@ -32,6 +32,7 @@ import com.quartercode.quarterbukkit.api.query.FilesQuery.ProjectFile.ReleaseTyp
  *
  * @see ServerModsAPIQuery
  */
+@Deprecated
 public class FilesQuery {
 
     private final int     projectId;
@@ -94,7 +95,9 @@ public class FilesQuery {
      */
     public List<ProjectFile> execute() throws QueryException {
 
-        String query = "files?projectIds=" + projectId;
+        throw new NotImplementedException();
+
+        /*String query = "files?projectIds=" + projectId;
         JSONArray result = new ServerModsAPIQuery(query).execute();
 
         List<ProjectFile> files = new ArrayList<>();
@@ -122,6 +125,7 @@ public class FilesQuery {
         }
 
         return files;
+         */
     }
 
     /**

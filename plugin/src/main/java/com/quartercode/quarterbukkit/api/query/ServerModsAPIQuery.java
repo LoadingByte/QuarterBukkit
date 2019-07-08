@@ -25,11 +25,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONValue;
 import com.quartercode.quarterbukkit.QuarterBukkit;
 import com.quartercode.quarterbukkit.api.FileUtils;
 import com.quartercode.quarterbukkit.api.query.QueryException.QueryExceptionType;
+import org.apache.commons.lang.NotImplementedException;
 
 /**
  * A server mods API query can be used to query the official server mods API (https://api.curseforge.com/servermods).
@@ -38,6 +37,7 @@ import com.quartercode.quarterbukkit.api.query.QueryException.QueryExceptionType
  * @see SearchQuery
  * @see FilesQuery
  */
+@Deprecated
 public class ServerModsAPIQuery {
 
     private static final String HOST               = "https://api.curseforge.com/servermods/";
@@ -67,17 +67,19 @@ public class ServerModsAPIQuery {
     }
 
     /**
-     * Executes the stored query and returns the result as a {@link JSONArray}.
+     * Executes the stored query and returns the result as a JSONArray.
      * The query string ({@link #getQuery()}) is attached to {@code https://api.curseforge.com/servermods/}.
-     * The GET response of that {@link URL} is then parsed to a {@link JSONArray}.
+     * The GET response of that {@link URL} is then parsed to a JSONArray.
      *
      * @return The response of the server mods API.
      * @throws QueryException Something goes wrong while querying the server mods API.
      */
-    public JSONArray execute() throws QueryException {
+    public Object execute() throws QueryException {
+
+        throw new NotImplementedException();
 
         // Build request url using the query
-        URL requestUrl = null;
+       /* URL requestUrl = null;
         try {
             requestUrl = new URL(HOST + query);
         } catch (MalformedURLException e) {
@@ -138,6 +140,8 @@ public class ServerModsAPIQuery {
         } else {
             throw new QueryException(QueryExceptionType.INVALID_RESPONSE, this, requestUrl.toExternalForm());
         }
+        */
+
     }
 
 }
